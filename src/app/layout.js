@@ -1,20 +1,20 @@
-import { Inter } from 'next/font/google';
+import { Kanit } from 'next/font/google';
 import './globals.css';
 import { ThirdwebProvider } from "thirdweb/react";
 
-const inter = Inter({ subsets: ['latin'] });
+const kanit = Kanit({
+    weight: ["400", "500", "600", "700", "800", "900"],
+   subsets: ['vietnamese']
+   });
 
 
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-
-      </head>
       <ThirdwebProvider>
 
-      <body className={inter.fontStyles}>{children}</body>
+      <body className={kanit.fontStyles}>{children}</body>
       </ThirdwebProvider>
 
     </html>
