@@ -5,9 +5,10 @@ import React from 'react';
 const Service = () => {
   return (
     <div>
+      <Navbar/>
       {/* Hero section with full-width background image */}
       <div className="relative h-96 bg-cover bg-center" style={{ backgroundImage: `url('/hero.jpg')` }}>
-        <Navbar/>
+        
         <div className="absolute inset-0 bg-[#090909] opacity-50"></div>
         <div className="absolute inset-0 flex items-center justify-center text-white text-center">
           <h1 className="text-4xl md:text-6xl font-bold">Custos Diretriz Services</h1>

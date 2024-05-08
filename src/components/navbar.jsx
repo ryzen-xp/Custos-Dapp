@@ -28,14 +28,14 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/contact"
+              <Link href="/services"
                 className="text-white hover:text-[#c92eff]">
-                    Service
+                    Services
               </Link>
             </li>
             
             <li>
-              <Link href="/contact"
+              <Link href=""
                 className="text-white hover:text-[#c92eff]">Connect Button
               </Link>
             </li>
