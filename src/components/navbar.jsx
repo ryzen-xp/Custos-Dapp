@@ -1,7 +1,6 @@
-// components/Navbar.js
-
 import Image from 'next/image';
 import Link from 'next/link';
+import ConnectButtoncomponent from './connect';
 
 const Navbar = () => {
   return (
@@ -40,9 +39,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/contact"
-                className="text-white hover:text-[#7611f7]">Connect Button
-              </Link>
+            <ConnectButtoncomponent />
             </li>
           </ul>
         </div>
