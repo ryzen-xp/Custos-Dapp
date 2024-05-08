@@ -1,10 +1,11 @@
+// components/Navbar.js
+
 import Image from 'next/image';
 import Link from 'next/link';
-import ConnectButtoncomponent from './connect';
 
 const Navbar = () => {
   return (
-    <nav className="bg-[#090909] py-4">
+    <nav className="py-4">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center">
           <div>
@@ -19,22 +20,24 @@ const Navbar = () => {
           </div>
           <ul className="flex space-x-4">
             <li>
-              <Link href="/"className="text-white hover:text-[#7611f7]">Home
+              <Link href="/"className="text-white hover:text-[#c92eff]">Home
               </Link>
             </li>
             <li>
-              <Link href="/about" className="text-white hover:text-[#7611f7]">About
+              <Link href="/about" className="text-white hover:text-[#c92eff]">About
               </Link>
             </li>
             <li>
-              <Link href="/contact"
-                className="text-white hover:text-[#7611f7]">
-                    Service
+              <Link href="/services"
+                className="text-white hover:text-[#c92eff]">
+                    Services
               </Link>
             </li>
             
             <li>
-            <ConnectButtoncomponent />
+              <Link href=""
+                className="text-white hover:text-[#c92eff]">Connect Button
+              </Link>
             </li>
           </ul>
         </div>
