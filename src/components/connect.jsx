@@ -1,9 +1,8 @@
 "use client"
 import { ConnectButton } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import client from "../utils/thirdwebclient"
-import { createThirdwebClient } from "thirdweb";
+
 
 const wallets = [
   inAppWallet(),
