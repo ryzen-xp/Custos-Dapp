@@ -1,6 +1,7 @@
 import { Kanit } from 'next/font/google';
 import './globals.css';
 import { ThirdwebProvider } from "thirdweb/react";
+import Footer from '@/components/footer';
 
 const kanit = Kanit({
     weight: ["400", "500", "600", "700", "800", "900"],
@@ -15,6 +16,8 @@ export default function RootLayout({ children }) {
       <ThirdwebProvider>
 
       <body className={kanit.fontStyles}>{children}</body>
+
+      <Footer/>
       </ThirdwebProvider>
 
     </html>

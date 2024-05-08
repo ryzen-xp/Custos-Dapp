@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 const Hero = () => {
   return (
-    <div className="bg-[#090909] text-white py-20 mx-auto flex flex-col">
+    <div className="bg-[#090909] text-white py-20 mx-auto flex flex-col kanit">
       <div className="flex flex-row  w-full gap-6  px-8 justify-center items-center">
         <div className="flex flex-col w-fit mx-auto bg-[#090909]">
           <h1 className="font-bold mb-4 text-[#c92eff] text-xl">
