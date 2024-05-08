@@ -1,5 +1,6 @@
 // components/Navbar.js
 
+import Image from 'next/image';
 import Link from 'next/link';
 
 const Navbar = () => {
@@ -8,7 +9,13 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center">
           <div>
-            <Link href="/"className="text-[#7611f7] text-xl font-semibold">Custos
+            <Link href="/"><Image
+          src="/logo.png" 
+          alt=""
+          width={200}
+          height={50} 
+          className="rounded-lg"
+        />
             </Link>
           </div>
           <ul className="flex space-x-4">
