@@ -9,7 +9,7 @@ const Hero = () => {
         <p className="font-bold text-6xl mb-8 w-full">Secure your <span className="text-[#7611f7]">Cyberspace </span>, secure your <span className="text-[#7611f7]">Digital Life </span></p>
         <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi beatae 
             voluptatum neque architecto, iure incidunt recusandae voluptas non vero minus tenetur earum ratione distinctio labore dolorem soluta, laudantium perferendis saepe.</span>
-            <button className="bg-[#7611f7] hover:bg-[#090909] text-white font-bold py-2 px-4 rounded">Get Started</button>
+            <button className="bg-[#7611f7] hover:bg-[#090909] text-white font-bold py-2 px-4 ">Get Started</button>
       </div>
       <div className="flex-1 max-w-4xl mx-auto mt-8">
         <Image
