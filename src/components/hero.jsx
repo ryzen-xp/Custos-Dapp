@@ -7,13 +7,13 @@ const Hero = () => {
       <div className="flex flex-row w-fit mx-auto">
 
         <div className="flex-1 max-w-4xl mx-auto px-20 bg-[#090909]">
-          <h1 className="font-bold mb-4 text-[#7611f7] text-xl">WELCOME TO CUSTOS</h1>
-          <p className="font-bold text-6xl mb-8 w-full">Secure your <span className="text-[#7611f7]">Cyberspace</span>, secure your <span className="text-[#7611f7]">Digital Life</span></p>
+          <h1 className="font-bold mb-4 text-[#c92eff] text-xl">WELCOME TO CUSTOS Diretriz</h1>
+          <p className="font-bold text-6xl mb-8 w-full">Secure your <span className="text-[#c92eff]">Cyberspace</span>, secure your <span className="text-[#c92eff]">Digital Life</span></p>
           <span className="mb-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi beatae 
             voluptatum neque architecto, iure incidunt recusandae voluptas non vero minus tenetur earum ratione distinctio labore dolorem soluta, laudantium perferendis saepe.</span>
 
           <div className="my-8 py-5">
-            <button className="bg-[#7611f7] hover:bg-[#090909] text-white font-bold py-2 px-4 border-2 border-[#7611f7] font-san hover:border-[#7611f7]">Get Started</button>
+            <button className="bg-[#c92eff] hover:bg-[#090909] text-white font-bold py-2 px-4 border-2 border-[#c92eff] font-san hover:border-[#c92eff]">Get Started</button>
           </div>
         </div>
 
@@ -29,9 +29,9 @@ const Hero = () => {
       </div>
 
       <div>
-        <h5 className="text-center font-bold font-san mb-4 text-[#7611f7] my-5 text-xl">THE POWER OF CUSTOS</h5>
+        <h5 className="text-center font-bold font-san mb-4 text-[#c92eff] my-5 text-xl">THE POWER OF CUSTOS</h5>
         <div className="flex flex-row my-10 mx-10">
-          <div className="flex-grow flex flex-col items-center border-2 border-[#181818] mx-2 p-10 hover:border-[#7611f7] justify-center w-full">
+          <div className="flex-grow flex flex-col items-center border-2 border-[#181818] mx-2 p-10 hover:border-[#c92eff] justify-center w-full">
             <Image
               src="/secure.png" 
               alt=""
@@ -42,7 +42,7 @@ const Hero = () => {
             <h2 className="text-center font-san text-4xl my-5">Eye witness</h2>
             <p className="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe expedita sint molestiae aut minima assumenda eius dolorem exercitationem repellat eligendi deleniti, recusandae, ratione officia beatae incidunt veniam eveniet dolorum amet!</p>
           </div>
-          <div className="flex-grow flex flex-col border-2 border-[#181818] hover:border-[#7611f7] items-center mx-2 p-10 justify-center w-full">
+          <div className="flex-grow flex flex-col border-2 border-[#181818] hover:border-[#c92eff] items-center mx-2 p-10 justify-center w-full">
             <Image
               src="/agre.png" 
               alt=""
@@ -98,7 +98,7 @@ const Hero = () => {
             </div>
         </div>
         <div className="w-1/2">
-        <p className="text-center font-bold font-san mb-4 text-[#7611f7] my-5 text-xl">About US</p>
+        <p className="text-center font-bold font-san mb-4 text-[#c92eff] my-5 text-xl">About US</p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum delectus enim corporis, minus officiis eum nobis vel nulla maiores, odio ducimus soluta ipsam libero in dignissimos. Qui exercitationem quos dolorum.
         </div>
       </div>
