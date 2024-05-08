@@ -7,13 +7,9 @@ import Head from 'next/head';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Head>
-        <title>Home</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <div className="min-h-screen bg-[#090909]">
 
-      <main className="bg-[#090909]">
+      <main className="">
       <Navbar/>
         <Hero/>
       </main>
