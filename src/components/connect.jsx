@@ -1,7 +1,7 @@
 "use client"
 import { ConnectButton } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
-import client from "../utils/thirdwebclient"
+import {client} from "../utils/thirdwebclient"
 
 
 const wallets = [
