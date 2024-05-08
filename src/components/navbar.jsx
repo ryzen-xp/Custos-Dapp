@@ -33,12 +33,7 @@ const Navbar = () => {
                     Service
               </Link>
             </li>
-            <li>
-              <Link href="/contact"
-                className="text-white hover:text-[#7611f7]">
-                    Pages
-              </Link>
-            </li>
+            
             <li>
               <Link href="/contact"
                 className="text-white hover:text-[#7611f7]">Connect Button
