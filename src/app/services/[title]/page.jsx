@@ -2,12 +2,13 @@
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/navbar';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const ServiceDetails = ({params}) => {
 
     const processes = [
         {
-          title: "Eye Witness",
+          title: "Crime Recorder",
           imageUrl: "eyewitness.jpeg", 
           content: [
             "Revolutionizing Crime Reporting: The Crime Recording App transforms the way individuals contribute to societal safety by providing an advanced platform for documenting and sharing crime events securely and transparently.",
@@ -44,17 +45,17 @@ const ServiceDetails = ({params}) => {
   };
 
   
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    setAnimate(true);
+  }, []);
+
     if (!process) {
       return <div>Loading...</div>;
     }
   
     // Animation state
-    const [animate, setAnimate] = useState(false);
-  
-    useEffect(() => {
-      setAnimate(true);
-    }, []);
-  
     return (
         <div className="w-full">
         <Navbar />
@@ -67,7 +68,11 @@ const ServiceDetails = ({params}) => {
              {makeBoldBeforeColon(content)}
           </p>
         ))}
-        
+            <Link href={`/${decodeURIComponent(title).replaceAll(' ', '').toLowerCase()}`}>
+  <button className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    Launch Dapp
+  </button>
+</Link>
       </div>
         </div>
     );
