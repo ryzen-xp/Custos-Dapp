@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react';
-
+import Navbar from '@/components/navbar';
 const AgreementPage = () => {
     // State variables to store agreement details
     const [content, setContent] = useState("");
@@ -18,6 +18,7 @@ const AgreementPage = () => {
 
     return (
         <div className="container mx-auto px-4 py-8">
+            <Navbar/>
             <h1 className="text-2xl font-bold mb-4">Create Agreement</h1>
             <form onSubmit={handleSubmit} className="max-w-md mx-auto">
                 <div className="mb-4">
