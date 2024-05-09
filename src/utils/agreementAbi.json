@@ -1,0 +1,168 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "agreementId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "creator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "content",
+        "type": "string"
+      }
+    ],
+    "name": "AgreementCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "agreementId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "signer",
+        "type": "address"
+      }
+    ],
+    "name": "AgreementSigned",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "agreementId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "firstpartyid",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "secondpartyid",
+        "type": "string"
+      }
+    ],
+    "name": "AgreementValid",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "agreementCount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "agreements",
+    "outputs": [
+      { "internalType": "address", "name": "creator", "type": "address" },
+      { "internalType": "string", "name": "content", "type": "string" },
+      {
+        "internalType": "address",
+        "name": "secondPartyAddress",
+        "type": "address"
+      },
+      { "internalType": "bool", "name": "signed", "type": "bool" },
+      { "internalType": "bool", "name": "validateSignature", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_content", "type": "string" },
+      {
+        "internalType": "address",
+        "name": "_secondPartyAddress",
+        "type": "address"
+      },
+      { "internalType": "string", "name": "_firstPartyName", "type": "string" },
+      {
+        "internalType": "string",
+        "name": "_firstPartyValidId",
+        "type": "string"
+      }
+    ],
+    "name": "createAgreement",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_agreementId", "type": "uint256" }
+    ],
+    "name": "getAgreementDetails",
+    "outputs": [
+      { "internalType": "address", "name": "creator", "type": "address" },
+      { "internalType": "string", "name": "content", "type": "string" },
+      {
+        "internalType": "address",
+        "name": "secondPartyAddress",
+        "type": "address"
+      },
+      { "internalType": "string", "name": "firstPartyName", "type": "string" },
+      {
+        "internalType": "string",
+        "name": "firstPartyValidId",
+        "type": "string"
+      },
+      { "internalType": "bool", "name": "signed", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllAgreements",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_agreementId", "type": "uint256" },
+      { "internalType": "string", "name": "_fullname", "type": "string" },
+      { "internalType": "string", "name": "_validId", "type": "string" }
+    ],
+    "name": "signAgreement",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_agreementId", "type": "uint256" }
+    ],
+    "name": "validateSignature",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
