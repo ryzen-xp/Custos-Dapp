@@ -44,17 +44,17 @@ const ServiceDetails = ({params}) => {
   };
 
   
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    setAnimate(true);
+  }, []);
+
     if (!process) {
       return <div>Loading...</div>;
     }
   
     // Animation state
-    const [animate, setAnimate] = useState(false);
-  
-    useEffect(() => {
-      setAnimate(true);
-    }, []);
-  
     return (
         <div className="w-full">
         <Navbar />

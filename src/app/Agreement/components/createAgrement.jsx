@@ -18,11 +18,10 @@ const AgreementModal = () => {
       firstPartyName,
       firstPartyValidId,
     });
-    // You can perform further actions here, such as sending the data to a backend server
   };
 
     return (
-        <div className="bg-[#130316]">
+        <div className="bg-[#130316] w-full h-full">
             <form onSubmit={handleSubmit} className="max-w-md mx-auto">
                 <div className="mb-4">
                     <label htmlFor="content" className="block text-sm font-medium text-[#c92eff]">Content</label>
