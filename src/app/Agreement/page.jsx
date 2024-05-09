@@ -4,6 +4,11 @@ import Navbar from "@/components/navbar";
 import CustomCard from "./components/card";
 import Modal from "react-modal";
 import AgreementModal from "./components/createAgrement";
+import { baseSepolia } from "thirdweb/chains";
+import { getContract } from "thirdweb";
+import { useReadContract } from "thirdweb/react";
+import abi from "@/utils/agreementAbi.json";
+import { client } from "@/utils/thirdwebclient";
 import SignAgreementModal from "./components/signagreementmodal";
 
 function AgreementList() {
@@ -13,6 +18,33 @@ function AgreementList() {
   const [showagreementModal, setShowagreementModal] = useState(false);
   const [showSignModal, setshowSignModal] = useState(false);
 
+  const contract = getContract({
+    client,
+    chain: baseSepolia,
+    address: "0x726c51fcAC027fF7C9eAaF830f88daF12199ddC5",
+    abi: abi,
+  });
+
+  let id = [];
+  const { data: detail, isLoading: loadDetail } = useReadContract({
+    contract,
+    method: "agreementCount",
+  });
+
+  for (let i = 0; i < Number(detail); i++) {
+    id.push(i);
+  }
+
+  const eachAgreement = id.map((id) => {
+    const { data, isLoading } = useReadContract({
+      contract,
+      method: "getAgreementDetails",
+      params: [id],
+    });
+  });
+
+  console.log(id);
+
   const toggleAgreementModal = () => {
     setShowagreementModal(!showagreementModal);
   };
@@ -20,7 +52,6 @@ function AgreementList() {
     setshowSignModal(!showagreementModal);
   };
 
-  
   useEffect(() => {
     const mockAgreements = [
       {
@@ -51,14 +82,18 @@ function AgreementList() {
         secondPartyAddress: "0x987654321...",
       },
     ];
+    setAgreements(eachAgreement);
 
     // Simulate loading delay
     setTimeout(() => {
-      setAgreements(mockAgreements);
       setLoading(false);
     }, 1500); // Adjust delay time as needed
     setIsAdmin(true);
   }, []);
+
+  console.log(agreements);
+  console.log(eachAgreement);
+  console.log(Number(detail));
 
   return (
     <div className="w-full">
@@ -66,7 +101,7 @@ function AgreementList() {
 
       <Modal
         isOpen={showagreementModal}
-        onRequestClose={() => setShowagreementModal(false)} 
+        onRequestClose={() => setShowagreementModal(false)}
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
         shouldReturnFocusAfterClose={true}
@@ -77,7 +112,7 @@ function AgreementList() {
             height: "fit-content",
             margin: "auto",
             padding: "0px",
-            borderRadius: "5px"
+            borderRadius: "5px",
           },
         }}
       >
@@ -91,7 +126,10 @@ function AgreementList() {
         {/* Conditionally render buttons based on user's role */}
         {isAdmin ? (
           // If user is an admin with a wallet, show "Show All Agreements" button
-          <button className="bg-[#1c0624] border border-[#c92eff] hover:bg-[#461853] text-white font-bold py-2 px-4 rounded">
+          <button
+            // onClick={read}
+            className="bg-[#1c0624] border border-[#c92eff] hover:bg-[#461853] text-white font-bold py-2 px-4 rounded"
+          >
             Show All Agreements
           </button>
         ) : null}
@@ -104,7 +142,7 @@ function AgreementList() {
         </button>
       </div>
 
-      <div className="w-full">
+      {/* <div className="w-full">
         {loading ? (
           // Show loading indicator if agreements are loading
           <div className="text-center py-8">
@@ -152,7 +190,7 @@ function AgreementList() {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
