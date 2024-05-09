@@ -26,24 +26,29 @@ function AgreementList() {
   });
 
   let id = [];
+  let agree;
+
+  for (let i = 1; i < id.length; i++) {
+    agree = id[i];
+  }
+
   const { data: detail, isLoading: loadDetail } = useReadContract({
     contract,
     method: "agreementCount",
   });
 
-  for (let i = 0; i < Number(detail); i++) {
+  for (let i = 0; i <= Number(detail); i++) {
     id.push(i);
   }
 
-  const eachAgreement = id.map((id) => {
-    const { data, isLoading } = useReadContract({
-      contract,
-      method: "getAgreementDetails",
-      params: [id],
-    });
+  const { data, isLoading } = useReadContract({
+    contract,
+    method: "getAgreementDetails",
+    params: [id],
   });
 
   console.log(id);
+  console.log(agree);
 
   const toggleAgreementModal = () => {
     setShowagreementModal(!showagreementModal);
@@ -82,7 +87,7 @@ function AgreementList() {
         secondPartyAddress: "0x987654321...",
       },
     ];
-    setAgreements(eachAgreement);
+    setAgreements(mockAgreements);
 
     // Simulate loading delay
     setTimeout(() => {
@@ -91,9 +96,9 @@ function AgreementList() {
     setIsAdmin(true);
   }, []);
 
-  console.log(agreements);
-  console.log(eachAgreement);
-  console.log(Number(detail));
+  // console.log(agreements);
+  // console.log(eachAgreement);
+  // console.log(Number(detail));
 
   return (
     <div className="w-full">
@@ -142,7 +147,7 @@ function AgreementList() {
         </button>
       </div>
 
-      {/* <div className="w-full">
+      <div className="w-full">
         {loading ? (
           // Show loading indicator if agreements are loading
           <div className="text-center py-8">
@@ -162,35 +167,35 @@ function AgreementList() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto w-[90%] mb-8">
             {agreements.map((agreement) => (
-
-              <div key={agreement.id}  className="">
-
-                <CustomCard agreement={agreement} handleactions={toggleSignModal} />
+              <div key={agreement.id} className="">
+                <CustomCard
+                  agreement={agreement}
+                  handleactions={toggleSignModal}
+                />
                 <Modal
-        isOpen={showSignModal}
-        onRequestClose={() => setshowSignModal(false)} 
-        shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}
-        shouldReturnFocusAfterClose={true}
-        contentLabel="Sign Agreement"
-        style={{
-          content: {
-            width: "40%",
-            height: "fit-content",
-            margin: "auto",
-            padding: "0px",
-            borderRadius: "5px"
-          },
-        }}
-      >
-        <SignAgreementModal agreementid={agreement.id} />
-      </Modal>
+                  isOpen={showSignModal}
+                  onRequestClose={() => setshowSignModal(false)}
+                  shouldCloseOnOverlayClick={true}
+                  shouldCloseOnEsc={true}
+                  shouldReturnFocusAfterClose={true}
+                  contentLabel="Sign Agreement"
+                  style={{
+                    content: {
+                      width: "40%",
+                      height: "fit-content",
+                      margin: "auto",
+                      padding: "0px",
+                      borderRadius: "5px",
+                    },
+                  }}
+                >
+                  <SignAgreementModal agreementid={agreement.id} />
+                </Modal>
               </div>
-              
             ))}
           </div>
         )}
-      </div> */}
+      </div>
     </div>
   );
 }
