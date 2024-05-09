@@ -9,7 +9,6 @@ import {
 import { baseSepolia } from "thirdweb/chains";
 import abi from "../../../utils/agreementAbi.json";
 import { client } from "@/utils/thirdwebclient";
-import { wallets } from "@/components/connect";
 import { createWallet } from "thirdweb/wallets";
 
 const AgreementModal = () => {
