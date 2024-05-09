@@ -14,13 +14,15 @@
     "@mui/icons-material": "^5.15.17",
     "@mui/material": "^5.15.17",
     "ethers": "^5.7.2",
+    "graphql": "^16.8.1",
     "next": "14.2.3",
     "pino-pretty": "^11.0.0",
     "react": "^18",
     "react-dom": "^18",
     "react-modal": "^3.16.1",
     "react-query": "^3.39.3",
-    "thirdweb": "^5.16.1"
+    "thirdweb": "^5.16.1",
+    "urql": "^4.0.7"
   },
   "devDependencies": {
     "eslint": "^8",

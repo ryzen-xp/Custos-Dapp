@@ -59,7 +59,7 @@ function AgreementList() {
 
       <Modal
         isOpen={showagreementModal}
-        onRequestClose={() => setShowagreementModal(false)}
+        onRequestClose={() => setShowagreementModal(false)} 
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
         shouldReturnFocusAfterClose={true}
@@ -69,7 +69,8 @@ function AgreementList() {
             width: "40%",
             height: "fit-content",
             margin: "auto",
-            padding: "0px"
+            padding: "0px",
+            borderRadius: "5px"
           },
         }}
       >
@@ -80,7 +81,9 @@ function AgreementList() {
         My Agreements
       </h1>
       <div className="flex p-4 items-center justify-end gap-8">
+        {/* Conditionally render buttons based on user's role */}
         {isAdmin ? (
+          // If user is an admin with a wallet, show "Show All Agreements" button
           <button className="bg-[#1c0624] border border-[#c92eff] hover:bg-[#461853] text-white font-bold py-2 px-4 rounded">
             Show All Agreements
           </button>
@@ -96,6 +99,7 @@ function AgreementList() {
 
       <div className="w-full">
         {loading ? (
+          // Show loading indicator if agreements are loading
           <div className="text-center py-8">
             <div className="loader ease-linear rounded-full border-8 border-t-8 bg-[#130316] border-gray-200 h-16 w-16 mx-auto"></div>
             <p className="mt-2">Loading agreements...</p>
