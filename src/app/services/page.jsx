@@ -1,17 +1,41 @@
 "use client";
 import { useState } from 'react';
-import Navbar from '@/components/navbar';
+import { styled } from '@mui/material/styles';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { Button, Card, CardActions, CardContent, CardMedia, Slide } from '@mui/material';
+import { red } from '@mui/material/colors';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Button, Content, Slide } from '@mui/material';
+import { Box } from '@mui/system'; 
+import Navbar from '@/components/navbar';
 
 const Service = () => {
   const [expanded, setExpanded] = useState(false);
   const [currentProcess, setCurrentProcess] = useState(null);
 
+  const ExpandMore = styled(Button)(({ theme, expand }) => ({
+    transform:!expand? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
+
+  
   const processes = [
     {
       title: "Eye Witness",
-      imaggeurl: "eyewitness.jpeg",
+      imageUrl: "eyewitness.jpeg", // Corrected property name
       content: [
         "Revolutionizing Crime Reporting: The Crime Recording App transforms the way individuals contribute to societal safety by providing an advanced platform for documenting and sharing crime events securely and transparently.",
         "User-Centric Design: With its intuitive interface, the app empowers users to easily log detailed information about crime events, including descriptions, locations, timestamps, and supporting multimedia evidence.",
@@ -23,7 +47,7 @@ const Service = () => {
     },
     {
       title: "Agreement",
-      imaggeurl: "legalagreement.png",
+      imageUrl: "legalagreement.png", 
       content: [
         "Create Agreements: Users can create new legal agreements by providing the agreement content, the address of the second party, and details about the first party.",
         "Sign Agreements: The second party can sign an agreement by providing their full name and valid ID. Once signed, the agreement status is updated to reflect this action.",
@@ -35,59 +59,56 @@ const Service = () => {
   ];
 
   const handleToggle = (process) => {
-    if (currentProcess === process) {
-      setExpanded(!expanded);
-    } else {
-      setCurrentProcess(process);
-      setExpanded(true);
-    }
+    setCurrentProcess(process);
+    console.log(process);
+    setExpanded(!expanded);
   };
 
   return (
     <div>
       <Navbar />
-
       <div className="flex flex-col px-6 mx-auto my-8 w-2/3">
         {processes.map((process, index) => (
           <div key={index} className="mb-8">
             <Card sx={{ border: '2px solid', borderRadius: '10px', transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }}>
-            <Typography gutterBottom variant="h5" component="div" sx={{ color: '#333', fontWeight: 'bold', textAlign: 'center' }}>
-                  {process.title}
-                </Typography>
+              <Typography gutterBottom={true} variant="h5" component="div" sx={{ color: '#333', fontWeight: 'bold', textAlign: 'center' }}>
+                {process.title}
+              </Typography>
               <CardMedia
                 component="img"
-                height="200"
-                src={`/${process.imaggeurl}`}
-                alt={`${process.title} Image`}
+                height="200" 
+                src={`/${process.imageUrl}`}
+                alt={`${process.title}`}
               />
               <CardContent>
-         
                 <Typography variant="body2" color="text.secondary">
                   {process.content[0]}
                 </Typography>
               </CardContent>
               <CardActions sx={{ justifyContent: 'center' }}>
-                <Button size="small" color="primary" onClick={() => handleToggle(process)}>
-                  {expanded && currentProcess === process ? 'Close' : 'How it works'}
-                </Button>
+                <ExpandMore
+                  expand={expanded && currentProcess == process}
+                  onClick={() => handleToggle(process)}
+                  aria-expanded={expanded && currentProcess === process}
+                  aria-label="show more"
+                >
+                  <ExpandMoreIcon />
+                </ExpandMore>
               </CardActions>
             </Card>
-            {expanded && (
-              <div className="my-8">
-                <Typography variant="h5" sx={{ textAlign: 'center', marginBottom: '16px' }}>{currentProcess.title}</Typography>
-                <div className="sliding-div">
-                  {currentProcess.content.map((step, index) => (
-                    <Slide direction="up" in={expanded} timeout={index * 500} key={index}>
-                      <div className="slide-content text-white">
-                        <Typography variant="body2" color="text.primary">
-                          {step}
-                        </Typography>
-                      </div>
-                    </Slide>
+            <Collapse in={expanded && currentProcess == process}>
+              <CardContent>
+                <Box className="my-8">
+                  {currentProcess?.content.map((step, index) => (
+                    <div key={index} className="text-white">
+                      <Typography variant="body2" color="text.primary">
+                        {step}
+                      </Typography>
+                    </div>
                   ))}
-                </div>
-              </div>
-            )}
+                </Box>
+              </CardContent>
+            </Collapse>
           </div>
         ))}
       </div>
