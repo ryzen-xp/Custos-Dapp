@@ -1,53 +1,17 @@
 "use client";
 import { useState } from "react";
-import {
-  getContract,
-  sendTransaction,
-  waitForReceipt,
-  prepareContractCall,
-} from "thirdweb";
-import { useActiveAccount } from "thirdweb/react";
-import { baseSepolia } from "thirdweb/chains";
-import abi from "../../utils/agreementAbi.json";
-import { client } from "@/utils/thirdwebclient";
-import { wallets } from "@/components/connect";
-import { createWallet } from "thirdweb/wallets";
-
+import Navbar from "@/components/navbar";
 const AgreementPage = () => {
-  const activeAccount = useActiveAccount();
-
-  const contract = getContract({
-    client,
-    chain: baseSepolia,
-    address: "0x726c51fcAC027fF7C9eAaF830f88daF12199ddC5",
-    abi: abi,
-  });
-
+  // State variables to store agreement details
   const [content, setContent] = useState("");
   const [secondPartyAddress, setSecondPartyAddress] = useState("");
   const [firstPartyName, setFirstPartyName] = useState("");
   const [firstPartyValidId, setFirstPartyValidId] = useState("");
 
   // Function to handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const wallet = createWallet("io.metamask");
-    const account = await wallet.connect();
     // Logic to submit agreement details
-    const createAgreement = prepareContractCall({
-      contract,
-      method: "createAgreement",
-      params: [content, secondPartyAddress, firstPartyName, firstPartyValidId],
-    });
-
-    const transactionResult = await sendTransaction({
-      createAgreement,
-      account,
-    });
-
-    const receipt = await waitForReceipt(transactionResult);
-
-    console.log(receipt);
     console.log("Agreement details submitted:", {
       content,
       secondPartyAddress,
@@ -59,6 +23,7 @@ const AgreementPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Navbar />
       <h1 className="text-2xl font-bold mb-4">Create Agreement</h1>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <div className="mb-4">

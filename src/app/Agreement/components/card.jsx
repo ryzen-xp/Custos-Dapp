@@ -6,7 +6,7 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 
 export default function MultiActionAreaCard({ agreement }) {
   return (
-    <Card sx={{ maxWidth: 345, border: '2px solid #20071c', background: '#130316', transition: 'transform 0.4s', borderRadius: '10px', '&:hover': { border: '2px solid purple', background: '#130319' } }}>
+    <Card sx={{ border: '2px solid #20071c', background: '#130316', transition: 'transform 0.4s', borderRadius: '10px', '&:hover': { border: '2px solid purple', background: '#130319' } }}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div" sx={{ color: 'white' }}>
