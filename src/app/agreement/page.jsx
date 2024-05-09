@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
-import CustomCard from "./components/card";
+import CustomCard from "../Agreement/components/card";
 import Modal from "react-modal";
 import AgreementModal from "./components/createAgrement";
 import { baseSepolia } from "thirdweb/chains";
@@ -16,8 +17,13 @@ function AgreementList() {
   const [agreements, setAgreements] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showagreementModal, setShowagreementModal] = useState(false);
-  const [showSignModal, setshowSignModal] = useState(false);
 
+  const filteragreement = () =>{
+    // const filteredagreement = agreements.filter(firstpartyaddress||secondpartyaddress => Wallet.address)
+    // setAgreements(filteredagreement)
+    // filter diaplayed agreements based on firstpartyaddress and secondparty address
+  }
+  
   const contract = getContract({
     client,
     chain: baseSepolia,
@@ -25,8 +31,22 @@ function AgreementList() {
     abi: abi,
   });
 
+  for (let i = 0; i < Number(detail); i++) {
+    id.push(i);
+  }
+
+  const eachAgreement = id.map((id) => {
+    const { data, isLoading } = useReadContract({
+      contract,
+      method: "getAgreementDetails",
+      params: [id],
+    });
+  });
+
+  
   let id = [];
   let agree;
+  console.log(id);
 
   for (let i = 1; i < id.length; i++) {
     agree = id[i];
@@ -87,7 +107,7 @@ function AgreementList() {
         secondPartyAddress: "0x987654321...",
       },
     ];
-    setAgreements(mockAgreements);
+    setAgreements(eachAgreement);
 
     // Simulate loading delay
     setTimeout(() => {
@@ -131,13 +151,12 @@ function AgreementList() {
         {/* Conditionally render buttons based on user's role */}
         {isAdmin ? (
           // If user is an admin with a wallet, show "Show All Agreements" button
-          <button
-            // onClick={read}
-            className="bg-[#1c0624] border border-[#c92eff] hover:bg-[#461853] text-white font-bold py-2 px-4 rounded"
-          >
-            Show All Agreements
+          <button className="bg-[#1c0624] border border-[#c92eff] hover:bg-[#461853] text-white font-bold py-2 px-4 rounded">
+            Sign agreement
           </button>
-        ) : null}
+        ) :    <button className="bg-[#1c0624] border border-[#c92eff] hover:bg-[#461853] text-white font-bold py-2 px-4 rounded">
+        Validate Agreement
+      </button>}
 
         <button
           className="bg-[#461853] hover:bg-[#1c0624] text-white font-bold py-2 px-4 rounded border-[#c92eff] border hover:border-none"
@@ -167,35 +186,16 @@ function AgreementList() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto w-[90%] mb-8">
             {agreements.map((agreement) => (
-              <div key={agreement.id} className="">
-                <CustomCard
-                  agreement={agreement}
-                  handleactions={toggleSignModal}
-                />
-                <Modal
-                  isOpen={showSignModal}
-                  onRequestClose={() => setshowSignModal(false)}
-                  shouldCloseOnOverlayClick={true}
-                  shouldCloseOnEsc={true}
-                  shouldReturnFocusAfterClose={true}
-                  contentLabel="Sign Agreement"
-                  style={{
-                    content: {
-                      width: "40%",
-                      height: "fit-content",
-                      margin: "auto",
-                      padding: "0px",
-                      borderRadius: "5px",
-                    },
-                  }}
-                >
-                  <SignAgreementModal agreementid={agreement.id} />
-                </Modal>
+
+              <div key={agreement.id}  className="">
+
+                <CustomCard agreement={agreement} />
+ 
               </div>
             ))}
           </div>
         )}
-      </div>
+      </div> 
     </div>
   );
 }

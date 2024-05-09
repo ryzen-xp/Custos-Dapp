@@ -1,12 +1,9 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/navbar";
 import { NFTStorage } from "nft.storage";
-import { baseSepolia } from "thirdweb/chains";
-import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
-import { useReadContract, useSendTransaction } from "thirdweb/react";
-import abi from "@/utils/coverCrimeAbi.json";
-import { client } from "@/utils/thirdwebclient";
+
 const Recorder = () => {
   const [selectedMedia, setSelectedMedia] = useState(null);
   const [chunks, setChunks] = useState([]);
@@ -14,26 +11,6 @@ const Recorder = () => {
   const [mediaStream, setMediaStream] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  const [uri, setUri] = useState("");
-
-  const contract = getContract({
-    client: client,
-    chain: baseSepolia,
-    address: "0xd9da513797fd0e72105727cdffbae75f6b7dc2f0",
-    abi: abi,
-  });
-
-  const { mutate: sendTransaction, isPending } = useSendTransaction();
-
-  const handleSubmit = async () => {
-    const record = prepareContractCall({
-      contract,
-      method: "coverCrime",
-      params: [uri],
-    });
-
-    sendTransaction(record);
-  };
 
   const otherRecorder = (selectedMedia) => {
     return selectedMedia === "vid" ? "aud" : "vid";
