@@ -1,7 +1,6 @@
 "use client";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
 import Typography from '@mui/material/Typography';
 import { Button, Card, CardActions, CardContent, CardMedia, Slide } from '@mui/material';
 
@@ -12,6 +11,7 @@ const Service = () => {
   const processes = [
     {
       title: "Eye Witness",
+      imaggeurl: "eyewitness.jpeg",
       content: [
         "Revolutionizing Crime Reporting: The Crime Recording App transforms the way individuals contribute to societal safety by providing an advanced platform for documenting and sharing crime events securely and transparently.",
         "User-Centric Design: With its intuitive interface, the app empowers users to easily log detailed information about crime events, including descriptions, locations, timestamps, and supporting multimedia evidence.",
@@ -23,6 +23,7 @@ const Service = () => {
     },
     {
       title: "Agreement",
+      imaggeurl: "legalagreement.png",
       content: [
         "Create Agreements: Users can create new legal agreements by providing the agreement content, the address of the second party, and details about the first party.",
         "Sign Agreements: The second party can sign an agreement by providing their full name and valid ID. Once signed, the agreement status is updated to reflect this action.",
@@ -45,27 +46,22 @@ const Service = () => {
   return (
     <div>
       <Navbar />
-      <div className="relative h-96 bg-cover bg-center" style={{ backgroundImage: `url('/hero.jpg')` }}>
-        <div className="absolute inset-0 bg-[#090909] opacity-50"></div>
-        <div className="absolute inset-0 flex items-center justify-center text-white text-center">
-          <h1 className="text-4xl md:text-6xl font-bold">Custos Diretriz Services</h1>
-        </div>
-      </div>
 
-      <div className="flex mx-auto my-8">
+      <div className="flex flex-col px-6 mx-auto my-8 w-2/3">
         {processes.map((process, index) => (
-          <div key={index} className="mr-8">
+          <div key={index} className="mb-8">
             <Card sx={{ border: '2px solid', borderRadius: '10px', transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }}>
+            <Typography gutterBottom variant="h5" component="div" sx={{ color: '#333', fontWeight: 'bold', textAlign: 'center' }}>
+                  {process.title}
+                </Typography>
               <CardMedia
                 component="img"
                 height="200"
-                image={`/${process.title.toLowerCase()}_image.jpg`}
+                src={`/${process.imaggeurl}`}
                 alt={`${process.title} Image`}
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div" sx={{ color: '#333', fontWeight: 'bold' }}>
-                  {process.title}
-                </Typography>
+         
                 <Typography variant="body2" color="text.secondary">
                   {process.content[0]}
                 </Typography>
@@ -76,14 +72,14 @@ const Service = () => {
                 </Button>
               </CardActions>
             </Card>
-            {expanded && currentProcess === process && (
+            {expanded && (
               <div className="my-8">
                 <Typography variant="h5" sx={{ textAlign: 'center', marginBottom: '16px' }}>{currentProcess.title}</Typography>
                 <div className="sliding-div">
                   {currentProcess.content.map((step, index) => (
                     <Slide direction="up" in={expanded} timeout={index * 500} key={index}>
-                      <div className="slide-content">
-                        <Typography variant="body2" color="text.secondary">
+                      <div className="slide-content text-white">
+                        <Typography variant="body2" color="text.primary">
                           {step}
                         </Typography>
                       </div>
