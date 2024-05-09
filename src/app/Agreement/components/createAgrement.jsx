@@ -1,15 +1,10 @@
 "use client";
 import { useState } from "react";
-import {
-  getContract,
-  sendTransaction,
-  waitForReceipt,
-  prepareContractCall,
-} from "thirdweb";
+import { getContract, prepareContractCall } from "thirdweb";
 import { baseSepolia } from "thirdweb/chains";
-import abi from "../../../utils/agreementAbi.json";
+import abi from "@/utils/agreementAbi.json";
 import { client } from "@/utils/thirdwebclient";
-import { createWallet } from "thirdweb/wallets";
+import { useSendTransaction } from "thirdweb/react";
 
 const AgreementModal = () => {
   const contract = getContract({
@@ -19,39 +14,22 @@ const AgreementModal = () => {
     abi: abi,
   });
 
-  // State variables to store agreement details
   const [content, setContent] = useState("");
   const [secondPartyAddress, setSecondPartyAddress] = useState("");
   const [firstPartyName, setFirstPartyName] = useState("");
   const [firstPartyValidId, setFirstPartyValidId] = useState("");
 
-  // Function to handle form submission
+  const { mutate: sendTransaction, isPending } = useSendTransaction();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const wallet = createWallet("io.metamask");
-    const account = await wallet.connect();
-    // Logic to submit agreement details
-    const createAgreement = prepareContractCall({
+
+    const createAgreement = await prepareContractCall({
       contract,
       method: "createAgreement",
       params: [content, secondPartyAddress, firstPartyName, firstPartyValidId],
     });
 
-    const transactionResult = await sendTransaction({
-      createAgreement,
-      account,
-    });
-
-    const receipt = await waitForReceipt(transactionResult);
-
-    console.log(receipt);
-    console.log("Agreement details submitted:", {
-      content,
-      secondPartyAddress,
-      firstPartyName,
-      firstPartyValidId,
-    });
-    // You can perform further actions here, such as sending the data to a backend server
+    sendTransaction(createAgreement);
   };
 
   return (
@@ -124,7 +102,7 @@ const AgreementModal = () => {
           type="submit"
           className="bg-[#c92eff] w-fit rounded-lg hover:bg-[#090909] text-white font-bold py-2 px-4 border-2 border-[#c92eff] font-san hover:border-[#c92eff] inline-flex justify-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c92eff]"
         >
-          Submit
+          {isPending ? "Submitting" : "Submit"}
         </button>
       </form>
     </div>

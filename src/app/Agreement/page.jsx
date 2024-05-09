@@ -4,6 +4,11 @@ import Navbar from "@/components/navbar";
 import CustomCard from "./components/card";
 import Modal from "react-modal";
 import AgreementModal from "./components/createAgrement";
+import { baseSepolia } from "thirdweb/chains";
+import { getContract } from "thirdweb";
+import { useReadContract } from "thirdweb/react";
+import abi from "@/utils/agreementAbi.json";
+import { client } from "@/utils/thirdwebclient";
 
 function AgreementList() {
   const [loading, setLoading] = useState(true);
@@ -11,9 +16,33 @@ function AgreementList() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showagreementModal, setShowagreementModal] = useState(false);
 
-  const toggleAgreementModal = () => {
-    setShowagreementModal(!showagreementModal);
-  };
+  const contract = getContract({
+    client,
+    chain: baseSepolia,
+    address: "0x726c51fcAC027fF7C9eAaF830f88daF12199ddC5",
+    abi: abi,
+  });
+
+  let id = [];
+  const { data: detail, isLoading: loadDetail } = useReadContract({
+    contract,
+    method: "agreementCount",
+  });
+
+  for (let i = 0; i < Number(detail); i++) {
+    id.push(i);
+  }
+
+  const eachAgreement = id.map((id) => {
+    const { data, isLoading } = useReadContract({
+      contract,
+      method: "getAgreementDetails",
+      params: [id],
+    });
+  });
+
+  console.log(id);
+
   useEffect(() => {
     const mockAgreements = [
       {
@@ -44,14 +73,22 @@ function AgreementList() {
         secondPartyAddress: "0x987654321...",
       },
     ];
+    setAgreements(eachAgreement);
 
     // Simulate loading delay
     setTimeout(() => {
-      setAgreements(mockAgreements);
       setLoading(false);
     }, 1500); // Adjust delay time as needed
     setIsAdmin(true);
   }, []);
+
+  const toggleAgreementModal = () => {
+    setShowagreementModal(!showagreementModal);
+  };
+
+  console.log(agreements);
+  console.log(eachAgreement);
+  console.log(Number(detail));
 
   return (
     <div className="w-full">
@@ -85,7 +122,10 @@ function AgreementList() {
         {/* Conditionally render buttons based on user's role */}
         {isAdmin ? (
           // If user is an admin with a wallet, show "Show All Agreements" button
-          <button className="bg-[#1c0624] border border-[#c92eff] hover:bg-[#461853] text-white font-bold py-2 px-4 rounded">
+          <button
+            // onClick={read}
+            className="bg-[#1c0624] border border-[#c92eff] hover:bg-[#461853] text-white font-bold py-2 px-4 rounded"
+          >
             Show All Agreements
           </button>
         ) : null}
@@ -98,7 +138,7 @@ function AgreementList() {
         </button>
       </div>
 
-      <div className="w-full">
+      {/* <div className="w-full">
         {loading ? (
           // Show loading indicator if agreements are loading
           <div className="text-center py-8">
@@ -122,7 +162,7 @@ function AgreementList() {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
