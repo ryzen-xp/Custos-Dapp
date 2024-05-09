@@ -58,7 +58,7 @@ const AgreementModal = () => {
             <form onSubmit={handleSubmit} className="max-w-md mx-auto">
                 <div className="mb-4">
                     <label htmlFor="content" className="block text-sm font-medium text-[#c92eff]">Content</label>
-                    <textarea id="content" name="content" value={content} onChange={(e) => setContent(e.target.value)} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm h-4 focus:ring-[#c92eff] focus:border-[#c92eff] sm:text-sm text-[#090909]" />
+                    <textarea id="content" name="content" value={content} onChange={(e) => setContent(e.target.value)} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm h-4 focus:ring-[#c92eff] focus:border-[#c92eff] sm:text-sm p-8 text-[#090909]" />
                 </div>
                 <div className="mb-4">
                     <label htmlFor="secondPartyAddress" className="block text-sm font-medium text-[#c92eff]">Second Party Address</label>
