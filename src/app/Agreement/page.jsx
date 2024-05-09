@@ -9,12 +9,14 @@ import { getContract } from "thirdweb";
 import { useReadContract } from "thirdweb/react";
 import abi from "@/utils/agreementAbi.json";
 import { client } from "@/utils/thirdwebclient";
+import SignAgreementModal from "./components/signagreementmodal";
 
 function AgreementList() {
   const [loading, setLoading] = useState(true);
   const [agreements, setAgreements] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showagreementModal, setShowagreementModal] = useState(false);
+  const [showSignModal, setshowSignModal] = useState(false);
 
   const contract = getContract({
     client,
@@ -42,6 +44,13 @@ function AgreementList() {
   });
 
   console.log(id);
+
+  const toggleAgreementModal = () => {
+    setShowagreementModal(!showagreementModal);
+  };
+  const toggleSignModal = () => {
+    setshowSignModal(!showagreementModal);
+  };
 
   useEffect(() => {
     const mockAgreements = [
@@ -82,10 +91,6 @@ function AgreementList() {
     setIsAdmin(true);
   }, []);
 
-  const toggleAgreementModal = () => {
-    setShowagreementModal(!showagreementModal);
-  };
-
   console.log(agreements);
   console.log(eachAgreement);
   console.log(Number(detail));
@@ -96,19 +101,18 @@ function AgreementList() {
 
       <Modal
         isOpen={showagreementModal}
+        onRequestClose={() => setShowagreementModal(false)}
+        shouldCloseOnOverlayClick={true}
+        shouldCloseOnEsc={true}
+        shouldReturnFocusAfterClose={true}
         contentLabel="Create New Agreement"
         style={{
           content: {
-            // Set the modal size
-            width: "50%", // Adjust the width as needed
-            height: "80%", // Adjust the height as needed
-            // Center the modal
-            top: "10%", // Adjust the top value as needed to center vertically
-            left: "25%", // Adjust the left value as needed to center horizontally
-            right: "auto", // Prevents the modal from sticking to the right edge
-            bottom: "auto", // Prevents the modal from sticking to the bottom edge
-            margin: "auto", // Centers the modal
-            padding: "20px", // Adds some padding inside the modal
+            width: "40%",
+            height: "fit-content",
+            margin: "auto",
+            padding: "0px",
+            borderRadius: "5px",
           },
         }}
       >
@@ -158,7 +162,31 @@ function AgreementList() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto w-[90%] mb-8">
             {agreements.map((agreement) => (
-              <CustomCard key={agreement.id} agreement={agreement} />
+
+              <div key={agreement.id}  className="">
+
+                <CustomCard agreement={agreement} handleactions={toggleSignModal} />
+                <Modal
+        isOpen={showSignModal}
+        onRequestClose={() => setshowSignModal(false)} 
+        shouldCloseOnOverlayClick={true}
+        shouldCloseOnEsc={true}
+        shouldReturnFocusAfterClose={true}
+        contentLabel="Sign Agreement"
+        style={{
+          content: {
+            width: "40%",
+            height: "fit-content",
+            margin: "auto",
+            padding: "0px",
+            borderRadius: "5px"
+          },
+        }}
+      >
+        <SignAgreementModal agreementid={agreement.id} />
+      </Modal>
+              </div>
+              
             ))}
           </div>
         )}

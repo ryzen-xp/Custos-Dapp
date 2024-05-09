@@ -13,7 +13,7 @@ const Service = () => {
   
   const processes = [
     {
-      title: "Eye Witness",
+      title: "Crime Recorder",
       imageUrl: "eyewitness.jpeg", // Corrected property name
       content: [
         "Revolutionizing Crime Reporting: The Crime Recording App transforms the way individuals contribute to societal safety by providing an advanced platform for documenting and sharing crime events securely and transparently.",
