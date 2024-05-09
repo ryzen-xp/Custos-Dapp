@@ -1,35 +1,14 @@
 "use client";
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Button, Content, Slide } from '@mui/material';
-import { Box } from '@mui/system'; 
 import Navbar from '@/components/navbar';
+import ServiceCard from './components/servicecard';
 
 const Service = () => {
   const [expanded, setExpanded] = useState(false);
   const [currentProcess, setCurrentProcess] = useState(null);
 
-  const ExpandMore = styled(Button)(({ theme, expand }) => ({
-    transform:!expand? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  }));
+
 
   
   const processes = [
@@ -69,47 +48,7 @@ const Service = () => {
       <Navbar />
       <div className="flex flex-col px-6 mx-auto my-8 w-2/3">
         {processes.map((process, index) => (
-          <div key={index} className="mb-8">
-            <Card sx={{ border: '2px solid', borderRadius: '10px', transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }}>
-              <Typography gutterBottom={true} variant="h5" component="div" sx={{ color: '#333', fontWeight: 'bold', textAlign: 'center' }}>
-                {process.title}
-              </Typography>
-              <CardMedia
-                component="img"
-                height="200" 
-                src={`/${process.imageUrl}`}
-                alt={`${process.title}`}
-              />
-              <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                  {process.content[0]}
-                </Typography>
-              </CardContent>
-              <CardActions sx={{ justifyContent: 'center' }}>
-                <ExpandMore
-                  expand={expanded && currentProcess == process}
-                  onClick={() => handleToggle(process)}
-                  aria-expanded={expanded && currentProcess === process}
-                  aria-label="show more"
-                >
-                  <ExpandMoreIcon />
-                </ExpandMore>
-              </CardActions>
-            </Card>
-            <Collapse in={expanded && currentProcess == process}>
-              <CardContent>
-                <Box className="my-8">
-                  {currentProcess?.content.map((step, index) => (
-                    <div key={index} className="text-white">
-                      <Typography variant="body2" color="text.primary">
-                        {step}
-                      </Typography>
-                    </div>
-                  ))}
-                </Box>
-              </CardContent>
-            </Collapse>
-          </div>
+          <ServiceCard key={index} title={process.title} imageUrl={process.imageUrl} description={process.content[0]} moreDetails={process.content}/>
         ))}
       </div>
     </div>

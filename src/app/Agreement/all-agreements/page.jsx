@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Navbar from '@/components/navbar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CustomCard from './components/card';
+import CustomCard from '../components/card';
 
 function AgreementList() {
   const [loading, setLoading] = useState(true);
