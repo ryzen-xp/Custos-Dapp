@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react';
 import Navbar from '@/components/navbar';
-const AgreementPage = () => {
+const AgreementModal = () => {
     // State variables to store agreement details
     const [content, setContent] = useState("");
     const [secondPartyAddress, setSecondPartyAddress] = useState("");
@@ -17,9 +17,7 @@ const AgreementPage = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <Navbar/>
-            <h1 className="text-2xl font-bold mb-4">Create Agreement</h1>
+        <div className="bg-[#130316]">
             <form onSubmit={handleSubmit} className="max-w-md mx-auto">
                 <div className="mb-4">
                     <label htmlFor="content" className="block text-sm font-medium text-[#c92eff]">Content</label>
@@ -44,4 +42,4 @@ const AgreementPage = () => {
     );
 };
 
-export default AgreementPage;
+export default AgreementModal;
