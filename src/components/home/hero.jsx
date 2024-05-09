@@ -15,14 +15,12 @@ const Hero = () => {
               secure your <span className="text-[#c92eff]">Digital Life</span>
             </p>
             <span className="">
-              With CUSTOS you can leverage on the power of decentralization to
-              secure your legal agreements{" "}
+              With CUSTOS you can leverage on the power of blockchain technology
+              to secure your evidence and legal agreements{" "}
             </span>
-          
 
-          
             <button className="bg-[#c92eff] w-fit rounded-lg hover:bg-[#090909] text-white font-bold py-2 px-4 border-2 border-[#c92eff] font-san hover:border-[#c92eff]">
-              Lunch Dapp
+              Launch Dapp
             </button>
           </div>
         </div>

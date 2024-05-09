@@ -8,13 +8,18 @@ const AgreementModal = () => {
     const [firstPartyName, setFirstPartyName] = useState("");
     const [firstPartyValidId, setFirstPartyValidId] = useState("");
 
-    // Function to handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Logic to submit agreement details
-        console.log("Agreement details submitted:", { content, secondPartyAddress, firstPartyName, firstPartyValidId });
-        // You can perform further actions here, such as sending the data to a backend server
-    };
+  // Function to handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Logic to submit agreement details
+    console.log("Agreement details submitted:", {
+      content,
+      secondPartyAddress,
+      firstPartyName,
+      firstPartyValidId,
+    });
+    // You can perform further actions here, such as sending the data to a backend server
+  };
 
     return (
         <div className="bg-[#130316]">
