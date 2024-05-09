@@ -7,7 +7,7 @@ import SignAgreementModal from "./signagreementmodal";
 import { useActiveWallet } from "thirdweb/react";
  
 
-export default function MultiActionAreaCard({ agreement }) {
+export default function CustomCard({ agreement }) {
   const [showSignModal, setshowSignModal] = useState(false);
   const [isSigner, setIsSigner] = useState(false);
   const [isValidator, setIsValidator] = useState(false);
