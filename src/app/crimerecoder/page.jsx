@@ -137,7 +137,7 @@ const Recorder = () => {
           Start
         </button>
 
-        <button type="button" id="stop-aud-recording" disabled onClick={(e) => stopRecording(e.target, document.getElementById('start-aud-recording'))} className="bg-[#c92eff] w-fit rounded-lg hover:bg-[#090909] text-white font-bold py-2 px-4 border-2 border-[#c92eff] font-san hover:border-[#c92eff] ">
+        <button type="button" id="stop-aud-recording" onClick={(e) => stopRecording(e.target, document.getElementById('start-aud-recording'))} className="bg-[#c92eff] w-fit rounded-lg hover:bg-[#090909] text-white font-bold py-2 px-4 border-2 border-[#c92eff] font-san hover:border-[#c92eff] ">
           Stop 
         </button>
       </div>

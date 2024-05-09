@@ -4,16 +4,23 @@ import Navbar from "@/components/navbar";
 import CustomCard from "./components/card";
 import Modal from "react-modal";
 import AgreementModal from "./components/createAgrement";
+import SignAgreementModal from "./components/signagreementmodal";
 
 function AgreementList() {
   const [loading, setLoading] = useState(true);
   const [agreements, setAgreements] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showagreementModal, setShowagreementModal] = useState(false);
+  const [showSignModal, setshowSignModal] = useState(false);
 
   const toggleAgreementModal = () => {
     setShowagreementModal(!showagreementModal);
   };
+  const toggleSignModal = () => {
+    setshowSignModal(!showagreementModal);
+  };
+
+  
   useEffect(() => {
     const mockAgreements = [
       {
@@ -117,7 +124,31 @@ function AgreementList() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto w-[90%] mb-8">
             {agreements.map((agreement) => (
-              <CustomCard key={agreement.id} agreement={agreement} />
+
+              <div key={agreement.id}  className="">
+
+                <CustomCard agreement={agreement} handleactions={toggleSignModal} />
+                <Modal
+        isOpen={showSignModal}
+        onRequestClose={() => setshowSignModal(false)} 
+        shouldCloseOnOverlayClick={true}
+        shouldCloseOnEsc={true}
+        shouldReturnFocusAfterClose={true}
+        contentLabel="Sign Agreement"
+        style={{
+          content: {
+            width: "40%",
+            height: "fit-content",
+            margin: "auto",
+            padding: "0px",
+            borderRadius: "5px"
+          },
+        }}
+      >
+        <SignAgreementModal agreementid={agreement.id} />
+      </Modal>
+              </div>
+              
             ))}
           </div>
         )}
