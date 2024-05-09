@@ -1,6 +1,6 @@
 import { Kanit } from 'next/font/google';
 import './globals.css';
-import { ThirdwebProvider } from "thirdweb/react";
+// import { ThirdwebProvider } from "thirdweb/react";
 import Footer from '@/components/footer';
 
 const kanit = Kanit({
@@ -21,12 +21,12 @@ export default function RootLayout({ children }) {
         <title>{metadata.title}</title>
         {metadata.link}
       </head>
-      <ThirdwebProvider>
+      {/* <ThirdwebProvider> */}
 
       <body className={kanit.fontStyles}>{children}</body>
 
       <Footer/>
-      </ThirdwebProvider>
+      {/* </ThirdwebProvider> */}
 
     </html>
   );
