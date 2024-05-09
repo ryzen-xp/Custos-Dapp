@@ -11,15 +11,16 @@ function AgreementList() {
   const [agreements, setAgreements] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showagreementModal, setShowagreementModal] = useState(false);
-  const [showSignModal, setshowSignModal] = useState(false);
 
   const toggleAgreementModal = () => {
     setShowagreementModal(!showagreementModal);
   };
-  const toggleSignModal = () => {
-    setshowSignModal(!showagreementModal);
-  };
 
+  const filteragreement = () =>{
+    // const filteredagreement = agreements.filter(firstpartyaddress||secondpartyaddress => Wallet.address)
+    // setAgreements(filteredagreement)
+    // filter diaplayed agreements based on firstpartyaddress and secondparty address
+  }
   
   useEffect(() => {
     const mockAgreements = [
@@ -92,9 +93,11 @@ function AgreementList() {
         {isAdmin ? (
           // If user is an admin with a wallet, show "Show All Agreements" button
           <button className="bg-[#1c0624] border border-[#c92eff] hover:bg-[#461853] text-white font-bold py-2 px-4 rounded">
-            Show All Agreements
+            Sign agreement
           </button>
-        ) : null}
+        ) :    <button className="bg-[#1c0624] border border-[#c92eff] hover:bg-[#461853] text-white font-bold py-2 px-4 rounded">
+        Validate Agreement
+      </button>}
 
         <button
           className="bg-[#461853] hover:bg-[#1c0624] text-white font-bold py-2 px-4 rounded border-[#c92eff] border hover:border-none"
@@ -127,26 +130,8 @@ function AgreementList() {
 
               <div key={agreement.id}  className="">
 
-                <CustomCard agreement={agreement} handleactions={toggleSignModal} />
-                <Modal
-        isOpen={showSignModal}
-        onRequestClose={() => setshowSignModal(false)} 
-        shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}
-        shouldReturnFocusAfterClose={true}
-        contentLabel="Sign Agreement"
-        style={{
-          content: {
-            width: "40%",
-            height: "fit-content",
-            margin: "auto",
-            padding: "0px",
-            borderRadius: "5px"
-          },
-        }}
-      >
-        <SignAgreementModal agreementid={agreement.id} />
-      </Modal>
+                <CustomCard agreement={agreement} />
+ 
               </div>
               
             ))}
