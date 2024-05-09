@@ -170,7 +170,7 @@ const Recorder = () => {
       <div className="flex flex-col items-center justify-center h-screen border-2 mx-auto border-[#baa] my-10 bg-[#090909]">
         <div className="display-none" id="vid-recorder">
           <h3>Record Video</h3>
-          <video autoPlay id="web-cam-container" className="mb-4" style={{ backgroundColor: "white" }}>
+          <video autoPlay id="web-cam-container" className="mb-4" style={{backgroundImage: "url('/live.png')", }}>
             Your browser doesn't support the video tag
           </video>
 
