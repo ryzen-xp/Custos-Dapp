@@ -3,9 +3,9 @@ import Link from "next/link";
 import React from "react";
 const Hero = () => {
   return (
-    <div className="bg-[#090909] text-white py-20 mx-auto flex flex-col kanit">
+    <div className="text-white py-20 mx-auto flex flex-col kanit">
       <div className="flex flex-row  w-full gap-6  px-8 justify-center items-center">
-        <div className="flex flex-col w-fit mx-auto bg-[#090909]">
+        <div className="flex flex-col w-fit mx-auto">
           <h1 className="font-bold mb-4 text-[#c92eff] text-xl">
             WELCOME TO CUSTOS
           </h1>
@@ -19,10 +19,9 @@ const Hero = () => {
               to secure your evidence and legal agreements{" "}
             </span>
             <a href="/services" className="">
-
-            <button className="bg-[#c92eff] w-fit rounded-lg hover:bg-[#090909] text-white font-bold py-2 px-4 border-2 border-[#c92eff] font-san hover:border-[#c92eff]">
-              Launch Dapp
-            </button>
+              <button className="bg-[#c92eff] w-fit rounded-lg hover:bg-[#090909] text-white font-bold py-2 px-4 border-2 border-[#c92eff] font-san hover:border-[#c92eff]">
+                Launch Dapp
+              </button>
             </a>
           </div>
         </div>

@@ -253,7 +253,7 @@
 import React from "react";
 
 const Recorder = () => {
-  return <div className="h-screen bg-[#1E2F37]">page</div>;
+  return <div className="h-screen">page</div>;
 };
 
 export default Recorder;
