@@ -7,6 +7,8 @@
 :root {
   background: #1e2f37;
   background-image: url("../../public/Rectangle.png");
+  background-position: center;
+  background-size: contain;
   background-blend-mode: multiply;
 }
 
