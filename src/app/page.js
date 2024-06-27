@@ -5,6 +5,7 @@ import Hero from "@/components/home/hero";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Head from "next/head";
+import Agree from "@/components/home/agree";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <main className="kanit">
         <Navbar />
         <Hero />
+        <Agree />
       </main>
     </div>
   );

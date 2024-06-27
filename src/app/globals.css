@@ -137,4 +137,38 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .gradient-text {
+    @apply bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent;
+  }
+}
+.border-gradient {
+  position: relative;
+}
+.br{
+  border-radius:50px;
+}
+
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit; /* Match the border radius of the card */
+  padding: 2px; /* Adjust the width of the border */
+  background: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out; /* For Safari */
+  mask-composite: exclude; /* For other browsers */
+}
+button .text-transparent {
+  background: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
 }
