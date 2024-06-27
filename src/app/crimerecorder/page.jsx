@@ -251,9 +251,14 @@
 // export default Recorder;
 
 import React from "react";
+import { Header } from "./components/Header";
 
 const Recorder = () => {
-  return <div className="h-screen">page</div>;
+  return (
+    <div className="h-screen w-full m-10">
+      <Header />
+    </div>
+  );
 };
 
 export default Recorder;
