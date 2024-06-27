@@ -2,9 +2,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
-import CustomCard from "../Agreement/components/card";
+import CustomCard from "./components/card";
 import Modal from "react-modal";
 import AgreementModal from "./components/createAgrement";
+import NoAgreementscreen from "./components/noAgreementscreen";
 import { baseSepolia } from "thirdweb/chains";
 import { getContract } from "thirdweb";
 import { useReadContract } from "thirdweb/react";
@@ -104,20 +105,13 @@ function AgreementList() {
         content:
           "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         secondPartyAddress: "0x987654321...",
-      },
+      }
     ];
-    setAgreements(mockAgreements);
-
-    // Simulate loading delay
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500); // Adjust delay time as needed
+    setAgreements(null);
+    setLoading(false);
     setIsAdmin(true);
-  }, []);
+  }, [agreements]);
 
-  // console.log(agreements);
-  // console.log(eachAgreement);
-  // console.log(Number(detail));
 
   return (
     <div className="w-full">
@@ -143,10 +137,12 @@ function AgreementList() {
         <AgreementModal />
       </Modal>
 
-      <h1 className="text-3xl text-center font-bold text-[#c92eff] my-4">
-        My Agreements
+      <h1 className="text-3xl font-bold text- my-4">
+       Agreements
       </h1>
       <div className="flex p-4 items-center justify-end gap-8">
+
+
         {/* Conditionally render buttons based on user's role */}
         {isAdmin ? (
           // If user is an admin with a wallet, show "Show All Agreements" button
@@ -159,6 +155,9 @@ function AgreementList() {
           </button>
         )}
 
+
+
+
         <button
           className="bg-[#461853] hover:bg-[#1c0624] text-white font-bold py-2 px-4 rounded border-[#c92eff] border hover:border-none"
           onClick={toggleAgreementModal}
@@ -167,26 +166,21 @@ function AgreementList() {
         </button>
       </div>
 
-      <div className="w-full">
+      <div className="w-full ">
         {loading ? (
           // Show loading indicator if agreements are loading
           <div className="text-center py-8">
             <div className="loader ease-linear rounded-full border-8 border-t-8 bg-[#130316] border-gray-200 h-16 w-16 mx-auto"></div>
             <p className="mt-2">Loading agreements...</p>
           </div>
-        ) : agreements.length === 0 ? (
-          <div className="w-full">
-            <p className="text-gray-600">No agreements found.</p>
-            <button
-              className="bg-[#461853] hover:bg-[#1c0624] text-white font-bold py-2 px-4 rounded border-[#c92eff] border hover:border-none"
-              onClick={toggleAgreementModal}
-            >
-              Create New Agreement
-            </button>
+        ) : agreements === null ? (
+          <div className="w-full m-auto p-4 text-[#EAFBFF] bg-red-500">
+   <NoAgreementscreen />
           </div>
+          
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto w-[90%] mb-8">
-            {agreements.map((agreement) => (
+            {agreements?.map((agreement) => (
               <div key={agreement.id} className="">
                 <CustomCard agreement={agreement} />
               </div>

@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
       <ThirdwebProvider>
         <body className={kanit.fontStyles}>{children}</body>
 
-        <Footer />
+        {/* <Footer /> */}
       </ThirdwebProvider>
     </html>
   );

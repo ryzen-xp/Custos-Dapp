@@ -9,3 +9,7 @@ const nextConfig = {
       ignoreDuringBuilds: true,
     }
   }
+
+  module.exports = {
+    swcMinify: true, // ensure this is set to true
+  };
