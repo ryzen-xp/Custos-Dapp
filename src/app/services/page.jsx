@@ -1,6 +1,5 @@
 "use client";
 import { useState } from 'react';
-import { styled } from '@mui/material/styles';
 import Navbar from '@/components/navbar';
 import ServiceCard from './components/servicecard';
 

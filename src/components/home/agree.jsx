@@ -3,8 +3,7 @@ import React from 'react';
 import agreements from '../../..'; // Adjust the path based on your file structure
 import Link from 'next/link';
 import Image from 'next/image';
-import AgreementCard from '../agreementcard';
-
+import AgreementCard from '../../app/agreement/components/agreementcard';
 const printAgreement = (agreement) => {
   const printContent = `
     <h1>${agreement.title}</h1>

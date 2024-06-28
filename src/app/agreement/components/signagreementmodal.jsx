@@ -1,46 +1,47 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import { useState } from "react";
-import {
-  getContract,
-  sendTransaction,
-  waitForReceipt,
-  prepareContractCall,
-} from "thirdweb";
-import { baseSepolia } from "thirdweb/chains";
+// import {
+//   getContract,
+//   sendTransaction,
+//   waitForReceipt,
+//   prepareContractCall,
+// } from "thirdweb";
+// import { baseSepolia } from "thirdweb/chains";
 import abi from "../../../utils/agreementAbi.json";
-import { client } from "@/utils/thirdwebclient";
-import { createWallet } from "thirdweb/wallets";
-import { useSendTransaction } from "thirdweb/react";
+// import { client } from "@/utils/thirdwebclient";
+// import { createWallet } from "thirdweb/wallets";
+// import { useSendTransaction } from "thirdweb/react";
 
 const SignAgreementModal = ({ agreementid }) => {
-  const contract = getContract({
-    client,
-    chain: baseSepolia,
-    address: "0x726c51fcAC027fF7C9eAaF830f88daF12199ddC5",
-    abi: abi,
-  });
+  // const contract = getContract({
+  //   client,
+  //   chain: baseSepolia,
+  //   address: "0x726c51fcAC027fF7C9eAaF830f88daF12199ddC5",
+  //   abi: abi,
+  // });
 
   const [secondPartyValidId, setSecondPartyValidId] = useState("");
 
   // Function to handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    const { mutate: sendTransaction, isPending } = useSendTransaction();
-    // Logic to submit agreement details
-    const signAgreement = prepareContractCall({
-      contract,
-      method: "signAgreement",
-      params: [agreementid, secondPartyValidId],
-    });
-    sendTransaction({
-      signAgreement,
-    });
-  };
+  //   const { mutate: sendTransaction, isPending } = useSendTransaction();
+  //   // Logic to submit agreement details
+  //   const signAgreement = prepareContractCall({
+  //     contract,
+  //     method: "signAgreement",
+  //     params: [agreementid, secondPartyValidId],
+  //   });
+  //   sendTransaction({
+  //     signAgreement,
+  //   });
+  // };
 
   return (
     <div className="bg-[#130316] w-full h-full py-4">
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+      <form className="max-w-md mx-auto">
         <div className="mb-4">
           <label
             htmlFor="firstPartyValidId"

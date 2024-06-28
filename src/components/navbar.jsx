@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { FaChevronDown, FaWallet } from "react-icons/fa";
 import ConnectButtoncomponent from "./connect";
 
 const Navbar = () => {
@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="py-4 bg-transparent fixed top-0 w-full z-50">
+    <div className="w-full z-[100]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div>
@@ -35,7 +35,7 @@ const Navbar = () => {
                   className="text-white hover:text-[#c92eff] flex items-center"
                 >
                   Launch Dapps
-                  <ChevronDownIcon className="w-5 h-5 ml-1" />
+                  <FaChevronDown className="w-5 h-5 ml-1" />
                 </button>
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-opacity-30 border border-gray-200 rounded-lg shadow-lg z-10">
@@ -65,7 +65,7 @@ const Navbar = () => {
               onClick={toggleDropdown}
               className="text-white hover:text-[#c92eff] flex items-center"
             >
-              <ChevronDownIcon className="w-5 h-5" />
+              <FaChevronDown className="w-5 h-5" />
             </button>
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-opacity-30 border border-gray-200 rounded-lg shadow-lg z-10">
@@ -77,7 +77,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 
