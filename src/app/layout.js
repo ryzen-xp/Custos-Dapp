@@ -21,11 +21,12 @@ export default function RootLayout({ children }) {
         <title>{metadata.title}</title>
         {metadata.link}
       </head>
-      <ThirdwebProvider>
-        <body className={kanit.fontStyles}>{children}</body>
-
-        <Footer />
-      </ThirdwebProvider>
+      <body className={kanit.fontStyles}>
+        <ThirdwebProvider>
+          {children}
+          <Footer />
+        </ThirdwebProvider>
+      </body>
     </html>
   );
 }
