@@ -2,19 +2,30 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaChevronDown, FaWallet } from "react-icons/fa";
+import { FaChevronDown, FaWallet,FaArrowRight,FaPlus, FaVideo,FaUser, FaUserPlus, FaPhone } from "react-icons/fa";
 import ConnectButtoncomponent from "./connect";
 
 const Navbar = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [hover, setHover] = useState(false);
+  const handleMouseEnter = () => {
+    setHovered(true);
+  };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+  const handleMouseLeave = () => {
+    setHovered(false);
+  };
+  const handle_mouse_enter = () => {
+    setHover(true);
+  };
+
+  const handle_mouse_leave = () => {
+    setHover(false);
   };
 
   return (
-    <div className="w-full z-[100]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="py-4 bg-transparent fixed top-0 w-full z-50">
+      <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center">
           <div>
             <Link href="/">
@@ -27,25 +38,126 @@ const Navbar = () => {
               />
             </Link>
           </div>
-          <ul className="hidden sm:flex space-x-4 items-center">
+          <ul className="flex space-x-4 items-center">
             <div className="flex space-x-4 items-center">
               <li className="relative">
                 <button
-                  onClick={toggleDropdown}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                   className="text-white hover:text-[#c92eff] flex items-center"
                 >
                   Launch Dapps
                   <FaChevronDown className="w-5 h-5 ml-1" />
                 </button>
-                {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-opacity-30 border border-gray-200 rounded-lg shadow-lg z-10">
-                    <Link href="/crimerecorder" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Crime Recording</Link>
-                    <Link href="/agreement" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Legal Agreement</Link>
-                  </div>
+                {hovered && (
+                  <div 
+                    className="absolute right-0 mt-2 w-48 bg-opacity-30  shadow-lg z-10"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                        <div className="w-[1000px] h-screen flex justify-center items-center text-white p-6">
+      <div className="w-[1000px] bg-black rounded-lg shadow-lg flex p-8 border-gradient space-x-6">
+        <div className="flex-1 flex flex-col justify-between">
+          <div>
+            <p className="text-3xl ">Launch Dapps</p>
+            <p className="mt-4 text-gray-300">
+              Decentralized apps help you leverage the blockchain technology to secure your evidence and legal agreements.
+            </p>
+          </div>
+          <Image
+            src="/group.png"
+            alt="Logo"
+            width={200}
+            height={50}
+            className="rounded-lg mt-20"
+          />
+        </div>
+        <div className="flex-1  border-gradient p-5 rounded-lg">
+          <div className="mb-20">
+            <p className="flex items-center text-xl font-semibold">
+              <FaPlus className="mr-2" />
+              <a href="#" className="text-white">Create Agreement</a>
+            </p>
+            <p className="text-gray-300 mt-1">Custos ensures that agreements are securely stored.</p>
+          </div>
+          <div>
+            <p className="flex items-center text-xl font-semibold">
+              <FaVideo className="mr-2" />
+              <a href="#" className="text-white ">Record Video</a>
+            </p>
+            <p className="text-gray-300 mt-1">Custos ensures that agreements are securely stored.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+                   </div>
                 )}
               </li>
-              <li>
-                <Link href="/about" className="text-white hover:text-[#c92eff]">About Us</Link>
+              <li className="relative">
+                <button
+                 onMouseEnter={handle_mouse_enter}
+                 onMouseLeave={handle_mouse_leave}
+                  className="text-white hover:text-[#c92eff] flex items-center"
+                >
+                  Company
+                </button>
+                {hover && (
+                  <div 
+                    className="absolute right-0 mt-2 w-48 bg-opacity-30  shadow-lg z-10"
+                    onMouseEnter={handle_mouse_enter}
+                    onMouseLeave={handle_mouse_leave}
+                  >
+                        <div className="w-[1000px] min-h-screen flex justify-center items-center text-white p-6">
+      <div className="w-[1000px] bg-black rounded-lg shadow-lg flex p-8 border-gradient space-x-6">
+        <div className="flex-1 flex flex-col justify-between">
+          <div>
+            <p className="text-3xl ">Invulnerable</p>
+            <p className="my-4 text-gray-300">
+            Custos Diretriz is mastering the art of preservation and shielding on the blockchain.
+            </p>
+            <a href="#" className="mt-4 text-gray-300 flex items-center">
+              
+              Learn More
+              <FaArrowRight className="ml-2" />
+            </a>
+          </div>
+          <Image
+            src="/secu.png"
+            alt="Logo"
+            width={200}
+            height={50}
+            className="rounded-lg mt-20"
+          />
+        </div>
+        <div className="flex-1 border-gradient p-5 rounded-lg">
+  <div className="mb-20">
+    <p className="flex items-center text-xl font-semibold">
+      <FaUser className="mr-2" />
+      <a href="#" className="text-white">About Us</a>
+    </p>
+    <p className="text-gray-300 mt-1">Meet the developer team and read our story</p>
+  </div>
+  <div className="mb-20">
+    <p className="flex items-center text-xl font-semibold">
+      <FaUserPlus className="mr-2" />
+      <a href="#" className="text-white">Career</a>
+    </p>
+    <p className="text-gray-300 mt-1">Find your dream role</p>
+  </div>
+  <div>
+    <p className="flex items-center text-xl font-semibold">
+      <FaPhone className="mr-2" />
+      <a href="#" className="text-white">Contact Us</a>
+    </p>
+    <p className="text-gray-300 mt-1">Reach out to us for questions and clarifications</p>
+  </div>
+</div>
+      </div>
+    </div>
+
+                   </div>
+                )}
               </li>
             </div>
           </ul>
@@ -53,31 +165,13 @@ const Navbar = () => {
             <button className="max-w-sm br overflow-hidden text-white p-5 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative">
               <span className="flex items-center">
                 Connect Wallet
-                <svg className="ml-2 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                </svg>
+                <FaWallet className="ml-2 w-6 h-6" />
               </span>
             </button>
           </div>
-          {/* Mobile Menu */}
-          <div className="sm:hidden">
-            <button
-              onClick={toggleDropdown}
-              className="text-white hover:text-[#c92eff] flex items-center"
-            >
-              <FaChevronDown className="w-5 h-5" />
-            </button>
-            {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-opacity-30 border border-gray-200 rounded-lg shadow-lg z-10">
-                <Link href="/crimerecorder" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Crime Recording</Link>
-                <Link href="/agreement" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Legal Agreement</Link>
-                <Link href="/about" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">About Us</Link>
-              </div>
-            )}
-          </div>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

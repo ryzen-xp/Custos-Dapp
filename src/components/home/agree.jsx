@@ -4,6 +4,7 @@ import agreements from '../../..'; // Adjust the path based on your file structu
 import Link from 'next/link';
 import Image from 'next/image';
 import AgreementCard from '../../app/agreement/components/agreementcard';
+import Recorder from './crime';
 const printAgreement = (agreement) => {
   const printContent = `
     <h1>${agreement.title}</h1>
@@ -25,7 +26,7 @@ const validateAgreement = (agreement) => {
 const Agree = () => {
   return (
     <main>
-      <div className="flex items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+      <div className="flex items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text  text-transparent">
         <div className="text-center p-8 bg-transparent rounded shadow-lg">
           <p className="text-[60px]  mb-4">Agreement documentation</p>
           <p className="text-[20px]  mb-4">
@@ -35,7 +36,7 @@ const Agree = () => {
         </div>
       </div>
 
-      <div className="border border-slate-700 p-8 rounded-lg w-full">
+      <div className="border border-slate-700  p-8 rounded-lg w-full">
         <div className="flex justify-between items-center mb-5">
           <Link href="/">
             <Image
@@ -107,15 +108,7 @@ const Agree = () => {
           </p>
         </div>
       </div>
-      <div className="container mx-auto py-3">
-        <div className="flex flex-wrap -mx-4">
-          {agreements.map((agreement, index) => (
-            <div key={index} className="w-full sm:w-1/2 md:w-1/3 px-4 mb-8">
-              <AgreementCard agreement={agreement} />
-            </div>
-          ))}
-        </div>
-      </div> 
+      <Recorder/>
       <div className="justify-center items-center flex mb-20">
         <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-20 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
           <span className="flex items-center">
