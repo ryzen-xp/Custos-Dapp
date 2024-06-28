@@ -98,7 +98,7 @@ function AgreementList() {
         secondPartyAddress: "0x987654321...",
       }
     ];
-    setAgreements(mockAgreements);
+    setAgreements(null);
     setLoading(false);
     setIsAdmin(true);
   }, [agreements]);
