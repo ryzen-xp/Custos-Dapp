@@ -93,7 +93,7 @@ const Agree = () => {
           </div>
           <div className="md:w-1/2 md:ml-4 text-[20px]  bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
             <p>
-              Custos lets you record your videos safely on the blockchain without paying a gas fee until you need your video back. Whether it's a business contract, a rental agreement, or a partnership arrangement, Custos ensures that agreements are securely stored, easily accessible, and tamper-proof, fostering trust and accountability among parties.
+              Custos lets you record your videos safely on the blockchain without paying a gas fee until you need your video back. Whether its a business contract, a rental agreement, or a partnership arrangement, Custos ensures that agreements are securely stored, easily accessible, and tamper-proof, fostering trust and accountability among parties.
             </p>
           </div>
         </div>

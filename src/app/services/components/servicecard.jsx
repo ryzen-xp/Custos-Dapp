@@ -1,11 +1,12 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 const ServiceCard = ({ title, imageUrl, description }) => {
   return (
       <div className="max-w-md mx-auto bg-[#130316] rounded-xl shadow-md overflow-hidden md:max-w-2xl m-4">
         <div className="md:flex">
           <div className="md:flex-shrink-0">
-            <img className="h-48 w-full object-cover md:w-48" src={imageUrl} alt={title} />
+            <Image className="h-48 w-full object-cover md:w-48" src={imageUrl} alt={title} />
           </div>
           <div className="p-8">
             <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{title}</div>
@@ -24,6 +25,7 @@ const ServiceCard = ({ title, imageUrl, description }) => {
     Launch Dapp
   </button>
 </Link>
+
 
             </div>
           </div>
