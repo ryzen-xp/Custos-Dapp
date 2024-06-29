@@ -1,10 +1,8 @@
-import { useActiveAccount, useReadContract, useSendAndConfirmTransaction } from "thirdweb/react";
+import { useActiveAccount, useReadContract, useSendTransaction } from "thirdweb/react";
 import { prepareContractCall, getContract } from "thirdweb";
-import { useSendTransaction } from "thirdweb/react";
 import { baseSepolia } from "thirdweb/chains";
 import crimeAbi from "./coverCrimeAbi.json";
 import agreementAbi from "./agreementAbi.json";
-import { client } from "@/utils/thirdwebclient";
 
 // Predefined contract configurations
 const contractConfigs = {
@@ -26,38 +24,35 @@ const getContractByType = (client, type) => {
   return getContract({
     client,
     chain: baseSepolia,
-    address: config.address,
+    contract: config,
   });
 };
 
 // Hook to read data from a contract
 export const useReadContractData = (client, contractType, method, args = []) => {
   const contract = getContractByType(client, contractType);
-  const { data, isLoading } = useReadContract({
+  const response = useReadContract({
+    contract,
+    method: method,
+    params: args,
+  })
+  return response;
+};
+
+// Hook to write data to a contract
+export const useWriteToContract = (client, contractType, method, args = []) => {
+  const contract = getContractByType(client, contractType);
+  const { config } = prepareContractCall({
     contract,
     method,
     args,
   });
-  return { data, isLoading };
+  const { mutate, isLoading, error, data } = useSendTransaction(config);
+  return { mutate, isLoading, error, data };
 };
 
-export const useWriteToContract = (client, contractType, method, args = []) => {
-  const contract = getContractByType(client, contractType);
-  const { mutate: sendTransaction, data: result } = useSendAndConfirmTransaction();
-  const { config } = prepareContractCall({
-    contract,
-    method: method,
-    params: args,
-    value,
-  });
-  sendTransaction(config)
-  return { result };
-};
 // Custom hook to get the active account
 export const useAccount = () => useActiveAccount();
-
-
-
   // Example usage in a component
 /*****
  * 
