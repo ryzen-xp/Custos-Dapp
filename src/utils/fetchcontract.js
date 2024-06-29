@@ -1,4 +1,6 @@
-import { useActiveAccount, useReadContract, useWriteContract, getContract } from "thirdweb/react";
+import { useActiveAccount, useReadContract } from "thirdweb/react";
+import { prepareContractCall, getContract } from "thirdweb";
+import { useSendTransaction } from "thirdweb/react";
 import { baseSepolia } from "thirdweb/chains";
 import crimeAbi from "./coverCrimeAbi.json";
 import agreementAbi from "./agreementAbi.json";
@@ -39,15 +41,15 @@ export const useReadContractData = (client, contractType, method, args = []) => 
 };
 
 // Hook to write data to a contract
-export const useWriteToContract = (client, contractType, method, args = []) => {
-  const contract = getContractByType(client, contractType);
-  const { mutate, isLoading, error, data } = useWriteContract({
-    contract,
-    method,
-    args,
-  });
-  return { mutate, isLoading, error, data };
-};
+// export const useWriteToContract = (client, contractType, method, args = []) => {
+//   const contract = getContractByType(client, contractType);
+//   const { mutate, isLoading, error, data } = useWriteContract({
+//     contract,
+//     method,
+//     args,
+//   });
+//   return { mutate, isLoading, error, data };
+// };
 
 // Custom hook to get the active account
 export const useAccount = () => useActiveAccount();

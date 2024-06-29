@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import AgreementCard from "./components/agreementcard";
 import NoAgreementscreen from "./components/noAgreementscreen";
 import { useReadContractData } from "@/utils/fetchcontract";
-// import { client } from "@/utils/thirdwebclient";
+import { client } from "@/utils/thirdwebclient";
 import SignAgreementModal from "./components/signagreementmodal";
 
 function AgreementList() {
@@ -19,8 +19,10 @@ function AgreementList() {
   };
 
   useEffect(() => {
+    const { data: agreementData, isLoading: agreementLoading } = useReadContractData(client, "agreement", "getAllAgreements","[]");
 
-    setAgreements(null);
+    setAgreements(agreementData);
+    console.log(agreementData);
     setLoading(false);
     setIsAdmin(true);
   }, [agreements]);
