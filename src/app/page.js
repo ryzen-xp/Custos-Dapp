@@ -13,6 +13,7 @@ export default function Home() {
       <main className="kanit">
         <Hero />
         <Agree />
+        <Footer/>
       </main>
     </div>
   );

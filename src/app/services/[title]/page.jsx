@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import Navbar from '@/components/navbar';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-
+import Image from 'next/image';
 const ServiceDetails = ({params}) => {
 
     const processes = [
@@ -62,7 +62,7 @@ const ServiceDetails = ({params}) => {
 
         <div className="border-[#c8a2c8] w-[80%] m-auto flex flex-col rounded-lg my-4 items-center justify-center border text-white p-6">
         <h1 className="text-2xl mb-6 animate-fadeIn">{process.title}</h1>
-        <img src={`/${process?.imageUrl}`} alt={process.title} className="w-full h-[39vh] rounded-lg mb-6 animate-fadeIn" />
+        <Image src={`/${process?.imageUrl}`} alt={process.title} className="w-full h-[39vh] rounded-lg mb-6 animate-fadeIn" />
         {process.content.map((content, index) => (
           <p key={index} className="text-lg mb-2 p-4 border rounded-lg border-[#c8a2c8] bg-[#110414] animate-fadeIn">
              {makeBoldBeforeColon(content)}
