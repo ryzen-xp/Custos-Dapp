@@ -20,6 +20,7 @@
     "react-modal": "^3.16.1",
     "react-query": "^3.39.3",
     "tailwindcss-border-gradient-radius": "^3.0.1",
+    "thirdweb": "^5.31.0",
     "urql": "^4.0.7"
   },
   "devDependencies": {

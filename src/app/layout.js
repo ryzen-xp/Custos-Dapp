@@ -1,8 +1,6 @@
 import { Kanit } from "next/font/google";
 import "./globals.css";
-// import { ThirdwebProvider } from "thirdweb/react";
-import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
+import { ThirdwebProvider } from "thirdweb/react";
 
 const kanit = Kanit({
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -22,18 +20,10 @@ export default function RootLayout({ children }) {
         <title>{metadata.title}</title>
         {metadata.link}
       </head>
-      {/* <ThirdwebProvider> */}
-        
 
-        <body className={`flex-col flex ${kanit.fontStyles}` }>
-          <h1></h1>
-        <Navbar />
-          
-          {children}
-          </body>
-
-        {/* <Footer /> */}
-      {/* </ThirdwebProvider> */}
+      <body className={`flex-col flex ${kanit.fontStyles}`}>
+        <ThirdwebProvider>{children}</ThirdwebProvider>
+      </body>
     </html>
   );
 }
