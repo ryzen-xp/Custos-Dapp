@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import Navbar from '@/components/navbar';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-
+import Image from 'next/image';
 const ServiceDetails = ({params}) => {
 
     const processes = [
