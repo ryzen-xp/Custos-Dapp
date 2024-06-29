@@ -3,10 +3,7 @@
 import { useEffect, useState } from "react";
 import AgreementCard from "./components/agreementcard";
 import NoAgreementscreen from "./components/noAgreementscreen";
-// import { baseSepolia } from "thirdweb/chains";
-// import { getContract } from "thirdweb";
-// import { useReadContract } from "thirdweb/react";
-import abi from "@/utils/agreementAbi.json";
+import {useReadContractData}
 // import { client } from "@/utils/thirdwebclient";
 import SignAgreementModal from "./components/signagreementmodal";
 
@@ -17,87 +14,12 @@ function AgreementList() {
   const [showagreementModal, setShowagreementModal] = useState(false);
 
 
-
-  // const contract = getContract({
-  //   client,
-  //   chain: baseSepolia,
-  //   address: "0x726c51fcAC027fF7C9eAaF830f88daF12199ddC5",
-  //   abi: abi,
-  // });
-
-  // for (let i = 0; i < Number(detail); i++) {
-  //   id.push(i);
-  // }
-
-  // const eachAgreement = id.map((id) => {
-  //   const { data, isLoading } = useReadContract({
-  //     contract,
-  //     method: "getAgreementDetails",
-  //     params: [id],
-  //   });
-  // });
-
-  // let id = [];
-  // let agree;
-  // console.log(id);
-
-  // for (let i = 1; i < id.length; i++) {
-  //   agree = id[i];
-  // }
-
-  // const { data: detail, isLoading: loadDetail } = useReadContract({
-  //   contract,
-  //   method: "agreementCount",
-  // });
-
-  // for (let i = 0; i <= Number(detail); i++) {
-  //   id.push(i);
-  // }
-
-  // const { data, isLoading } = useReadContract({
-  //   contract,
-  //   method: "getAgreementDetails",
-  //   params: [id],
-  // });
-
-  // console.log(id);
-  // console.log(agree);
-
-
   const toggleSignModal = () => {
     setshowSignModal(!showagreementModal);
   };
 
   useEffect(() => {
-    const mockAgreements = [
-      {
-        id: 1,
-        creator: "Alice",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        secondPartyAddress: "0x123456789...",
-      },
-      {
-        id: 2,
-        creator: "Bob",
-        content:
-          "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        secondPartyAddress: "0x987654321...",
-      },
-      {
-        id: 2,
-        creator: "Bob",
-        content:
-          "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        secondPartyAddress: "0x987654321...",
-      },
-      {
-        id: 2,
-        creator: "Bob",
-        content:
-          "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        secondPartyAddress: "0x987654321...",
-      }
-    ];
+
     setAgreements(null);
     setLoading(false);
     setIsAdmin(true);

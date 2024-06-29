@@ -1,41 +1,66 @@
+import { useActiveAccount, useReadContract, useWriteContract, getContract } from "thirdweb/react";
+import { baseSepolia } from "thirdweb/chains";
 import crimeAbi from "./coverCrimeAbi.json";
 import agreementAbi from "./agreementAbi.json";
-import { useActiveAccount } from "thirdweb/react";
-import { useReadContract } from "thirdweb/react";
-import { getContract } from "thirdweb";
-import { baseSepolia } from "thirdweb/chains";
 
-const record = {
-  address: "0x08224d5346fe0f05dad0b3eed040b5c0f0da6d6d",
-  abi: crimeAbi,
+// Predefined contract configurations
+const contractConfigs = {
+  crime: {
+    address: "0x08224d5346fe0f05dad0b3eed040b5c0f0da6d6d",
+    abi: crimeAbi,
+  },
+  agreement: {
+    address: "0x71B7d170E025CEDaeD65d5579330C865fe3633Ca",
+    abi: agreementAbi,
+  },
 };
 
-const legal = {
-  address: "0x71B7d170E025CEDaeD65d5579330C865fe3633Ca",
-  abi: agreementAbi,
+// Utility function to get a contract
+const getContractByType = (client, type) => {
+  const config = contractConfigs[type];
+  if (!config) throw new Error(`Unknown contract type: ${type}`);
+
+  return getContract({
+    client,
+    chain: baseSepolia,
+    contract: config,
+  });
 };
 
-// get wallet address
-export const account = useActiveAccount();
+// Hook to read data from a contract
+export const useReadContractData = (client, contractType, method, args = []) => {
+  const contract = getContractByType(client, contractType);
+  const { data, isLoading } = useReadContract({
+    contract,
+    method,
+    args,
+  });
+  return { data, isLoading };
+};
 
-export const crimeContract = getContract({
-  client,
-  chain: baseSepolia,
-  record,
-});
+// Hook to write data to a contract
+export const useWriteToContract = (client, contractType, method, args = []) => {
+  const contract = getContractByType(client, contractType);
+  const { mutate, isLoading, error, data } = useWriteContract({
+    contract,
+    method,
+    args,
+  });
+  return { mutate, isLoading, error, data };
+};
 
-export const agreementContract = getContract({
-  client,
-  chain: baseSepolia,
-  legal,
-});
+// Custom hook to get the active account
+export const useAccount = () => useActiveAccount();
 
-export const { data: crimeData, isLoading: crimeLoading } = useReadContract({
-  crimeContract,
-  method: "",
-});
 
-export const { data: agreeData, isLoading: agreeLoading } = useReadContract({
-  agreementContract,
-  method: "",
-});
+
+  // Example usage in a component
+/*****
+ * 
+ * 
+* const { data: crimeData, isLoading: crimeLoading } = useReadContractData(client, "crime", "methodName", ["arg1", "arg2"]);
+* const { data: agreementData, isLoading: agreementLoading } = useReadContractData(client, "agreement", "methodName", ["arg1", "arg2"]);
+ * 
+ */
+
+
