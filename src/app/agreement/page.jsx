@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import AgreementCard from "./components/agreementcard";
 import NoAgreementscreen from "./components/noAgreementscreen";
-import {useReadContractData}
+import { useReadContractData } from "@/utils/fetchcontract";
 // import { client } from "@/utils/thirdwebclient";
 import SignAgreementModal from "./components/signagreementmodal";
 
