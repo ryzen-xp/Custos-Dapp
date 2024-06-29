@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaChevronDown, FaWallet,FaArrowRight,FaPlus, FaVideo,FaUser, FaUserPlus, FaPhone } from "react-icons/fa";
@@ -8,6 +8,24 @@ import ConnectButtoncomponent from "./connect";
 const Navbar = () => {
   const [hovered, setHovered] = useState(false);
   const [hover, setHover] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const handleMouseEnter = () => {
     setHovered(true);
   };
@@ -24,7 +42,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="py-4 bg-transparent fixed top-0 w-full z-50">
+    <nav className={`py-4 fixed top-0 w-full z-50 transition-opacity duration-300 ${scrolled ? 'bg-opacity-70' : 'bg-opacity-0'} bg-blue-950`}>
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center">
           <div>
