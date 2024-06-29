@@ -1,4 +1,4 @@
-import { useActiveAccount, useReadContract } from "thirdweb/react";
+import { useActiveAccount, useReadContract, useSendAndConfirmTransaction } from "thirdweb/react";
 import { prepareContractCall, getContract } from "thirdweb";
 import { useSendTransaction } from "thirdweb/react";
 import { baseSepolia } from "thirdweb/chains";
@@ -43,14 +43,15 @@ export const useReadContractData = (client, contractType, method, args = []) => 
 
 export const useWriteToContract = (client, contractType, method, args = []) => {
   const contract = getContractByType(client, contractType);
+  const { mutate: sendTransaction, data: result } = useSendAndConfirmTransaction();
   const { config } = prepareContractCall({
     contract,
     method: method,
     params: args,
     value,
   });
-  const { mutate, isLoading, error, data } = useSendTransaction(config);
-  return { mutate, isLoading, error, data };
+  sendTransaction(config)
+  return { result };
 };
 // Custom hook to get the active account
 export const useAccount = () => useActiveAccount();
