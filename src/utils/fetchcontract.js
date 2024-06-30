@@ -28,7 +28,7 @@ const getContractByType = (client, type) => {
   if (!config) throw new Error(`Unknown contract type: ${type}`);
 
   return getContract({
-    client,
+    client: client,
     chain: baseSepolia,
     address: config.address,
     abi: config.abi,

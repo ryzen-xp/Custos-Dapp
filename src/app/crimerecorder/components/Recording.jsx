@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import bg from "../../../../public/Rectangle.png";
 import Icons from "./Icons";
 import { TransactionButton, darkTheme } from "thirdweb/react";
 import { getContract, prepareContractCall } from "thirdweb";
-import crimeAbi from "../../../utils/coverCrimeAbi.json";
-import client from "../../../utils/thirdwebclient";
+import crimeAbi from "@/utils/coverCrimeAbi.json";
 import { baseSepolia } from "thirdweb/chains";
+import { createThirdwebClient } from "thirdweb";
+import { useWriteToContract } from "@/utils/fetchcontract";
+
+const client_id = process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID;
+export const client = createThirdwebClient({
+  clientId: client_id,
+});
 
 export const Recording = ({ text, icon1, imgText }) => {
+  const [uri, setUri] = useState("");
+
+  const { sendTransaction, transaction } = useWriteToContract(
+    client,
+    "crime",
+    "function coverCrime(string uri)",
+    ["jfhfgfhfdjdkdkdkdd"]
+  );
+
   const contract = getContract({
     client,
     chain: baseSepolia,
@@ -27,19 +42,21 @@ export const Recording = ({ text, icon1, imgText }) => {
             backgroundSize: "contain",
           }}
         >
-          <TransactionButton
-            transaction={() => {
+          {/* <TransactionButton
+            transaction={async () => {
               // Create a transaction object and return it
+              console.log("somrthing");
               const tx = prepareContractCall({
-                contract,
+                contract: contract,
                 method: "function coverCrime(string uri)",
-                params: ["testingtheuri"],
+                params: [uri],
               });
+              console.log("another");
               return tx;
             }}
-            onTransactionSent={(result) => {
-              console.log("Transaction submitted", result.transactionHash);
-            }}
+            onTransactionSent={(result) =>
+              console.log("Transaction submitted", result.transactionHash)
+            }
             onTransactionConfirmed={(receipt) => {
               console.log("Transaction confirmed", receipt.transactionHash);
             }}
@@ -48,13 +65,13 @@ export const Recording = ({ text, icon1, imgText }) => {
             }}
             gasless={{
               provider: "biconomy",
-              relayerForwarderAddress: process.env.NEXT_PUBLIC_BICONOMY_ID,
               apiId: process.env.NEXT_PUBLIC_BICONOMY_ID,
               apiKey: process.env.NEXT_PUBLIC_BICONOMY_API,
+              relayerForwarderAddress: process.env.NEXT_PUBLIC_BICONOMY_ID,
             }}
-          >
-            <Icons icon={icon1} text={imgText} />
-          </TransactionButton>
+          > */}
+          <Icons icon={icon1} text={imgText} />
+          {/* </TransactionButton> */}
         </div>
       </div>
     </div>
