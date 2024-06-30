@@ -16,7 +16,7 @@ const ConnectButtoncomponent = () => {
     <div className="hover:cursor-pointer p-[1px] rounded-xl bg-gradient-to-r from-[#0094ff] to-[#A02294]">
       <ConnectButton
         client={client}
-        accountAbstraction={{ sponsorGas: true, chain: baseSepolia }}
+        // accountAbstraction={{ sponsorGas: true, chain: baseSepolia }}
         wallets={wallets}
         theme={darkTheme({
           colors: {

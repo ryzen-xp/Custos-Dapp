@@ -1,4 +1,4 @@
-const agreements = [
+export const mockagreementdata = [
     {
       title: 'Non Disclosure Agreement',
       secondPartyAddress: '0xder253777atwg7xfetlfhbc57uh',
@@ -35,5 +35,5 @@ const agreements = [
     
   ];
   
-  export default agreements;
+  
   
