@@ -4,6 +4,7 @@ import logo from "../../../../public/CustosLogo.png";
 import icon from "../../../../public/cameraicon.png";
 import bg from "../../../../public/Rectangle.png";
 import Link from "next/link";
+import ConnectButtoncomponent from "@/components/connect";
 
 export const Header = () => {
   return (
@@ -32,18 +33,7 @@ export const Header = () => {
             </span>
           </button>
 
-          <button className="bg-[#0094FF]/75 rounded-full p-[0.2rem] flex">
-            <span
-              className="text-white text-sm py-4 px-10 rounded-full w-full h-full shadow-[#A02294_0.5px_-0.05px_0.01px_0.6px]"
-              style={{
-                backgroundColor: "#1e2f37",
-                backgroundImage: `url(${bg.src})`,
-                backgroundSize: "contain",
-              }}
-            >
-              0xc34rtdh84mgjhist
-            </span>
-          </button>
+          <ConnectButtoncomponent />
         </div>
       </div>
       <div className="text-white text-2xl">Crime Recorder</div>

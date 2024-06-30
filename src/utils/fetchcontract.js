@@ -1,8 +1,14 @@
-import { useActiveAccount, useReadContract, useSendTransaction } from "thirdweb/react";
+"use client";
+import {
+  useActiveAccount,
+  useReadContract,
+  useSendTransaction,
+} from "thirdweb/react";
 import { prepareContractCall, getContract } from "thirdweb";
 import { baseSepolia } from "thirdweb/chains";
 import crimeAbi from "./coverCrimeAbi.json";
 import agreementAbi from "./agreementAbi.json";
+import client from "./thirdwebclient";
 
 // Predefined contract configurations
 const contractConfigs = {
@@ -24,42 +30,63 @@ const getContractByType = (client, type) => {
   return getContract({
     client,
     chain: baseSepolia,
-    contract: config,
+    address: config.address,
+    abi: config.abi,
   });
 };
 
 // Hook to read data from a contract
-export const useReadContractData = (client, contractType, method, args = []) => {
+export const useReadContractData = (
+  client,
+  contractType,
+  method,
+  args = []
+) => {
   const contract = getContractByType(client, contractType);
   const response = useReadContract({
     contract,
     method: method,
     params: args,
-  })
+  });
   return response;
 };
 
 // Hook to write data to a contract
 export const useWriteToContract = (client, contractType, method, args = []) => {
   const contract = getContractByType(client, contractType);
-  const { config } = prepareContractCall({
+  const {
+    mutate: sendTransaction,
+    isPending,
+    isLoading,
+    error,
+    data,
+    isSuccess,
+  } = useSendTransaction();
+  const transaction = prepareContractCall({
     contract,
     method,
-    args,
+    params: args,
   });
-  const { mutate, isLoading, error, data } = useSendTransaction(config);
-  return { mutate, isLoading, error, data };
+  return {
+    sendTransaction,
+    transaction,
+    isPending,
+    isLoading,
+    error,
+    data,
+    isSuccess,
+    contractType,
+    method,
+  };
 };
 
 // Custom hook to get the active account
 export const useAccount = () => useActiveAccount();
-  // Example usage in a component
+// Example usage in a component
 /*****
- * 
- * 
-* const { data: crimeData, isLoading: crimeLoading } = useReadContractData(client, "crime", "methodName", ["arg1", "arg2"]);
-* const { data: agreementData, isLoading: agreementLoading } = useReadContractData(client, "agreement", "methodName", ["arg1", "arg2"]);
- * 
+ *
+ *
+ * const { data: crimeData, isLoading: crimeLoading } = useReadContractData(client, "crime", "methodName", ["arg1", "arg2"]);
+ * const { data: agreementData, isLoading: agreementLoading } = useReadContractData(client, "agreement", "methodName", ["arg1", "arg2"]);
+ *
  */
-
-
