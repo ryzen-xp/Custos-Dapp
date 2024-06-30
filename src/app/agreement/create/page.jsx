@@ -1,11 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
-'use client';
+"use client";
+import { useWriteToContract } from "@/utils/fetchcontract";
 import { useState } from "react";
-// import { getContract, prepareContractCall } from "thirdweb";
-// import { baseSepolia } from "thirdweb/chains";
-import abi from "@/utils/agreementAbi.json";
-// import { client } from "@/utils/thirdwebclient";
-// import { useSendTransaction } from "thirdweb/react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Header } from "../components/AgreementNav";
 
@@ -19,12 +15,33 @@ const AgreementModal = () => {
   const [firstPartyName, setFirstPartyName] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [secondPartyAddress, setSecondPartyAddress] = useState("");
-  console.log(modalStep)
+  console.log(modalStep);
+
+  const {
+    sendTransaction,
+    transaction,
+    isPending,
+    isLoading,
+    error,
+    data,
+    isSuccess,
+  } = useWriteToContract(
+    client,
+    "agreement",
+    `function createAgreement(
+        string memory _content,
+        address _secondPartyAddress,
+        string memory _firstPartyName,
+        string memory _firstPartyValidId
+    ) external returns (uint256)`,
+    [content, secondPartyAddress]
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle form submission here
-    console.log('Form submitted:', {
+    sendTransaction(transaction);
+    console.log("Form submitted:", {
       agreementType,
       content,
       country,
@@ -39,7 +56,10 @@ const AgreementModal = () => {
       case 1:
         return (
           <div className="text-white flex flex-col items-center justify-center space-y-6 mb-8">
-            <label htmlFor="agreementType" className="font-[500] text-[1.2em] text-white">
+            <label
+              htmlFor="agreementType"
+              className="font-[500] text-[1.2em] text-white"
+            >
               Select the type of agreement you want to create
             </label>
             <select
@@ -49,17 +69,28 @@ const AgreementModal = () => {
               onChange={(e) => setAgreementType(e.target.value)}
               className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
             >
-              <option className="bg-options-custom text-white" value="">Select an option</option>
-              <option className="bg-options-custom text-white" value="opt1">Option 1</option>
-              <option className="bg-options-custom text-white" value="opt2">Option 2</option>
-              <option className="bg-options-custom text-white" value="opt3">Option 3</option>
+              <option className="bg-options-custom text-white" value="">
+                Select an option
+              </option>
+              <option className="bg-options-custom text-white" value="opt1">
+                Option 1
+              </option>
+              <option className="bg-options-custom text-white" value="opt2">
+                Option 2
+              </option>
+              <option className="bg-options-custom text-white" value="opt3">
+                Option 3
+              </option>
             </select>
           </div>
         );
       case 2:
         return (
           <div className="text-white flex flex-col items-center justify-center space-y-6 mb-8">
-            <label htmlFor="content" className="font-[500] text-[1.2em] text-white">
+            <label
+              htmlFor="content"
+              className="font-[500] text-[1.2em] text-white"
+            >
               Draft/paste the content of your agreement here
             </label>
             <textarea
@@ -77,7 +108,10 @@ const AgreementModal = () => {
         return (
           <>
             <div className="text-white flex flex-col">
-              <label htmlFor="country" className="font-[500] text-[1.2em] text-white">
+              <label
+                htmlFor="country"
+                className="font-[500] text-[1.2em] text-white"
+              >
                 Country
               </label>
               <input
@@ -90,7 +124,10 @@ const AgreementModal = () => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="idType" className="font-[500] text-[1.2em] text-white">
+              <label
+                htmlFor="idType"
+                className="font-[500] text-[1.2em] text-white"
+              >
                 ID Type
               </label>
               <input
@@ -103,7 +140,10 @@ const AgreementModal = () => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="idNumber" className="font-[500] text-[1.2em] text-white">
+              <label
+                htmlFor="idNumber"
+                className="font-[500] text-[1.2em] text-white"
+              >
                 ID Number
               </label>
               <input
@@ -133,7 +173,10 @@ const AgreementModal = () => {
       case 4:
         return (
           <div className="mb-4">
-            <label htmlFor="secondPartyAddress" className="font-[500] text-[1.2em] text-white">
+            <label
+              htmlFor="secondPartyAddress"
+              className="font-[500] text-[1.2em] text-white"
+            >
               Second Party's Wallet Address
             </label>
             <input
@@ -155,23 +198,23 @@ const AgreementModal = () => {
     <div className="w-full px-4 flex flex-col gap-8">
       <Header />
     <div className="rounded-2xl relative border-gradient w-fit m-auto p-6">
-
-      <form className="max-w-md mx-auto relative w-full space-y-5" onSubmit={handleSubmit}>
+      <form
+        className="max-w-md mx-auto relative w-full space-y-5"
+        onSubmit={handleSubmit}
+      >
         {modalStep > 1 && (
-            <button
+          <button
             type="button"
             onClick={() => setModalStep(modalStep - 1)}
             className="w-fit rounded-[2em] hover:text-[#A02294] items-center text-white font-bold justify-center flex"
             disabled={modalStep === 1}
           >
-            <FaArrowLeft className="mr-2" /> <p className="">
-              Previous
-              </p>
+            <FaArrowLeft className="mr-2" /> <p className="">Previous</p>
           </button>
         )}
         {renderStep()}
         <div className="flex justify-between">
-          {modalStep !==4 && (
+          {modalStep !== 4 && (
             <button
               type="button"
               onClick={() => setModalStep(modalStep + 1)}
@@ -181,22 +224,21 @@ const AgreementModal = () => {
             </button>
           )}
 
-{modalStep ==4 && (
+          {modalStep == 4 && (
             <button
               type="submit"
               className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] w-fit rounded-[2em] hover:bg-[#090909] text-white font-bold py-2 px-4 border-gradient"
             >
               Create
             </button>
-)}
-    <button
-      type="button"
-      onClick={() => window.history.back()}
-      className="bg- w-fit rounded-[2em] hover:bg-[#090909] text-white font-bold py-2 px-4 border-gradient"
-    >
-      Cancel
-    </button>
-
+          )}
+          <button
+            type="button"
+            onClick={() => window.history.back()}
+            className="bg- w-fit rounded-[2em] hover:bg-[#090909] text-white font-bold py-2 px-4 border-gradient"
+          >
+            Cancel
+          </button>
         </div>
       </form>
     </div>
