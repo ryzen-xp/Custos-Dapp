@@ -1,47 +1,39 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
+import { useWriteToContract } from "@/utils/fetchcontract";
 import { useState } from "react";
-// import {
-//   getContract,
-//   sendTransaction,
-//   waitForReceipt,
-//   prepareContractCall,
-// } from "thirdweb";
-// import { baseSepolia } from "thirdweb/chains";
-import abi from "../../../utils/agreementAbi.json";
-// import { client } from "@/utils/thirdwebclient";
-// import { createWallet } from "thirdweb/wallets";
-// import { useSendTransaction } from "thirdweb/react";
 
 const SignAgreementModal = ({ agreementid }) => {
-  // const contract = getContract({
-  //   client,
-  //   chain: baseSepolia,
-  //   address: "0x726c51fcAC027fF7C9eAaF830f88daF12199ddC5",
-  //   abi: abi,
-  // });
-
   const [secondPartyValidId, setSecondPartyValidId] = useState("");
 
-  // Function to handle form submission
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const {
+    sendTransaction,
+    transaction,
+    isPending,
+    isLoading,
+    error,
+    data,
+    isSuccess,
+  } = useWriteToContract(
+    client,
+    "agreement",
+    `function signAgreement(
+        uint256 _agreementId,
+        string memory _fullname,
+        string memory _validId
+    ) external`,
+    [agreementid, secondPartyValidId]
+  );
 
-  //   const { mutate: sendTransaction, isPending } = useSendTransaction();
-  //   // Logic to submit agreement details
-  //   const signAgreement = prepareContractCall({
-  //     contract,
-  //     method: "signAgreement",
-  //     params: [agreementid, secondPartyValidId],
-  //   });
-  //   sendTransaction({
-  //     signAgreement,
-  //   });
-  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendTransaction(transaction);
+    isSuccess && console.log("Successfully signed");
+  };
 
   return (
     <div className="bg-[#130316] w-full h-full py-4">
-      <form className="max-w-md mx-auto">
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <div className="mb-4">
           <label
             htmlFor="firstPartyValidId"

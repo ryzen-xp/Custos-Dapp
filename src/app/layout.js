@@ -22,7 +22,18 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className={`flex-col flex ${kanit.fontStyles}`}>
-        <ThirdwebProvider>{children}</ThirdwebProvider>
+        <ThirdwebProvider
+          sdkOptions={{
+            gasless: {
+              openzeppelin: {
+                relayerUrl: process.env.NEXT_PUBLIC_OPENZEPPELIN_URL,
+                useEOAForwarder: true,
+              },
+            },
+          }}
+        >
+          {children}
+        </ThirdwebProvider>
       </body>
     </html>
   );
