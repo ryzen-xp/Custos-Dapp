@@ -7,7 +7,7 @@ const Button = ({ text, icon, onClick, link }) => {
     <a
       href={link}
       onClick={onClick}
-      className="br text-white px-4 py-3 flex transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg items-center justify-between text-center space-x-2 "
+      className="rounded-[2em] text-white md:px-4 md:py-3 px-1 py-1 flex transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg items-center justify-between text-center space-x-2 "
     >
         <p className=" items-center justify-center text-center flex">
 

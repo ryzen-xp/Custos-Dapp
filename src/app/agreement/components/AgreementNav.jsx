@@ -10,8 +10,8 @@ import Button from "@/components/Button";
 export const Header = () => {
   return (
     <div className="flex flex-col gap-10 w-full justify-between">
-      <div className="flex justify-between items-center w-[100%]">
-        <a href="/" className="">
+      <div className="flex justify-between items-center w-full">
+        <a href="/" className="w-full">
 
 
         <div className="w-[100%]">
@@ -19,7 +19,7 @@ export const Header = () => {
         </div>
         </a>
         <div className="flex justify-end  gap-20 items-center w-full">
-        <Button text="Create Agreement" icon={<Image src="/Plus.svg" alt="plus" width={18} height={18}  />} link={"/agreement/create"} />
+        <Button text="Create Agreement" icon={<Image src="/Plus.svg" alt="plus" width={18} height={18}  />} link={"/agreement/create"} className="hidden sm:block" />
 
           <ConnectButtoncomponent />
         </div>

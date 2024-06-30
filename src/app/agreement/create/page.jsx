@@ -7,6 +7,7 @@ import abi from "@/utils/agreementAbi.json";
 // import { client } from "@/utils/thirdwebclient";
 // import { useSendTransaction } from "thirdweb/react";
 import { FaArrowLeft } from "react-icons/fa";
+import { Header } from "../components/AgreementNav";
 
 const AgreementModal = () => {
   const [modalStep, setModalStep] = useState(1);
@@ -15,6 +16,7 @@ const AgreementModal = () => {
   const [content, setContent] = useState("");
   const [country, setCountry] = useState("");
   const [idType, setIdType] = useState("");
+  const [firstPartyName, setFirstPartyName] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [secondPartyAddress, setSecondPartyAddress] = useState("");
   console.log(modalStep)
@@ -113,6 +115,19 @@ const AgreementModal = () => {
                 className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
               />
             </div>
+            <div className="mb-4">
+              <label htmlFor="fullname" className="font-[500] text-[1.2em] text-white">
+                First Party FulNname
+              </label>
+              <input
+                type="text"
+                id="idNumber"
+                name="idNumber"
+                value={idNumber}
+                onChange={(e) => setFirstPartyName(e.target.value)}
+                className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
+              />
+            </div>
           </>
         );
       case 4:
@@ -137,7 +152,10 @@ const AgreementModal = () => {
   };
 
   return (
+    <div className="w-full px-4 flex flex-col gap-8">
+      <Header />
     <div className="rounded-2xl relative border-gradient w-fit m-auto p-6">
+
       <form className="max-w-md mx-auto relative w-full space-y-5" onSubmit={handleSubmit}>
         {modalStep > 1 && (
             <button
@@ -181,6 +199,7 @@ const AgreementModal = () => {
 
         </div>
       </form>
+    </div>
     </div>
   );
 };
