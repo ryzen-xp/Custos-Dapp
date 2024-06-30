@@ -48,7 +48,7 @@ export const useReadContractData = (
   const response = readContract({
     contract,
     method: method,
-    params: args,
+    // params: args,
   });
   return response;
 };

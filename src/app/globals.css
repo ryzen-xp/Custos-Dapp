@@ -156,7 +156,31 @@
   right: 0;
   bottom: 0;
   border-radius: inherit; /* Match the border radius of the card */
-  padding: 2px; /* Adjust the width of the border */
+  padding: 1px; /* Adjust the width of the border */
+  background: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out; /* For Safari */
+  mask-composite: exclude; /* For other browsers */
+}
+.border-gradient2 {
+  position: relative;
+}
+
+
+.border-gradient2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit; /* Match the border radius of the card */
+  padding: 1px; /* Adjust the width of the border */
   background: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
@@ -173,17 +197,16 @@ button .text-transparent {
   background-clip: text;
 }
 
-.bg-options-custom {
-  margin: 40px;
-  background: #1e2f37;
-  background-image: url("../../public/Rectangle.png");
-  background-position: center;
-  background-size: contain;
-  border-radius: 12px;
-  background-blend-mode: multiply;
-}
 
-.input-border-gradient {
-  border-width: 2px;
-  border-image-source: linear-gradient(90deg, #0094FF, #19B1D2);
+.border-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid;
+  border-image-source: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
+}
+.content-div{
+  background: linear-gradient(90deg, rgba(25, 177, 210, 0.03) 0%, rgba(0, 148, 255, 0.03) 100%);
+
+  border-radius: 4px;
 }

@@ -3,48 +3,55 @@ import { useEffect, useState } from "react";
 import AgreementCard from "./components/agreementcard";
 import NoAgreementscreen from "./components/noAgreementscreen";
 import { useReadContractData } from "@/utils/fetchcontract";
+import { mockagreementdata } from "@/utils/mockdata";
+import { Header } from "./components/AgreementNav";
 import { client } from "@/utils/thirdwebclient";
 import { getAllAgreements } from "@/thirdweb/84532/0x71b7d170e025cedaed65d5579330c865fe3633ca";
 import SignAgreementModal from "./components/signagreementmodal";
 
 function AgreementList() {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setloading] = useState(false);
   const [showAgreementModal, setShowAgreementModal] = useState(false);
+  const [agreements, setAgreements]=useState([]);
 
-  const response= useReadContractData(
-    client,
-    "agreement",
-    getAllAgreements,
-    []
-  );
-
-
-  console.log("data is::", response)
+  // const response= useReadContractData(
+  //   client,
+  //   "agreement",
+  //   getAllAgreements,
+  //   []
+  // );
 
   useEffect(() => {
-    setIsAdmin(true); // Set admin status
-  }, []);
+    setloading(true)
+    setAgreements(mockagreementdata)
+    setloading(false)
+  
+  }, [])
+  
+
+  // console.log("data is::", response)
 
   const toggleSignModal = () => {
     setShowAgreementModal(!showAgreementModal);
   };
 
   return (
-    <div className="w-full px-4">
+    <div className="w-full px-4 flex flex-col gap-8">
+      <Header />
       <div className="w-full">
-        {response.isLoading ? (
+        {loading ? (
           // Show loading indicator if agreements are loading
           <div className="text-center py-8">
             <div className="loader ease-linear rounded-full border-8 border-t-8 bg-[#130316] border-gray-200 h-16 w-16 mx-auto"></div>
             <p className="mt-2 text-white">Loading agreements...</p>
           </div>
-        ) : response.data === null|undefined || response.data?.length === 0 ? (
+        ) : agreements === null|undefined || agreements.length === 0 ? (
           <div className="w-full m-auto p-4 text-[#EAFBFF]">
             <NoAgreementscreen />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto w-[90%] mb-8">
-            {response.data?.map((agreement) => (
+            {agreements?.map((agreement) => (
               <div key={agreement.id} className="">
                 <AgreementCard agreement={agreement} />
               </div>

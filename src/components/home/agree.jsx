@@ -1,10 +1,8 @@
 'use client'
 import React from 'react';
-import agreements from '../../..'; // Adjust the path based on your file structure
+
 import Link from 'next/link';
 import Image from 'next/image';
-import AgreementCard from '../../app/agreement/components/agreementcard';
-import Recorder from './crime';
 const printAgreement = (agreement) => {
   const printContent = `
     <h1>${agreement.title}</h1>
@@ -16,11 +14,6 @@ const printAgreement = (agreement) => {
   printWindow.document.write(printContent);
   printWindow.document.close();
   printWindow.print();
-};
-
-const validateAgreement = (agreement) => {
-  // Add validation logic here
-  alert(`Validating agreement titled: ${agreement.title}`);
 };
 
 const Agree = () => {
