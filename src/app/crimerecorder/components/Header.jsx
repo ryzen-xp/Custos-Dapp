@@ -10,9 +10,9 @@ export const Header = () => {
   return (
     <div className="flex flex-col gap-10">
       <div className="flex justify-between items-center w-[100%]">
-        <div className="w-[100%]">
+        <Link href={`/`} className="w-[100%]">
           <Image src={logo} alt="logo" width={232.7} height={22} />
-        </div>
+        </Link>
         <div className="flex justify-evenly items-center w-[100%]">
           <button className="bg-[#0094FF] rounded-full p-[0.2rem]">
             <span

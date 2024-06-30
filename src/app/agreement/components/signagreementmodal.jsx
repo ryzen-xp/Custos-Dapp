@@ -15,7 +15,6 @@ const SignAgreementModal = ({ agreementid }) => {
     data,
     isSuccess,
   } = useWriteToContract(
-    client,
     "agreement",
     `function signAgreement(
         uint256 _agreementId,

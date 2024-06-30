@@ -10,7 +10,12 @@ import { getRpcClient } from "thirdweb/rpc";
 import { readContract } from "thirdweb";
 import crimeAbi from "./coverCrimeAbi.json";
 import agreementAbi from "./agreementAbi.json";
-import client from "./thirdwebclient";
+import { createThirdwebClient } from "thirdweb";
+
+const client_id = process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID;
+export const client = createThirdwebClient({
+  clientId: client_id,
+});
 
 // Predefined contract configurations
 const contractConfigs = {
@@ -25,7 +30,7 @@ const contractConfigs = {
 };
 
 // Utility function to get a contract
-const getContractByType = (client, type) => {
+const getContractByType = (type) => {
   const config = contractConfigs[type];
   if (!config) throw new Error(`Unknown contract type: ${type}`);
 
@@ -38,24 +43,19 @@ const getContractByType = (client, type) => {
 };
 
 // Hook to read data from a contract
-export const useReadContractData = (
-  client,
-  contractType,
-  method,
-  args = []
-) => {
-  const contract = getContractByType(client, contractType);
+export const useReadContractData = (contractType, method, args = []) => {
+  const contract = getContractByType(contractType);
   const response = readContract({
     contract,
     method: method,
-    params: assrgs,
+    params: args,
   });
   return response;
 };
 
 // Hook to write data to a contract
-export const useWriteToContract = (client, contractType, method, args = []) => {
-  const contract = getContractByType(client, contractType);
+export const useWriteToContract = (contractType, method, args = []) => {
+  const contract = getContractByType(contractType);
   const {
     mutate: sendTransaction,
     isPending,

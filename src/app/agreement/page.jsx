@@ -12,24 +12,28 @@ import SignAgreementModal from "./components/signagreementmodal";
 function AgreementList() {
   const [loading, setloading] = useState(false);
   const [showAgreementModal, setShowAgreementModal] = useState(false);
-  const [agreements, setAgreements]=useState([]);
+  const [agreements, setAgreements] = useState([]);
 
-  // const response= useReadContractData(
-  //   client,
-  //   "agreement",
-  //   getAllAgreements,
-  //   []
-  // );
+  const res = useReadContractData("agreement", "getAllAgreements", []);
+
+  const totalAgreements = [];
+
+  const getTotalAgreements = () => {
+    for (let index = 0; index <= res; index++) {
+      const response = useReadContractData("agreement", "getAgreementDetails", [
+        index,
+      ]);
+      console.log("data is::", response);
+      return totalAgreements.push(response);
+    }
+  };
+  getTotalAgreements();
 
   useEffect(() => {
-    setloading(true)
-    setAgreements(mockagreementdata)
-    setloading(false)
-  
-  }, [])
-  
-
-  // console.log("data is::", response)
+    setloading(true);
+    setAgreements(totalAgreements);
+    setloading(false);
+  }, []);
 
   const toggleSignModal = () => {
     setShowAgreementModal(!showAgreementModal);
@@ -45,7 +49,7 @@ function AgreementList() {
             <div className="loader ease-linear rounded-full border-8 border-t-8 bg-[#130316] border-gray-200 h-16 w-16 mx-auto"></div>
             <p className="mt-2 text-white">Loading agreements...</p>
           </div>
-        ) : agreements === null|undefined || agreements.length === 0 ? (
+        ) : (agreements === null) | undefined || agreements.length === 0 ? (
           <div className="w-full m-auto p-4 text-[#EAFBFF]">
             <NoAgreementscreen />
           </div>

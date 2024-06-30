@@ -4,6 +4,7 @@ import { useWriteToContract } from "@/utils/fetchcontract";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Header } from "../components/AgreementNav";
+import { redirect } from "next/navigation";
 
 const AgreementModal = () => {
   const [modalStep, setModalStep] = useState(1);
@@ -25,17 +26,12 @@ const AgreementModal = () => {
     error,
     data,
     isSuccess,
-  } = useWriteToContract(
-    client,
-    "agreement",
-    `function createAgreement(
-        string memory _content,
-        address _secondPartyAddress,
-        string memory _firstPartyName,
-        string memory _firstPartyValidId
-    ) external returns (uint256)`,
-    [content, secondPartyAddress]
-  );
+  } = useWriteToContract("agreement", "createAgreement", [
+    content,
+    secondPartyAddress,
+    firstPartyName,
+    idNumber,
+  ]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -156,7 +152,10 @@ const AgreementModal = () => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="fullname" className="font-[500] text-[1.2em] text-white">
+              <label
+                htmlFor="fullname"
+                className="font-[500] text-[1.2em] text-white"
+              >
                 First Party FulNname
               </label>
               <input
@@ -197,51 +196,52 @@ const AgreementModal = () => {
   return (
     <div className="w-full px-4 flex flex-col gap-8">
       <Header />
-    <div className="rounded-2xl relative border-gradient w-fit m-auto p-6">
-      <form
-        className="max-w-md mx-auto relative w-full space-y-5"
-        onSubmit={handleSubmit}
-      >
-        {modalStep > 1 && (
-          <button
-            type="button"
-            onClick={() => setModalStep(modalStep - 1)}
-            className="w-fit rounded-[2em] hover:text-[#A02294] items-center text-white font-bold justify-center flex"
-            disabled={modalStep === 1}
-          >
-            <FaArrowLeft className="mr-2" /> <p className="">Previous</p>
-          </button>
-        )}
-        {renderStep()}
-        <div className="flex justify-between">
-          {modalStep !== 4 && (
+      <div className="rounded-2xl relative border-gradient w-fit m-auto p-6">
+        <form
+          className="max-w-md mx-auto relative w-full space-y-5"
+          onSubmit={handleSubmit}
+        >
+          {modalStep > 1 && (
             <button
               type="button"
-              onClick={() => setModalStep(modalStep + 1)}
-              className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] w-fit rounded-[2em] hover:bg-[#090909] text-white font-bold py-2 px-4 border-gradient"
+              onClick={() => setModalStep(modalStep - 1)}
+              className="w-fit rounded-[2em] hover:text-[#A02294] items-center text-white font-bold justify-center flex"
+              disabled={modalStep === 1}
             >
-              Continue
+              <FaArrowLeft className="mr-2" /> <p className="">Previous</p>
             </button>
           )}
+          {renderStep()}
+          <div className="flex justify-between">
+            {modalStep !== 4 && (
+              <button
+                type="button"
+                onClick={() => setModalStep(modalStep + 1)}
+                className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] w-fit rounded-[2em] hover:bg-[#090909] text-white font-bold py-2 px-4 border-gradient"
+              >
+                Continue
+              </button>
+            )}
 
-          {modalStep == 4 && (
+            {modalStep == 4 && (
+              <button
+                type="submit"
+                className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] w-fit rounded-[2em] hover:bg-[#090909] text-white font-bold py-2 px-4 border-gradient"
+              >
+                {isPending ? "Creating" : "Create"}
+                {isSuccess && redirect(`/agreement`)}
+              </button>
+            )}
             <button
-              type="submit"
-              className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] w-fit rounded-[2em] hover:bg-[#090909] text-white font-bold py-2 px-4 border-gradient"
+              type="button"
+              onClick={() => window.history.back()}
+              className="bg- w-fit rounded-[2em] hover:bg-[#090909] text-white font-bold py-2 px-4 border-gradient"
             >
-              Create
+              Cancel
             </button>
-          )}
-          <button
-            type="button"
-            onClick={() => window.history.back()}
-            className="bg- w-fit rounded-[2em] hover:bg-[#090909] text-white font-bold py-2 px-4 border-gradient"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
