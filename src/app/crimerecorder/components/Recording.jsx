@@ -6,7 +6,6 @@ import { getContract, prepareContractCall } from "thirdweb";
 import crimeAbi from "@/utils/coverCrimeAbi.json";
 import { baseSepolia } from "thirdweb/chains";
 import { createThirdwebClient } from "thirdweb";
-import { useWriteToContract } from "@/utils/fetchcontract";
 
 const client_id = process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID;
 export const client = createThirdwebClient({
@@ -15,13 +14,6 @@ export const client = createThirdwebClient({
 
 export const Recording = ({ text, icon1, imgText }) => {
   const [uri, setUri] = useState("");
-
-  const { sendTransaction, transaction } = useWriteToContract(
-    client,
-    "crime",
-    "function coverCrime(string uri)",
-    ["jfhfgfhfdjdkdkdkdd"]
-  );
 
   const contract = getContract({
     client,
@@ -42,14 +34,14 @@ export const Recording = ({ text, icon1, imgText }) => {
             backgroundSize: "contain",
           }}
         >
-          {/* <TransactionButton
+          <TransactionButton
             transaction={async () => {
               // Create a transaction object and return it
               console.log("somrthing");
               const tx = prepareContractCall({
                 contract: contract,
                 method: "function coverCrime(string uri)",
-                params: [uri],
+                params: ["hfhfhffjj"],
               });
               console.log("another");
               return tx;
@@ -69,9 +61,9 @@ export const Recording = ({ text, icon1, imgText }) => {
               apiKey: process.env.NEXT_PUBLIC_BICONOMY_API,
               relayerForwarderAddress: process.env.NEXT_PUBLIC_BICONOMY_ID,
             }}
-          > */}
-          <Icons icon={icon1} text={imgText} />
-          {/* </TransactionButton> */}
+          >
+            <Icons icon={icon1} text={imgText} />
+          </TransactionButton>
         </div>
       </div>
     </div>
