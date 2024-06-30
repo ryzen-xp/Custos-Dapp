@@ -1,7 +1,13 @@
 import React from "react";
 import bg from "../../../../public/Rectangle.png";
+import { useReadContractData, useWriteToContract } from "@/utils/fetchcontract";
+import { useActiveAccount } from "thirdweb/react";
 
 export const Upload = () => {
+  const account = useActiveAccount();
+  // const res = useReadContractData("crime", "balanceOf", account.address);
+  // console.log(res);
+
   return (
     <div className="w-[437px] h-[326px] bg-gradient-to-r from-[#0094ff] to-[#A02294] p-[1px] rounded-lg">
       <div

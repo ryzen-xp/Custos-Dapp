@@ -3,24 +3,18 @@ import bg from "../../../../public/Rectangle.png";
 import Icons from "./Icons";
 import { TransactionButton, darkTheme } from "thirdweb/react";
 import { getContract, prepareContractCall } from "thirdweb";
-import crimeAbi from "@/utils/coverCrimeAbi.json";
-import { baseSepolia } from "thirdweb/chains";
-import { createThirdwebClient } from "thirdweb";
+import { useWriteToContract } from "@/utils/fetchcontract";
 
-const client_id = process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID;
-export const client = createThirdwebClient({
-  clientId: client_id,
-});
-
-export const Recording = ({ text, icon1, imgText }) => {
-  const [uri, setUri] = useState("");
-
-  const contract = getContract({
-    client,
-    chain: baseSepolia,
-    address: "0x08224d5346fe0f05dad0b3eed040b5c0f0da6d6d",
-    abi: crimeAbi,
-  });
+export const Recording = ({ text, icon1, imgText, uri }) => {
+  const {
+    sendTransaction,
+    transaction,
+    isPending,
+    isLoading,
+    error,
+    data,
+    isSuccess,
+  } = useWriteToContract("crime", "function coverCrime(string uri)", [uri]);
 
   return (
     <div className="flex flex-col mt-10 items-center gap-6 ">
@@ -35,31 +29,20 @@ export const Recording = ({ text, icon1, imgText }) => {
           }}
         >
           <TransactionButton
-            transaction={async () => {
+            transaction={() => {
               // Create a transaction object and return it
               console.log("somrthing");
-              const tx = prepareContractCall({
-                contract: contract,
-                method: "function coverCrime(string uri)",
-                params: ["hfhfhffjj"],
-              });
-              console.log("another");
-              return tx;
+              return transaction;
             }}
-            onTransactionSent={(result) =>
-              console.log("Transaction submitted", result.transactionHash)
-            }
+            onTransactionSent={(result) => {
+              console.log("Transaction submitted", result.transactionHash);
+              alert("Successfully Submitted");
+            }}
             onTransactionConfirmed={(receipt) => {
               console.log("Transaction confirmed", receipt.transactionHash);
             }}
             onError={(error) => {
               console.error("Transaction error", error);
-            }}
-            gasless={{
-              provider: "biconomy",
-              apiId: process.env.NEXT_PUBLIC_BICONOMY_ID,
-              apiKey: process.env.NEXT_PUBLIC_BICONOMY_API,
-              relayerForwarderAddress: process.env.NEXT_PUBLIC_BICONOMY_ID,
             }}
           >
             <Icons icon={icon1} text={imgText} />
