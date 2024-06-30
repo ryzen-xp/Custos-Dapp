@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@thirdweb-dev/react": "^4.9.4",
     "ethers": "^5.7.2",
     "graphql": "^16.8.1",
     "next": "14.2.3",
