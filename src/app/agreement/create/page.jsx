@@ -121,9 +121,9 @@ const AgreementModal = () => {
               </label>
               <input
                 type="text"
-                id="idNumber"
-                name="idNumber"
-                value={idNumber}
+                id="fullname"
+                name="fullname"
+                value={firstPartyName}
                 onChange={(e) => setFirstPartyName(e.target.value)}
                 className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
               />
