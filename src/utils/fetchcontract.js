@@ -1,6 +1,8 @@
 import { useActiveAccount, useReadContract, useSendTransaction } from "thirdweb/react";
 import { prepareContractCall, getContract } from "thirdweb";
 import { baseSepolia } from "thirdweb/chains";
+import { getRpcClient } from "thirdweb/rpc";
+import { readContract } from "thirdweb";
 import crimeAbi from "./coverCrimeAbi.json";
 import agreementAbi from "./agreementAbi.json";
 
@@ -30,8 +32,9 @@ const getContractByType = (client, type) => {
 
 // Hook to read data from a contract
 export const useReadContractData = (client, contractType, method, args = []) => {
+  console.log(client, method, args)
   const contract = getContractByType(client, contractType);
-  const response = useReadContract({
+  const response = readContract({
     contract,
     method: method,
     params: args,

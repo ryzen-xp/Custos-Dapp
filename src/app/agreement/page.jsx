@@ -4,6 +4,7 @@ import AgreementCard from "./components/agreementcard";
 import NoAgreementscreen from "./components/noAgreementscreen";
 import { useReadContractData } from "@/utils/fetchcontract";
 import { client } from "@/utils/thirdwebclient";
+import { getAllAgreements } from "@/thirdweb/84532/0x71b7d170e025cedaed65d5579330c865fe3633ca";
 import SignAgreementModal from "./components/signagreementmodal";
 
 function AgreementList() {
@@ -13,9 +14,10 @@ function AgreementList() {
   const response= useReadContractData(
     client,
     "agreement",
-    "function getAllAgreements() external view returns (uint256[] memory)",
+    getAllAgreements,
     []
   );
+
 
   console.log("data is::", response)
 
@@ -36,7 +38,7 @@ function AgreementList() {
             <div className="loader ease-linear rounded-full border-8 border-t-8 bg-[#130316] border-gray-200 h-16 w-16 mx-auto"></div>
             <p className="mt-2 text-white">Loading agreements...</p>
           </div>
-        ) : response.data === null || response.data?.length === 0 ? (
+        ) : response.data === null|undefined || response.data?.length === 0 ? (
           <div className="w-full m-auto p-4 text-[#EAFBFF]">
             <NoAgreementscreen />
           </div>
