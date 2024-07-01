@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AgreementCard = ({ agreement }) => {
+const AgreementCard = ({ agreement, printAgreement, toggleSignModal }) => {
     return (
       <div className="p-3 text-base space-y-[1em] flex flex-col bg-gradient-to-r border-gradient h-fit backdrop-blur-2xl from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent rounded-lg relative">
         <div
@@ -21,7 +21,7 @@ const AgreementCard = ({ agreement }) => {
             Print Agreement
           </button>
           <button
-            onClick={() => validateAgreement(agreement)}
+            onClick={() => toggleSignModal()}
             className="w-fit px-2 py-2 text-white rounded-[2em] border-slate-800  shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient2 bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em]"
           >
             Validate Agreement
