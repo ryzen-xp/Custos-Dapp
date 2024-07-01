@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
 import bg from "../../../../public/Rectangle.png";
 import Icons from "./Icons";
@@ -8,88 +7,6 @@ import { useRouter } from "next/navigation";
 import { NFTStorage } from "nft.storage";
 
 const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_TOKEN;
-
-export const stopRecording = async () => {
-  if (mediaRecorder.state === "recording") {
-    mediaRecorder.stop();
-    document.getElementById("vid-recorder").style.display = "none";
-    document.getElementById("vid-record-status").innerText =
-      'Click the "Start" button to start recording';
-
-    try {
-      // Convert recorded chunks to a single Blob
-      const videoBlob = new Blob(chunks, { type: "video/webm" });
-
-      // Create FormData object and append the video Blob to it
-      const formData = new FormData();
-      formData.append("file", videoBlob, "recorded-video.webm"); // Ensure correct field name ('file')
-
-      // Send FormData to the backend using fetch or Axios
-      const response = await fetch("https://api.nft.storage/upload", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
-        },
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const cid = data.value.cid;
-        console.log(cid);
-        localStorage.setItem("video_uri", cid);
-        alert("File uploaded successfully!");
-      } else {
-        // Handle upload failure
-        console.error("Failed to upload video");
-      }
-    } catch (error) {
-      console.error("Error uploading video:", error);
-    }
-    window.location.reload();
-  }
-};
-
-export const takePicture = async () => {
-  const video = document.getElementById("web-cam-container");
-  const canvas = document.createElement("canvas");
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
-  const imageDataUrl = canvas.toDataURL();
-  setImageUrl(imageDataUrl);
-  document.getElementById("download-image").style.display = "block";
-
-  try {
-    // Convert the captured image to a Blob
-    const blob = await fetch(imageDataUrl).then((res) => res.blob());
-
-    // Create FormData object and append the image blob to it
-    const formData = new FormData();
-    formData.append("file", blob, "captured-image.png"); // 'file' should match the key expected by the backend
-
-    // Send FormData to IPFS using fetch
-    const response = await fetch("https://api.nft.storage/upload", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
-      },
-      body: formData,
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      const cid = data.value.cid;
-      console.log(cid);
-      localStorage.setItem("image_uri", cid);
-      alert("Image uploaded successfully!");
-    } else {
-      console.error("Failed to upload image");
-    }
-  } catch (error) {
-    console.error("Error uploading image:", error);
-  }
-};
 
 export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const [selectedMedia, setSelectedMedia] = useState(null);
@@ -149,6 +66,88 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       .catch((err) => {
         console.error("Error accessing camera:", err);
       });
+  };
+
+  const stopRecording = async () => {
+    if (mediaRecorder.state === "recording") {
+      mediaRecorder.stop();
+      document.getElementById("vid-recorder").style.display = "none";
+      document.getElementById("vid-record-status").innerText =
+        'Click the "Start" button to start recording';
+
+      try {
+        // Convert recorded chunks to a single Blob
+        const videoBlob = new Blob(chunks, { type: "video/webm" });
+
+        // Create FormData object and append the video Blob to it
+        const formData = new FormData();
+        formData.append("file", videoBlob, "recorded-video.webm"); // Ensure correct field name ('file')
+
+        // Send FormData to the backend using fetch or Axios
+        const response = await fetch("https://api.nft.storage/upload", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
+          },
+          body: formData,
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const cid = data.value.cid;
+          console.log(cid);
+          localStorage.setItem("video_uri", cid);
+          alert("File uploaded successfully!");
+        } else {
+          // Handle upload failure
+          console.error("Failed to upload video");
+        }
+      } catch (error) {
+        console.error("Error uploading video:", error);
+      }
+      window.location.reload();
+    }
+  };
+
+  const takePicture = async () => {
+    const video = document.getElementById("web-cam-container");
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageDataUrl = canvas.toDataURL();
+    setImageUrl(imageDataUrl);
+    document.getElementById("download-image").style.display = "block";
+
+    try {
+      // Convert the captured image to a Blob
+      const blob = await fetch(imageDataUrl).then((res) => res.blob());
+
+      // Create FormData object and append the image blob to it
+      const formData = new FormData();
+      formData.append("file", blob, "captured-image.png"); // 'file' should match the key expected by the backend
+
+      // Send FormData to IPFS using fetch
+      const response = await fetch("https://api.nft.storage/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const cid = data.value.cid;
+        console.log(cid);
+        localStorage.setItem("image_uri", cid);
+        alert("Image uploaded successfully!");
+      } else {
+        console.error("Failed to upload image");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
   };
 
   useEffect(() => {
