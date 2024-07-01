@@ -5,9 +5,9 @@ import bg from "../../../../public/Rectangle.png";
 
 export const Record = ({ text, icon1, icon2 }) => {
   return (
-    <div className="flex flex-col mt-10 items-center gap-6 ">
+    <div className="w-full flex flex-col mt-10 items-center gap-6 ">
       <p className="text-white text-xl">{text}</p>
-      <div className="bg-gradient-to-r from-[#0094ff] to-[#A02294] w-[789px] h-[568px] p-[1px] rounded-xl">
+      <div className="bg-gradient-to-r from-[#0094ff] to-[#A02294] w-[50%] h-[400px] p-[1px] rounded-xl">
         <div
           className="w-full h-full flex gap-[5rem] justify-center items-end rounded-xl"
           style={{
