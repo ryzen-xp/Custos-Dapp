@@ -1,10 +1,47 @@
+"use client";
+
+// import React from "react";
+// import { Header } from "./components/Header";
+// import { Record } from "./components/Record";
+// import icon1 from "../../../public/record2.png";
+// import icon2 from "../../../public/picture.png";
+// import Uploads from "./components/Uploads";
+
+// const Recorder = () => {
+//   const text = {
+//     text1: `You can record a video, or take a picture to keep on the blockchain`,
+//   };
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAxMmMyMDQxOTMxZjBCMTk5MjRFNjk4NjcxMDE0YzJjYjY4RWNGNjMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcwNzc0NjU2NTkxMCwibmFtZSI6IkN5YmVyICJ9.AvvSAu9TIQV5uXXpWZ68c_0j0RGbNbc69aBjDzFDPIs";
+
+//   return (
+//     <div className="h-screen w-full m-10">
+//       <Header />
+//       <div className="flex flex-col items-center">
+//         <Record text={text.text1} icon1={icon1} icon2={icon2} />
+//         <Uploads />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Recorder;
+
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import { useState, useEffect } from "react";
-import Navbar from "@/components/navbar";
-import { NFTStorage } from "nft.storage";
 
-const Recorder2 = () => {
+import React, { useState, useEffect } from "react";
+import { NFTStorage } from "nft.storage";
+import { Header } from "./components/Header";
+import { Record } from "./components/Record";
+import Uploads from "./components/Uploads";
+import icon1 from "../../../public/record2.png";
+import icon2 from "../../../public/picture.png";
+
+const NFT_STORAGE_TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAxMmMyMDQxOTMxZjBCMTk5MjRFNjk4NjcxMDE0YzJjYjY4RWNGNjMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcwNzc0NjU2NTkxMCwibmFtZSI6IkN5YmVyICJ9.AvvSAu9TIQV5uXXpWZ68c_0j0RGbNbc69aBjDzFDPIs";
+// Replace with your actual token
+
+const Recorder = () => {
   const [selectedMedia, setSelectedMedia] = useState(null);
   const [chunks, setChunks] = useState([]);
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -12,12 +49,12 @@ const Recorder2 = () => {
   const [videoUrl, setVideoUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
+  const clients = new NFTStorage({ token: NFT_STORAGE_TOKEN });
+
   const otherRecorder = (selectedMedia) => {
     return selectedMedia === "vid" ? "aud" : "vid";
   };
-  const NFT_STORAGE_TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAxMmMyMDQxOTMxZjBCMTk5MjRFNjk4NjcxMDE0YzJjYjY4RWNGNjMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcwNzc0NjU2NTkxMCwibmFtZSI6IkN5YmVyICJ9.AvvSAu9TIQV5uXXpWZ68c_0j0RGbNbc69aBjDzFDPIs";
-  const clients = new NFTStorage({ token: NFT_STORAGE_TOKEN });
+
   const handleMediaChange = (e) => {
     const selectedMedia = e.target.value;
     setSelectedMedia(selectedMedia);
@@ -52,12 +89,11 @@ const Recorder2 = () => {
         mediaRecorder.onstop = () => {
           const videoBlob = new Blob(chunks, { type: "video/webm" });
           const videoUrl = URL.createObjectURL(videoBlob);
-          mediaRecorder.stop();
           setVideoUrl(videoUrl);
         };
 
         mediaRecorder.ondataavailable = (event) => {
-          chunks.push(event.data);
+          setChunks((prevChunks) => [...prevChunks, event.data]);
         };
       })
       .catch((err) => {
@@ -94,9 +130,6 @@ const Recorder2 = () => {
           const cid = data.value.cid;
           console.log(cid);
           localStorage.setItem("video_uri", cid);
-          setUri(cid);
-          console.log(uri);
-          await handleSubmit();
           alert("File uploaded successfully!");
         } else {
           // Handle upload failure
@@ -141,10 +174,6 @@ const Recorder2 = () => {
         const cid = data.value.cid;
         console.log(cid);
         localStorage.setItem("image_uri", cid);
-        setUri(cid);
-        console.log(uri);
-
-        await handleSubmit();
         alert("Image uploaded successfully!");
       } else {
         console.error("Failed to upload image");
@@ -178,8 +207,8 @@ const Recorder2 = () => {
 
   return (
     <div>
-      <Navbar />
-      <div className="flex flex-col items-center justify-center h-screen border-2 mx-auto border-[#baa] my-10 bg-[#090909]">
+      <Header />
+      <div className="flex flex-col items-center justify-center h-screen">
         <div className="display-none" id="vid-recorder">
           <h3>Record Video</h3>
           <video
@@ -222,7 +251,7 @@ const Recorder2 = () => {
             type="button"
             id="stop-vid-recording"
             onClick={stopRecording}
-            className="bg-[#c92eff] w-fit  rounded-lg hover:bg-[#090909] text-white font-bold py-2 px-4 border-2 border-[#c92eff] font-san hover:border-[#c92eff]"
+            className="bg-[#c92eff] w-fit rounded-lg hover:bg-[#090909] text-white font-bold py-2 px-4 border-2 border-[#c92eff] font-san hover:border-[#c92eff]"
           >
             Stop
           </button>
@@ -243,28 +272,6 @@ const Recorder2 = () => {
             Download Image
           </a>
         </div>
-      </div>
-    </div>
-  );
-};
-
-import React from "react";
-import { Header } from "./components/Header";
-import { Record } from "./components/Record";
-import icon1 from "../../../public/record2.png";
-import icon2 from "../../../public/picture.png";
-import Uploads from "./components/Uploads";
-
-const Recorder = () => {
-  const text = {
-    text1: `You can record a video, or take a picture to keep on the blockchain`,
-  };
-
-  return (
-    <div className="h-screen w-full m-10">
-      <Header />
-      <div className="flex flex-col items-center">
-        <Record text={text.text1} icon1={icon1} icon2={icon2} />
       </div>
     </div>
   );
