@@ -14,7 +14,7 @@ const TakePicture = () => {
       <Header />
       <div className="flex justify-center" id="take-picture">
         <Recording
-          onClick={takePicture}
+          // onClick={takePicture}
           text={text.text2}
           icon1={icon3}
           imgText={`Click to Take a Picture`}

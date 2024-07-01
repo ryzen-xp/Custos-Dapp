@@ -207,7 +207,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
               id="web-cam-container"
               className=" border-white border-2 rounded-xl mb-6 w-full"
             >
-              Your browser doesn't support the video tag
+              Your browser doesn&apos;t support the video tag
             </video>
           </div>
           <TransactionButton

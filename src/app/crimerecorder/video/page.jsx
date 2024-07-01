@@ -19,7 +19,7 @@ const VideoRecorder = () => {
       <div
         className="flex justify-center"
         id="stop-vid-recording"
-        onClick={stopRecording}
+        // onClick={stopRecording}
       >
         <Recording
           text={text.text3}
