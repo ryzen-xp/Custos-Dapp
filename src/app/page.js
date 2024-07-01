@@ -11,7 +11,10 @@ export default function Home() {
   return (
     <div className="min-h-screen kanit">
       <main className="kanit">
+        <div className="mb-4 px-6">
+
         <Navbar />
+        </div>
         <Hero />
         <Agree />
         <Footer />

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import { useEffect, useState } from "react";
+import Modal from 'react-modal';
 import AgreementCard from "./components/agreementcard";
 import NoAgreementscreen from "./components/noAgreementscreen";
 import { useReadContractData } from "@/utils/fetchcontract";
@@ -12,6 +13,8 @@ function AgreementList() {
   const [showAgreementModal, setShowAgreementModal] = useState(false);
   const [agreements, setAgreements] = useState([]);
   const [totalAgreements, setTotalAgreements] = useState([]);
+  const [selectedAgreement, setSelectedAgreement] = useState(null);
+
 
   useEffect(() => {
     const FetchAgreements = async () => {
@@ -52,13 +55,27 @@ function AgreementList() {
     GetTotalAgreements();
   }, [totalAgreements]);
 
-  const toggleSignModal = () => {
+  const printAgreement = (agreement) => {
+    const printContent = `
+      <h1>${agreement.title}</h1>
+      <p>Second Party Address: ${agreement.secondPartyAddress}</p>
+      <p>Created by  : ${agreement.creatorName}</p>
+      <p>${agreement.content}</p>
+    `;
+    const printWindow = window.open('', '', 'width=800,height=600');
+    printWindow.document.write(printContent);
+    printWindow.document.close();
+    printWindow.print();
+  };
+  const toggleSignModal = (agreement) => {
+    setSelectedAgreement(agreement);
     setShowAgreementModal(!showAgreementModal);
   };
 
   return (
     <div className="w-full px-4 flex flex-col gap-8">
       <Header />
+
       <div className="w-full">
         {loading ? (
           // Show loading indicator if agreements are loading
@@ -74,12 +91,21 @@ function AgreementList() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto w-[90%] mb-8">
             {agreements?.map((agreement, index) => (
               <div key={index} className="">
-                <AgreementCard agreement={agreement} />
+                <AgreementCard agreement={agreement} printAgreement={printAgreement} toggleSignModal={toggleSignModal} />
               </div>
             ))}
           </div>
         )}
       </div>
+      <Modal
+        isOpen={showAgreementModal}
+        onRequestClose={toggleSignModal}
+        contentLabel="Sign Agreement Modal"
+        className="modal-content"
+        overlayClassName="modal-overlay"
+      >
+        <SignAgreementModal agreement={selectedAgreement} toggleSignModal={toggleSignModal} />
+      </Modal>
     </div>
   );
 }

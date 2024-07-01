@@ -31,7 +31,7 @@ const SignAgreementModal = ({ agreementid }) => {
   };
 
   return (
-    <div className="bg-[#130316] w-full h-full py-4">
+    <div className="p-3 text-base space-y-[1em] flex flex-col bg-gradient-to-r border-gradient h-fit backdrop-blur-2xl from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent rounded-lg relative">
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <div className="mb-4">
           <label
