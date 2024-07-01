@@ -1,10 +1,6 @@
-// pages/index.js
-
-import Connect from "@/components/connect";
 import Hero from "@/components/home/hero";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import Head from "next/head";
 import Agree from "@/components/home/agree";
 
 export default function Home() {
