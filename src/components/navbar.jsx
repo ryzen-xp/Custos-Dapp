@@ -35,7 +35,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`py-4 fixed top-0 w-full z-50 transition-opacity duration-300 ${
+      className={`py-4 fixed top-0 w-full transition-opacity duration-300 ${
         scrolled ? "bg-opacity-70" : "bg-opacity-0"
       } bg-blue-950`}
     >
@@ -76,17 +76,17 @@ const Navbar = () => {
       <Modal
         isOpen={modal === "launchDapps"}
         onRequestClose={closeModal}
-        className="fixed inset-0 flex items-center justify-center z-[500] bg-black bg-opacity-50"
+        className="fixed inset-0 flex w-1/2 items-center justify-center z-[500] bg-black bg-opacity-50"
       >
         <div className="bg-black p-6 rounded-lg shadow-lg border-gradient">
           <div className="flex flex-col sm:flex-row justify-center items-center text-white space-y-6 sm:space-y-0 sm:space-x-6">
             <div className="flex-1 flex flex-col justify-between">
-              <Link href="/services">
-                <p className="text-3xl">Launch Dapps</p>
+              <a href="/services">
+                <p className="text-[1.2em]">Launch Dapps</p>
+              </a>
                 <p className="mt-4 text-gray-300">
                   Decentralized apps help you leverage blockchain technology to secure your evidence and legal agreements.
                 </p>
-              </Link>
               <Image
                 src="/group.png"
                 alt="Group"
@@ -97,16 +97,18 @@ const Navbar = () => {
             </div>
             <div className="flex-1 border-gradient p-5 rounded-lg">
               <div className="mb-20">
+                <a href="/agrreement" className="cursor-pointer">
                 <p className="flex items-center text-xl font-semibold">
                   <FaPlus className="mr-2" />
-                  <Link href="/agreement" className="text-white">Create Agreement
-                  </Link>
+                  <span href="/agreement" className="text-white">Create Agreement
+                  </span>
                 </p>
                 <p className="text-gray-300 mt-1">
                   Custos ensures that agreements are securely stored.
                 </p>
+              </a>
               </div>
-              <div>
+              <a href="/crimerecorder">
                 <p className="flex items-center text-xl font-semibold">
                   <FaVideo className="mr-2" />
                   <Link href="/crimerecorder" className="text-white">Record Video
@@ -115,7 +117,7 @@ const Navbar = () => {
                 <p className="text-gray-300 mt-1">
                   Custos ensures that agreements are securely stored.
                 </p>
-              </div>
+              </a>
             </div>
           </div>
           <button

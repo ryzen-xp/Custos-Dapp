@@ -19,10 +19,10 @@ const printAgreement = (agreement) => {
 const Agree = () => {
   return (
     <main>
-     <div className="flex items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+     <div className="flex mt-8 items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
   <div className="text-center p-8 bg-transparent rounded shadow-lg">
-    <p className="text-[60px] mb-4">Agreement documentation</p>
-    <p className="text-[20px] mb-4">
+    <p className="text-[1.5em] mb-4">Agreement documentation</p>
+    <p className="text-[1em] mb-4">
       Create new legal agreements by providing the agreement content, the <br />
       address of the second party, and details about the first party.
     </p>
