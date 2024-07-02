@@ -205,7 +205,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
             <video
               autoPlay
               id="web-cam-container"
-              className=" border-white border-2 rounded-xl mb-6 w-full"
+              className="rounded-xl mb-6 w-full"
             >
               Your browser doesn&apos;t support the video tag
             </video>
