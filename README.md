@@ -14,6 +14,8 @@ At Custos Diretriz, we are committed to excellence in everything we do. We prior
 ## Join Us
 Join us on our journey to create a safer and more secure future for all. Whether you're an individual looking to report a crime, create a legally binding agreement, or a community organization seeking innovative solutions, Custos Diretriz welcomes you to explore our platforms and be part of the change. Together, we can make a meaningful impact and build a better world for generations to come.
 
-Learn more about our project [here](https://www.loom.com/share/6bea4061315c476b878cf4bf805f1054?sid=97bef0aa-0efe-435d-a4bb-8832a1223a6e)
+Access the video demo about our project [here](https://www.loom.com/share/6bea4061315c476b878cf4bf805f1054?sid=97bef0aa-0efe-435d-a4bb-8832a1223a6e)
 
-Our deployed contracts can be found [here](https://github.com/Custos-Diretriz/custos-contracts) 
+Learn more about our project [here](https://github.com/Custos-Diretriz/custos-contracts) 
+
+Visit our [website](https://www.custosdiretriz.com/)
