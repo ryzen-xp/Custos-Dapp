@@ -6,12 +6,14 @@ const Hero = () => {
   return (
     <main className="flex items-center justify-center h-screen">
       <div className="text-white py-20 mx-auto flex flex-col justify-center items-center w-full max-w-screen-xl">
+        <a href="/services" className="">
         <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-20 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
           <span className="flex items-center">
             Launch Custos Dapp
           </span>
           <img src="/star.png" className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 z-20" alt="Star Icon" />
         </button>
+        </a>
 
         <p className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent text-center w-full p-3">
           The new blockchain safe
