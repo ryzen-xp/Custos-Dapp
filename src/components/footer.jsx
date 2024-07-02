@@ -16,13 +16,13 @@ function Footer() {
               className="mb-4"
             />
             <p className="mb-2">Questions? Comments? Concerns?</p>
-            <p>Send us a mail at <a href="mailto:info@custosdiretriz.com" className="text-blue-400">info@custosdiretriz.com</a></p>
+            <p>Send us a mail at <a href="mailto:info@custosdiretriz.com" className="text-blue-400">admin@custosdiretriz.com</a></p>
           </div>
           <div>
             <h3 className="text-xl font-semibold mb-2">Company</h3>
             <ul>
-              <li><a href="#" className="hover:underline">About Us</a></li>
-              <li><a href="#" className="hover:underline">Service</a></li>
+              <li><a href="/about" className="hover:underline">About Us</a></li>
+              <li><a href="/services" className="hover:underline">Services</a></li>
             </ul>
           </div>
           <div>
@@ -44,19 +44,19 @@ function Footer() {
             <ul>
               <li className="flex items-center mb-2">
                 <FaDiscord className="mr-2 text-white" />
-                <a href="#" className="hover:underline">Discord</a>
+                <a href="https://discord.com/invite/R7PgreKj" className="hover:underline">Discord</a>
               </li>
               <li className="flex items-center mb-2">
                 <FaTwitter className="mr-2 text-white" />
-                <a href="#" className="hover:underline">Twitter</a>
+                <a href="https://twitter.com/custosdiretriz" className="hover:underline">Twitter</a>
               </li>
               <li className="flex items-center mb-2">
                 <FaLinkedin className="mr-2 text-white"  />
-                <a href="#" className="hover:underline">LinkedIn</a>
+                <a href="https" className="hover:underline">LinkedIn</a>
               </li>
               <li className="flex items-center mb-2">
                 <FaGithub className="mr-2 text-white" />
-                <a href="#" className="hover:underline">GitHub</a>
+                <a href="https://github.com/Custos-Diretriz" className="hover:underline">GitHub</a>
               </li>
             </ul>
           </div>
