@@ -16,7 +16,7 @@ function Footer() {
               className="mb-4"
             />
             <p className="mb-2">Questions? Comments? Concerns?</p>
-            <p>Send us a mail at <a href="mailto:info@custosdiretriz.com" className="text-blue-400">admin@custosdiretriz.com</a></p>
+            <p>Send us a mail at <a href="mailto:admin@custosdiretriz.com" className="text-blue-400">admin@custosdiretriz.com</a></p>
           </div>
           <div>
             <h3 className="text-xl font-semibold mb-2">Company</h3>
