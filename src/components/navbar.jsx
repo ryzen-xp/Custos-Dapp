@@ -80,9 +80,9 @@ const Navbar = () => {
                           <div className="mb-20">
                             <p className="flex items-center text-xl font-semibold">
                               <FaPlus className="mr-2" />
-                              <a href="/agreement" className="text-white">
+                              <Link href="/agreement" className="text-white">
                                 Create Agreement
-                              </a>
+                              </Link>
                             </p>
                             <p className="text-gray-300 mt-1">
                               Custos ensures that agreements are securely stored.
@@ -91,9 +91,9 @@ const Navbar = () => {
                           <div>
                             <p className="flex items-center text-xl font-semibold">
                               <FaVideo className="mr-2" />
-                              <a href="#" className="text-white">
+                              <Link href="#" className="text-white">
                                 Record Video
-                              </a>
+                              </Link>
                             </p>
                             <p className="text-gray-300 mt-1">
                               Custos ensures that agreements are securely stored.
@@ -122,10 +122,10 @@ const Navbar = () => {
                             <p className="my-4 text-gray-300">
                               Custos Diretriz is mastering the art of preservation and shielding on the blockchain.
                             </p>
-                            <a href="#" className="mt-4 text-gray-300 flex items-center">
+                            <Link href="#" className="mt-4 text-gray-300 flex items-center">
                               Learn More
                               <FaArrowRight className="ml-2" />
-                            </a>
+                            </Link>
                           </div>
                           <Image
                             src="/secu.png"
@@ -139,9 +139,9 @@ const Navbar = () => {
                           <div className="mb-20">
                             <p className="flex items-center text-xl font-semibold">
                               <FaUser className="mr-2" />
-                              <a href="#" className="text-white">
+                              <Link href="#" className="text-white">
                                 About Us
-                              </a>
+                              </Link>
                             </p>
                             <p className="text-gray-300 mt-1">
                               Meet the developer team and read our story
@@ -150,18 +150,18 @@ const Navbar = () => {
                           <div className="mb-20">
                             <p className="flex items-center text-xl font-semibold">
                               <FaUserPlus className="mr-2" />
-                              <a href="#" className="text-white">
+                              <Link href="#" className="text-white">
                                 Career
-                              </a>
+                              </Link>
                             </p>
                             <p className="text-gray-300 mt-1">Find your dream role</p>
                           </div>
                           <div>
                             <p className="flex items-center text-xl font-semibold">
                               <FaPhone className="mr-2" />
-                              <a href="#" className="text-white">
+                              <Link href="#" className="text-white">
                                 Contact Us
-                              </a>
+                              </Link>
                             </p>
                             <p className="text-gray-300 mt-1">
                               Reach out to us for questions and clarifications
@@ -189,7 +189,7 @@ const Navbar = () => {
           </div>
         </div>
         {isMenuOpen && (
-          <div className="md:hidden bg-black">
+          <div className="md:hidden bg-black bg-opacity-80 p-4">
             <ul className="flex flex-col space-y-4 mt-4">
               <li>
                 <button
@@ -200,48 +200,35 @@ const Navbar = () => {
                   <FaChevronDown className="w-5 h-5 ml-1" />
                 </button>
                 {showLaunchDapps && (
-                  <div className="bg-black bg-opacity-30 shadow-lg z-10">
-                    <div className="w-full flex justify-center items-center text-white p-6">
-                      <div className="w-full bg-black rounded-lg shadow-lg flex p-8 border-gradient space-x-6">
-                        <div className="flex-1 flex flex-col justify-between">
-                          <div>
-                            <p className="text-3xl">Launch Dapps</p>
-                            <p className="mt-4 text-gray-300">
-                              Decentralized apps help you leverage blockchain technology to secure your evidence and legal agreements.
-                            </p>
-                          </div>
-                          <Image
-                            src="/group.png"
-                            alt="Logo"
-                            width={200}
-                            height={50}
-                            className="rounded-lg mt-20"
-                          />
-                        </div>
-                        <div className="flex-1 border-gradient p-5 rounded-lg">
-                          <div className="mb-20">
-                            <p className="flex items-center text-xl font-semibold">
-                              <FaPlus className="mr-2" />
-                              <a href="/agreement" className="text-white">
-                                Create Agreement
-                              </a>
-                            </p>
-                            <p className="text-gray-300 mt-1">
-                              Custos ensures that agreements are securely stored.
-                            </p>
-                          </div>
-                          <div>
-                            <p className="flex items-center text-xl font-semibold">
-                              <FaVideo className="mr-2" />
-                              <a href="#" className="text-white">
-                                Record Video
-                              </a>
-                            </p>
-                            <p className="text-gray-300 mt-1">
-                              Custos ensures that agreements are securely stored.
-                            </p>
-                          </div>
-                        </div>
+                  <div className="bg-black bg-opacity-30 shadow-lg z-10 p-4">
+                    <div className="flex flex-col text-white space-y-4">
+                      <div>
+                        <p className="text-2xl">Launch Dapps</p>
+                        <p className="mt-2 text-gray-300">
+                          Decentralized apps help you leverage blockchain technology to secure your evidence and legal agreements.
+                        </p>
+                      </div>
+                      <div className="flex flex-col space-y-2">
+                        <p className="flex items-center text-lg font-semibold">
+                          <FaPlus className="mr-2" />
+                          <Link href="/agreement" className="text-white">
+                            Create Agreement
+                          </Link>
+                        </p>
+                        <p className="text-gray-300 mt-1">
+                          Custos ensures that agreements are securely stored.
+                        </p>
+                      </div>
+                      <div className="flex flex-col space-y-2">
+                        <p className="flex items-center text-lg font-semibold">
+                          <FaVideo className="mr-2" />
+                          <Link href="#" className="text-white">
+                            Record Video
+                          </Link>
+                        </p>
+                        <p className="text-gray-300 mt-1">
+                          Custos ensures that agreements are securely stored.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -256,60 +243,49 @@ const Navbar = () => {
                   <FaChevronDown className="w-5 h-5 ml-1" />
                 </button>
                 {showCompany && (
-                  <div className="bg-black bg-opacity-30 shadow-lg z-10">
-                  <div className="w-full flex justify-center items-center text-white p-6">
-                    <div className="w-full bg-black rounded-lg shadow-lg flex p-8 border-gradient space-x-6">
-                      <div className="flex-1 flex flex-col justify-between">
-                        <div>
-                          <p className="text-3xl">Company</p>
-                          <p className="mt-4 text-gray-300">
-                            Decentralized apps help you leverage blockchain technology to secure your evidence and legal agreements.
-                          </p>
-                        </div>
-                        <Image
-                          src="/secu.png"
-                          alt="Logo"
-                          width={200}
-                          height={50}
-                          className="rounded-lg mt-20"
-                        />
+                  <div className="bg-black bg-opacity-30 shadow-lg z-10 p-4">
+                    <div className="flex flex-col text-white space-y-4">
+                      <div>
+                        <p className="text-2xl">Company</p>
+                        <p className="mt-2 text-gray-300">
+                          Decentralized apps help you leverage blockchain technology to secure your evidence and legal agreements.
+                        </p>
                       </div>
-                      <div className="flex-1 border-gradient p-5 rounded-lg">
-                        <div className="mb-10">
-                          <p className="flex items-center text-xl font-semibold">
-                            <FaUser className="mr-2" />
-                            <a href="/agreement" className="text-white">
-                              About Us
-                            </a>
-                          </p>
-                          <p className="text-gray-300 mt-1">
+                      <div className="flex flex-col space-y-2">
+                        <p className="flex items-center text-lg font-semibold">
+                          <FaUser className="mr-2" />
+                          <Link href="#" className="text-white">
+                            About Us
+                          </Link>
+                        </p>
+                        <p className="text-gray-300 mt-1">
                           Meet the developer team and read our story
-                          </p>
-                        </div>
-                        <div className="mb-10">
-                          <p className="flex items-center text-xl font-semibold">
+                        </p>
+                      </div>
+                      <div className="flex flex-col space-y-2">
+                        <p className="flex items-center text-lg font-semibold">
                           <FaUserPlus className="mr-2" />
-                            <a href="#" className="text-white">
-                              Career 
-                            </a>
-                          </p>
-                          <p className="text-gray-300 mt-1">
-                          Find your dream role</p>
-                        </div>
-                        <div>
-                          <p className="flex items-center text-xl font-semibold">
-                            <FaPhone className="mr-2" />
-                            <a href="#" className="text-white">
-                              Contact Us
-                            </a>
-                          </p>
-                          <p className="text-gray-300 mt-1">
-                          Reach out to us for questions and clarifications</p>
-                        </div>
+                          <Link href="#" className="text-white">
+                            Career
+                          </Link>
+                        </p>
+                        <p className="text-gray-300 mt-1">
+                          Find your dream role
+                        </p>
+                      </div>
+                      <div className="flex flex-col space-y-2">
+                        <p className="flex items-center text-lg font-semibold">
+                          <FaPhone className="mr-2" />
+                          <Link href="#" className="text-white">
+                            Contact Us
+                          </Link>
+                        </p>
+                        <p className="text-gray-300 mt-1">
+                          Reach out to us for questions and clarifications
+                        </p>
                       </div>
                     </div>
                   </div>
-                </div>
                 )}
               </li>
               <li>
