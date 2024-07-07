@@ -197,7 +197,6 @@ const Navbar = () => {
                   className="text-white hover:text-[#c92eff] flex items-center justify-between w-full"
                 >
                   Launch Dapps
-                  <FaChevronDown className="w-5 h-5 ml-1" />
                 </button>
                 {showLaunchDapps && (
                   <div className="bg-black bg-opacity-30 shadow-lg z-10 p-4">
@@ -240,7 +239,6 @@ const Navbar = () => {
                   className="text-white hover:text-[#c92eff] flex items-center justify-between w-full"
                 >
                   Company
-                  <FaChevronDown className="w-5 h-5 ml-1" />
                 </button>
                 {showCompany && (
                   <div className="bg-black bg-opacity-30 shadow-lg z-10 p-4">
