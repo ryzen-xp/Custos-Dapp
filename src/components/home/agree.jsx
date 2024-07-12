@@ -43,14 +43,16 @@ const Agree = () => {
 
 
       <div className="justify-center items-center flex mb-20">
+        <a href="/agreement">
         <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
-          <Link href="/agreement" className="flex items-center">
+          <span className="flex items-center">
             Launch Custos Dapp
-          </Link>
+          </span>
           <svg className="ml-2 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
           </svg>
         </button>
+        </a>
       </div>
       <div className="mx-5 transform hover:scale-105 transition-transform duration-300">
         <div className="flex flex-col md:flex-row justify-between items-center my-32 ml-10">
@@ -86,14 +88,16 @@ const Agree = () => {
   </div>
 </div>
       <div className="justify-center items-center flex mb-20">
+        <a href="/crimerecorder" >
         <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
-          <span href="/crimerecorder" className="flex items-center">
+          <span className="flex items-center">
             Launch Custos Dapp
           </span>
           <svg className="ml-2 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
           </svg>
         </button>
+        </a>
       </div>  
       <div className="flex items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
         <div className="text-center p-8 bg-transparent rounded shadow-lg my-20">
@@ -113,6 +117,7 @@ const Agree = () => {
         
       </div>  
       <div className="justify-center items-center flex mb-20">
+        <a href="/services">
         <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-5 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
           <span className="flex items-center">
             Get Started
@@ -121,6 +126,7 @@ const Agree = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
           </svg>
         </button>
+        </a>
       </div>
     </main>
   );
