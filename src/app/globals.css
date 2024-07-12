@@ -235,3 +235,14 @@ button .text-transparent {
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 1000;
 }
+
+.button-drop-shadow {
+  box-shadow: 
+    0 0 6px 1px rgba(132, 129, 129, 0.21), 
+    0 0 0 2px rgba(132, 129, 129, 0.16);
+}
+
+.button-hover-effect {
+  transition: all 0.3s ease-in-out;
+  transform: scale(1.05);
+}

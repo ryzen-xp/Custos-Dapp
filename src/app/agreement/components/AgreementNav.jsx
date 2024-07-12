@@ -19,10 +19,10 @@ export const Header = () => {
         </div>
         </a>
         <div className="flex justify-end  gap-20 items-center w-full">
-            <div className="hidden md:block">
+            {/* <div className="hidden md:block">
 
             <Button text="Create Agreement" icon={<Image src="/Plus.svg" alt="plus" width={18} height={18}  />} link={"/agreement/create"} />
-            </div>
+            </div> */}
 
           <ConnectButtoncomponent />
         </div>
