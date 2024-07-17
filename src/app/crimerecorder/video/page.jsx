@@ -1,11 +1,7 @@
 "use client";
 import React from "react";
 import icon4 from "../../../../public/pause.png";
-import {
-  Recording,
-  stopRecording,
-  startRecording,
-} from "../components/Recording";
+import { Recording } from "../components/Recording";
 import { Header } from "../components/Header";
 
 const VideoRecorder = () => {
@@ -16,11 +12,7 @@ const VideoRecorder = () => {
   return (
     <div className="h-screen w-full m-10">
       <Header />
-      <div
-        className="flex justify-center"
-        id="stop-vid-recording"
-        // onClick={stopRecording}
-      >
+      <div className="flex justify-center" id="stop-vid-recording">
         <Recording
           text={text.text3}
           icon1={icon4}
