@@ -18,11 +18,10 @@ const AgreementModal = () => {
   const [initCreationLoad, setInitCreationLoad] = useState(false);
   const [country, setCountry] = useState("");
   const [idType, setIdType] = useState("");
-  const [firstPartyName, setFirstPartyName] = useState("");
-  const [secondPartyName, setSecondPartyName] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [agreementTitle, setAgreementTitle] = useState("");
   const [secondPartyAddress, setSecondPartyAddress] = useState("");
+  const [errors, setErrors] = useState({});
   console.log(modalStep);
 
   const {
@@ -36,7 +35,7 @@ const AgreementModal = () => {
   } = useWriteToContract("agreement", "createAgreement", [
     content,
     secondPartyAddress,
-    firstPartyName,
+    "firstPartyName",
     idNumber,
   ]);
 
@@ -49,10 +48,8 @@ const AgreementModal = () => {
       country,
       first_party_address: creatoraddress,
       first_party_id_type: idType,
-      first_party_name: firstPartyName,
       first_party_valid_id: idNumber,
       second_party_address: secondPartyAddress,
-      second_party_name: secondPartyName,
     };
 
     try {
@@ -69,20 +66,23 @@ const AgreementModal = () => {
       );
 
       if (!res.ok) {
+        const errorData = await res.json();
+        setErrors(errorData);
         setInitCreationLoad(false);
-        throw new Error("Failed to create agreement");
+        return;
       }
 
       const data = await res.json();
       setInitCreationLoad(false);
       setIsModalOpen(true); // Open the success modal
       setTimeout(() => {
-        // setIsModalOpen(false);
-        redirect("/agreement");
+        setIsModalOpen(false);
+        window.location.href = "/agreement";
       }, 4000);
     } catch (err) {
       console.error(err.message);
       setInitCreationLoad(false);
+      setErrors({ general: err.message });
     }
   };
   // const handleSubmit = (event) => {
@@ -117,10 +117,7 @@ const AgreementModal = () => {
               onChange={(e) => setAgreementType(e.target.value)}
               className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
             >
-              <option
-                className="bg-[#04080C] text-white"
-                value=""
-              >
+              <option className="bg-[#04080C] text-white" value="">
                 Select an option
               </option>
               <option
@@ -172,13 +169,14 @@ const AgreementModal = () => {
                 Teaming Agreement
               </option>
             </select>
+      
           </div>
         );
       case 2:
         return (
           <>
-          <h1 className="text-white text-[1.2em]">Agreement Content</h1>
-              <div className="text-white flex flex-col">
+            <h1 className="text-white text-[1.2em]">Agreement Content</h1>
+            <div className="text-white flex flex-col">
               <label
                 htmlFor="country"
                 className="font-[500] text-[0.8em] text-white"
@@ -194,25 +192,27 @@ const AgreementModal = () => {
                 onChange={(e) => setAgreementTitle(e.target.value)}
                 className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
               />
+         
             </div>
             <div className="text-white flex flex-col">
-            <label
-              htmlFor="content"
-              className="font-[500] text-[0.8em] text-white"
-            >
-              Agreement Content
-            </label>
-            <textarea
-              id="content"
-              name="content"
-              placeholder="Write or Paste the Content of Your Agreement Here"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
-              rows="10"
-              cols="50"
-            />
-          </div>
+              <label
+                htmlFor="content"
+                className="font-[500] text-[0.8em] text-white"
+              >
+                Agreement Content
+              </label>
+              <textarea
+                id="content"
+                name="content"
+                placeholder="Write or Paste the Content of Your Agreement Here"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
+                rows="10"
+                cols="50"
+              />
+       
+            </div>
           </>
         );
       case 3:
@@ -245,23 +245,27 @@ const AgreementModal = () => {
                 placeholder="Select ID Type"
                 id="idType"
                 name="idType"
-
                 value={idType}
                 onChange={(e) => setIdType(e.target.value)}
                 className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
-              >   <option
-              className="bg-[#04080C] text-white"
-              value="International Passport"
-            >
-              International Passport
-            </option>
-            <option
-              className="bg-[#04080C] text-white"
-              value="National Identification"
-            >
-              National Identification
-            </option>
-          </select>
+              >
+                <option value="" className="bg-[#04080C] text-white">
+                  Select Your ID type
+                </option>
+                <option
+                  className="bg-[#04080C] text-white"
+                  value="International Passport"
+                >
+                  International Passport
+                </option>
+                <option
+                  className="bg-[#04080C] text-white"
+                  value="National Identification"
+                >
+                  National Identification
+                </option>
+              </select>
+             
             </div>
             <div className="mb-4">
               <label
@@ -332,6 +336,7 @@ const AgreementModal = () => {
                 onChange={(e) => setSecondPartyAddress(e.target.value)}
                 className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
               />
+             
             </div>
           </>
         );
@@ -358,6 +363,34 @@ const AgreementModal = () => {
               <FaArrowLeft className="mr-2" /> <p className="">Previous</p>
             </button>
           )}
+        <div className="w-full flex-col flex gap-4">
+
+        {errors.general && (
+          <span className="text-red-500">{errors.general}</span>
+        )}
+         {errors.second_party_address && (
+                <span className="text-red-500">
+                  {"second_party_address: "+ errors.second_party_address[0]}
+                </span>
+              )}
+               {errors.first_party_id_type && (
+                <span className="text-red-500">
+                  {"first_party_id_type: " +errors.first_party_id_type[0]}
+                </span>
+              )}
+                 {errors.country && (
+                <span className="text-red-500">{"country: " + errors.country[0]}</span>
+              )}
+                     {errors.content && (
+                <span className="text-red-500">{"content: "+errors.content[0]}</span>
+              )}
+                   {errors.agreementTitle && (
+                <span className="text-red-500">{"agreement Title: "+errors.agreementTitle[0]}</span>
+              )}
+                    {errors.agreementType && (
+              <span className="text-red-500">{"Agreement Type: "+errors.agreementType[0]}</span>
+            )}
+        </div>
           {renderStep()}
           <div className="flex justify-between flex-row-reverse gap-8">
             {modalStep !== 4 && (
@@ -371,13 +404,12 @@ const AgreementModal = () => {
             )}
 
             {modalStep == 4 && (
-           <button
-           type="submit"
-           className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] sm:w-[156px] w-full rounded-[2em] text-white font-bold py-2 px-4 border-gradient shadow-[0_0_0_1px_#0094FF,0_0_0_3px_rgba(28,167,214,0.41)] transition-transform transform hover:scale-105 active:shadow-none border-gradient"
-         >
-           {initCreationLoad ? "Creating" : "Create"}
-         </button>
-         
+              <button
+                type="submit"
+                className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] sm:w-[156px] w-full rounded-[2em] text-white font-bold py-2 px-4 border-gradient shadow-[0_0_0_1px_#0094FF,0_0_0_3px_rgba(28,167,214,0.41)] transition-transform transform hover:scale-105 active:shadow-none border-gradient"
+              >
+                {initCreationLoad ? "Creating" : "Create"}
+              </button>
             )}
             <button
               type="button"

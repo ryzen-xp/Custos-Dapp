@@ -99,7 +99,6 @@ function AgreementList() {
   return (
     <div className="w-full px-4 flex flex-col gap-8">
       <Header />
-      <SuccessScreen />
 
       <div className="w-full">
         {loading ? (
