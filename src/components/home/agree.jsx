@@ -54,18 +54,20 @@ const Agree = () => {
         </button>
         </a>
       </div>
-      <div className="mx-5 transform hover:scale-105 transition-transform duration-300">
-        <div className="flex flex-col md:flex-row justify-between items-center my-32 ml-10">
-          <div className=" text-[50px] mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent ">
+      <div className="w-fit flex justify-between transform hover:scale-105 transition-transform duration-300">
+        <div className="flex flex-col md:flex-row justify-between items-center m-auto bg-red-400 w-auto gap-8">
+          <div className=" text-[2em] whitespace-nowrap mb-2 sm:mb-0 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent ">
             <p>We paid the gas fee.</p>
           </div>
-          <div className="md:w-1/2 md:ml-4 text-[20px]  bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+          <div className="w-full text-[1em] justify-end justify-self-end  bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
             <p>
               Custos lets you record your videos safely on the blockchain without paying a gas <br /> fee until you need your video back. <br /> Whether its a business contract, a rental agreement, or a partnership <br /> arrangement, Custos ensures that agreements are securely stored, easily <br /> accessible, and tamper-proof, fostering trust and accountability among parties.
             </p>
           </div>
         </div>
       </div>
+
+
       <div className="flex items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
         <div className="text-center p-8 bg-transparent rounded shadow-lg my-20">
           <p className="text-[50px]  mb-4">Crime recorder</p>

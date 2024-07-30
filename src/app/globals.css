@@ -156,7 +156,7 @@
   right: 0;
   bottom: 0;
   border-radius: inherit; /* Match the border radius of the card */
-  padding: 1px; /* Adjust the width of the border */
+  padding: 0.5px; /* Adjust the width of the border */
   background: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 

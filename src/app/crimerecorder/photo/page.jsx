@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import icon3 from "../../../../public/record.png";
-import { Recording, takePicture } from "../components/Recording";
+import { Recording } from "../components/Recording";
 import { Header } from "../components/Header";
 
 const TakePicture = () => {
@@ -14,7 +14,6 @@ const TakePicture = () => {
       <Header />
       <div className="flex justify-center" id="take-picture">
         <Recording
-          // onClick={takePicture}
           text={text.text2}
           icon1={icon3}
           imgText={`Click to Take a Picture`}
