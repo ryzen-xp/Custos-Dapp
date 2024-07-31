@@ -117,7 +117,7 @@ const Navbar = () => {
 
       {showLaunchDapps && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-          <div className="bg-black rounded-lg shadow-lg p-8 border-gradient space-x-6 relative w-full sm:w-[500px] lg:w-[1000px] flex flex-col md:flex-row">
+          <div className="bg-black rounded-lg shadow-lg p-8 border-gradient space-x-6 relative w-full sm:w-[90%] md:w-[500px] lg:w-[1000px] flex flex-col md:flex-row">
             <button onClick={closeModal} className="absolute top-4 right-4 text-white">
               &times;
             </button>
@@ -166,7 +166,7 @@ const Navbar = () => {
 
       {showCompany && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-          <div className="bg-black rounded-lg shadow-lg p-8 border-gradient space-x-6 relative w-full sm:w-[500px] lg:w-[1000px] flex flex-col md:flex-row">
+          <div className="bg-black rounded-lg shadow-lg p-8 border-gradient space-x-6 relative w-full sm:w-[90%] md:w-[500px] lg:w-[1000px] flex flex-col md:flex-row">
             <button onClick={closeModal} className="absolute top-4 right-4 text-white">
               &times;
             </button>
