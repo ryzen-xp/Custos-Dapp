@@ -12,15 +12,14 @@ export const Header = () => {
       <div className="flex justify-between items-center w-full">
         <Link href="/" className="w-auto">
           <Image src={logo} alt="logo" width={232.7} height={22} />
-        </Link>
-        <div className="flex gap-4 items-center">
-          <div className="hidden md:block">
-            <Button
-              text="Create Agreement"
-              icon={<Image src="/Plus.svg" alt="plus" width={18} height={18} />}
-              link="/agreement/create"
-            />
-          </div>
+        </div>
+        </a>
+        <div className="flex justify-end  gap-20 items-center w-full">
+            {/* <div className="hidden md:block">
+
+            <Button text="Create Agreement" icon={<Image src="/Plus.svg" alt="plus" width={18} height={18}  />} link={"/agreement/create"} />
+            </div> */}
+
           <ConnectButtoncomponent />
         </div>
       </div>

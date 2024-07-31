@@ -46,11 +46,11 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
         setMediaStream(mediaStream);
 
         document.getElementById("vid-recorder").style.display = "block";
-        document.getElementById("vid-record-status").innerText =
-          'Click the "Stop" button to stop recording';
+        // document.getElementById("vid-record-status").innerText =
+        //   'Click the "Stop" button to stop recording';
 
-        thisButton.disabled = true;
-        otherButton.disabled = false;
+        // thisButton.disabled = true;
+        // otherButton.disabled = false;
 
         const mediaRecorder = new MediaRecorder(mediaStream);
         setMediaRecorder(mediaRecorder);
@@ -76,8 +76,8 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     if (mediaRecorder && mediaRecorder.state === "recording") {
       mediaRecorder.stop();
       document.getElementById("vid-recorder").style.display = "none";
-      document.getElementById("vid-record-status").innerText =
-        'Click the "Start" button to start recording';
+      // document.getElementById("vid-record-status").innerText =
+      //   'Click the "Start" button to start recording';
 
       try {
         // Convert recorded chunks to a single Blob
@@ -109,8 +109,22 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       } catch (error) {
         console.error("Error uploading video:", error);
       }
-      window.location.reload();
+      // window.location.reload();
     }
+  };
+
+  const startCamera = () => {
+    const constraints = { video: true, audio: false };
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then((mediaStream) => {
+        const video = document.getElementById("web-cam-container");
+        video.srcObject = mediaStream;
+        setMediaStream(mediaStream);
+      })
+      .catch((err) => {
+        console.error("Error accessing camera:", err);
+      });
   };
 
   const takePicture = async () => {
@@ -121,7 +135,9 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
     const imageDataUrl = canvas.toDataURL();
     setImageUrl(imageDataUrl);
-    document.getElementById("download-image").style.display = "block";
+    document.getElementById("download-image") != null
+      ? (document.getElementById("download-image").style.display = "block")
+      : null;
 
     try {
       // Convert the captured image to a Blob
@@ -145,12 +161,20 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
         const cid = data.value.cid;
         console.log(cid);
         localStorage.setItem("image_uri", cid);
-        alert("Image uploaded successfully!");
+        console.log("Image uploaded successfully!");
       } else {
         console.error("Failed to upload image");
       }
     } catch (error) {
       console.error("Error uploading image:", error);
+    }
+  };
+
+  const handleStopMedia = () => {
+    if (category === "image") {
+      takePicture();
+    } else if (category === "video") {
+      stopRecording();
     }
   };
 
@@ -160,6 +184,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       downloadLink.href = videoUrl;
       downloadLink.download = "recorded-video.webm";
       document.body.appendChild(downloadLink);
+      downloadLink.id = "download-video";
       downloadLink.click();
       document.body.removeChild(downloadLink);
     }
@@ -171,6 +196,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       downloadLink.href = imageUrl;
       downloadLink.download = "captured-image.png";
       document.body.appendChild(downloadLink);
+      downloadLink.id = "download-image";
       downloadLink.click();
       document.body.removeChild(downloadLink);
     }
@@ -179,6 +205,8 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   useEffect(() => {
     if (category === "video") {
       startRecording();
+    } else if (category === "image") {
+      startCamera();
     }
   }, []);
 
@@ -228,7 +256,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
           </button>
           <TransactionButton
             theme={"light"}
-            className=""
+            onClick={handleStopMedia}
             transaction={() => {
               return transaction;
             }}
