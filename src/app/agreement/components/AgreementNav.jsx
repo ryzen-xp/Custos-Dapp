@@ -10,10 +10,11 @@ export const Header = () => {
   return (
     <div className="flex flex-col gap-4 w-full p-4">
       <div className="flex justify-between items-center w-full">
-        <Link href="/" className="w-auto">
+        <a href="/" className="w-auto">
           <Image src={logo} alt="logo" width={232.7} height={22} />
+          </a>
         </div>
-        </a>
+       
         <div className="flex justify-end  gap-20 items-center w-full">
             {/* <div className="hidden md:block">
 
@@ -22,11 +23,12 @@ export const Header = () => {
 
           <ConnectButtoncomponent />
         </div>
-      </div>
+      
       <div className="text-white text-center md:text-left text-xl md:text-2xl">
         Agreement
       </div>
     </div>
+    
   );
 };
 
