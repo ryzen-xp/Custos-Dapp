@@ -13,7 +13,6 @@ export default function Home() {
         </div>
         <Hero />
         <Agree />
-        <Footer />
       </main>
     </div>
   );

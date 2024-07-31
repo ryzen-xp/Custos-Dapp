@@ -1,17 +1,36 @@
+'use client'
 import React from 'react';
 import Image from 'next/image';
 import Agree from './agree';
-
+import { useEffect, useState } from 'react';
 const Hero = () => {
+    const [starPosition, setStarPosition] = useState({ top: '0%', left: '50%' });
+  
+    useEffect(() => {
+      // Generate random positions for the star
+      const randomTop = Math.random() * 80; // Random top position (0% to 80%)
+      const randomLeft = Math.random() * 80; // Random left position (0% to 80%)
+  
+      // Set the star position as a percentage
+      setStarPosition({
+        top: `${randomTop}%`,
+        left: `${randomLeft}%`
+      });
+    }, []); // Only run on mount (when the component mounts)
   return (
     <main className="flex items-center justify-center min-h-screen">
       <div className="text-white py-20 mx-auto flex flex-col justify-center items-center w-full max-w-screen-xl px-4">
-        <a href="/services">
-          <button className="relative max-w-sm w-full text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-20 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
-            <span className="flex items-center">Launch Custos Dapp</span>
-            <img src="/star.png" className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 z-20" alt="Star Icon" />
-          </button>
-        </a>
+      <a href="/services">
+      <button className="relative max-w-sm w-full text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-20 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
+        <span className="flex items-center">Launch Custos Dapp</span>
+        <img
+          src="/star.png"
+          className="absolute w-4 h-4 z-20"
+          alt="Star Icon"
+          style={{ top: starPosition.top, left: starPosition.left, transform: 'translate(-50%, -50%)' }}
+        />
+      </button>
+    </a>
 
         <p className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent text-center w-full p-3">
           The new blockchain safe

@@ -3,18 +3,20 @@ import React from 'react';
 
 import Link from 'next/link';
 import Image from 'next/image';
-const printAgreement = (agreement) => {
-  const printContent = `
-    <h1>${agreement.title}</h1>
-    <p>Second Party Address: ${agreement.secondPartyAddress}</p>
-    <p>Created by  : ${agreement.creatorName}</p>
-    <p>${agreement.content}</p>
-  `;
-  const printWindow = window.open('', '', 'width=800,height=600');
-  printWindow.document.write(printContent);
-  printWindow.document.close();
-  printWindow.print();
-};
+import ConnectButtoncomponent from '../connect';
+import Footer from '../footer';
+// const printAgreement = (agreement) => {
+//   const printContent = `
+//     <h1>${agreement.title}</h1>
+//     <p>Second Party Address: ${agreement.secondPartyAddress}</p>
+//     <p>Created by  : ${agreement.creatorName}</p>
+//     <p>${agreement.content}</p>
+//   `;
+//   const printWindow = window.open('', '', 'width=800,height=600');
+//   printWindow.document.write(printContent);
+//   printWindow.document.close();
+//   printWindow.print();
+// };
 
 const Agree = () => {
   return (
@@ -107,27 +109,17 @@ const Agree = () => {
           </p>
         </div>
       </div>
-      <div className="flex items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-        <div className="text-center p-8 bg-transparent rounded shadow-lg mt-20">
-          <p className=" text-[50px] mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent ">Make better decision</p>
-          <p className="text-[20px]  mb-4">
-          We paid the price to keep your videos and legal agreements safe.
-          </p>
-        </div>
-        
-      </div>  
-      <div className="justify-center items-center flex mb-20">
-        <a href="/services">
-        <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-5 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
-          <span className="flex items-center">
-            Get Started
-          </span>
-          <svg className="ml-2 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-          </svg>
-        </button>
-        </a>
-      </div>
+      <div className="flex flex-col items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+  <div className="text-center p-8 bg-transparent rounded shadow-lg mt-20">
+    <p className="text-[50px] mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">Make better decision</p>
+    <p className="text-[20px] mb-4">
+      We paid the price to keep your videos and legal agreements safe.
+    </p>
+  </div>
+  <ConnectButtoncomponent />
+</div>
+ 
+  <Footer/>
     </main>
   );
 };

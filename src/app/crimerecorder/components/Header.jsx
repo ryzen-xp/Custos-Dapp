@@ -8,15 +8,15 @@ import ConnectButtoncomponent from "@/components/connect";
 
 export const Header = () => {
   return (
-    <div className="flex flex-col gap-10">
-      <div className="flex justify-between items-center w-[100%]">
-        <Link href={`/`} className="w-[100%]">
+    <div className="flex flex-col gap-10 p-4">
+      <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-4">
+        <Link href={`/`} className="w-full sm:w-auto">
           <Image src={logo} alt="logo" width={232.7} height={22} />
         </Link>
-        <div className="flex justify-evenly items-center w-[100%]">
+        <div className="flex flex-col sm:flex-row justify-evenly items-center w-full sm:w-auto gap-4">
           <button className="bg-[#0094FF] rounded-full p-[0.2rem]">
             <span
-              className="flex justify-between items-center gap-2 rounded-full shadow-[#A02294_2px_1px_2px_0.2px] w-full h-full py-4 px-10"
+              className="flex justify-between items-center gap-2 rounded-full shadow-[#A02294_2px_1px_2px_0.2px] w-full h-full py-2 sm:py-4 px-6 sm:px-10"
               style={{
                 backgroundColor: "#1e2f37",
                 backgroundImage: `url(${bg.src})`,
@@ -25,18 +25,17 @@ export const Header = () => {
             >
               <Link
                 href={`/crimerecorder/video`}
-                className="text-white text-base"
+                className="text-white text-sm sm:text-base"
               >
                 Record a Video
               </Link>
               <Image src={icon} alt="logo" width={24} height={24} />
             </span>
           </button>
-
           <ConnectButtoncomponent />
         </div>
       </div>
-      <div className="text-white text-2xl">Crime Recorder</div>
+      <div className="text-white text-xl sm:text-2xl text-center sm:text-left">Crime Recorder</div>
     </div>
   );
 };

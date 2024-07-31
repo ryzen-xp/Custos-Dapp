@@ -11,12 +11,12 @@ const Recorder = () => {
   const text = {
     text1: `You can record a video, or take a picture to keep on the blockchain`,
   };
-  ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAxMmMyMDQxOTMxZjBCMTk5MjRFNjk4NjcxMDE0YzJjYjY4RWNGNjMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcwNzc0NjU2NTkxMCwibmFtZSI6IkN5YmVyICJ9.AvvSAu9TIQV5uXXpWZ68c_0j0RGbNbc69aBjDzFDPIs");
+  ("b9d0c089.5d322cf006f543019dbac31208e4af82");
 
   return (
-    <div className="h-screen w-full m-10">
+    <div className="min-h-screen w-full p-4 md:p-10">
       <Header />
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center mt-4 md:mt-10">
         <Record text={text.text1} icon1={icon1} icon2={icon2} />
         {/* <Uploads /> */}
       </div>

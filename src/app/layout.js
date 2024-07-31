@@ -1,6 +1,7 @@
 import { Kanit } from "next/font/google";
 import "./globals.css";
 import { ThirdwebProvider } from "thirdweb/react";
+import Footer from "@/components/footer";
 
 const kanit = Kanit({
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -9,7 +10,7 @@ const kanit = Kanit({
 
 export const metadata = {
   title: "Custos Diretriz",
-  description: "Onchain security platform",
+  description: "The new blockchain safe",
   link: <link rel="icon" href="/favicon.png" />,
 };
 
@@ -21,8 +22,13 @@ export default function RootLayout({ children }) {
         {metadata.link}
       </head>
 
-      <body className={`flex-col flex ${kanit.fontStyles}`}>
-        <ThirdwebProvider>{children}</ThirdwebProvider>
+      <body className={`flex flex-col min-h-screen ${kanit.fontStyles}`}>
+        <ThirdwebProvider>
+          <div className="flex-grow">{children}</div>
+          <div className="mobile-footer">
+          
+          </div>
+        </ThirdwebProvider>
       </body>
     </html>
   );

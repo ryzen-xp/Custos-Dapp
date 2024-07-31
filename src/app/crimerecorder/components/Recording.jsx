@@ -15,6 +15,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const [mediaStream, setMediaStream] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const [facingMode, setFacingMode] = useState("user"); // "user" for front camera, "environment" for back camera
 
   const clients = new NFTStorage({ token: NFT_STORAGE_TOKEN });
 
@@ -33,7 +34,10 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   };
 
   const startRecording = (thisButton, otherButton) => {
-    const constraints = { video: true, audio: true };
+    const constraints = {
+      video: { facingMode: facingMode },
+      audio: true,
+    };
     navigator.mediaDevices
       .getUserMedia(constraints)
       .then((mediaStream) => {
@@ -69,7 +73,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   };
 
   const stopRecording = async () => {
-    if (mediaRecorder.state === "recording") {
+    if (mediaRecorder && mediaRecorder.state === "recording") {
       mediaRecorder.stop();
       document.getElementById("vid-recorder").style.display = "none";
       document.getElementById("vid-record-status").innerText =
@@ -189,6 +193,12 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     isSuccess,
   } = useWriteToContract("crime", "function coverCrime(string uri)", [uri]);
 
+  const switchCamera = () => {
+    setFacingMode((prevMode) =>
+      prevMode === "user" ? "environment" : "user"
+    );
+  };
+
   return (
     <div className="w-full flex flex-col mt-10 items-center gap-6 ">
       <p className="text-white text-xl">{text}</p>
@@ -210,6 +220,12 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
               Your browser doesn&apos;t support the video tag
             </video>
           </div>
+          <button
+            onClick={switchCamera}
+            className="switch-camera-button"
+          >
+            Switch Camera
+          </button>
           <TransactionButton
             theme={"light"}
             className=""
