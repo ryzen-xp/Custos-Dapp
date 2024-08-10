@@ -1,32 +1,29 @@
+'use client'
 import { Kanit } from "next/font/google";
 import "./globals.css";
-import { ThirdwebProvider } from "thirdweb/react";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Footer from "@/components/footer";
-
+import Metadata from "./metadata";
 const kanit = Kanit({
   weight: ["400", "500", "600", "700", "800", "900"],
   subsets: ["vietnamese"],
 });
 
-export const metadata = {
-  title: "Custos Diretriz",
-  description: "The new blockchain safe",
-  link: <link rel="icon" href="/favicon.png" />,
-};
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>{metadata.title}</title>
-        {metadata.link}
+        <title>{Metadata.title}</title>
+        {Metadata.link}
+        <link id="theme-stylesheet" rel="stylesheet" href="/global.css" />
       </head>
 
-      <body className={`flex flex-col min-h-screen ${kanit.fontStyles}`}>
+      <body className={`flex flex-col min-h-screen ${kanit.className}`}>
+        
         <ThirdwebProvider>
           <div className="flex-grow">{children}</div>
           <div className="mobile-footer">
-          
+            <Footer />
           </div>
         </ThirdwebProvider>
       </body>

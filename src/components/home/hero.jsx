@@ -40,60 +40,61 @@ const Hero = () => {
         </p>
 
         <div className="flex flex-wrap justify-center space-x-0 space-y-4 sm:space-x-4 sm:space-y-0">
-          <div className="max-w-sm w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
-            <div className="px-6 py-4 text-center">
-              <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
-                Crime scene recorder
-              </div>
-              <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-                We are providing a decentralized crime recorder. Videos on Custos are transparent
-              </p>
-            </div>
-            <Image
-              src="/ime.png"
-              alt="Card Image"
-              width={200}
-              height={100}
-              className="w-full h-auto"
-            />
-          </div>
+  <div className="max-w-xs w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-100 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
+    <div className="px-6 py-4 text-center">
+      <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
+        Crime scene recorder
+      </div>
+      <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+        We are providing a decentralized crime recorder. Videos on Custos are transparent
+      </p>
+    </div>
+    <Image
+      src="/ime.png"
+      alt="Card Image"
+      width={200}
+      height={100}
+      className="w-full h-auto"
+    />
+  </div>
 
-          <div className="max-w-sm w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
-            <div className="px-6 py-4 text-center">
-              <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
-                A very secure blockchain safe
-              </div>
-              <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-                Leveraging on Starknet’s advanced technology for unparalleled security and efficiency, we have built a safe for your agreement and videos
-              </p>
-            </div>
-            <Image
-              src="/img.png"
-              alt="Card Image"
-              width={200}
-              height={100}
-              className="w-full h-auto"
-            />
-          </div>
+  <div className="max-w-xs w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-100 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
+    <div className="px-6 py-4 text-center">
+      <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
+        A very secure blockchain safe
+      </div>
+      <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+        Leveraging on Starknet’s advanced technology for unparalleled security and efficiency, we have built a safe for your agreement and videos
+      </p>
+    </div>
+    <Image
+      src="/img.png"
+      alt="Card Image"
+      width={200}
+      height={100}
+      className="w-full h-auto"
+    />
+  </div>
 
-          <div className="max-w-sm w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
-            <div className="px-6 py-4 text-center">
-              <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
-                Agreement documentation
-              </div>
-              <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-                Custos’ smart agreement management will secure your signed documents transparently
-              </p>
-            </div>
-            <Image
-              src="/ima.png"
-              alt="Card Image"
-              width={200}
-              height={100}
-              className="w-full h-auto"
-            />
-          </div>
-        </div>
+  <div className="max-w-xs w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-100 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
+    <div className="px-6 py-4 text-center">
+      <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
+        Agreement documentation
+      </div>
+      <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+        Custos’ smart agreement management will secure your signed documents transparently
+      </p>
+    </div>
+    <Image
+      src="/ima.png"
+      alt="Card Image"
+      width={200}
+      height={100}
+      className="w-full h-auto"
+    />
+  </div>
+</div>
+
       </div>
     </main>
   );

@@ -62,7 +62,7 @@ const About = () => {
       <div className="flex mt-8 items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
       <div className="text-center p-8 bg-transparent rounded shadow-lg">
       <div className="flex flex-col md:flex-row items-center justify-center">
-      <p className="text-[1.5em] mb-4 md:mb-0">Our vision</p>
+         <p className="text-[1.5em] mb-4 md:mb-0">Our vision</p>
   <Image
     src="/ElliS.png"
     alt="Image"
