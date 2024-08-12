@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import icon3 from "../../../../public/record.png";
 import { Recording } from "../components/Recording";

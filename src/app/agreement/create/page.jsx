@@ -41,63 +41,63 @@ const AgreementModal = () => {
   ]);
 
   const creatoraddress = useAccount()?.address;
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const agreementData = {
-      agreementType,
-      content,
-      country,
-      first_party_address: creatoraddress,
-      first_party_id_type: idType,
-      first_party_name: firstPartyName,
-      first_party_valid_id: idNumber,
-      second_party_address: secondPartyAddress,
-      second_party_name: secondPartyName,
-    };
-
-    try {
-      setInitCreationLoad(true);
-      const res = await fetch(
-        "https://custosbackend.onrender.com/agreement/agreement/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(agreementData),
-        }
-      );
-
-      if (!res.ok) {
-        setInitCreationLoad(false);
-        throw new Error("Failed to create agreement");
-      }
-
-      const data = await res.json();
-      setInitCreationLoad(false);
-      setIsModalOpen(true); // Open the success modal
-      setTimeout(() => {
-        // setIsModalOpen(false);
-        redirect("/agreement");
-      }, 4000);
-    } catch (err) {
-      console.error(err.message);
-      setInitCreationLoad(false);
-    }
-  };
-  // const handleSubmit = (event) => {
+  // const handleSubmit = async (event) => {
   //   event.preventDefault();
-  //   // Handle form submission here
-  //   sendTransaction(transaction);
-  //   console.log("Form submitted:", {
+  //   const agreementData = {
   //     agreementType,
   //     content,
   //     country,
-  //     idType,
-  //     idNumber,
-  //     secondPartyAddress,
-  //   });
+  //     first_party_address: creatoraddress,
+  //     first_party_id_type: idType,
+  //     first_party_name: firstPartyName,
+  //     first_party_valid_id: idNumber,
+  //     second_party_address: secondPartyAddress,
+  //     second_party_name: secondPartyName,
+  //   };
+
+  //   try {
+  //     setInitCreationLoad(true);
+  //     const res = await fetch(
+  //       "https://custosbackend.onrender.com/agreement/agreement/",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(agreementData),
+  //       }
+  //     );
+
+  //     if (!res.ok) {
+  //       setInitCreationLoad(false);
+  //       throw new Error("Failed to create agreement");
+  //     }
+
+  //     const data = await res.json();
+  //     setInitCreationLoad(false);
+  //     setIsModalOpen(true); // Open the success modal
+  //     setTimeout(() => {
+  //       // setIsModalOpen(false);
+  //       redirect("/agreement");
+  //     }, 4000);
+  //   } catch (err) {
+  //     console.error(err.message);
+  //     setInitCreationLoad(false);
+  //   }
   // };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Handle form submission here
+    sendTransaction(transaction);
+    console.log("Form submitted:", {
+      agreementType,
+      content,
+      country,
+      idType,
+      idNumber,
+      secondPartyAddress,
+    });
+  };
 
   const renderStep = () => {
     switch (modalStep) {
@@ -117,10 +117,7 @@ const AgreementModal = () => {
               onChange={(e) => setAgreementType(e.target.value)}
               className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
             >
-              <option
-                className="bg-[#04080C] text-white"
-                value=""
-              >
+              <option className="bg-[#04080C] text-white" value="">
                 Select an option
               </option>
               <option
@@ -177,8 +174,8 @@ const AgreementModal = () => {
       case 2:
         return (
           <>
-          <h1 className="text-white text-[1.2em]">Agreement Content</h1>
-              <div className="text-white flex flex-col">
+            <h1 className="text-white text-[1.2em]">Agreement Content</h1>
+            <div className="text-white flex flex-col">
               <label
                 htmlFor="country"
                 className="font-[500] text-[0.8em] text-white"
@@ -196,23 +193,23 @@ const AgreementModal = () => {
               />
             </div>
             <div className="text-white flex flex-col">
-            <label
-              htmlFor="content"
-              className="font-[500] text-[0.8em] text-white"
-            >
-              Agreement Content
-            </label>
-            <textarea
-              id="content"
-              name="content"
-              placeholder="Write or Paste the Content of Your Agreement Here"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
-              rows="10"
-              cols="50"
-            />
-          </div>
+              <label
+                htmlFor="content"
+                className="font-[500] text-[0.8em] text-white"
+              >
+                Agreement Content
+              </label>
+              <textarea
+                id="content"
+                name="content"
+                placeholder="Write or Paste the Content of Your Agreement Here"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
+                rows="10"
+                cols="50"
+              />
+            </div>
           </>
         );
       case 3:
@@ -245,23 +242,24 @@ const AgreementModal = () => {
                 placeholder="Select ID Type"
                 id="idType"
                 name="idType"
-
                 value={idType}
                 onChange={(e) => setIdType(e.target.value)}
                 className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
-              >   <option
-              className="bg-[#04080C] text-white"
-              value="International Passport"
-            >
-              International Passport
-            </option>
-            <option
-              className="bg-[#04080C] text-white"
-              value="National Identification"
-            >
-              National Identification
-            </option>
-          </select>
+              >
+                {" "}
+                <option
+                  className="bg-[#04080C] text-white"
+                  value="International Passport"
+                >
+                  International Passport
+                </option>
+                <option
+                  className="bg-[#04080C] text-white"
+                  value="National Identification"
+                >
+                  National Identification
+                </option>
+              </select>
             </div>
             <div className="mb-4">
               <label
@@ -371,13 +369,12 @@ const AgreementModal = () => {
             )}
 
             {modalStep == 4 && (
-           <button
-           type="submit"
-           className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] sm:w-[156px] w-full rounded-[2em] text-white font-bold py-2 px-4 border-gradient shadow-[0_0_0_1px_#0094FF,0_0_0_3px_rgba(28,167,214,0.41)] transition-transform transform hover:scale-105 active:shadow-none border-gradient"
-         >
-           {initCreationLoad ? "Creating" : "Create"}
-         </button>
-         
+              <button
+                type="submit"
+                className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] sm:w-[156px] w-full rounded-[2em] text-white font-bold py-2 px-4 border-gradient shadow-[0_0_0_1px_#0094FF,0_0_0_3px_rgba(28,167,214,0.41)] transition-transform transform hover:scale-105 active:shadow-none border-gradient"
+              >
+                {initCreationLoad ? "Creating" : "Create"}
+              </button>
             )}
             <button
               type="button"

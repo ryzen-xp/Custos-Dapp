@@ -1,36 +1,40 @@
-'use client'
-import React from 'react';
-import Image from 'next/image';
-import Agree from './agree';
-import { useEffect, useState } from 'react';
+"use client";
+import React from "react";
+import Image from "next/image";
+import Agree from "./agree";
+import { useEffect, useState } from "react";
 const Hero = () => {
-    const [starPosition, setStarPosition] = useState({ top: '0%', left: '50%' });
-  
-    useEffect(() => {
-      // Generate random positions for the star
-      const randomTop = Math.random() * 80; // Random top position (0% to 80%)
-      const randomLeft = Math.random() * 80; // Random left position (0% to 80%)
-  
-      // Set the star position as a percentage
-      setStarPosition({
-        top: `${randomTop}%`,
-        left: `${randomLeft}%`
-      });
-    }, []); // Only run on mount (when the component mounts)
+  const [starPosition, setStarPosition] = useState({ top: "0%", left: "50%" });
+
+  useEffect(() => {
+    // Generate random positions for the star
+    const randomTop = Math.random() * 80; // Random top position (0% to 80%)
+    const randomLeft = Math.random() * 80; // Random left position (0% to 80%)
+
+    // Set the star position as a percentage
+    setStarPosition({
+      top: `${randomTop}%`,
+      left: `${randomLeft}%`,
+    });
+  }, []); // Only run on mount (when the component mounts)
   return (
     <main className="flex items-center justify-center min-h-screen">
       <div className="text-white py-20 mx-auto flex flex-col justify-center items-center w-full max-w-screen-xl px-4">
-      <a href="/services">
-      <button className="relative max-w-sm w-full text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-20 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
-        <span className="flex items-center">Launch Custos Dapp</span>
-        <img
-          src="/star.png"
-          className="absolute w-4 h-4 z-20"
-          alt="Star Icon"
-          style={{ top: starPosition.top, left: starPosition.left, transform: 'translate(-50%, -50%)' }}
-        />
-      </button>
-    </a>
+        <a href="/services">
+          <button className="relative max-w-sm w-full text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-20 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
+            <span className="flex items-center">Launch Custos Dapp</span>
+            <img
+              src="/star.png"
+              className="absolute w-4 h-4 z-20"
+              alt="Star Icon"
+              style={{
+                top: starPosition.top,
+                left: starPosition.left,
+                transform: "translate(-50%, -50%)",
+              }}
+            />
+          </button>
+        </a>
 
         <p className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent text-center w-full p-3">
           The new blockchain safe
@@ -40,61 +44,64 @@ const Hero = () => {
         </p>
 
         <div className="flex flex-wrap justify-center space-x-0 space-y-4 sm:space-x-4 sm:space-y-0">
-  <div className="max-w-xs w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-100 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
-    <div className="px-6 py-4 text-center">
-      <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
-        Crime scene recorder
-      </div>
-      <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-        We are providing a decentralized crime recorder. Videos on Custos are transparent
-      </p>
-    </div>
-    <Image
-      src="/ime.png"
-      alt="Card Image"
-      width={200}
-      height={100}
-      className="w-full h-auto"
-    />
-  </div>
+          <div className="max-w-xs w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-100 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
+            <div className="px-6 py-4 text-center">
+              <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
+                Crime scene recorder
+              </div>
+              <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+                We are providing a decentralized crime recorder. Videos on
+                Custos are transparent
+              </p>
+            </div>
+            <Image
+              src="/ime.png"
+              alt="Card Image"
+              width={200}
+              height={100}
+              className="w-full h-auto"
+            />
+          </div>
 
-  <div className="max-w-xs w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-100 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
-    <div className="px-6 py-4 text-center">
-      <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
-        A very secure blockchain safe
-      </div>
-      <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-        Leveraging on Starknet’s advanced technology for unparalleled security and efficiency, we have built a safe for your agreement and videos
-      </p>
-    </div>
-    <Image
-      src="/img.png"
-      alt="Card Image"
-      width={200}
-      height={100}
-      className="w-full h-auto"
-    />
-  </div>
+          <div className="max-w-xs w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-100 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
+            <div className="px-6 py-4 text-center">
+              <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
+                A very secure blockchain safe
+              </div>
+              <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+                Leveraging on Starknet’s advanced technology for unparalleled
+                security and efficiency, we have built a safe for your agreement
+                and videos
+              </p>
+            </div>
+            <Image
+              src="/img.png"
+              alt="Card Image"
+              width={200}
+              height={100}
+              className="w-full h-auto"
+            />
+          </div>
 
-  <div className="max-w-xs w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-100 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
-    <div className="px-6 py-4 text-center">
-      <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
-        Agreement documentation
-      </div>
-      <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-        Custos’ smart agreement management will secure your signed documents transparently
-      </p>
-    </div>
-    <Image
-      src="/ima.png"
-      alt="Card Image"
-      width={200}
-      height={100}
-      className="w-full h-auto"
-    />
-  </div>
-</div>
-
+          <div className="max-w-xs w-full sm:w-auto rounded overflow-hidden shadow-lg transform hover:scale-100 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex flex-col items-center relative m-2">
+            <div className="px-6 py-4 text-center">
+              <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
+                Agreement documentation
+              </div>
+              <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+                Custos’ smart agreement management will secure your signed
+                documents transparently
+              </p>
+            </div>
+            <Image
+              src="/ima.png"
+              alt="Card Image"
+              width={200}
+              height={100}
+              className="w-full h-auto"
+            />
+          </div>
+        </div>
       </div>
     </main>
   );

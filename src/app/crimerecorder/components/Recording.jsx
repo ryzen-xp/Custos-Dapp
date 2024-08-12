@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import bg from "../../../../public/Rectangle.png";
 import Icons from "./Icons";
@@ -222,9 +223,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   } = useWriteToContract("crime", "function coverCrime(string uri)", [uri]);
 
   const switchCamera = () => {
-    setFacingMode((prevMode) =>
-      prevMode === "user" ? "environment" : "user"
-    );
+    setFacingMode((prevMode) => (prevMode === "user" ? "environment" : "user"));
   };
 
   return (
@@ -248,10 +247,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
               Your browser doesn&apos;t support the video tag
             </video>
           </div>
-          <button
-            onClick={switchCamera}
-            className="switch-camera-button"
-          >
+          <button onClick={switchCamera} className="switch-camera-button">
             Switch Camera
           </button>
           <TransactionButton

@@ -1,8 +1,7 @@
-// components/Navbar.js
-'use client';
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import {
   FaChevronDown,
   FaArrowRight,
@@ -11,10 +10,9 @@ import {
   FaUser,
   FaUserPlus,
   FaPhone,
-} from 'react-icons/fa';
-import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
-import ConnectButtoncomponent from './connect';
-
+} from "react-icons/fa";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import ConnectButtoncomponent from "./connect";
 
 const Navbar = () => {
   const [showLaunchDapps, setShowLaunchDapps] = useState(false);
@@ -65,7 +63,7 @@ const Navbar = () => {
                     <FaChevronDown className="w-5 h-5 ml-1" />
                   </button>
                 </li>
-               
+
                 <li>
                   <button
                     onClick={toggleCompany}
@@ -77,7 +75,6 @@ const Navbar = () => {
               </ul>
             </div>
             <div className="flex items-center space-x-4">
-              
               <div className="md:hidden flex items-center">
                 <button onClick={toggleMenu}>
                   {isMenuOpen ? (
@@ -123,14 +120,18 @@ const Navbar = () => {
       {showLaunchDapps && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
           <div className="bg-black rounded-lg shadow-lg p-8 border-gradient space-x-6 relative w-[90%] sm:w-[50%] md:w-[500px] lg:w-[1000px] flex flex-col md:flex-row h-full md:h-auto md:max-h-[90%]">
-            <button onClick={closeModal} className="absolute top-4 right-4 text-white">
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-white"
+            >
               &times;
             </button>
             <div className="flex-1 flex flex-col justify-between overflow-y-auto md:overflow-visible h-1/2 md:h-auto">
               <div>
                 <p className="text-3xl text-white">Launch Dapps</p>
                 <p className="mt-4 text-gray-300">
-                  Decentralized apps help you leverage blockchain technology to secure your evidence and legal agreements.
+                  Decentralized apps help you leverage blockchain technology to
+                  secure your evidence and legal agreements.
                 </p>
               </div>
               <Image
@@ -172,20 +173,30 @@ const Navbar = () => {
       {showCompany && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
           <div className="bg-black rounded-lg shadow-lg p-8 border-gradient space-x-6 relative w-[90%] sm:w-[50%] md:w-[500px] lg:w-[1000px] flex flex-col md:flex-row h-full md:h-auto md:max-h-[90%]">
-            <button onClick={closeModal} className="absolute top-4 right-4 text-white">
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-white"
+            >
               &times;
             </button>
             <div className="flex-1 flex flex-col justify-between overflow-y-auto md:overflow-visible h-1/2 md:h-auto">
               <div>
                 <p className="text-3xl text-white">Invulnerable</p>
                 <p className="my-4 text-gray-300">
-                  Custos Diretriz is mastering the art of preservation and shielding on the blockchain.
+                  Custos Diretriz is mastering the art of preservation and
+                  shielding on the blockchain.
                 </p>
-                <Link href="#" className="mt-4 text-gray-300 hover:text-[#c92eff] flex items-center">
+                <Link
+                  href="#"
+                  className="mt-4 text-gray-300 hover:text-[#c92eff] flex items-center"
+                >
                   Join the Community
                   <FaArrowRight className="ml-1" />
                 </Link>
-                <Link href="#" className="mt-2 text-gray-300 hover:text-[#c92eff] flex items-center">
+                <Link
+                  href="#"
+                  className="mt-2 text-gray-300 hover:text-[#c92eff] flex items-center"
+                >
                   Learn More About Custos
                   <FaArrowRight className="ml-1" />
                 </Link>
