@@ -35,7 +35,9 @@ export const Header = () => {
           <ConnectButtoncomponent />
         </div>
       </div>
-      <div className="text-white text-xl sm:text-2xl text-center sm:text-left">Crime Recorder</div>
+      <div className="text-white text-xl sm:text-2xl text-center sm:text-left">
+        Crime Recorder
+      </div>
     </div>
   );
 };

@@ -124,15 +124,6 @@
   font-style: italic;
 }
 
-/* body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  max-width: 1440px;
-  max-height: 1079px;
-  width: 100%;
-} */
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -144,12 +135,12 @@
 .border-gradient {
   position: relative;
 }
-.br{
-  border-radius:50px;
+.br {
+  border-radius: 50px;
 }
 
 .border-gradient::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -157,13 +148,9 @@
   bottom: 0;
   border-radius: inherit; /* Match the border radius of the card */
   padding: 1px; /* Adjust the width of the border */
-  background: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
+  background: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out; /* For Safari */
   mask-composite: exclude; /* For other browsers */
 }
@@ -171,9 +158,8 @@
   position: relative;
 }
 
-
 .border-gradient2::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -181,32 +167,31 @@
   bottom: 0;
   border-radius: inherit; /* Match the border radius of the card */
   padding: 1px; /* Adjust the width of the border */
-  background: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
+  background: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out; /* For Safari */
   mask-composite: exclude; /* For other browsers */
 }
 button .text-transparent {
-  background: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
+  background: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
   -webkit-background-clip: text;
   background-clip: text;
 }
 
-
-.border-div{
+.border-div {
   display: flex;
   justify-content: center;
   align-items: center;
   border: 5px solid;
-  border-image-source: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
+  border-image-source: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
 }
-.content-div{
-  background: linear-gradient(90deg, rgba(25, 177, 210, 0.03) 0%, rgba(0, 148, 255, 0.03) 100%);
+.content-div {
+  background: linear-gradient(
+    90deg,
+    rgba(25, 177, 210, 0.03) 0%,
+    rgba(0, 148, 255, 0.03) 100%
+  );
 
   border-radius: 4px;
 }
