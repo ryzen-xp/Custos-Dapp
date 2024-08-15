@@ -21,7 +21,7 @@ const Hero = () => {
     <main className="flex items-center justify-center min-h-screen">
       <div className="text-white py-20 mx-auto flex flex-col justify-center items-center w-full max-w-screen-xl px-4">
         <a href="/services">
-          <button className="relative max-w-sm w-full text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-20 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
+          <button className="relative max-w-sm br w-full text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-20 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
             <span className="flex items-center">Launch Custos Dapp</span>
             <img
               src="/star.png"
