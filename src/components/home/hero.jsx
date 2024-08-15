@@ -1,37 +1,26 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React from "react";
 import Image from "next/image";
 import Agree from "./agree";
-import { useEffect, useState } from "react";
+import gsap from "gsap";
+import { useEffect, useState, useRef } from "react";
 const Hero = () => {
-  const [starPosition, setStarPosition] = useState({ top: "0%", left: "50%" });
+  const starRef = useRef(null);
+
 
   useEffect(() => {
-    // Generate random positions for the star
-    const randomTop = Math.random() * 80; // Random top position (0% to 80%)
-    const randomLeft = Math.random() * 80; // Random left position (0% to 80%)
-
-    // Set the star position as a percentage
-    setStarPosition({
-      top: `${randomTop}%`,
-      left: `${randomLeft}%`,
-    });
-  }, []); // Only run on mount (when the component mounts)
+  }, []);
   return (
     <main className="flex items-center justify-center min-h-screen">
-      <div className="text-white py-20 mx-auto flex flex-col justify-center items-center w-full max-w-screen-xl px-4">
-        <a href="/services">
-          <button className="relative max-w-sm br w-full text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-20 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
+      <div className="text-white py-20 mx-auto flex flex-col justify-center items-center w-full px-4">
+      <a href="/services" className=" flex w-fit h-fit">
+          <button className="relative br w-full text-white shadow-lg py-3 px-6 transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50  backdrop-filter backdrop-blur-lg flex items-center justify-center ">
             <span className="flex items-center">Launch Custos Dapp</span>
             <img
               src="/star.png"
-              className="absolute w-4 h-4 z-20"
+              className="absolute w-6 h-8 z-20 animate-star"
               alt="Star Icon"
-              style={{
-                top: starPosition.top,
-                left: starPosition.left,
-                transform: "translate(-50%, -50%)",
-              }}
             />
           </button>
         </a>
