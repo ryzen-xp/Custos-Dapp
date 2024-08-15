@@ -1,28 +1,25 @@
-import { Kanit } from "next/font/google";
+"use client";
 import "./globals.css";
-import { ThirdwebProvider } from "thirdweb/react";
-
-const kanit = Kanit({
-  weight: ["400", "500", "600", "700", "800", "900"],
-  subsets: ["vietnamese"],
-});
-
-export const metadata = {
-  title: "Custos Diretriz",
-  description: "Onchain security platform",
-  link: <link rel="icon" href="/favicon.png" />,
-};
+import Footer from "@/components/footer";
+import Metadata from "./metadata";
+import BackgroundWrapper from "@/components/backgroundwrapper";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>{metadata.title}</title>
-        {metadata.link}
+        <title>{Metadata.title}</title>
+        {Metadata.link}
       </head>
+      <body className={`flex flex-col min-h-screen ${kanit.className}`}>
+      <BackgroundWrapper>
 
-      <body className={`flex-col flex ${kanit.fontStyles}`}>
-        <ThirdwebProvider>{children}</ThirdwebProvider>
+        
+          <div className="flex-grow">{children}</div>
+          <div className="mobile-footer">
+            <Footer />
+          </div>
+      </BackgroundWrapper>
       </body>
     </html>
   );

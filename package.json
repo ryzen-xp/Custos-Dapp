@@ -13,7 +13,9 @@
     "@thirdweb-dev/react": "^4.9.4",
     "date-fns": "^3.6.0",
     "ethers": "^5.7.2",
+    "get-starknet": "^3.3.3",
     "graphql": "^16.8.1",
+    "gsap": "^3.12.5",
     "next": "14.2.3",
     "nft.storage": "^7.1.1",
     "pino-pretty": "^11.0.0",
@@ -22,6 +24,7 @@
     "react-icons": "^5.2.1",
     "react-modal": "^3.16.1",
     "react-query": "^3.39.3",
+    "starknet": "^6.12.1",
     "tailwindcss-border-gradient-radius": "^3.0.1",
     "thirdweb": "^5.31.0",
     "urql": "^4.0.7"

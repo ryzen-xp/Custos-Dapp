@@ -1,6 +1,6 @@
 import Hero from "@/components/home/hero";
 import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+// import Footer from "@/components/footer";
 import Agree from "@/components/home/agree";
 
 export default function Home() {
@@ -8,12 +8,10 @@ export default function Home() {
     <div className="min-h-screen kanit">
       <main className="kanit">
         <div className="mb-10 px-6">
-
-        <Navbar />
+          <Navbar />
         </div>
         <Hero />
         <Agree />
-        <Footer />
       </main>
     </div>
   );

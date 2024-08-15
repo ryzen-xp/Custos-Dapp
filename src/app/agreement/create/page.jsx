@@ -1,11 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
+// /* eslint-disable react/no-unescaped-entities */
 "use client";
-import { useWriteToContract } from "@/utils/fetchcontract";
+// import { useWriteToContract } from "@/utils/fetchcontract";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Header } from "../components/AgreementNav";
 import { redirect } from "next/navigation";
-import { useAccount } from "@/utils/fetchcontract";
+// import { useAccount } from "@/utils/fetchcontract";
 import Modal from "react-modal";
 import SuccessScreen from "../components/Success";
 
@@ -24,22 +25,22 @@ const AgreementModal = () => {
   const [errors, setErrors] = useState({});
   console.log(modalStep);
 
-  const {
-    sendTransaction,
-    transaction,
-    isPending,
-    isLoading,
-    error,
-    data,
-    isSuccess,
-  } = useWriteToContract("agreement", "createAgreement", [
-    content,
-    secondPartyAddress,
-    "firstPartyName",
-    idNumber,
-  ]);
+  // const {
+  //   sendTransaction,
+  //   transaction,
+  //   isPending,
+  //   isLoading,
+  //   error,
+  //   data,
+  //   isSuccess,
+  // } = useWriteToContract("agreement", "createAgreement", [
+  //   content,
+  //   secondPartyAddress,
+  //   "firstPartyName",
+  //   idNumber,
+  // ]);
 
-  const creatoraddress = useAccount()?.address;
+  // const creatoraddress = useAccount()?.address;
   const handleSubmit = async (event) => {
     event.preventDefault();
     const agreementData = {

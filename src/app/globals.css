@@ -5,8 +5,8 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"); */
 
 :root {
-  background: #1e2f37;
-  background-image: url("../../public/Rectangle.png");
+  /* background: #1e2f37; */
+  /* background-image: url("../../public/Rectangle.png"), url("../../public/leftbg.svg"), url("../../public/rightbg.svg"); */
   background-position: center;
   background-size: contain;
   background-blend-mode: multiply;
@@ -124,15 +124,6 @@
   font-style: italic;
 }
 
-/* body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  max-width: 1440px;
-  max-height: 1079px;
-  width: 100%;
-} */
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -144,36 +135,12 @@
 .border-gradient {
   position: relative;
 }
-.br{
-  border-radius:50px;
+.br {
+  border-radius: 50px;
 }
 
 .border-gradient::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit; /* Match the border radius of the card */
-  padding: 0.5px; /* Adjust the width of the border */
-  background: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: destination-out; /* For Safari */
-  mask-composite: exclude; /* For other browsers */
-}
-.border-gradient2 {
-  position: relative;
-}
-
-
-.border-gradient2::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -181,32 +148,50 @@
   bottom: 0;
   border-radius: inherit; /* Match the border radius of the card */
   padding: 1px; /* Adjust the width of the border */
-  background: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
+  background: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out; /* For Safari */
+  mask-composite: exclude; /* For other browsers */
+}
+.border-gradient2 {
+  position: relative;
+}
+
+.border-gradient2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit; /* Match the border radius of the card */
+  padding: 1px; /* Adjust the width of the border */
+  background: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out; /* For Safari */
   mask-composite: exclude; /* For other browsers */
 }
 button .text-transparent {
-  background: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
+  background: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
   -webkit-background-clip: text;
   background-clip: text;
 }
 
-
-.border-div{
+.border-div {
   display: flex;
   justify-content: center;
   align-items: center;
   border: 5px solid;
-  border-image-source: linear-gradient(90deg, #0094FF 0%, #A02294 100%);
+  border-image-source: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
 }
-.content-div{
-  background: linear-gradient(90deg, rgba(25, 177, 210, 0.03) 0%, rgba(0, 148, 255, 0.03) 100%);
+.content-div {
+  background: linear-gradient(
+    90deg,
+    rgba(25, 177, 210, 0.03) 0%,
+    rgba(0, 148, 255, 0.03) 100%
+  );
 
   border-radius: 4px;
 }
@@ -236,13 +221,51 @@ button .text-transparent {
   z-index: 1000;
 }
 
-.button-drop-shadow {
-  box-shadow: 
-    0 0 6px 1px rgba(132, 129, 129, 0.21), 
-    0 0 0 2px rgba(132, 129, 129, 0.16);
+
+
+
+
+/* star button animations */
+@keyframes star-move {
+  0% {
+    top: -20%;
+    left: 0%;
+  }
+
+  15% {
+    top: -20%;
+    left: 20%;
+  }
+  25% {
+    top: -20%;
+    left: 50%;
+  }
+  35% {
+    top: -20%;
+    left: 70%;
+  }
+  50% {
+    top: 40%;
+    left: 90%;
+  }
+  65% {
+    top: 80%;
+    left: 80%;
+  }
+  75% {
+    top: 80%;
+    left: 50%;
+  }
+  85% {
+    top: 80%;
+    left: 1%;
+  }
+  100% {
+    top: 0;
+    left: 0;
+  }
 }
 
-.button-hover-effect {
-  transition: all 0.3s ease-in-out;
-  transform: scale(1.05);
+.animate-star {
+  animation: star-move 5s linear infinite;
 }

@@ -1,94 +1,77 @@
-"use client";
-import {
-  useActiveAccount,
-  useReadContract,
-  useSendTransaction,
-} from "thirdweb/react";
-import { prepareContractCall, getContract } from "thirdweb";
-import { baseSepolia } from "thirdweb/chains";
-import { getRpcClient } from "thirdweb/rpc";
-import { readContract } from "thirdweb";
-import crimeAbi from "./coverCrimeAbi.json";
-import agreementAbi from "./agreementAbi.json";
-import { createThirdwebClient } from "thirdweb";
+// import crimeAbi from "./coverCrimeAbi.json";
+// import agreementAbi from "./agreementAbi.json";
 
-const client_id = process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID;
-export const client = createThirdwebClient({
-  clientId: client_id,
-});
+// const contractConfigs = {
+//   crime: {
+//     address: "0x08224d5346fe0f05dad0b3eed040b5c0f0da6d6d",
+//     abi: crimeAbi,
+//   },
+//   agreement: {
+//     address: "0x71B7d170E025CEDaeD65d5579330C865fe3633Ca",
+//     abi: agreementAbi,
+//   },
+// };
 
-// Predefined contract configurations
-const contractConfigs = {
-  crime: {
-    address: "0x08224d5346fe0f05dad0b3eed040b5c0f0da6d6d",
-    abi: crimeAbi,
-  },
-  agreement: {
-    address: "0x71B7d170E025CEDaeD65d5579330C865fe3633Ca",
-    abi: agreementAbi,
-  },
-};
+// // Utility function to get a contract
+// const getContractByType = (type) => {
+//   const config = contractConfigs[type];
+//   if (!config) throw new Error(`Unknown contract type: ${type}`);
 
-// Utility function to get a contract
-const getContractByType = (type) => {
-  const config = contractConfigs[type];
-  if (!config) throw new Error(`Unknown contract type: ${type}`);
+//   return getContract({
+//     client: client,
+//     chain: baseSepolia,
+//     address: config.address,
+//     abi: config.abi,
+//   });
+// };
 
-  return getContract({
-    client: client,
-    chain: baseSepolia,
-    address: config.address,
-    abi: config.abi,
-  });
-};
+// // Hook to read data from a contract
+// export const useReadContractData = (contractType, method, args = []) => {
+//   const contract = getContractByType(contractType);
+//   const response = readContract({
+//     contract,
+//     method: method,
+//     params: args,
+//   });
+//   return response;
+// };
 
-// Hook to read data from a contract
-export const useReadContractData = (contractType, method, args = []) => {
-  const contract = getContractByType(contractType);
-  const response = readContract({
-    contract,
-    method: method,
-    params: args,
-  });
-  return response;
-};
+// // Hook to write data to a contract
+// export const useWriteToContract = (contractType, method, args = []) => {
+//   const contract = getContractByType(contractType);
+//   const {
+//     mutate: sendTransaction,
+//     isPending,
+//     isLoading,
+//     error,
+//     data,
+//     isSuccess,
+//   } = useSendTransaction();
+//   const transaction = prepareContractCall({
+//     contract,
+//     method,
+//     params: args,
+//   });
+//   return {
+//     sendTransaction,
+//     transaction,
+//     isPending,
+//     isLoading,
+//     error,
+//     data,
+//     isSuccess,
+//     contractType,
+//     method,
+//   };
+// };
 
-// Hook to write data to a contract
-export const useWriteToContract = (contractType, method, args = []) => {
-  const contract = getContractByType(contractType);
-  const {
-    mutate: sendTransaction,
-    isPending,
-    isLoading,
-    error,
-    data,
-    isSuccess,
-  } = useSendTransaction();
-  const transaction = prepareContractCall({
-    contract,
-    method,
-    params: args,
-  });
-  return {
-    sendTransaction,
-    transaction,
-    isPending,
-    isLoading,
-    error,
-    data,
-    isSuccess,
-    contractType,
-    method,
-  };
-};
-
-// Custom hook to get the active account
-export const useAccount = () => useActiveAccount();
-// Example usage in a component
-/*****
- *
- *
- * const { data: crimeData, isLoading: crimeLoading } = useReadContractData(client, "crime", "methodName", ["arg1", "arg2"]);
- * const { data: agreementData, isLoading: agreementLoading } = useReadContractData(client, "agreement", "methodName", ["arg1", "arg2"]);
- *
- */
+// // Custom hook to get the active account
+// export const useAccount = () => useActiveAccount();
+// // Example usage in a component
+// /*****
+//  *
+//  *
+//  * const { data: crimeData, isLoading: crimeLoading } = useReadContractData(client, "crime", "methodName", ["arg1", "arg2"]);
+//  * const { data: agreementData, isLoading: agreementLoading } = useReadContractData(client, "agreement", "methodName", ["arg1", "arg2"]);
+//  *
+//  */
