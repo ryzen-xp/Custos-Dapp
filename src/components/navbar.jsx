@@ -38,22 +38,22 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="py-4 bg-transparent fixed top-0 w-full z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            <div>
+      <nav className="py-[2rem] pr-[4rem] pl-[1rem]  bg-transparent fixed top-0 w-full">
+        <div className="w-full mx-auto">
+          <div className="flex justify-around items-center">
+            <div className="">
               <Link href="/">
                 <Image
                   src="/logo.png"
                   alt="Logo"
-                  width={200}
+                  width={250}
                   height={50}
                   className="rounded-lg"
                 />
               </Link>
             </div>
-            <div className="hidden md:flex space-x-4 items-center">
-              <ul className="flex space-x-4 items-center">
+            <div className="hidden md:flex items-center">
+              <ul className="flex gap-[3rem] items-center">
                 <li>
                   <button
                     onClick={toggleLaunchDapps}
@@ -103,13 +103,10 @@ const Navbar = () => {
                 <li>
                   <button
                     onClick={toggleCompany}
-                    className="text-white hover:text-[#c92eff] flex items-center justify-between w-full"
+                    className="text-white hover:text-[#c92eff] flex items-center justify-between"
                   >
                     Company
                   </button>
-                </li>
-                <li>
-                  <ConnectButtoncomponent />
                 </li>
               </ul>
             </div>

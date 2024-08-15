@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import Agree from "./agree";
+// import Agree from "./agree";
 import { useEffect, useState } from "react";
 const Hero = () => {
   const [starPosition, setStarPosition] = useState({ top: "0%", left: "50%" });

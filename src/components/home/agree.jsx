@@ -2,7 +2,7 @@ import React from "react";
 
 import Link from "next/link";
 import Image from "next/image";
-import ConnectButtoncomponent from "../connect";
+// import ConnectButtoncomponent from "../connect";
 import Footer from "../footer";
 // const printAgreement = (agreement) => {
 //   const printContent = `
@@ -152,10 +152,8 @@ const Agree = () => {
             We paid the price to keep your videos and legal agreements safe.
           </p>
         </div>
-        <ConnectButtoncomponent />
+        {/* <ConnectButtoncomponent /> */}
       </div>
-
-      <Footer />
     </main>
   );
 };

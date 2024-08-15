@@ -16,7 +16,6 @@ const Recorder = () => {
       <Header />
       <div className="flex flex-col items-center mt-4 md:mt-10">
         <Record text={text.text1} icon1={icon1} icon2={icon2} />
-        {/* <Uploads /> */}
       </div>
     </div>
   );
