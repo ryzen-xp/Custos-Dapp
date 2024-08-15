@@ -2,7 +2,7 @@ import React from "react";
 
 import Link from "next/link";
 import Image from "next/image";
-// import ConnectButtoncomponent from "../connect";
+import ConnectButtoncomponent from "../connect";
 import Footer from "../footer";
 // const printAgreement = (agreement) => {
 //   const printContent = `
@@ -66,13 +66,13 @@ const Agree = () => {
           </button>
         </a>
       </div>
-      <div className="w-fit flex justify-between transform hover:scale-105 transition-transform duration-300">
-        <div className="flex flex-col md:flex-row justify-between items-center m-auto bg-red-400 w-auto gap-8">
+      <div className="w-full my-10 mx-auto flex justify-center transform hover:scale-105 transition-transform duration-300">
+        <div className="flex flex-col md:flex-row justify-center items-center w-auto gap-8">
           <div className=" text-[2em] whitespace-nowrap mb-2 sm:mb-0 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent ">
             <p>We paid the gas fee.</p>
           </div>
-          <div className="w-full text-[1em] justify-end justify-self-end  bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-            <p>
+          <div className="w-full text-[1em] bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+            <p className="px-8 mb:px-0 text-center mb:text-left">
               Custos lets you record your videos safely on the blockchain
               without paying a gas <br /> fee until you need your video back.{" "}
               <br /> Whether its a business contract, a rental agreement, or a
@@ -83,7 +83,6 @@ const Agree = () => {
           </div>
         </div>
       </div>
-
 
       <div className="flex items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
         <div className="text-center p-8 bg-transparent rounded shadow-lg my-20">
@@ -132,9 +131,9 @@ const Agree = () => {
         </a>
       </div>
       <div className="flex items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-        <div className="text-center p-8 bg-transparent rounded shadow-lg my-20">
+        <div className="text-center p-8 bg-transparent rounded shadow-lg my-10">
           <p className="md:text-[50px] text-[30px] mb-4">Our Pledge</p>
-          <p className="text-[20px]  mb-4">
+          <p className="text-[20px] mb-4">
             We are dedicated to revolutionizing safety and security through
             innovative protocol <br />
             platforms. Our mission is to provide solutions that empower
@@ -143,8 +142,8 @@ const Agree = () => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-        <div className="text-center p-8 bg-transparent rounded shadow-lg mt-20">
+      <div className="flex flex-col items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent mb-[10rem]">
+        <div className="text-center p-8 bg-transparent rounded shadow-lg mt-10">
           <p className="md:text-[50px] text-[30px] mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
             Make better decision
           </p>
@@ -152,7 +151,7 @@ const Agree = () => {
             We paid the price to keep your videos and legal agreements safe.
           </p>
         </div>
-        {/* <ConnectButtoncomponent /> */}
+        <ConnectButtoncomponent />
       </div>
     </main>
   );

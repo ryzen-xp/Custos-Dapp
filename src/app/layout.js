@@ -11,15 +11,13 @@ export default function RootLayout({ children }) {
         <title>{Metadata.title}</title>
         {Metadata.link}
       </head>
-      <body className={`flex flex-col min-h-screen ${kanit.className}`}>
-      <BackgroundWrapper>
-
-        
+      <body className={`flex flex-col min-h-screen`}>
+        <BackgroundWrapper>
           <div className="flex-grow">{children}</div>
           <div className="mobile-footer">
             <Footer />
           </div>
-      </BackgroundWrapper>
+        </BackgroundWrapper>
       </body>
     </html>
   );

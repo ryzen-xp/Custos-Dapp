@@ -38,7 +38,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="py-[2rem] pr-[4rem] pl-[1rem]  bg-transparent fixed top-0 w-full">
+      <nav className="py-[2rem] pr-[4rem] pl-[1rem]  bg-transparent fixed top-0 w-full z-50">
         <div className="w-full mx-auto">
           <div className="flex justify-around items-center">
             <div className="">
@@ -52,7 +52,7 @@ const Navbar = () => {
                 />
               </Link>
             </div>
-            <div className="hidden md:flex items-center">
+            <div className="hidden lg:flex items-center">
               <ul className="flex gap-[3rem] items-center">
                 <li>
                   <button
@@ -75,7 +75,7 @@ const Navbar = () => {
               </ul>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="md:hidden flex items-center">
+              <div className="lg:hidden flex items-center">
                 <button onClick={toggleMenu}>
                   {isMenuOpen ? (
                     <AiOutlineClose className="text-white w-6 h-6" />
@@ -84,13 +84,13 @@ const Navbar = () => {
                   )}
                 </button>
               </div>
-              <div className="hidden md:block">
+              <div className="hidden lg:block">
                 <ConnectButtoncomponent />
               </div>
             </div>
           </div>
           {isMenuOpen && (
-            <div className="md:hidden bg-black bg-opacity-80 p-4">
+            <div className="lg:hidden bg-black bg-opacity-80 p-4">
               <ul className="flex flex-col space-y-4 mt-4">
                 <li>
                   <button
@@ -107,6 +107,9 @@ const Navbar = () => {
                   >
                     Company
                   </button>
+                </li>
+                <li className="self-center">
+                  <ConnectButtoncomponent />
                 </li>
               </ul>
             </div>
