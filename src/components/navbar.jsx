@@ -38,7 +38,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="py-[2rem] pr-[4rem] pl-[1rem]  bg-transparent fixed top-0 w-full z-50">
+      <nav className="py-[2rem] pr-[4rem] pl-[1rem] z-50 fixed top-0 w-full ">
         <div className="w-full mx-auto">
           <div className="flex justify-around items-center">
             <div className="">
@@ -118,68 +118,73 @@ const Navbar = () => {
       </nav>
 
       {showLaunchDapps && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-          <div className="bg-black rounded-lg shadow-lg p-8 border-gradient space-x-6 relative w-[90%] sm:w-[50%] md:w-[500px] lg:w-[1000px] flex flex-col md:flex-row h-full md:h-auto md:max-h-[90%]">
-            <button
-              onClick={closeModal}
-              className="absolute top-4 right-4 text-white"
-            >
-              &times;
-            </button>
-            <div className="flex-1 flex flex-col justify-between overflow-y-auto md:overflow-visible h-1/2 md:h-auto">
-              <div>
-                <p className="text-3xl text-white">Launch Dapps</p>
-                <p className="mt-4 text-gray-300">
-                  Decentralized apps help you leverage blockchain technology to
-                  secure your evidence and legal agreements.
-                </p>
-              </div>
-              <Image
-                src="/group.png"
-                alt="group"
-                width={200}
-                height={50}
-                className="rounded-lg mt-20 hidden md:block"
-              />
+        <div className="sm:fixed absolute inset-0 z-50 flex items-center justify-center w-full bg-[#00000098] bg-opacity-90 ">
+        <div className="relative bg-[#091219] rounded-lg shadow-lg border-gradient md:w-[50%] w-full sm:flex md:flex-row h-full md:h-auto ">
+          <button
+            onClick={closeModal}
+            className="absolute top-0 right-0 flex items-center justify-center text-[3em] text-white w-12 h-12 rounded-full"
+            style={{ zIndex: 60 }}
+          >
+            &times;
+          </button>
+  
+          <div className=" flex p-6 flex-col justify-between bg-opacity-90 bg-[#091219] bg-[url('/Rectangle.png')] bg-cover bg-center bg-repeat">
+            <div>
+              <p className="text-3xl text-white">Launch Dapps</p>
+              <p className="mt-4 text-gray-300">
+                Decentralized apps help you leverage blockchain technology to
+                secure your evidence and legal agreements.
+              </p>
             </div>
-            <div className="flex-1 border-gradient p-5 rounded-lg overflow-y-auto md:overflow-visible h-1/2 md:h-auto">
-              <div className="mb-20">
-                <p className="flex items-center text-xl font-semibold text-white">
-                  <FaPlus className="mr-2" />
-                  <Link href="/agreement" className="text-white">
-                    Create Agreement
-                  </Link>
-                </p>
-                <p className="text-gray-300 mt-1">
-                  Custos ensures that agreements are securely stored.
-                </p>
-              </div>
-              <div>
-                <p className="flex items-center text-xl font-semibold text-white">
-                  <FaVideo className="mr-2" />
-                  <Link href="#" className="text-white">
-                    Record Video
-                  </Link>
-                </p>
-                <p className="text-gray-300 mt-1">
-                  Custos ensures that agreements are securely stored.
-                </p>
-              </div>
-            </div>
+            <Image
+              src="/group.png"
+              alt="group"
+              width={200}
+              height={100}
+              className="rounded-lg mt-8"
+            />
+          </div>
+  
+          <div className="flex flex-col gap-4 sm:gap-4  m-auto w-full sm:p-0 p-4 rounded-lg md:h-auto bg-[#091219]">
+            <a href="/agreement" className="text-white mb-4 z-[100] w-full hover:bg-[#015A9B] sm:p-4 rounded-lg cursor-pointer">
+              <p className="flex items-center text-xl font-semibold">
+                <FaPlus className="mr-2" />
+                Create Agreement
+              </p>
+              <p className="text-gray-300 mt-1">
+                Custos ensures that agreements are securely stored.
+              </p>
+            </a>
+            
+            
+                <a href="/crimerecorder" className="text-white mb-4 z-[100] hover:bg-[#015A9B] sm:p-4 rounded-lg cursor-pointer">
+              <p className="flex items-center text-xl font-semibold text-white">
+                <FaVideo className="mr-2" />
+                  Record Video
+              </p>
+              <p className="text-gray-300 mt-1">
+                Custos ensures that agreements are securely stored.
+              </p>
+                </a>
+            
           </div>
         </div>
+      </div>
+    
       )}
 
       {showCompany && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-          <div className="bg-black rounded-lg shadow-lg p-8 border-gradient space-x-6 relative w-[90%] sm:w-[50%] md:w-[500px] lg:w-[1000px] flex flex-col md:flex-row h-full md:h-auto md:max-h-[90%]">
-            <button
-              onClick={closeModal}
-              className="absolute top-4 right-4 text-white"
-            >
-              &times;
-            </button>
-            <div className="flex-1 flex flex-col justify-between overflow-y-auto md:overflow-visible h-1/2 md:h-auto">
+        <div className="sm:fixed absolute inset-0 z-50  flex items-center justify-center bg-[#00000098] bg-opacity-90 ">
+          <div className="relative bg-[#091219] rounded-lg shadow-lg border-gradient md:w-[50%] w-full sm:flex md:flex-row h-full md:h-auto ">
+          <button
+            onClick={closeModal}
+            className="absolute top-0 right-0 flex items-center justify-center text-[3em] text-white w-12 h-12 rounded-full"
+            style={{ zIndex: 60 }}
+          >
+            &times;
+          </button>
+          
+          <div className=" flex p-6 flex-col justify-between bg-opacity-90 bg-[#091219] bg-[url('/Rectangle.png')] bg-cover bg-center bg-repeat">
               <div>
                 <p className="text-3xl text-white">Invulnerable</p>
                 <p className="my-4 text-gray-300">
@@ -188,51 +193,95 @@ const Navbar = () => {
                 </p>
                 <Link
                   href="#"
-                  className="mt-4 text-gray-300 hover:text-[#c92eff] flex items-center"
+                  className="mt-4 text-gray-300 z-[100] hover:bg-[#015A9B] flex items-center"
                 >
                   Join the Community
                   <FaArrowRight className="ml-1" />
                 </Link>
                 <Link
                   href="#"
-                  className="mt-2 text-gray-300 hover:text-[#c92eff] flex items-center"
+                  className="mt-2 text-gray-300 z-[100] hover:bg-[#015A9B] flex items-center"
                 >
                   Learn More About Custos
                   <FaArrowRight className="ml-1" />
                 </Link>
               </div>
               <Image
-                src="/law.png"
-                alt="Law"
-                width={200}
-                height={50}
-                className="rounded-lg mt-20 hidden md:block"
+                src="/gifs/company.gif"
+                alt="gif"
+                width={400}
+                height={100}
+                className="rounded-lg "
               />
             </div>
-            <div className="flex-1 border-gradient p-5 rounded-lg overflow-y-auto md:overflow-visible h-1/2 md:h-auto">
-              <div className="mb-20">
-                <p className="flex items-center text-xl font-semibold text-white">
-                  <FaUser className="mr-2" />
-                  <Link href="#" className="text-white">
-                    About Us
+
+
+                    <div className="flex flex-col gap-4 sm:gap-4 m-auto w-full p-0 rounded-lg md:h-auto bg-[#091219]">
+
+
+                  <Link href="/about" className="text-white z-[100] hover:bg-[#015A9B] rounded-lg w-full items-center p-2">
+              
+                <p className="flex sm:text-xl gap-4 sm:gap-6 h-full font-semibold text-white ">
+                <img
+                src="/about.svg"
+                alt="about"
+                className="rounded-lg h-fit p-1 w-[2em]"
+              />
+                    <p className="flex flex-col ">
+                      About Us
+                <p className="text-gray-300 text-[0.8em] mt-1 font-thin">
+                  Get to know the team behind Custos
+                </p>
+                      </p>
+                </p>
                   </Link>
+
+
+
+
+
+                  <Link href="#" className="text-white z-[100] hover:bg-[#015A9B] rounded-lg w-full items-center p-2">
+              
+                <p className="flex sm:text-xl gap-4 sm:gap-6 h-full font-semibold text-white ">
+                <img
+                src="/careers.svg"
+                alt="careers"
+                className="rounded-lg h-fit w-[2em]"
+              />
+                    <p className="flex flex-col ">
+                      Careers
+                <p className="text-gray-300 text-[0.8em] mt-1 font-thin">
+                  Find your dream role
                 </p>
-                <p className="text-gray-300 mt-1">
-                  Get to know the team behind Custos.
+                      </p>
                 </p>
-              </div>
-              <div>
-                <p className="flex items-center text-xl font-semibold text-white">
-                  <FaPhone className="mr-2" />
-                  <Link href="#" className="text-white">
-                    Contact Us
                   </Link>
+
+
+
+                  <Link href="#" className="text-white z-[100] hover:bg-[#015A9B] rounded-lg w-full items-center p-2">
+              
+                  <p className="flex sm:text-xl gap-4 sm:gap-6 h-full font-semibold text-white ">
+                <img
+                src="/call.svg"
+                alt="call"
+
+                className="rounded-lg h-fit w-[2em]"
+              />
+                    <p className="flex flex-col ">
+                      Contact Us
+                <p className="text-gray-300 text-[0.8em] mt-1 font-thin">
+                  Reach out to us for questions and clarifications
                 </p>
-                <p className="text-gray-300 mt-1">
-                  We would love to hear from you.
+                      </p>
                 </p>
-              </div>
+                  </Link>
+
+
+
             </div>
+
+
           </div>
         </div>
       )}

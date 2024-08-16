@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ConnectButtoncomponent from "../connect";
 import Footer from "../footer";
+import Shape from "./eclipse";
 // const printAgreement = (agreement) => {
 //   const printContent = `
 //     <h1>${agreement.title}</h1>
@@ -19,8 +20,8 @@ import Footer from "../footer";
 
 const Agree = () => {
   return (
-    <main>
-      <div className="flex mt-8 items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+    <main className="">
+      <div className="flex mt-8 items-center  justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
         <div className="text-center p-8 bg-transparent rounded shadow-lg">
           <p className="text-[1.5em] mb-4">Agreement documentation</p>
           <p className="text-[1em] mb-4">
@@ -45,10 +46,10 @@ const Agree = () => {
         </div>
       </div>
 
-      <div className="justify-center items-center flex mb-20">
+      <div className="justify-center items-center flex mb-[15%]">
         <a href="/agreement">
           <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
-            <span className="flex items-center">Launch Custos Dapp</span>
+            <span className="flex items-center">Launch Dapp</span>
             <svg
               className="ml-2 w-6 h-6"
               fill="none"
@@ -66,13 +67,16 @@ const Agree = () => {
           </button>
         </a>
       </div>
-      <div className="w-full my-10 mx-auto flex justify-center transform hover:scale-105 transition-transform duration-300">
-        <div className="flex flex-col md:flex-row justify-center items-center w-auto gap-8">
+      <div className="w-full">
+        <Shape />
+      </div>
+      <div className="w-full mt-[20%]  mx-auto flex justify-center transform hover:scale-105 transition-transform duration-300">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8  w-[80%]">
           <div className=" text-[2em] whitespace-nowrap mb-2 sm:mb-0 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent ">
             <p>We paid the gas fee.</p>
           </div>
-          <div className="w-full text-[1em] bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-            <p className="px-8 mb:px-0 text-center mb:text-left">
+          <div className="w-fit text-[1em] text-start items-end justify-end bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+            <p className="">
               Custos lets you record your videos safely on the blockchain
               without paying a gas <br /> fee until you need your video back.{" "}
               <br /> Whether its a business contract, a rental agreement, or a
@@ -109,10 +113,10 @@ const Agree = () => {
           </a>
         </div>
       </div>
-      <div className="justify-center items-center flex mb-20">
+      <div className="justify-center items-center flex mb-[15%]">
         <a href="/crimerecorder">
           <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
-            <span className="flex items-center">Launch Custos Dapp</span>
+            <span className="flex items-center">Launch Dapp</span>
             <svg
               className="ml-2 w-6 h-6"
               fill="none"
@@ -130,7 +134,10 @@ const Agree = () => {
           </button>
         </a>
       </div>
-      <div className="flex items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+      <div className="w-full">
+        <Shape />
+      </div>
+      <div className="flex items-center mt-[20%] justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
         <div className="text-center p-8 bg-transparent rounded shadow-lg my-10">
           <p className="md:text-[50px] text-[30px] mb-4">Our Pledge</p>
           <p className="text-[20px] mb-4">

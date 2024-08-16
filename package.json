@@ -26,7 +26,6 @@
     "react-query": "^3.39.3",
     "starknet": "^6.12.1",
     "tailwindcss-border-gradient-radius": "^3.0.1",
-    "thirdweb": "^5.31.0",
     "urql": "^4.0.7"
   },
   "devDependencies": {

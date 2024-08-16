@@ -265,3 +265,34 @@ button .text-transparent {
 .animate-star {
   animation: star-move 5s linear infinite;
 }
+
+
+
+/* eclipse */
+
+.shape {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  top: 0;
+  left: 0;
+  border-top-color: #19B1D2; /* Primary color */
+  border-bottom-color: #0094FF; /* Secondary color */
+  background: radial-gradient(circle at center, transparent 80%, #00000000 80%); /* Center hollow effect */
+  box-shadow: 24px 20px 44px 48px rgba(160, 34, 148, 0.23),
+              0 4px 20px 24px rgba(25, 177, 210, 0.6);
+  opacity: 0.6;
+  transform-style: preserve-3d;
+  animation: roll 10s infinite linear;
+}
+
+/* Keyframes for rolling animation */
+@keyframes roll {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
