@@ -3,6 +3,7 @@ import "./globals.css";
 import Footer from "@/components/footer";
 import Metadata from "./metadata";
 import BackgroundWrapper from "@/components/backgroundwrapper";
+import { WalletProvider } from "@/components/walletprovider";
 
 export default function RootLayout({ children }) {
   return (
@@ -11,12 +12,20 @@ export default function RootLayout({ children }) {
         <title>{Metadata.title}</title>
         {Metadata.link}
       </head>
-      <body className={`flex flex-col min-h-screen`}>
+      <body className="flex flex-col min-h-screen justify-between">
+
         <BackgroundWrapper>
-          <div className="flex-grow">{children}</div>
-          <div className="mobile-footer">
-            <Footer />
-          </div>
+          <WalletProvider>
+        <div className="min-h-screen w-full flex flex-col justify-between">
+            <div className=" ">
+              {children}
+            </div>
+            <div className="">
+
+            <Footer  />
+            </div>
+        </div>
+          </WalletProvider>
         </BackgroundWrapper>
       </body>
     </html>

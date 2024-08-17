@@ -2,11 +2,11 @@
 // /* eslint-disable react/no-unescaped-entities */
 "use client";
 // import { useWriteToContract } from "@/utils/fetchcontract";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Header } from "../components/AgreementNav";
 import { redirect } from "next/navigation";
-// import { useAccount } from "@/utils/fetchcontract";
+import { WalletContext } from "@/components/walletprovider";
 import Modal from "react-modal";
 import SuccessScreen from "../components/Success";
 
@@ -23,7 +23,8 @@ const AgreementModal = () => {
   const [agreementTitle, setAgreementTitle] = useState("");
   const [secondPartyAddress, setSecondPartyAddress] = useState("");
   const [errors, setErrors] = useState({});
-  console.log(modalStep);
+  const { address } = useContext(WalletContext);
+
 
   // const {
   //   sendTransaction,
@@ -47,7 +48,7 @@ const AgreementModal = () => {
       agreementType,
       content,
       country,
-      first_party_address: creatoraddress,
+      first_party_address: address,
       first_party_id_type: idType,
       first_party_valid_id: idNumber,
       second_party_address: secondPartyAddress,

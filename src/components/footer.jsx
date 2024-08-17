@@ -4,7 +4,7 @@ import { FaDiscord, FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer className="bg-black py-8">
+    <div className="bg-black py-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           <div>
@@ -111,7 +111,7 @@ function Footer() {
           © 2024 Custos Diretriz. All rights reserved.
         </div>
       </div>
-    </footer>
+    </div>
   );
 }
 

@@ -1,48 +1,9 @@
-"use client";
-import { RpcProvider } from "starknet";
-import { connect, disconnect } from "get-starknet";
-import { useEffect, useState } from "react";
-import { FaArrowRight } from "react-icons/fa";
-
-const providerSepoliaTestnetNethermindPublic = new RpcProvider({
-  nodeUrl: "https://free-rpc.nethermind.io/sepolia-juno/v0_7",
-});
+import React, { useContext } from 'react';
+import { FaArrowRight } from 'react-icons/fa';
+import { WalletContext } from './walletprovider'; 
 
 function ConnectButtoncomponent() {
-  const [connection, setConnection] = useState("");
-  const [account, setAccount] = useState("");
-  const [address, setAddress] = useState("");
-
-  useEffect(() => {
-    const starknetConnect = async () => {
-      const connection = await connect({
-        modalMode: "neverAsk",
-      });
-      if (connection && connection.isConnected) {
-        setConnection(connection);
-        setAccount(connection.account);
-        setAddress(connection.selectedAddress);
-      }
-    };
-    starknetConnect();
-  }, []);
-
-  const connectWallet = async () => {
-    const connection = await connect();
-
-    if (connection && connection.isConnected) {
-      setConnection(connection);
-      setAccount(connection.account);
-      setAddress(connection.selectedAddress);
-    }
-  };
-
-  const disconnectWallet = async () => {
-    await disconnect();
-    setConnection(undefined);
-    setAccount(undefined);
-    setAddress("");
-  };
+  const { connection, connectWallet, disconnectWallet } = useContext(WalletContext);
 
   return (
     <div className="hover:cursor-pointer p-[1px] rounded-full bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef]">

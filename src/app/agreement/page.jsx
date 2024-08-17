@@ -1,16 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Modal from "react-modal";
 import {
   AgreementCard,
   PendingAgreementCard,
 } from "./components/agreementcard";
 import NoAgreementscreen from "./components/noAgreementscreen";
-// import { useAccount, useReadContractData } from "@/utils/fetchcontract";
+
 import { Header } from "./components/AgreementNav";
 import SignAgreementModal from "./components/signagreementmodal";
 import SuccessScreen from "./components/Success";
+import { WalletContext } from "@/components/walletprovider";
+
+
 
 function AgreementList() {
   const [loading, setLoading] = useState(false);
@@ -19,7 +22,9 @@ function AgreementList() {
   const [agreements, setAgreements] = useState([]);
   const [totalAgreements, setTotalAgreements] = useState([]);
   const [selectedAgreement, setSelectedAgreement] = useState(null);
+  const { address } = useContext(WalletContext);
 
+console.log("caller address :::", address);
     useEffect(() => {
       const FetchAgreements = async () => {
         setLoading(true);
@@ -42,14 +47,15 @@ function AgreementList() {
       FetchAgreements();
     }, []);
 
-    const calleraddress = useAccount()?.address;
+
+
 
     useEffect(() => {
       const FetchPendingAgreements = async () => {
         setLoading(true);
         try {
           const res = await fetch(
-            `https://custosbackend.onrender.com/agreement/agreement/by_party/?address=${calleraddress}`
+            `https://custosbackend.onrender.com/agreement/agreement/by_party/?address=${address}`
           );
           const data = await res.json();
           console.log("response::", data);
@@ -61,10 +67,10 @@ function AgreementList() {
         }
       };
 
-      if (calleraddress) {
+      if (address) {
         FetchPendingAgreements();
       }
-    }, [calleraddress]);
+    }, [address]);
 
     useEffect(() => {
       const GetTotalAgreements = async () => {
