@@ -9,7 +9,7 @@
 
 // const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_TOKEN;
 
-// export const Recording = ({ text, icon1, imgText, uri, category }) => {
+export const Recording = ({ text, icon1, imgText, uri, category }) => {
 //   const [selectedMedia, setSelectedMedia] = useState(null);
 //   const [chunks, setChunks] = useState([]);
 //   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -273,4 +273,4 @@
 //       </div>
 //     </div>
 //   );
-// };
+};

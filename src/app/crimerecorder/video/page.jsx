@@ -1,7 +1,9 @@
-import React from "react";
+"use client"
 import icon4 from "../../../../public/pause.png";
 import { Recording } from "../components/Recording";
 import { Header } from "../components/Header";
+import React, { useContext } from 'react';
+
 
 const VideoRecorder = () => {
   const text = {

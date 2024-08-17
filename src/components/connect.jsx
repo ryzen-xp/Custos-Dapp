@@ -1,3 +1,4 @@
+"use client"
 import React, { useContext } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 import { WalletContext } from './walletprovider'; 
