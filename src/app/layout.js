@@ -16,11 +16,11 @@ export default function RootLayout({ children }) {
 
         <BackgroundWrapper>
           <WalletProvider>
-        <div className="min-h-screen w-full flex flex-col justify-between">
+        <div className="min-h-screen w-full gap-[10em] flex flex-col justify-between">
             <div className=" ">
               {children}
             </div>
-            <div className="">
+            <div className="h-fit">
 
             <Footer  />
             </div>
