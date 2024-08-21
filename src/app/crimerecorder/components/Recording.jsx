@@ -7,7 +7,7 @@
 // import { useRouter } from "next/navigation";
 // import { NFTStorage } from "nft.storage";
 
-// const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_TOKEN;
+// const NFT_STORAGE_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZGNiMzgxZS1iNDYxLTQ0ODAtYWQ5Zi0wZTAxN2QwMjgwMWYiLCJlbWFpbCI6ImplcnlkYW4xNDhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjYyOTg0ZTY1NTY4ZGUxYjk5MDNiIiwic2NvcGVkS2V5U2VjcmV0IjoiMjdlMjg1YTA0MmVlOGMyMTQ5MzQ1ZjA1ZjhlYTYyMzRkM2I2MWZiYjU3M2ZmNzIxMzU1OWMwNGIxOGE3NzJhYSIsImlhdCI6MTcyNDE2MzU3Mn0.2PAyS8Y_NX17idFPsk6-_b0kg5vGfr0TOlqla49iNKA";
 
 export const Recording = ({ text, icon1, imgText, uri, category }) => {
 //   const [selectedMedia, setSelectedMedia] = useState(null);
@@ -89,7 +89,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
 //         formData.append("file", videoBlob, "recorded-video.webm"); // Ensure correct field name ('file')
 
 //         // Send FormData to the backend using fetch or Axios
-//         const response = await fetch("https://api.nft.storage/upload", {
+//         const response = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
 //           method: "POST",
 //           headers: {
 //             Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
@@ -149,7 +149,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
 //       formData.append("file", blob, "captured-image.png"); // 'file' should match the key expected by the backend
 
 //       // Send FormData to IPFS using fetch
-//       const response = await fetch("https://api.nft.storage/upload", {
+//       const response = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
 //         method: "POST",
 //         headers: {
 //           Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
