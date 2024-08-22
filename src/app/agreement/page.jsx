@@ -12,6 +12,7 @@ import { Header } from "./components/AgreementNav";
 import SignAgreementModal from "./components/signagreementmodal";
 import SuccessScreen from "./components/Success";
 import { WalletContext } from "@/components/walletprovider";
+import Sidepane from "@/components/dapps/sidepane";
 
 
 
@@ -95,6 +96,7 @@ console.log("caller address :::", address);
       GetTotalAgreements();
     }, [totalAgreements]);
 
+    console.log(pendingAgreements.length)
   const printAgreement = (agreement) => {
     const printContent = `
       <h1>${agreement.title}</h1>
@@ -114,26 +116,29 @@ console.log("caller address :::", address);
   };
 
   return (
-    <div className="w-full px-4 flex flex-col gap-8">
-      <Header />
-
+    <div className="w-full px-4 flex gap-8 relative">
+        <div className="w-fit left-0 h-full bottom-0 absolute">
+          {/* <Sidepane /> */}
+        </div>
+  
       <div className="w-full">
+      <Header />
         {loading ? (
           <div className="text-center py-8">
             <div className="loader ease-linear rounded-full border-8 border-t-8 bg-[#130316] border-gray-200 h-16 w-16 mx-auto"></div>
             <p className="mt-2 text-white">Loading agreements...</p>
           </div>
-        ) : agreements === null || agreements.length === 0 ? (
+        ) : !agreements.length && !pendingAgreements.length ? (
           <div className="w-full m-auto p-4 text-[#EAFBFF]">
             <NoAgreementscreen />
           </div>
         ) : (
           <div className="w-full flex flex-col gap-4">
-            <div className="w-full flex flex-col px-4">
-              <h1 className="text-3xl text-[#fff] mb-4">Pending Agreements</h1>
-              <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                {Array.isArray(pendingAgreements) ? (
-                  pendingAgreements.map((agreement, index) => (
+            {pendingAgreements.length > 0 && (
+              <div className="w-full flex flex-col px-4">
+                <h1 className="text-3xl text-[#fff] mb-4">Pending Agreements</h1>
+                <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                  {pendingAgreements.map((agreement, index) => (
                     <div key={index} className="w-full">
                       <PendingAgreementCard
                         agreement={agreement}
@@ -141,30 +146,30 @@ console.log("caller address :::", address);
                         toggleSignModal={toggleSignModal}
                       />
                     </div>
-                  ))
-                ) : (
-                  <p className="text-[#0094FF]">No pending agreements found.</p>
-                )}
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="w-full flex flex-col px-4">
-              <h1 className="text-3xl text-[#fff] mb-4 ">Signed Agreements</h1>
-              <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                {agreements.map((agreement, index) => (
-                  <div key={index} className="w-full">
-                    <AgreementCard
-                      agreement={agreement}
-                      printAgreement={printAgreement}
-                      toggleSignModal={toggleSignModal}
-                    />
-                  </div>
-                ))}
+            )}
+            {agreements.length > 0 && (
+              <div className="w-full flex flex-col px-4">
+                <h1 className="text-3xl text-[#fff] mb-4 ">Signed Agreements</h1>
+                <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                  {agreements.map((agreement, index) => (
+                    <div key={index} className="w-full">
+                      <AgreementCard
+                        agreement={agreement}
+                        printAgreement={printAgreement}
+                        toggleSignModal={toggleSignModal}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
       </div>
-
+  
       <Modal
         isOpen={showAgreementModal}
         onRequestClose={toggleSignModal}
@@ -179,6 +184,7 @@ console.log("caller address :::", address);
       </Modal>
     </div>
   );
+  
 }
 
 export default AgreementList;
