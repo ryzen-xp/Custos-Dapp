@@ -1,168 +1,236 @@
 [
   {
-    "anonymous": false,
-    "inputs": [
+    "name": "AgreementContract",
+    "type": "impl",
+    "interface_name": "custos_smart_contracts::agreement::IAgreement"
+  },
+  {
+    "name": "core::integer::u256",
+    "type": "struct",
+    "members": [
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "agreementId",
-        "type": "uint256"
+        "name": "low",
+        "type": "core::integer::u128"
       },
       {
-        "indexed": false,
-        "internalType": "address",
+        "name": "high",
+        "type": "core::integer::u128"
+      }
+    ]
+  },
+  {
+    "name": "core::bool",
+    "type": "enum",
+    "variants": [
+      {
+        "name": "False",
+        "type": "()"
+      },
+      {
+        "name": "True",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "name": "custos_smart_contracts::agreement::Agreement::LegalAgreement",
+    "type": "struct",
+    "members": [
+      {
         "name": "creator",
-        "type": "address"
+        "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "indexed": false,
-        "internalType": "string",
         "name": "content",
-        "type": "string"
-      }
-    ],
-    "name": "AgreementCreated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "agreementId",
-        "type": "uint256"
+        "type": "core::felt252"
       },
       {
-        "indexed": false,
-        "internalType": "address",
+        "name": "second_party_address",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "first_party_valid_id",
+        "type": "core::felt252"
+      },
+      {
+        "name": "second_party_valid_id",
+        "type": "core::felt252"
+      },
+      {
+        "name": "signed",
+        "type": "core::bool"
+      },
+      {
+        "name": "validate_signature",
+        "type": "core::bool"
+      }
+    ]
+  },
+  {
+    "name": "custos_smart_contracts::agreement::IAgreement",
+    "type": "interface",
+    "items": [
+      {
+        "name": "createAgreement",
+        "type": "function",
+        "inputs": [
+          {
+            "name": "content",
+            "type": "core::felt252"
+          },
+          {
+            "name": "secondPartyAddress",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "firstPartyValidId",
+            "type": "core::felt252"
+          },
+          {
+            "name": "secondPartyValidId",
+            "type": "core::felt252"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "core::integer::u256"
+          }
+        ],
+        "state_mutability": "external"
+      },
+      {
+        "name": "getAgreementDetails",
+        "type": "function",
+        "inputs": [
+          {
+            "name": "id",
+            "type": "core::integer::u256"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "custos_smart_contracts::agreement::Agreement::LegalAgreement"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "name": "getAllAgreements",
+        "type": "function",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::array::Array::<custos_smart_contracts::agreement::Agreement::LegalAgreement>"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "name": "getUserAgreements",
+        "type": "function",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::array::Array::<custos_smart_contracts::agreement::Agreement::LegalAgreement>"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "name": "signAgreement",
+        "type": "function",
+        "inputs": [
+          {
+            "name": "agreementId",
+            "type": "core::integer::u256"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      }
+    ]
+  },
+  {
+    "kind": "struct",
+    "name": "custos_smart_contracts::agreement::Agreement::AgreementCreated",
+    "type": "event",
+    "members": [
+      {
+        "kind": "key",
+        "name": "agreement_id",
+        "type": "core::integer::u256"
+      },
+      {
+        "kind": "data",
+        "name": "creator",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "kind": "data",
+        "name": "content",
+        "type": "core::felt252"
+      }
+    ]
+  },
+  {
+    "kind": "struct",
+    "name": "custos_smart_contracts::agreement::Agreement::AgreementSigned",
+    "type": "event",
+    "members": [
+      {
+        "kind": "key",
+        "name": "agreement_id",
+        "type": "core::integer::u256"
+      },
+      {
+        "kind": "data",
         "name": "signer",
-        "type": "address"
+        "type": "core::starknet::contract_address::ContractAddress"
       }
-    ],
-    "name": "AgreementSigned",
-    "type": "event"
+    ]
   },
   {
-    "anonymous": false,
-    "inputs": [
+    "kind": "struct",
+    "name": "custos_smart_contracts::agreement::Agreement::AgreementValid",
+    "type": "event",
+    "members": [
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "agreementId",
-        "type": "uint256"
+        "kind": "key",
+        "name": "agreement_id",
+        "type": "core::integer::u256"
       },
       {
-        "indexed": false,
-        "internalType": "string",
-        "name": "firstpartyid",
-        "type": "string"
+        "kind": "data",
+        "name": "first_party_id",
+        "type": "core::felt252"
       },
       {
-        "indexed": false,
-        "internalType": "string",
-        "name": "secondpartyid",
-        "type": "string"
+        "kind": "data",
+        "name": "second_party_id",
+        "type": "core::felt252"
       }
-    ],
-    "name": "AgreementValid",
-    "type": "event"
+    ]
   },
   {
-    "inputs": [],
-    "name": "agreementCount",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "agreements",
-    "outputs": [
-      { "internalType": "address", "name": "creator", "type": "address" },
-      { "internalType": "string", "name": "content", "type": "string" },
+    "kind": "enum",
+    "name": "custos_smart_contracts::agreement::Agreement::Event",
+    "type": "event",
+    "variants": [
       {
-        "internalType": "address",
-        "name": "secondPartyAddress",
-        "type": "address"
+        "kind": "nested",
+        "name": "AgreementCreated",
+        "type": "custos_smart_contracts::agreement::Agreement::AgreementCreated"
       },
-      { "internalType": "bool", "name": "signed", "type": "bool" },
-      { "internalType": "bool", "name": "validateSignature", "type": "bool" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "string", "name": "_content", "type": "string" },
       {
-        "internalType": "address",
-        "name": "_secondPartyAddress",
-        "type": "address"
+        "kind": "nested",
+        "name": "AgreementSigned",
+        "type": "custos_smart_contracts::agreement::Agreement::AgreementSigned"
       },
-      { "internalType": "string", "name": "_firstPartyName", "type": "string" },
       {
-        "internalType": "string",
-        "name": "_firstPartyValidId",
-        "type": "string"
+        "kind": "nested",
+        "name": "AgreementValid",
+        "type": "custos_smart_contracts::agreement::Agreement::AgreementValid"
       }
-    ],
-    "name": "createAgreement",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_agreementId", "type": "uint256" }
-    ],
-    "name": "getAgreementDetails",
-    "outputs": [
-      { "internalType": "address", "name": "creator", "type": "address" },
-      { "internalType": "string", "name": "content", "type": "string" },
-      {
-        "internalType": "address",
-        "name": "secondPartyAddress",
-        "type": "address"
-      },
-      { "internalType": "string", "name": "firstPartyName", "type": "string" },
-      {
-        "internalType": "string",
-        "name": "firstPartyValidId",
-        "type": "string"
-      },
-      { "internalType": "bool", "name": "signed", "type": "bool" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getAllAgreements",
-    "outputs": [
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_agreementId", "type": "uint256" },
-      { "internalType": "string", "name": "_fullname", "type": "string" },
-      { "internalType": "string", "name": "_validId", "type": "string" }
-    ],
-    "name": "signAgreement",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_agreementId", "type": "uint256" }
-    ],
-    "name": "validateSignature",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    ]
   }
 ]

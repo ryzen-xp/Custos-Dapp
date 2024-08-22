@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
-import { FaArrowRight } from 'react-icons/fa';
-import { WalletContext } from './walletprovider'; 
+"use client";
+import React, { useContext } from "react";
+import { FaArrowRight } from "react-icons/fa";
+import { WalletContext } from "./walletprovider";
 
 function ConnectButtoncomponent() {
-  const { connection, connectWallet, disconnectWallet } = useContext(WalletContext);
+  const { connection, connectWallet, disconnectWallet } =
+    useContext(WalletContext);
 
   return (
     <div className="hover:cursor-pointer p-[1px] rounded-full bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef]">
