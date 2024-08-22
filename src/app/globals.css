@@ -296,3 +296,9 @@ button .text-transparent {
   }
 }
 
+
+
+
+.underlined-border-gradient {
+  border-image: linear-gradient(to right, #0094FF, #A02294) 1;
+}

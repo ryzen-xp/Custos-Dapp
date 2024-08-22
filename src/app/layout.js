@@ -16,8 +16,8 @@ export default function RootLayout({ children }) {
 
         <BackgroundWrapper>
           <WalletProvider>
-        <div className="min-h-screen w-full gap-[10em] flex flex-col justify-between">
-            <div className=" ">
+        <div className="w-full flex flex-col justify-between">
+            <div className="min-h-screen w-full ">
               {children}
             </div>
             <div className="h-fit">

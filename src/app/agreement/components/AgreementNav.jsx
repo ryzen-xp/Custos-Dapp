@@ -1,35 +1,67 @@
-import Image from "next/image";
 import React from "react";
-import logo from "../../../../public/CustosLogo.png";
-import icon from "../../../../public/cameraicon.png";
-import Link from "next/link";
-import ConnectButtoncomponent from "@/components/connect";
-import Button from "@/components/Button";
+import { FaArrowLeft } from "react-icons/fa";
 
-export const Header = () => {
+const AgreementNav = ({ activeTab, setActiveTab }) => {
   return (
-    <div className="flex flex-col gap-4 w-full p-4">
-      <div className="flex justify-between items-center w-full">
-        <a href="/" className="w-auto">
-          <Image src={logo} alt="logo" width={232.7} height={22} />
-          </a>
-        </div>
-       
-        <div className="flex justify-end  gap-20 items-center w-full">
-            {/* <div className="hidden md:block">
+    <div className="flex flex-col w-full p-4 gap-4">
+      {/* Back Button */}
+      <div className="flex items-center">
+        <button
+          className="w-full text-[#EAFBFF] flex justify-start items-center"
+          onClick={() => window.history.back()}
+        >
+          <FaArrowLeft className="mr-2 text-[#EAFBFF]" />
+          <p className="text-[#EAFBFF]">Back</p>
+        </button>
+      </div>
 
-            <Button text="Create Agreement" icon={<Image src="/Plus.svg" alt="plus" width={18} height={18}  />} link={"/agreement/create"} />
-            </div> */}
+      <p className="text-3xl font-bold text-white">Agreements</p>
 
-          <ConnectButtoncomponent />
-        </div>
-      
-      <div className="text-white text-center md:text-left text-xl md:text-2xl">
-        Agreement
+      {/* Tab Navigation */}
+      <div className="flex justify-around w-fit gap-16 text-lg">
+        <button
+          onClick={() => setActiveTab("all")}
+          className={`pb-2 ${
+            activeTab === "all"
+              ? "text-white border-b-4 underlined-border-gradient"
+              : "text-transparent bg-clip-text bg-gradient-to-r from-[#BEBDBD] to-[#858585]"
+          }`}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setActiveTab("pending")}
+          className={`pb-2 ${
+            activeTab === "pending"
+              ? "text-white border-b-4 underlined-border-gradient"
+              : "text-transparent bg-clip-text bg-gradient-to-r from-[#BEBDBD] to-[#858585]"
+          }`}
+        >
+          Pending
+        </button>
+        <button
+          onClick={() => setActiveTab("signed")}
+          className={`pb-2 ${
+            activeTab === "signed"
+              ? "text-white border-b-4 underlined-border-gradient"
+              : "text-transparent bg-clip-text bg-gradient-to-r from-[#BEBDBD] to-[#858585]"
+          }`}
+        >
+          Signed
+        </button>
+        <button
+          onClick={() => setActiveTab("validated")}
+          className={`pb-2 ${
+            activeTab === "validated"
+              ? "text-white border-b-4 underlined-border-gradient"
+              : "text-transparent bg-clip-text bg-gradient-to-r from-[#BEBDBD] to-[#858585]"
+          }`}
+        >
+          Validated
+        </button>
       </div>
     </div>
-    
   );
 };
 
-export default Header;
+export default AgreementNav;

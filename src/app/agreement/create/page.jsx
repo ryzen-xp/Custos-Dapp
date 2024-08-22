@@ -349,7 +349,6 @@ const AgreementModal = () => {
 
   return (
     <div className="w-full px-4 flex flex-col gap-8 overflow-clip">
-      <Header />
       <div className="rounded-2xl relative border-gradient w-fit m-auto p-6">
         <form
           className="max-w-md mx-auto relative w-full space-y-5"

@@ -1,20 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Modal from "react-modal";
 import {
   AgreementCard,
   PendingAgreementCard,
 } from "./components/agreementcard";
 import NoAgreementscreen from "./components/noAgreementscreen";
-
-import { Header } from "./components/AgreementNav";
+import AgreementNav from "./components/AgreementNav";
 import SignAgreementModal from "./components/signagreementmodal";
-import SuccessScreen from "./components/Success";
 import { WalletContext } from "@/components/walletprovider";
-import Sidepane from "@/components/dapps/sidepane";
-
-
 
 function AgreementList() {
   const [loading, setLoading] = useState(false);
@@ -25,78 +20,75 @@ function AgreementList() {
   const [selectedAgreement, setSelectedAgreement] = useState(null);
   const { address } = useContext(WalletContext);
 
-console.log("caller address :::", address);
-    useEffect(() => {
-      const FetchAgreements = async () => {
-        setLoading(true);
-        try {
-          const res = await useReadContractData(
-            "agreement",
-            "getAllAgreements",
-            []
-          );
-          console.log("response::", res);
-          const totalAgreements = res.map((agreement) => agreement.toString());
-          setTotalAgreements(totalAgreements);
-        } catch (error) {
-          console.error("Error fetching agreements:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
+  const [activeTab, setActiveTab] = useState("all");
 
-      FetchAgreements();
-    }, []);
-
-
-
-
-    useEffect(() => {
-      const FetchPendingAgreements = async () => {
-        setLoading(true);
-        try {
-          const res = await fetch(
-            `https://custosbackend.onrender.com/agreement/agreement/by_party/?address=${address}`
-          );
-          const data = await res.json();
-          console.log("response::", data);
-          setPendingAgreements(data);
-        } catch (error) {
-          console.error("Error fetching agreements:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      if (address) {
-        FetchPendingAgreements();
+  useEffect(() => {
+    const FetchAgreements = async () => {
+      setLoading(true);
+      try {
+        const res = await useReadContractData(
+          "agreement",
+          "getAllAgreements",
+          []
+        );
+        console.log("response::", res);
+        const totalAgreements = res.map((agreement) => agreement.toString());
+        setTotalAgreements(totalAgreements);
+      } catch (error) {
+        console.error("Error fetching agreements:", error);
+      } finally {
+        setLoading(false);
       }
-    }, [address]);
+    };
 
-    useEffect(() => {
-      const GetTotalAgreements = async () => {
-        if (totalAgreements.length === 0) return;
+    FetchAgreements();
+  }, []);
 
-        setLoading(true);
-        try {
-          const agreementsDetails = await Promise.all(
-            totalAgreements.map((id) =>
-              useReadContractData("agreement", "getAgreementDetails", [id])
-            )
-          );
-          setAgreements(agreementsDetails);
-          console.log("agreements are", agreementsDetails);
-        } catch (error) {
-          console.error("Error fetching agreement details:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
+  useEffect(() => {
+    const FetchPendingAgreements = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `https://custosbackend.onrender.com/agreement/agreement/by_party/?address=${address}`
+        );
+        const data = await res.json();
+        console.log("response::", data);
+        setPendingAgreements(data);
+      } catch (error) {
+        console.error("Error fetching agreements:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      GetTotalAgreements();
-    }, [totalAgreements]);
+    if (address) {
+      FetchPendingAgreements();
+    }
+  }, [address]);
 
-    console.log(pendingAgreements.length)
+  useEffect(() => {
+    const GetTotalAgreements = async () => {
+      if (totalAgreements.length === 0) return;
+
+      setLoading(true);
+      try {
+        const agreementsDetails = await Promise.all(
+          totalAgreements.map((id) =>
+            useReadContractData("agreement", "getAgreementDetails", [id])
+          )
+        );
+        setAgreements(agreementsDetails);
+        console.log("agreements are", agreementsDetails);
+      } catch (error) {
+        console.error("Error fetching agreement details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    GetTotalAgreements();
+  }, [totalAgreements]);
+
   const printAgreement = (agreement) => {
     const printContent = `
       <h1>${agreement.title}</h1>
@@ -115,61 +107,92 @@ console.log("caller address :::", address);
     setShowAgreementModal(!showAgreementModal);
   };
 
-  return (
-    <div className="w-full px-4 flex gap-8 relative">
-        <div className="w-fit left-0 h-full bottom-0 absolute">
-          {/* <Sidepane /> */}
+  const renderAgreements = () => {
+    if (activeTab === "all") {
+      return agreements.length > 0 || pendingAgreements.length > 0 ? (
+        <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {pendingAgreements.map((agreement, index) => (
+            <PendingAgreementCard
+              key={index}
+              agreement={agreement}
+              printAgreement={printAgreement}
+              toggleSignModal={toggleSignModal}
+            />
+          ))}
+          {agreements.map((agreement, index) => (
+            <AgreementCard
+              key={index}
+              agreement={agreement}
+              printAgreement={printAgreement}
+              toggleSignModal={toggleSignModal}
+            />
+          ))}
         </div>
-  
+      ) : (
+        <NoAgreementscreen />
+      );
+    }
+
+    if (activeTab === "pending") {
+      return pendingAgreements.length > 0 ? (
+        <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {pendingAgreements.map((agreement, index) => (
+            <PendingAgreementCard
+              key={index}
+              agreement={agreement}
+              printAgreement={printAgreement}
+              toggleSignModal={toggleSignModal}
+            />
+          ))}
+        </div>
+      ) : (
+        <NoAgreementscreen />
+      );
+    }
+
+    if (activeTab === "signed") {
+      return agreements.length > 0 ? (
+        <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {agreements.map((agreement, index) => (
+            <AgreementCard
+              key={index}
+              agreement={agreement}
+              printAgreement={printAgreement}
+              toggleSignModal={toggleSignModal}
+            />
+          ))}
+        </div>
+      ) : (
+        <NoAgreementscreen />
+      );
+    }
+
+    if (activeTab === "validated") {
+      // Add validation logic as needed
+      return (
+        <div className="w-full text-center text-white">
+          No validated agreements yet.
+        </div>
+      );
+    }
+  };
+
+  return (
+    <div className="w-full flex flex-col">
+      {/* Secondary Navbar */}
+      <AgreementNav activeTab={activeTab} setActiveTab={setActiveTab} />
+
       <div className="w-full">
-      <Header />
         {loading ? (
           <div className="text-center py-8">
             <div className="loader ease-linear rounded-full border-8 border-t-8 bg-[#130316] border-gray-200 h-16 w-16 mx-auto"></div>
             <p className="mt-2 text-white">Loading agreements...</p>
           </div>
-        ) : !agreements.length && !pendingAgreements.length ? (
-          <div className="w-full m-auto p-4 text-[#EAFBFF]">
-            <NoAgreementscreen />
-          </div>
         ) : (
-          <div className="w-full flex flex-col gap-4">
-            {pendingAgreements.length > 0 && (
-              <div className="w-full flex flex-col px-4">
-                <h1 className="text-3xl text-[#fff] mb-4">Pending Agreements</h1>
-                <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                  {pendingAgreements.map((agreement, index) => (
-                    <div key={index} className="w-full">
-                      <PendingAgreementCard
-                        agreement={agreement}
-                        printAgreement={printAgreement}
-                        toggleSignModal={toggleSignModal}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            {agreements.length > 0 && (
-              <div className="w-full flex flex-col px-4">
-                <h1 className="text-3xl text-[#fff] mb-4 ">Signed Agreements</h1>
-                <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                  {agreements.map((agreement, index) => (
-                    <div key={index} className="w-full">
-                      <AgreementCard
-                        agreement={agreement}
-                        printAgreement={printAgreement}
-                        toggleSignModal={toggleSignModal}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+          renderAgreements()
         )}
       </div>
-  
+
       <Modal
         isOpen={showAgreementModal}
         onRequestClose={toggleSignModal}
@@ -184,7 +207,6 @@ console.log("caller address :::", address);
       </Modal>
     </div>
   );
-  
 }
 
 export default AgreementList;
