@@ -1,7 +1,8 @@
 import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, {useState} from "react";
+import ValidateAgreementModal from "./validateAgreement";
 // import { format } from 'date-fns';
 
 export const AgreementCard = ({
@@ -16,6 +17,10 @@ export const AgreementCard = ({
     router.push(`/agreement/${agreement[0]}`);
   };
 
+  const handleValidateClick = (e) => {
+    e.stopPropagation();
+    setIsModalOpen(true);
+  };
   return (
     <div
       onClick={handleCardClick}
@@ -69,6 +74,8 @@ export const PendingAgreementCard = ({
   printAgreement,
   toggleSignModal,
 }) => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const formattedDate = format(
     new Date(agreement.created_at),
@@ -92,7 +99,14 @@ export const PendingAgreementCard = ({
     }
   };
 
+  const handleValidateClick = (e) => {
+    e.stopPropagation();
+    setIsModalOpen(true);
+  };
+
   return (
+    <>
+    
     <div
       onClick={handleCardClick}
       className="p-3 text-base space-y-[1em] flex flex-col bg-gradient-to-r border-gradient h-fit backdrop-blur-2xl from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent rounded-lg relative w-full cursor-pointer"
@@ -139,14 +153,11 @@ export const PendingAgreementCard = ({
         </button>
         {agreement.access_token ? (
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleSignModal();
-            }}
-            disabled={!agreement.second_party_signature}
+          onClick={handleValidateClick}
+            // disabled={!agreement.second_party_signature}
             className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient2 bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
               !agreement.second_party_signature
-                ? "cursor-not-allowed opacity-50"
+                ? " opacity-50"
                 : ""
             }`}
           >
@@ -170,5 +181,16 @@ export const PendingAgreementCard = ({
         )}
       </div>
     </div>
+
+
+{isModalOpen && (
+  <ValidateAgreementModal
+    fullname={"goodness kolapo"}
+    agreementId={agreement.second_party_valid_id} 
+    onClose={() => setIsModalOpen(false)}
+  />
+)}
+
+</>
   );
 };
