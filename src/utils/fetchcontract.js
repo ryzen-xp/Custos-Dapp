@@ -1,42 +1,70 @@
-// import crimeAbi from "./coverCrimeAbi.json";
-// import agreementAbi from "./agreementAbi.json";
+"use client";
+import crimeAbi from "./coverCrimeAbi.json";
+import agreementAbi from "./agreementAbi.json";
+import { Contract, RpcProvider } from "starknet";
+import { useContext, useEffect, useState } from "react";
+import { WalletContext } from "@/components/walletprovider";
 
-// const contractConfigs = {
-//   crime: {
-//     address: "0x08224d5346fe0f05dad0b3eed040b5c0f0da6d6d",
-//     abi: crimeAbi,
-//   },
-//   agreement: {
-//     address: "0x71B7d170E025CEDaeD65d5579330C865fe3633Ca",
-//     abi: agreementAbi,
-//   },
-// };
+const { account } = useContext(WalletContext);
 
-// // Utility function to get a contract
-// const getContractByType = (type) => {
-//   const config = contractConfigs[type];
-//   if (!config) throw new Error(`Unknown contract type: ${type}`);
+const provider = new RpcProvider({
+  nodeUrl: "https://free-rpc.nethermind.io/sepolia-juno/v0_7",
+});
 
-//   return getContract({
-//     client: client,
-//     chain: baseSepolia,
-//     address: config.address,
-//     abi: config.abi,
-//   });
-// };
+const contractConfigs = {
+  crime: {
+    abi: crimeAbi,
+    address:
+      "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
+  },
+  agreement: {
+    abi: agreementAbi,
+    address:
+      "0x0478d4506cc35111aab21193341e53b9c2f9e3c284aff79b510234b670f7fb9c",
+  },
+};
 
-// // Hook to read data from a contract
-// export const useReadContractData = (contractType, method, args = []) => {
-//   const contract = getContractByType(contractType);
-//   const response = readContract({
-//     contract,
-//     method: method,
-//     params: args,
-//   });
-//   return response;
-// };
+// Hook to read data from a contract
+export const useReadContractData = (contractName, methodName, params = []) => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-// // Hook to write data to a contract
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const contractConfig = contractConfigs[contractName];
+        if (!contractConfig) {
+          throw new Error(
+            `Contract "${contractName}" not found in configurations.`
+          );
+        }
+
+        const contract = new Contract(
+          contractConfig.abi,
+          contractConfig.address,
+          provider
+        );
+
+        const result =
+          params.length > 0
+            ? await contract[methodName](...params)
+            : await contract[methodName]();
+        setData(result);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [contractName, methodName, params]);
+
+  return { data, error, loading };
+};
+
+// Hook to write data to a contract
 // export const useWriteToContract = (contractType, method, args = []) => {
 //   const contract = getContractByType(contractType);
 //   const {
@@ -64,14 +92,3 @@
 //     method,
 //   };
 // };
-
-// // Custom hook to get the active account
-// export const useAccount = () => useActiveAccount();
-// // Example usage in a component
-// /*****
-//  *
-//  *
-//  * const { data: crimeData, isLoading: crimeLoading } = useReadContractData(client, "crime", "methodName", ["arg1", "arg2"]);
-//  * const { data: agreementData, isLoading: agreementLoading } = useReadContractData(client, "agreement", "methodName", ["arg1", "arg2"]);
-//  *
-//  */
