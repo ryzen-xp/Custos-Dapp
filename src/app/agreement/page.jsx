@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import React, { useEffect, useState, useContext } from "react";
 import Modal from "react-modal";
@@ -10,6 +9,8 @@ import NoAgreementscreen from "./components/noAgreementscreen";
 import AgreementNav from "./components/AgreementNav";
 import SignAgreementModal from "./components/signagreementmodal";
 import { WalletContext } from "@/components/walletprovider";
+import { UseReadContractData } from "@/utils/fetchcontract";
+import agreementAbi from "../../utils/agreementAbi.json"
 
 function AgreementList() {
   const [loading, setLoading] = useState(false);
@@ -22,27 +23,42 @@ function AgreementList() {
 
   const [activeTab, setActiveTab] = useState("all");
 
+  
+  // const provider = new RpcProvider({
+  //   nodeUrl: "https://free-rpc.nethermind.io/sepolia-juno/v0_7",
+  // });
+  // const readData = new Contract(
+  //   agreementAbi,
+  //   "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
+  //   provider
+  // );
+  
+  // console.log(getOnchainAgreement)
+  
+  const getOnchainAgreement = UseReadContractData("agreement", "getUserAgreements", []);
   useEffect(() => {
-    const FetchAgreements = async () => {
+    if (!getOnchainAgreement) return;
+
+    const fetchAgreements = async () => {
       setLoading(true);
       try {
-        const res = await useReadContractData(
-          "agreement",
-          "getAllAgreements",
-          []
-        );
-        console.log("response::", res);
-        const totalAgreements = res.map((agreement) => agreement.toString());
-        setTotalAgreements(totalAgreements);
+        // Fetch agreement details
+        // const agreementsDetails = await Promise.all(
+        //   totalAgreements.map((id) =>
+        //     useReadContractData("agreement", "getAgreementDetails", [id])
+        //   )
+        // );
+        // setAgreements(agreementsDetails);
+        // console.log("agreements are", agreementsDetails);
       } catch (error) {
-        console.error("Error fetching agreements:", error);
+        console.error("Error fetching agreement details:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    FetchAgreements();
-  }, []);
+    fetchAgreements();
+  }, [getOnchainAgreement]);
 
   useEffect(() => {
     const FetchPendingAgreements = async () => {
@@ -72,13 +88,13 @@ function AgreementList() {
 
       setLoading(true);
       try {
-        const agreementsDetails = await Promise.all(
-          totalAgreements.map((id) =>
-            useReadContractData("agreement", "getAgreementDetails", [id])
-          )
-        );
-        setAgreements(agreementsDetails);
-        console.log("agreements are", agreementsDetails);
+        // const agreementsDetails = await Promise.all(
+        //   totalAgreements.map((id) =>
+        //     useReadContractData("agreement", "getAgreementDetails", [id])
+        //   )
+        // );
+        // setAgreements(agreementsDetails);
+        // console.log("agreements are", agreementsDetails);
       } catch (error) {
         console.error("Error fetching agreement details:", error);
       } finally {
