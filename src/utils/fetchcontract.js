@@ -1,6 +1,11 @@
+"use client";
 import crimeAbi from "./coverCrimeAbi.json";
 import agreementAbi from "./agreementAbi.json";
 import { Contract, RpcProvider } from "starknet";
+import { useContext, useEffect, useState } from "react";
+import { WalletContext } from "@/components/walletprovider";
+
+const { account } = useContext(WalletContext);
 
 const provider = new RpcProvider({
   nodeUrl: "https://free-rpc.nethermind.io/sepolia-juno/v0_7",
@@ -19,24 +24,44 @@ const contractConfigs = {
   },
 };
 
-// Utility function to get a contract
-const getContractByType = (type) => {
-  const config = contractConfigs[type];
-  if (config) {
-    return {
-      abi: config.abi,
-      address: config.address,
-    };
-  } else {
-    throw new Error(`Unknown contract type: ${type}`);
-  }
-};
-
 // Hook to read data from a contract
-export const useReadContractData = (contractType) => {
-  const contract = getContractByType(contractType);
-  const readData = new Contract(contract.abi, contract.address, provider);
-  return readData;
+export const useReadContractData = (contractName, methodName, params = []) => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const contractConfig = contractConfigs[contractName];
+        if (!contractConfig) {
+          throw new Error(
+            `Contract "${contractName}" not found in configurations.`
+          );
+        }
+
+        const contract = new Contract(
+          contractConfig.abi,
+          contractConfig.address,
+          provider
+        );
+
+        const result =
+          params.length > 0
+            ? await contract[methodName](...params)
+            : await contract[methodName]();
+        setData(result);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [contractName, methodName, params]);
+
+  return { data, error, loading };
 };
 
 // Hook to write data to a contract
