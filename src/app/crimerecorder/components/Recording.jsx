@@ -1,8 +1,8 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import bg from "../../../../public/Rectangle.png";
+import icon3 from "../../../../public/rotate.png";
 import Icons from "./Icons";
-import { TransactionButton } from "thirdweb/react";
 import { useWriteToContract } from "@/utils/fetchcontract";
 import { useRouter } from "next/navigation";
 import { NFTStorage } from "nft.storage";
@@ -170,7 +170,6 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     }
   };
 
-
   const { result } = useWriteToContract("crime", "cover_crime", [uri]);
   const handleStopMedia = () => {
     if (category === "image") {
@@ -216,8 +215,13 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const route = useRouter();
   console.log(result);
 
+  // Function to switch the camera from front to back and vice versa
   const switchCamera = () => {
     setFacingMode((prevMode) => (prevMode === "user" ? "environment" : "user"));
+    if (mediaStream) {
+      mediaStream.getTracks().forEach(track => track.stop());
+      startCamera();
+    }
   };
 
   return (
@@ -241,12 +245,14 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
               Your browser doesn&apos;t support the video tag
             </video>
           </div>
-          <button onClick={switchCamera} className="switch-camera-button">
-            Switch Camera
-          </button>
-          <button onClick={handleStopMedia}>
-            <Icons icon={icon1} text={imgText} />
-          </button>
+          <div className="flex items-center space-x-4">
+  <button onClick={switchCamera}>
+  <Icons icon={icon3} text={`switch canera`} />    
+  </button>
+  <button onClick={handleStopMedia}>
+    <Icons icon={icon1} text={imgText} />
+  </button>
+</div>
         </div>
       </div>
     </div>
