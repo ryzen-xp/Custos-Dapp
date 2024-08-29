@@ -92,7 +92,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
 
         if (response.ok) {
           const data = await response.json();
-          const IpfsHash = data.value.IpfsHash;
+          const IpfsHash = data.IpfsHash;
           console.log(IpfsHash);
           localStorage.setItem("video_uri", IpfsHash);
           alert("File uploaded successfully!");
@@ -129,9 +129,12 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
     const imageDataUrl = canvas.toDataURL();
     setImageUrl(imageDataUrl);
-    document.getElementById("download-image") != null
-      ? (document.getElementById("download-image").style.display = "block")
-      : null;
+
+    // Display the download button if it exists
+    const downloadButton = document.getElementById("download-image");
+    if (downloadButton) {
+        downloadButton.style.display = "block";
+    }
 
     try {
       // Convert the captured image to a Blob
@@ -155,7 +158,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
 
       if (response.ok) {
         const data = await response.json();
-        const IpfsHash = data.value.IpfsHash;
+        const IpfsHash = data.IpfsHash; // Corrected the path to access IpfsHash
         console.log(IpfsHash);
         localStorage.setItem("image_uri", IpfsHash);
         console.log("Image uploaded successfully!");
@@ -166,6 +169,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       console.error("Error uploading image:", error);
     }
   };
+
 
   const { result } = useWriteToContract("crime", "cover_crime", [uri]);
   const handleStopMedia = () => {
