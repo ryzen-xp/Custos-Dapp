@@ -217,12 +217,18 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
 
   // Function to switch the camera from front to back and vice versa
   const switchCamera = () => {
-    setFacingMode((prevMode) => (prevMode === "user" ? "environment" : "user"));
+    setFacingMode((prevMode) => {
+      const newMode = prevMode === "user" ? "environment" : "user";
+      alert(`Switched to ${newMode === "user" ? "front" : "back"} camera.`);
+      return newMode;
+    });
+  
     if (mediaStream) {
-      mediaStream.getTracks().forEach(track => track.stop());
+      mediaStream.getTracks().forEach((track) => track.stop());
       startCamera();
     }
   };
+  
 
   return (
     <div className="w-full flex flex-col mt-10 items-center gap-6 ">
@@ -247,7 +253,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
           </div>
           <div className="flex items-center space-x-4">
   <button onClick={switchCamera}>
-  <Icons icon={icon3} text={`switch canera`} />    
+  <Icons icon={icon3} text={`switch camera`} />    
   </button>
   <button onClick={handleStopMedia}>
     <Icons icon={icon1} text={imgText} />
