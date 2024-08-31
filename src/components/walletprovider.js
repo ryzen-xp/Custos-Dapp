@@ -12,7 +12,7 @@ export const WalletProvider = ({ children }) => {
   useEffect(() => {
     const starknetConnect = async () => {
       const connection = await connect({
-        modalMode: "neverAsk",
+        modalMode: "alwaysAsk",
       });
       if (connection && connection.isConnected) {
         setConnection(connection);

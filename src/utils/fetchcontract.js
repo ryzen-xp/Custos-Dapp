@@ -24,7 +24,7 @@ const contractConfigs = {
 };
 
 // Hook to read data from a contract
-export const useReadContractData = (contractName, methodName, params = []) => {
+export const UseReadContractData = (contractName, methodName, params = []) => {
   // const [data, setData] = useState(null);
   // const [error, setError] = useState(null);
   // const [loading, setLoading] = useState(true);
