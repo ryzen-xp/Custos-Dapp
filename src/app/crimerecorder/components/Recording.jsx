@@ -1,15 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import bg from "../../../../public/Rectangle.png";
+import icon3 from "../../../../public/rotate.png";
 import Icons from "./Icons";
-import { TransactionButton } from "thirdweb/react";
 import { useWriteToContract } from "@/utils/fetchcontract";
 import { useRouter } from "next/navigation";
 import { NFTStorage } from "nft.storage";
+import { WalletContext } from "@/components/walletprovider";
 
-const NFT_STORAGE_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZGNiMzgxZS1iNDYxLTQ0ODAtYWQ5Zi0wZTAxN2QwMjgwMWYiLCJlbWFpbCI6ImplcnlkYW4xNDhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjYyOTg0ZTY1NTY4ZGUxYjk5MDNiIiwic2NvcGVkS2V5U2VjcmV0IjoiMjdlMjg1YTA0MmVlOGMyMTQ5MzQ1ZjA1ZjhlYTYyMzRkM2I2MWZiYjU3M2ZmNzIxMzU1OWMwNGIxOGE3NzJhYSIsImlhdCI6MTcyNDE2MzU3Mn0.2PAyS8Y_NX17idFPsk6-_b0kg5vGfr0TOlqla49iNKA";
+const NFT_STORAGE_TOKEN = process.env.NEXT_IPFS_KEY;
 
 export const Recording = ({ text, icon1, imgText, uri, category }) => {
+  const { account } = useContext(WalletContext);
   const [selectedMedia, setSelectedMedia] = useState(null);
   const [chunks, setChunks] = useState([]);
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -18,23 +20,11 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [facingMode, setFacingMode] = useState("user"); // "user" for front camera, "environment" for back camera
 
-  const clients = new NFTStorage({ token: NFT_STORAGE_TOKEN });
-
   const otherRecorder = (selectedMedia) => {
     return selectedMedia === "vid" ? "aud" : "vid";
   };
 
-  const handleMediaChange = (e) => {
-    const selectedMedia = e.target.value;
-    setSelectedMedia(selectedMedia);
-    document.getElementById(`${selectedMedia}-recorder`).style.display =
-      "block";
-    document.getElementById(
-      `${otherRecorder(selectedMedia)}-recorder`
-    ).style.display = "none";
-  };
-
-  const startRecording = (thisButton, otherButton) => {
+  const startRecording = () => {
     const constraints = {
       video: { facingMode: facingMode },
       audio: true,
@@ -89,17 +79,20 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
         formData.append("file", videoBlob, "recorded-video.webm"); // Ensure correct field name ('file')
 
         // Send FormData to the backend using fetch or Axios
-        const response = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
-          },
-          body: formData,
-        });
+        const response = await fetch(
+          "https://api.pinata.cloud/pinning/pinFileToIPFS",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
+            },
+            body: formData,
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
-          const IpfsHash = data.value.IpfsHash;
+          const IpfsHash = data.IpfsHash;
           console.log(IpfsHash);
           localStorage.setItem("video_uri", IpfsHash);
           alert("File uploaded successfully!");
@@ -136,9 +129,12 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
     const imageDataUrl = canvas.toDataURL();
     setImageUrl(imageDataUrl);
-    document.getElementById("download-image") != null
-      ? (document.getElementById("download-image").style.display = "block")
-      : null;
+
+    // Display the download button if it exists
+    const downloadButton = document.getElementById("download-image");
+    if (downloadButton) {
+        downloadButton.style.display = "block";
+    }
 
     try {
       // Convert the captured image to a Blob
@@ -149,17 +145,20 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       formData.append("file", blob, "captured-image.png"); // 'file' should match the key expected by the backend
 
       // Send FormData to IPFS using fetch
-      const response = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
+          },
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
-        const IpfsHash = data.value.IpfsHash;
+        const IpfsHash = data.IpfsHash; // Corrected the path to access IpfsHash
         console.log(IpfsHash);
         localStorage.setItem("image_uri", IpfsHash);
         console.log("Image uploaded successfully!");
@@ -171,12 +170,14 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     }
   };
 
+  const { result } = useWriteToContract("crime", "cover_crime", [uri]);
   const handleStopMedia = () => {
     if (category === "image") {
       takePicture();
     } else if (category === "video") {
       stopRecording();
     }
+    return result;
   };
 
   useEffect(() => {
@@ -212,19 +213,22 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   }, []);
 
   const route = useRouter();
-  const {
-    sendTransaction,
-    transaction,
-    isPending,
-    isLoading,
-    error,
-    data,
-    isSuccess,
-  } = useWriteToContract("crime", "function coverCrime(string uri)", [uri]);
+  console.log(result);
 
+  // Function to switch the camera from front to back and vice versa
   const switchCamera = () => {
-    setFacingMode((prevMode) => (prevMode === "user" ? "environment" : "user"));
+    setFacingMode((prevMode) => {
+      const newMode = prevMode === "user" ? "environment" : "user";
+      alert(`Switched to ${newMode === "user" ? "front" : "back"} camera.`);
+      return newMode;
+    });
+  
+    if (mediaStream) {
+      mediaStream.getTracks().forEach((track) => track.stop());
+      startCamera();
+    }
   };
+  
 
   return (
     <div className="w-full flex flex-col mt-10 items-center gap-6 ">
@@ -247,28 +251,14 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
               Your browser doesn&apos;t support the video tag
             </video>
           </div>
-          <button onClick={switchCamera} className="switch-camera-button">
-            Switch Camera
-          </button>
-          <TransactionButton
-            theme={"light"}
-            onClick={handleStopMedia}
-            transaction={() => {
-              return transaction;
-            }}
-            onTransactionSent={(result) => {
-              console.log("Transaction submitted", result.transactionHash);
-            }}
-            onTransactionConfirmed={(receipt) => {
-              console.log("Transaction confirmed", receipt.transactionHash);
-              route.push("/crimerecorder");
-            }}
-            onError={(error) => {
-              console.error("Transaction error", error);
-            }}
-          >
-            <Icons icon={icon1} text={imgText} />
-          </TransactionButton>
+          <div className="flex items-center space-x-4">
+  <button onClick={switchCamera}>
+  <Icons icon={icon3} text={`switch camera`} />    
+  </button>
+  <button onClick={handleStopMedia}>
+    <Icons icon={icon1} text={imgText} />
+  </button>
+</div>
         </div>
       </div>
     </div>

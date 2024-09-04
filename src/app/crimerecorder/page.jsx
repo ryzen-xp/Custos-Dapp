@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useContext, useEffect, useState } from "react";
 import { Header } from "./components/Header";
 import { Record } from "./components/Record";
@@ -14,29 +14,14 @@ const Recorder = () => {
   const text = {
     text1: `You can record a video, or take a picture to keep on the blockchain`,
   };
-const { account } = useContext(WalletContext);
-  // const {
-  //   data: readData,
-  //   error,
-  //   loading,
-  // } = useReadContractData("crime", "name", []);
+  const { account } = useContext(WalletContext);
+  const {
+    data: readData,
+    error,
+    loading,
+  } = useReadContractData("crime", "name", []);
 
-  // console.log(readData);
-
-  const provider = new RpcProvider({
-    nodeUrl: "https://starknet-sepolia.infura.io/v3/eef769b164304dd796259eb3836f295a",
-  });
-  const readData = new Contract(
-    crimeAbi,
-    "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
-    provider
-  );
-
-  const writeData = new Contract(
-    crimeAbi,
-    "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
-    account
-  );
+  console.log(readData);
 
   return (
     <div className="min-h-screen w-full p-4 md:p-10">

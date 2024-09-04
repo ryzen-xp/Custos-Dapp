@@ -3,7 +3,7 @@ import Icons from "./Icons";
 import Link from "next/link";
 import bg from "../../../../public/Rectangle.png";
 
-export const Record = ({ text, icon1, icon2 }) => {
+export const Record = ({ text, icon1, icon2, icon3 }) => {
   return (
     <div className="w-full flex flex-col mt-10 items-center gap-6 px-4 md:px-0">
       <p className="text-white text-center text-lg md:text-xl">{text}</p>
