@@ -347,22 +347,24 @@ button .text-transparent {
 
 .eclipse-container {
   perspective: 1000px; /* Enable 3D perspective */
-
   display: flex;
   align-items: center;
   justify-content: center;
+  /* height: 100vh; */
 }
 
 .eclipse {
-  animation: rotate 5s infinite linear; /* Infinite rotation */
-  transform-style: preserve-3d; /* Preserve the 3D effect */
+  animation: bounce 2s infinite ease-in-out; /* Infinite bouncing animation */
+
+  transform-style: preserve-3d;
 }
 
-@keyframes rotate {
-  0% {
-    transform: rotateX(0deg) rotateY(0deg);
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0); /* Start and end position */
   }
-  100% {
-    transform: rotateX(360deg) rotateY(360deg);
+  50% {
+    transform: translateY(-50px); /* Move upward to simulate a bounce */
   }
 }
+
