@@ -24,7 +24,7 @@ export default function ShowLaunchDapps({closeModal}) {
 
           <div className=" flex p-6 flex-col justify-between bg-opacity-90 bg-[#091219] bg-[url('/Rectangle.png')] bg-cover bg-center bg-repeat">
             <div>
-              <p className="text-3xl text-white">Launch Dapps</p>
+              <p className="text-3xl text-white">Launch Dappscc</p>
               <p className="mt-4 text-gray-300">
                 Decentralized apps help you leverage blockchain technology to
                 secure your evidence and legal agreements.
