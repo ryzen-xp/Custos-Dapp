@@ -61,7 +61,10 @@ const Agree = () => {
 
       <div className="justify-center items-center flex mb-[15%]">
         <div onClick={toggleLaunchDapps} href="/agreement">
-          <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
+          <div class="launch-pad-button-container">
+            <img src="./launchPadButton.png" alt="Zoom Image" />
+          </div>
+          {/* <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
             <span className="flex items-center">Launch Dapp</span>
             <svg
               className="ml-2 w-6 h-6"
@@ -77,12 +80,10 @@ const Agree = () => {
                 d="M13 7l5 5m0 0l-5 5m5-5H6"
               ></path>
             </svg>
-          </button>
+          </button> */}
         </div>
       </div>
-        {showLaunchDapps && (
-          <ShowLaunchDapps closeModal={closeModal} />
-        )}
+      {showLaunchDapps && <ShowLaunchDapps closeModal={closeModal} />}
       <div className="w-full">
         <Shape />
       </div>
@@ -131,7 +132,10 @@ const Agree = () => {
       </div>
       <div className="justify-center items-center flex mb-[15%]">
         <div onClick={toggleLaunchDapps}>
-          <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
+          <div class="launch-pad-button-container">
+            <img src="./launchPadButton.png" alt="Zoom Image" />
+          </div>
+          {/* <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
             <span className="flex items-center">Launch Dapp</span>
             <svg
               className="ml-2 w-6 h-6"
@@ -147,7 +151,7 @@ const Agree = () => {
                 d="M13 7l5 5m0 0l-5 5m5-5H6"
               ></path>
             </svg>
-          </button>
+          </button> */}
         </div>
       </div>
       <div className="w-full">
