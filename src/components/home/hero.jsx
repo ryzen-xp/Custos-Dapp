@@ -5,14 +5,24 @@ import Image from "next/image";
 // import Agree from "./agree";
 // import gsap from "gsap";
 import { useEffect, useState, useRef } from "react";
+import ShowLaunchDapps from "../showLaunchDapps";
+
 const Hero = () => {
+    const [showLaunchDapps, setShowLaunchDapps] = useState(false);
   const starRef = useRef(null);
+
+   const toggleLaunchDapps = () => {
+     setShowLaunchDapps(!showLaunchDapps);
+   };
+  const closeModal = () => {
+    setShowLaunchDapps(false);
+  };
 
   useEffect(() => {}, []);
   return (
     <main className="flex items-center justify-center min-h-screen">
       <div className="text-white py-20 mx-auto flex flex-col justify-center items-center w-full px-4">
-        <a href="/services" className=" flex w-fit h-fit">
+        <div onClick={toggleLaunchDapps} className=" flex w-fit h-fit">
           <button className="relative br w-full text-white shadow-lg py-3 px-6 transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50  backdrop-filter backdrop-blur-lg flex items-center justify-center ">
             <span className="flex items-center">Launch Custos Dapp</span>
             <img
@@ -21,8 +31,10 @@ const Hero = () => {
               alt="Star Icon"
             />
           </button>
-        </a>
-
+        </div>
+        {showLaunchDapps && (
+          <ShowLaunchDapps closeModal={closeModal} />
+        )}
         <p className="text-4xl font-bold my-6 bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent text-center w-full p-3">
           The new blockchain safe
         </p>
