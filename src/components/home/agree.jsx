@@ -1,10 +1,13 @@
-import React from "react";
+"use client"
+
+import React, { useState } from "react";
 
 import Link from "next/link";
 import Image from "next/image";
 import ConnectButtoncomponent from "../connect";
 import Footer from "../footer";
 import Shape from "./eclipse";
+import ShowLaunchDapps from "../showLaunchDapps";
 // const printAgreement = (agreement) => {
 //   const printContent = `
 //     <h1>${agreement.title}</h1>
@@ -18,7 +21,17 @@ import Shape from "./eclipse";
 //   printWindow.print();
 // };
 
+   
+
 const Agree = () => {
+  const [showLaunchDapps, setShowLaunchDapps] = useState(false);
+
+  const toggleLaunchDapps = () => {
+    setShowLaunchDapps(!showLaunchDapps);
+  };
+  const closeModal = () => {
+    setShowLaunchDapps(false);
+  };
   return (
     <main className="">
       <div className="flex mt-8 items-center  justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
@@ -47,8 +60,11 @@ const Agree = () => {
       </div>
 
       <div className="justify-center items-center flex mb-[15%]">
-        <a href="/agreement">
-          <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
+        <div onClick={toggleLaunchDapps} href="/agreement">
+          <div class="launch-pad-button-container">
+            <img src="./launchPadButton.png" alt="Zoom Image" />
+          </div>
+          {/* <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
             <span className="flex items-center">Launch Dapp</span>
             <svg
               className="ml-2 w-6 h-6"
@@ -64,9 +80,10 @@ const Agree = () => {
                 d="M13 7l5 5m0 0l-5 5m5-5H6"
               ></path>
             </svg>
-          </button>
-        </a>
+          </button> */}
+        </div>
       </div>
+      {showLaunchDapps && <ShowLaunchDapps closeModal={closeModal} />}
       <div className="w-full">
         <Shape />
       </div>
@@ -114,8 +131,11 @@ const Agree = () => {
         </div>
       </div>
       <div className="justify-center items-center flex mb-[15%]">
-        <a href="/crimerecorder">
-          <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
+        <div onClick={toggleLaunchDapps}>
+          <div class="launch-pad-button-container">
+            <img src="./launchPadButton.png" alt="Zoom Image" />
+          </div>
+          {/* <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
             <span className="flex items-center">Launch Dapp</span>
             <svg
               className="ml-2 w-6 h-6"
@@ -131,8 +151,8 @@ const Agree = () => {
                 d="M13 7l5 5m0 0l-5 5m5-5H6"
               ></path>
             </svg>
-          </button>
-        </a>
+          </button> */}
+        </div>
       </div>
       <div className="w-full">
         <Shape />
