@@ -334,8 +334,8 @@ button .text-transparent {
   transform: scale(1.2); /* Scale the container on image hover */
 }
 
-.launch-pad-button-container{
-    width: 200px;
+.launch-pad-button-container {
+  width: 200px;
   height: 60px;
   overflow: hidden;
   transition: transform 0.5s ease; /* Smooth transition for the container */
@@ -345,19 +345,21 @@ button .text-transparent {
   transform: scale(1.2); /* Scale the container on image hover */
 }
 
+.eclipse-container {
+  perspective: 1000px; /* Enable 3D perspective */
 
-  .eclipse-container {
-    perspective: 1000px; /* Enable 3D perspective */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .eclipse {
-   
-    animation: rotate 5s infinite linear; /* Infinite rotation */
-    transform-style: preserve-3d; /* Preserve the 3D effect */
+  animation: rotate 5s infinite linear; /* Infinite rotation */
+  transform-style: preserve-3d; /* Preserve the 3D effect */
 }
 
 @keyframes rotate {
-     0% {
+  0% {
     transform: rotateX(0deg) rotateY(0deg);
   }
   100% {
