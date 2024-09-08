@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
 
         
 <div className="flex min-h-screen w-full">
-        <div className="w-1/6 h-full bg-gray-800 sticky top-0 bottom-0">
+        <div className="w-[25%] h-full bg-gray-800 sticky top-0 bottom-0">
           <Sidepane />
         </div>
 
