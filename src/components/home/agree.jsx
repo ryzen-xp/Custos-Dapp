@@ -8,9 +8,10 @@ import ConnectButtoncomponent from "../connect";
 import Footer from "../footer";
 import Shape from "./eclipse";
 import ShowLaunchDapps from "../showLaunchDapps";
-import "./style.css";
+// import "./style.css";
 
 import { TextFade } from "./textFade";
+import FadeInSection from "../fadeInSection";
 // const printAgreement = (agreement) => {
 //   const printContent = `
 //     <h1>${agreement.title}</h1>
@@ -24,24 +25,6 @@ import { TextFade } from "./textFade";
 //   printWindow.print();
 // };
 
-function FadeInSection(props) {
-  const [isVisible, setVisible] = React.useState(false);
-  const domRef = React.useRef();
-  React.useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => setVisible(entry.isIntersecting));
-    });
-    observer.observe(domRef.current);
-  }, []);
-  return (
-    <div
-      className={`fade-in-section ${isVisible ? "is-visible" : ""}`}
-      ref={domRef}
-    >
-      {props.children}
-    </div>
-  );
-}
 
 const Agree = () => {
   const [showLaunchDapps, setShowLaunchDapps] = useState(false);
