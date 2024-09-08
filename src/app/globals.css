@@ -374,7 +374,7 @@ button .text-transparent {
 
 .fade-in-section {
   opacity: 1;
-  transform: translateY(40vh);
+  transform: translateY(20vh);
   visibility: 1;
   transition: opacity 2s ease-out, transform 1s ease-out,
     visibility 1200ms ease-out;
