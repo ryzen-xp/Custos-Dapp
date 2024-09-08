@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 
@@ -8,6 +8,9 @@ import ConnectButtoncomponent from "../connect";
 import Footer from "../footer";
 import Shape from "./eclipse";
 import ShowLaunchDapps from "../showLaunchDapps";
+import "./style.css";
+
+import { TextFade } from "./textFade";
 // const printAgreement = (agreement) => {
 //   const printContent = `
 //     <h1>${agreement.title}</h1>
@@ -21,7 +24,24 @@ import ShowLaunchDapps from "../showLaunchDapps";
 //   printWindow.print();
 // };
 
-   
+function FadeInSection(props) {
+  const [isVisible, setVisible] = React.useState(false);
+  const domRef = React.useRef();
+  React.useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => setVisible(entry.isIntersecting));
+    });
+    observer.observe(domRef.current);
+  }, []);
+  return (
+    <div
+      className={`fade-in-section ${isVisible ? "is-visible" : ""}`}
+      ref={domRef}
+    >
+      {props.children}
+    </div>
+  );
+}
 
 const Agree = () => {
   const [showLaunchDapps, setShowLaunchDapps] = useState(false);
@@ -34,30 +54,44 @@ const Agree = () => {
   };
   return (
     <main className="">
-      <div className="flex mt-8 items-center  justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-        <div className="text-center p-8 bg-transparent rounded shadow-lg">
-          <p className="text-[1.5em] mb-4">Agreement documentation</p>
-          <p className="text-[1em] mb-4">
-            Create new legal agreements by providing the agreement content, the{" "}
-            <br />
-            address of the second party, and details about the first party.
-          </p>
-        </div>
-      </div>
+      <FadeInSection>
+        <div className="flex mt-8 items-center  justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+          <div className="text-center p-8 bg-transparent rounded shadow-lg text-white">
+            <p className="text-[1.5em] mb-4">Agreement documentation</p>
 
-      <div className="flex justify-center items-center  -mt-10">
-        <div className="w-full max-w-4xl p-4">
-          <a href="/agreement">
-            <Image
-              src="/hero.png"
-              alt="Card Image"
-              width={1000}
-              height={800}
-              className="w-full h-auto"
-            />
-          </a>
+            <p className="text-[1em] mb-4 z-40 ">
+              Create new legal agreements by providing the agreement content,
+              the <br />
+              address of the second party, and details about the first party.
+            </p>
+
+            {/* <TextFade
+            direction="up"
+            className="pt-0 pb-5 flex-col flex justify-center items-center space-y-0"
+          >
+            <p className="text-[1em] mb-4">
+              Create new legal agreements by providing the agreement content,
+              the <br />
+              address of the second party, and details about the first party.
+            </p>
+          </TextFade> */}
+          </div>
         </div>
-      </div>
+
+        <div className="flex justify-center items-center  -mt-10">
+          <div className="w-full max-w-4xl p-4">
+            <a href="/agreement">
+              <Image
+                src="/hero.png"
+                alt="Card Image"
+                width={1000}
+                height={800}
+                className="w-full h-auto"
+              />
+            </a>
+          </div>
+        </div>
+      </FadeInSection>
 
       <div className="justify-center items-center flex mb-[15%]">
         <div onClick={toggleLaunchDapps} href="/agreement">
