@@ -133,7 +133,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     // Display the download button if it exists
     const downloadButton = document.getElementById("download-image");
     if (downloadButton) {
-        downloadButton.style.display = "block";
+      downloadButton.style.display = "block";
     }
 
     try {
@@ -222,13 +222,12 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       alert(`Switched to ${newMode === "user" ? "front" : "back"} camera.`);
       return newMode;
     });
-  
+
     if (mediaStream) {
       mediaStream.getTracks().forEach((track) => track.stop());
       startCamera();
     }
   };
-  
 
   return (
     <div className="w-full flex flex-col mt-10 items-center gap-6 ">
@@ -252,13 +251,13 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
             </video>
           </div>
           <div className="flex items-center space-x-4">
-  <button onClick={switchCamera}>
-  <Icons icon={icon3} text={`switch camera`} />    
-  </button>
-  <button onClick={handleStopMedia}>
-    <Icons icon={icon1} text={imgText} />
-  </button>
-</div>
+            <button onClick={switchCamera}>
+              <Icons icon={icon3} text={`switch camera`} />
+            </button>
+            <button onClick={handleStopMedia}>
+              <Icons icon={icon1} text={imgText} />
+            </button>
+          </div>
         </div>
       </div>
     </div>
