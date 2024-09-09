@@ -158,6 +158,7 @@
   position: relative;
 }
 
+.border-gradient::before,
 .border-gradient2::before {
   content: "";
   position: absolute;
@@ -168,11 +169,26 @@
   border-radius: inherit; /* Match the border radius of the card */
   padding: 1px; /* Adjust the width of the border */
   background: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
+
+  /* Masking the background so that the gradient appears only on the border */
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: destination-out; /* For Safari */
-  mask-composite: exclude; /* For other browsers */
+  mask-composite: exclude;
 }
+
+.border-gradient {
+  --padding-size: 0.47px;
+}
+
+.border-gradient2 {
+  --padding-size: 1px;
+}
+
+.border-gradient::before,
+.border-gradient2::before {
+  padding: var(--padding-size);
+}
+
 button .text-transparent {
   background: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
   -webkit-background-clip: text;
@@ -266,8 +282,6 @@ button .text-transparent {
   animation: star-move 5s linear infinite;
 }
 
-
-
 /* eclipse */
 
 .shape {
@@ -276,11 +290,15 @@ button .text-transparent {
   border-radius: 100%;
   top: 0;
   left: 0;
-  border-top-color: #19B1D2; /* Primary color */
-  border-bottom-color: #0094FF; /* Secondary color */
-  background: radial-gradient(circle at center, transparent 80%, #00000000 80%); /* Center hollow effect */
+  border-top-color: #19b1d2; /* Primary color */
+  border-bottom-color: #0094ff; /* Secondary color */
+  background: radial-gradient(
+    circle at center,
+    transparent 80%,
+    #00000000 80%
+  ); /* Center hollow effect */
   box-shadow: 24px 20px 44px 48px rgba(160, 34, 148, 0.23),
-              0 4px 20px 24px rgba(25, 177, 210, 0.6);
+    0 4px 20px 24px rgba(25, 177, 210, 0.6);
   opacity: 0.6;
   transform-style: preserve-3d;
   animation: roll 10s infinite linear;
@@ -296,9 +314,74 @@ button .text-transparent {
   }
 }
 
-
-
-
 .underlined-border-gradient {
-  border-image: linear-gradient(to right, #0094FF, #A02294) 1;
+  border-image: linear-gradient(to right, #0094ff, #a02294) 1;
+}
+
+.image-container {
+  width: 350px;
+  height: 250px;
+  overflow: hidden;
+  transition: transform 0.5s ease; /* Smooth transition for the container */
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+}
+
+.image-container:hover {
+  transform: scale(1.2); /* Scale the container on image hover */
+}
+
+.launch-pad-button-container {
+  width: 200px;
+  height: 60px;
+  overflow: hidden;
+  transition: transform 0.5s ease; /* Smooth transition for the container */
+}
+
+.launch-pad-button-container:hover {
+  transform: scale(1.2); /* Scale the container on image hover */
+}
+
+.eclipse-container {
+  perspective: 1000px; /* Enable 3D perspective */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* height: 100vh; */
+}
+
+.eclipse {
+  animation: bounce 2s infinite ease-in-out; /* Infinite bouncing animation */
+
+  transform-style: preserve-3d;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0); /* Start and end position */
+  }
+  50% {
+    transform: translateY(-50px); /* Move upward to simulate a bounce */
+  }
+}
+
+
+
+
+
+.fade-in-section {
+  opacity: 1;
+  transform: translateY(20vh);
+  visibility: 1;
+  transition: opacity 2s ease-out, transform 1s ease-out,
+    visibility 1200ms ease-out;
+  will-change: opacity, transform, visibility;
+}
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
 }

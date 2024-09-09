@@ -67,18 +67,16 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     if (mediaRecorder && mediaRecorder.state === "recording") {
       mediaRecorder.stop();
       document.getElementById("vid-recorder").style.display = "none";
-      // document.getElementById("vid-record-status").innerText =
-      //   'Click the "Start" button to start recording';
+
+      // Stop all media tracks
+      mediaStream.getTracks().forEach((track) => track.stop());
 
       try {
-        // Convert recorded chunks to a single Blob
         const videoBlob = new Blob(chunks, { type: "video/webm" });
 
-        // Create FormData object and append the video Blob to it
         const formData = new FormData();
-        formData.append("file", videoBlob, "recorded-video.webm"); // Ensure correct field name ('file')
+        formData.append("file", videoBlob, "recorded-video.webm");
 
-        // Send FormData to the backend using fetch or Axios
         const response = await fetch(
           "https://api.pinata.cloud/pinning/pinFileToIPFS",
           {
@@ -97,13 +95,11 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
           localStorage.setItem("video_uri", IpfsHash);
           alert("File uploaded successfully!");
         } else {
-          // Handle upload failure
           console.error("Failed to upload video");
         }
       } catch (error) {
         console.error("Error uploading video:", error);
       }
-      // window.location.reload();
     }
   };
 
@@ -220,6 +216,29 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     setFacingMode((prevMode) => {
       const newMode = prevMode === "user" ? "environment" : "user";
       alert(`Switched to ${newMode === "user" ? "front" : "back"} camera.`);
+
+      // Stop the current media stream
+      if (mediaStream) {
+        mediaStream.getTracks().forEach((track) => track.stop());
+      }
+
+      // Restart the camera with the new facing mode
+      const constraints = {
+        video: { facingMode: newMode },
+        audio: true,
+      };
+
+      navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then((stream) => {
+          const video = document.getElementById("web-cam-container");
+          video.srcObject = stream;
+          setMediaStream(stream);
+        })
+        .catch((err) => {
+          console.error("Error switching camera:", err);
+        });
+
       return newMode;
     });
 
@@ -244,6 +263,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
           <div id="vid-recorder" className="w-full">
             <video
               autoPlay
+              muted
               id="web-cam-container"
               className="rounded-xl mb-6 w-full"
             >

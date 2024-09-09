@@ -6,7 +6,7 @@ import icon1 from "../../../public/record2.png";
 import icon2 from "../../../public/picture.png";
 import crimeAbi from "../../utils/coverCrimeAbi.json";
 // import Uploads from "./components/Uploads";
-import { useReadContractData } from "../../utils/fetchcontract";
+import { UseReadContractData } from "../../utils/fetchcontract";
 import { Contract, RpcProvider } from "starknet";
 import { WalletContext } from "@/components/walletprovider";
 
@@ -19,7 +19,7 @@ const Recorder = () => {
     data: readData,
     error,
     loading,
-  } = useReadContractData("crime", "name", []);
+  } = UseReadContractData("crime", "name", []);
 
   console.log(readData);
 

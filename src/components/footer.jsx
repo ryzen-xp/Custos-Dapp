@@ -6,7 +6,7 @@ function Footer() {
   return (
     <div className="bg-black py-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 place-items-start">
           <div>
             <Image
               src="/logo.png"
@@ -23,7 +23,7 @@ function Footer() {
               </a>
             </p>
           </div>
-          <div className="text-center md:text-left">
+          <div className="text-start md:text-left">
             <h3 className="text-xl font-semibold mb-2">Company</h3>
             <ul>
               <li>
@@ -38,7 +38,7 @@ function Footer() {
               </li>
             </ul>
           </div>
-          <div className="text-center md:text-left">
+          <div className="text-start md:text-left">
             <h3 className="text-xl font-semibold mb-2">Legal</h3>
             <ul>
               <li>
@@ -53,7 +53,7 @@ function Footer() {
               </li>
             </ul>
           </div>
-          <div className="text-center md:text-left">
+          <div className="text-start md:text-left">
             <h3 className="text-xl font-semibold mb-2">Resources</h3>
             <ul>
               <li>
@@ -68,10 +68,10 @@ function Footer() {
               </li>
             </ul>
           </div>
-          <div className="text-center md:text-left">
+          <div className="text-start md:text-left">
             <h3 className="text-xl font-semibold mb-2">Community</h3>
-            <ul className="flex flex-col items-center md:items-start">
-              <li className="flex items-center mb-2">
+            <ul className="flex flex-col items-start md:items-start">
+              <li className="flex items-center mb-2 ">
                 <FaDiscord className="mr-2 text-white" />
                 <a
                   href="https://discord.com/invite/R7PgreKj"

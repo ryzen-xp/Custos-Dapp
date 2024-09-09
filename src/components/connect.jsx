@@ -8,7 +8,8 @@ function ConnectButtoncomponent() {
     useContext(WalletContext);
 
   return (
-    <div className="hover:cursor-pointer p-[1px] rounded-full bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef]">
+    <div className="hover:cursor-pointer p-[1px] rounded-full ">
+      {/* bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef] */}
       {connection ? (
         <button
           onClick={disconnectWallet}
@@ -19,10 +20,13 @@ function ConnectButtoncomponent() {
       ) : (
         <button
           onClick={connectWallet}
-          className="w-full flex items-center bg-black py-2 px-4 rounded-full"
+          // className="w-full flex items-center bg-black py-2 px-4 rounded-full"
         >
-          <span className="mr-2">Connect Wallet</span>
-          <FaArrowRight />
+          <div class="launch-pad-button-container">
+            <img src="./connectButton.png" alt="Zoom Image" />
+          </div>
+          {/* <span className="mr-2">Connect Wallet</span>
+          <FaArrowRight /> */}
         </button>
       )}
     </div>
