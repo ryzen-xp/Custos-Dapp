@@ -21,11 +21,11 @@ export default function RootLayout({ children }) {
         <div className="w-full min-h-screen flex flex-col">
           {/* Header */}
           <div className="w-full sticky top-0 z-40 "      
- style={{
-        backgroundColor: "#1e2f37",
-        backgroundImage: `url('/Rectangle.png')`,
-        backgroundSize: "contain",
-      }}
+//  style={{
+//         backgroundColor: "#1e2f37",
+//         backgroundImage: `url('/Rectangle.png')`,
+//         backgroundSize: "contain",
+//       }}
     >
             <Header />
           </div>
