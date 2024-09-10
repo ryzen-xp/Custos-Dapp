@@ -391,9 +391,11 @@ button .text-transparent {
   position: relative;
   transform-style: preserve-3d;
   border-radius: 23px;
+
 }
 .box sh {
   position: absolute;
+  /* padding: 1px; */
   inset: calc(0px - 0px - 0px);
   border: calc(0px + 1px + 0px) solid #0000;
   border-radius: calc(0px + 1px + 0px + 23px);
@@ -406,14 +408,14 @@ button .text-transparent {
 .box sh::before {
   content: "";
   position: absolute;
-  inset: -1px;
+  inset: -2px;
   border-radius: 23px;
   background: conic-gradient(from 90deg at 40% -25%, #a0229369, #0095ff60);
   /*  #ffd700, #f79d03, #ee6907, #e6390a, #de0d0d, #d61039, #cf1261, #c71585, #cf1261, #d61039, #de0d0d, #ee6907, #f79d03, #ffd700, #ffd700, #ffd700 */
   filter: blur(0px);
   transform: translate(0px,0px);
 }
-.m{
+/* .m{
  
  color: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
-}
+} */

@@ -114,7 +114,7 @@ const AgreementModal = () => {
           <div className="text-white flex flex-col items-center justify-center space-y-6 mb-8">
             <label
               htmlFor="agreementType"
-              className="font-[500] text-[1em] text-white"
+              className="font-[500] text-[24px] text-white"
             >
               Select the type of agreement you want to create
             </label>
@@ -341,11 +341,11 @@ const AgreementModal = () => {
   };
 
   return (
-    <div className="w-full max-w-full px-4 flex flex-col gap-8 overflow-clip  justify-center items-center min-h-screen">
-      <div className="rounded-2xl  box relative  border-gradien  p-6">
+    <div className="w-full px-4 flex flex-col gap-8 overflow-clip  justify-center items-center h-[80vh]">
+      <div className="rounded-2xl box border-gradien  p-6">
         <sh></sh>
         <form
-          className="max-w-md mx-auto relative w-full space-y-5"
+          className=" w-full space-y-5"
           onSubmit={handleSubmit}
         >
           {modalStep > 1 && (
