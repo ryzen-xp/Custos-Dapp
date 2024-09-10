@@ -11,7 +11,7 @@ const AgreementNav = ({ activeTab, setActiveTab }) => {
           onClick={() => window.history.back()}
         >
           <div className="w-fit  flex justify-start items-centr">
-            <FaArrowLeft className="mr-2 text-[#EAFBFF]" />
+            <FaArrowLeft className="mr-2 mt-[3px] text-[#EAFBFF]" />
             <p className="text-[#EAFBFF] font-bold">Back</p>
           </div>
         </button>

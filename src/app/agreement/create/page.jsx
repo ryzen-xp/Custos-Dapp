@@ -351,7 +351,7 @@ const AgreementModal = () => {
 
   return (
     <div className="w-full max-w-lg px-4 flex flex-col gap-8 overflow-clip m-auto justify-center items-center min-h-screen">
-      <div className="rounded-2xl relative border-gradient w-fit m-auto p-6">
+      <div className="rounded-2xl relative border-gradien border-[0.2px] border-[#0091ff] w-fit m-auto p-6">
         <form
           className="max-w-md mx-auto relative w-full space-y-5"
           onSubmit={handleSubmit}
