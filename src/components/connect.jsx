@@ -13,9 +13,13 @@ function ConnectButtoncomponent() {
       {connection ? (
         <button
           onClick={disconnectWallet}
-          className="w-full bg-black py-2 px-4 rounded-full"
+          className="w-full py-2 px-4 rounded-full"
         >
-          Disconnect
+          <div className="launch-pad-button-container">
+            <img src="./DisconnectButton.png" alt="Zoom Image" />
+          </div>
+
+          {/* DisconnectButton */}
         </button>
       ) : (
         <button
