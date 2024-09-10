@@ -22,7 +22,7 @@ function ConnectButtoncomponent() {
           onClick={connectWallet}
           // className="w-full flex items-center bg-black py-2 px-4 rounded-full"
         >
-          <div class="launch-pad-button-container">
+          <div className="launch-pad-button-container">
             <img src="./connectButton.png" alt="Zoom Image" />
           </div>
           {/* <span className="mr-2">Connect Wallet</span>

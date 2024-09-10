@@ -77,7 +77,7 @@ const Agree = () => {
 
       <div className="justify-center items-center flex mb-[15%]">
         <div onClick={toggleLaunchDapps} href="/agreement">
-          <div class="launch-pad-button-container">
+          <div className="launch-pad-button-container">
             <img src="./launchPadButton.png" alt="Zoom Image" />
           </div>
           {/* <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
@@ -151,7 +151,7 @@ const Agree = () => {
         </div>
         <div className="justify-center items-center flex mb-[15%]">
           <div onClick={toggleLaunchDapps}>
-            <div class="launch-pad-button-container">
+            <div className="launch-pad-button-container">
               <img src="./launchPadButton.png" alt="Zoom Image" />
             </div>
             {/* <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
