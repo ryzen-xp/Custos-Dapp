@@ -4,7 +4,7 @@ import React from "react";
 
 const Sidepane = () => {
   return (
-    <div className="bg-gradient-to-r from-[#04080C] flex items-center gap-10 flex-col to-[#09131A] h-screen w-full p-8">
+    <div className="bg-gradient-to-r from-[#04080C] flex items-center gap-[8em] flex-col to-[#09131A] h-screen w-full p-8">
       <div className="w-full">
         <a href="/" className="w-auto">
           <Image src="/logo.png" alt="logo" width={232.7} height={22} />
@@ -18,13 +18,18 @@ const Sidepane = () => {
             <Image src="/cameraicon.svg" alt="icon" width={25} height={20} />
           </div>
         </Link>
-
-        <Link href={`/agreement/`} className="text-[#EAFBFF]">
-          <div className="section2 flex gap-4 m-auto w-full p-2 items-center">
+        <Link href={`/crimerecorder`} className="text-[#EAFBFF]">
+          <div className="section2 flex gap-4 m-auto w-full justify-start items-center">
             <p className="text-[1.3em] text-[#EAFBFF]">Agreement</p>
             <Image src="/Plus.svg" alt="icon" width={25} height={20} />
           </div>
         </Link>
+        {/* <Link href={`/agreement/`} className="text-[#EAFBFF]">
+          <div className="section2 flex gap-4 m-auto w-full p-2 items-center">
+            <p className="text-[1.3em] text-[#EAFBFF]">Agreement</p>
+            <Image src="/Plus.svg" alt="icon" width={25} height={20} />
+          </div>
+        </Link> */}
       </div>
 
       {/* <div className="section2 flex flex-col gap-16 m-auto w-full p-2">
