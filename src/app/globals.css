@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* @import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"); */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 
 :root {
   /* background: #1e2f37; */
@@ -288,7 +288,6 @@ button .text-transparent {
 }
 
 /* eclipse */
-
 .shape {
   width: 100%;
   height: 100%;
@@ -365,17 +364,14 @@ button .text-transparent {
 }
 
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0); /* Start and end position */
   }
   50% {
     transform: translateY(-50px); /* Move upward to simulate a bounce */
   }
 }
-
-
-
-
 
 .fade-in-section {
   opacity: 1;
@@ -389,4 +385,35 @@ button .text-transparent {
   opacity: 1;
   transform: none;
   visibility: visible;
+}
+/* HTML: <div class="box"><sh></sh> </div> */
+.box {
+  position: relative;
+  transform-style: preserve-3d;
+  border-radius: 23px;
+}
+.box sh {
+  position: absolute;
+  inset: calc(0px - 0px - 0px);
+  border: calc(0px + 1px + 0px) solid #0000;
+  border-radius: calc(0px + 1px + 0px + 23px);
+  -webkit-mask: linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transform: translateZ(-1px);
+  pointer-events: none;
+}
+.box sh::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 23px;
+  background: conic-gradient(from 90deg at 40% -25%, #a0229369, #0095ff60);
+  /*  #ffd700, #f79d03, #ee6907, #e6390a, #de0d0d, #d61039, #cf1261, #c71585, #cf1261, #d61039, #de0d0d, #ee6907, #f79d03, #ffd700, #ffd700, #ffd700 */
+  filter: blur(0px);
+  transform: translate(0px,0px);
+}
+.m{
+ 
+ color: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
 }
