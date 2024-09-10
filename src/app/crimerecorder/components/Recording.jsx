@@ -1,12 +1,21 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import bg from "../../../../public/Rectangle.png";
 import icon3 from "../../../../public/rotate.png";
 import Icons from "./Icons";
 import { useWriteToContract } from "@/utils/fetchcontract";
 import { useRouter } from "next/navigation";
 import { NFTStorage } from "nft.storage";
-import { WalletContext } from "@/components/walletprovider";
+import { WalletContext, WalletProvider } from "@/components/walletprovider";
+import {
+  executeCalls,
+  fetchAccountCompatibility,
+  fetchAccountsRewards,
+  fetchGasTokenPrices,
+  GasTokenPrice,
+  getGasFeesInGasToken,
+  SEPOLIA_BASE_URL,
+} from "@avnu/gasless-sdk";
 
 const NFT_STORAGE_TOKEN = process.env.NEXT_IPFS_KEY;
 
@@ -19,6 +28,70 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const [videoUrl, setVideoUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [facingMode, setFacingMode] = useState("user"); // "user" for front camera, "environment" for back camera
+  const { provider } = WalletProvider();
+  const [loading, setLoading] = useState(false);
+  const [tx, setTx] = useState();
+  const [paymasterRewards, setPaymasterRewards] = useState([]);
+  const [gasTokenPrices, setGasTokenPrices] = useState([]);
+  const [gasTokenPrice, setGasTokenPrice] = useState();
+  const [maxGasTokenAmount, setMaxGasTokenAmount] = useState();
+  const [gaslessCompatibility, setGaslessCompatibility] = useState();
+  const [errorMessage, setErrorMessage] = useState();
+
+  useEffect(() => {
+    if (!account) return;
+    fetchAccountCompatibility(account.address, {
+      baseUrl: SEPOLIA_BASE_URL,
+    }).then(setGaslessCompatibility);
+    fetchAccountsRewards(account.address, {
+      baseUrl: SEPOLIA_BASE_URL,
+      protocol: "gasless-sdk",
+    }).then(setPaymasterRewards);
+  }, [account]);
+
+  useEffect(() => {
+    fetchGasTokenPrices({ baseUrl: SEPOLIA_BASE_URL }).then(setGasTokenPrices);
+  }, []);
+
+  const estimateCalls = useCallback(
+    async (account, calls) => {
+      const contractVersion = await provider.getContractVersion(
+        account.address
+      );
+      const nonce = await provider.getNonceForAddress(account.address);
+      const details = stark.v3Details({ skipValidate: true });
+      const invocation = {
+        ...details,
+        contractAddress: account.address,
+        calldata: transaction.getExecuteCalldata(calls, contractVersion.cairo),
+        signature: [],
+      };
+      return provider.getInvokeEstimateFee(
+        { ...invocation },
+        { ...details, nonce },
+        "pending",
+        true
+      );
+    },
+    [provider]
+  );
+
+  useEffect(() => {
+    if (!account || !gasTokenPrice || !gaslessCompatibility) return;
+    setErrorMessage(undefined);
+    const calls = []; // Add your specific transaction calls here.
+    estimateCalls(account, calls).then((fees) => {
+      const estimatedGasFeesInGasToken = getGasFeesInGasToken(
+        BigInt(fees.overall_fee),
+        gasTokenPrice,
+        BigInt(fees.gas_price || null),
+        BigInt(fees.data_gas_price ?? "0x1"),
+        gaslessCompatibility.gasConsumedOverhead,
+        gaslessCompatibility.dataGasConsumedOverhead
+      );
+      setMaxGasTokenAmount(estimatedGasFeesInGasToken * BigInt(2));
+    });
+  }, [account, gasTokenPrice, gaslessCompatibility, estimateCalls]);
 
   const otherRecorder = (selectedMedia) => {
     return selectedMedia === "vid" ? "aud" : "vid";
@@ -37,11 +110,6 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
         setMediaStream(mediaStream);
 
         document.getElementById("vid-recorder").style.display = "block";
-        // document.getElementById("vid-record-status").innerText =
-        //   'Click the "Stop" button to stop recording';
-
-        // thisButton.disabled = true;
-        // otherButton.disabled = false;
 
         const mediaRecorder = new MediaRecorder(mediaStream);
         setMediaRecorder(mediaRecorder);
@@ -166,13 +234,40 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     }
   };
 
-  const { result } = useWriteToContract("crime", "cover_crime", [uri]);
-  const handleStopMedia = () => {
+  const handleStopMedia = async () => {
+    const { result } = useWriteToContract("crime", "cover_crime", [uri]);
+
+    // Check if the account is available
+    if (!account) {
+      console.error("Account not connected");
+      return;
+    }
+
+    // Handle the media action (image or video)
     if (category === "image") {
       takePicture();
     } else if (category === "video") {
       stopRecording();
     }
+
+    // Execute the transaction with gasless option
+    try {
+      const transactionResponse = await executeCalls(
+        account,
+        result, // Assuming result is the call data
+        {
+          gasTokenAddress: gasTokenPrice?.tokenAddress,
+          maxGasTokenAmount, // Pass the calculated max gas token amount if available
+        },
+        options // Your GaslessOptions object
+      );
+
+      // Log or handle the transaction response if needed
+      console.log("Transaction successful:", transactionResponse);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+
     return result;
   };
 
@@ -274,8 +369,14 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
             <button onClick={switchCamera}>
               <Icons icon={icon3} text={`switch camera`} />
             </button>
-            <button onClick={handleStopMedia}>
+            <button
+              onClick={handleStopMedia}
+              disabled={
+                loading || (!gasTokenPrice && paymasterRewards.length == 0)
+              }
+            >
               <Icons icon={icon1} text={imgText} />
+              {loading ? "Processing..." : "Stop Media"}
             </button>
           </div>
         </div>
