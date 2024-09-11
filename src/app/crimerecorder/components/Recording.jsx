@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState, useCallback } from "react";
 import bg from "../../../../public/Rectangle.png";
 import icon3 from "../../../../public/rotate.png";
 import Icons from "./Icons";
-import { useWriteToContract } from "@/utils/fetchcontract";
+import { provider, useWriteToContract } from "@/utils/fetchcontract";
 import { useRouter } from "next/navigation";
 import { NFTStorage } from "nft.storage";
 import { WalletContext, WalletProvider } from "@/components/walletprovider";
@@ -28,7 +28,6 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const [videoUrl, setVideoUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [facingMode, setFacingMode] = useState("user"); // "user" for front camera, "environment" for back camera
-  const { provider } = WalletProvider();
   const [loading, setLoading] = useState(false);
   const [tx, setTx] = useState();
   const [paymasterRewards, setPaymasterRewards] = useState([]);
@@ -267,6 +266,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     } catch (error) {
       console.error("Transaction failed:", error);
     }
+    console.log(result);
 
     return result;
   };
@@ -304,7 +304,6 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   }, []);
 
   const route = useRouter();
-  console.log(result);
 
   // Function to switch the camera from front to back and vice versa
   const switchCamera = () => {
