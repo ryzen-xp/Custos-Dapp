@@ -9,7 +9,7 @@ import NoAgreementscreen from "./components/noAgreementscreen";
 import AgreementNav from "./components/AgreementNav";
 import SignAgreementModal from "./components/signagreementmodal";
 import { WalletContext } from "@/components/walletprovider";
-import { UseReadContractData } from "@/utils/fetchcontract";
+// import { UseReadContractData } from "@/utils/fetchcontract";
 import agreementAbi from "../../utils/agreementAbi.json"
 
 function AgreementList() {

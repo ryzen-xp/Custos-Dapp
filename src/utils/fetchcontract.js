@@ -6,8 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { WalletContext } from "@/components/walletprovider";
 
 export const provider = new RpcProvider({
-  nodeUrl:
-    "https://starknet-sepolia.infura.io/v3/eef769b164304dd796259eb3836f295a",
+  nodeUrl: "https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_7/57FdUR7-uJBlEowYnrUIn6yR_eIA4deP",
 });
 
 const contractConfigs = {
