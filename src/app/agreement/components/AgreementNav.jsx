@@ -7,11 +7,13 @@ const AgreementNav = ({ activeTab, setActiveTab }) => {
       {/* Back Button */}
       <div className="flex items-center">
         <button
-          className="w-full text-[#EAFBFF] flex justify-start items-center"
+          className="w-fit text-[#EAFBFF] "
           onClick={() => window.history.back()}
         >
-          <FaArrowLeft className="mr-2 text-[#EAFBFF]" />
-          <p className="text-[#EAFBFF]">Back</p>
+          <div className="w-fit  flex justify-start items-centr">
+            <FaArrowLeft className="mr-2 mt-[3px] text-[#EAFBFF]" />
+            <p className="text-[#EAFBFF] font-bold">Back</p>
+          </div>
         </button>
       </div>
 

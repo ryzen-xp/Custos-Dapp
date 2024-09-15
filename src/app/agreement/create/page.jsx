@@ -27,7 +27,6 @@ const AgreementModal = () => {
   const [errors, setErrors] = useState({});
   const { address } = useContext(WalletContext);
 
-
   // const {
   //   sendTransaction,
   //   transaction,
@@ -46,7 +45,7 @@ const AgreementModal = () => {
   // const creatoraddress = useAccount()?.address;
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     const formData = new FormData();
     formData.append("agreementType", agreementType);
     formData.append("content", content);
@@ -57,7 +56,7 @@ const AgreementModal = () => {
     formData.append("second_party_address", secondPartyAddress);
     formData.append("first_party_fullname", firstpartyFullname);
     formData.append("second_party_fullname", secondPartyFullname);
-  
+
     try {
       setInitCreationLoad(true);
       const res = await fetch(
@@ -72,14 +71,14 @@ const AgreementModal = () => {
           body: formData,
         }
       );
-  
+
       if (!res.ok) {
         const errorData = await res.json();
         setErrors(errorData);
         setInitCreationLoad(false);
         return;
       }
-  
+
       const data = await res.json();
       setInitCreationLoad(false);
       setIsModalOpen(true); // Open the success modal
@@ -93,7 +92,7 @@ const AgreementModal = () => {
       setErrors({ general: err.message });
     }
   };
-  
+
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   // Handle form submission here
@@ -115,7 +114,7 @@ const AgreementModal = () => {
           <div className="text-white flex flex-col items-center justify-center space-y-6 mb-8">
             <label
               htmlFor="agreementType"
-              className="font-[500] text-[1em] text-white"
+              className="font-[500] text-[24px] text-white"
             >
               Select the type of agreement you want to create
             </label>
@@ -178,7 +177,6 @@ const AgreementModal = () => {
                 Teaming Agreement
               </option>
             </select>
-      
           </div>
         );
       case 2:
@@ -186,7 +184,6 @@ const AgreementModal = () => {
           <>
             <h1 className="text-white text-[1.2em]">Agreement Content</h1>
             <div className="text-white flex flex-col">
-
               <textarea
                 id="content"
                 name="content"
@@ -197,7 +194,6 @@ const AgreementModal = () => {
                 rows="10"
                 cols="50"
               />
-       
             </div>
           </>
         );
@@ -262,31 +258,27 @@ const AgreementModal = () => {
                 >
                   School Identity
                 </option>
-                <option
-                  className="bg-[#04080C] text-white"
-                  value="Others"
-                >
+                <option className="bg-[#04080C] text-white" value="Others">
                   Others
                 </option>
               </select>
-             
             </div>
-              <div className="mb-4">
-    <label
-      htmlFor="idImage"
-      className="font-[500] text-[1em] text-white"
-    >
-      Upload Your ID Image
-    </label>
-    <input
-      type="file"
-      id="idImage"
-      name="idImage"
-      accept="image/*"
-      onChange={(e) => setIdImage(e.target.files[0])}
-      className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
-    />
-  </div>
+            <div className="mb-4">
+              <label
+                htmlFor="idImage"
+                className="font-[500] text-[1em] text-white"
+              >
+                Upload Your ID Image
+              </label>
+              <input
+                type="file"
+                id="idImage"
+                name="idImage"
+                accept="image/*"
+                onChange={(e) => setIdImage(e.target.files[0])}
+                className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
+              />
+            </div>
 
             <div className="mb-4">
               <label
@@ -303,13 +295,13 @@ const AgreementModal = () => {
                 onChange={(e) => setfirstpartyFullname(e.target.value)}
                 className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
               />
-            </div> 
+            </div>
           </>
         );
       case 4:
         return (
           <>
-             <div className="mb-4"> 
+            <div className="mb-4">
               <label
                 htmlFor="secondPartyName"
                 className="font-[500] text-[1em] text-white"
@@ -340,7 +332,6 @@ const AgreementModal = () => {
                 onChange={(e) => setSecondPartyAddress(e.target.value)}
                 className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
               />
-             
             </div>
           </>
         );
@@ -350,10 +341,11 @@ const AgreementModal = () => {
   };
 
   return (
-    <div className="w-full max-w-lg px-4 flex flex-col gap-8 overflow-clip m-auto justify-center items-center min-h-screen">
-      <div className="rounded-2xl relative border-gradient w-fit m-auto p-6">
+    <div className="w-full px-4 flex flex-col gap-8 overflow-clip  justify-center items-center h-[80vh]">
+      <div className="rounded-2xl box border-gradien  p-6">
+        <sh></sh>
         <form
-          className="max-w-md mx-auto relative w-full space-y-5"
+          className=" w-full space-y-5"
           onSubmit={handleSubmit}
         >
           {modalStep > 1 && (
@@ -366,34 +358,41 @@ const AgreementModal = () => {
               <FaArrowLeft className="mr-2" /> <p className="">Previous</p>
             </button>
           )}
-        <div className="w-full flex-col flex gap-4">
-
-        {errors.general && (
-          <span className="text-red-500">{errors.general}</span>
-        )}
-         {errors.second_party_address && (
-                <span className="text-red-500">
-                  {"second_party_address: "+ errors.second_party_address[0]}
-                </span>
-              )}
-               {errors.first_party_id_type && (
-                <span className="text-red-500">
-                  {"first_party_id_type: " +errors.first_party_id_type[0]}
-                </span>
-              )}
-                 {errors.country && (
-                <span className="text-red-500">{"country: " + errors.country[0]}</span>
-              )}
-                     {errors.content && (
-                <span className="text-red-500">{"content: "+errors.content[0]}</span>
-              )}
-                   {errors.agreementTitle && (
-                <span className="text-red-500">{"agreement Title: "+errors.agreementTitle[0]}</span>
-              )}
-                    {errors.agreementType && (
-              <span className="text-red-500">{"Agreement Type: "+errors.agreementType[0]}</span>
+          <div className="w-full flex-col flex gap-4">
+            {errors.general && (
+              <span className="text-red-500">{errors.general}</span>
             )}
-        </div>
+            {errors.second_party_address && (
+              <span className="text-red-500">
+                {"second_party_address: " + errors.second_party_address[0]}
+              </span>
+            )}
+            {errors.first_party_id_type && (
+              <span className="text-red-500">
+                {"first_party_id_type: " + errors.first_party_id_type[0]}
+              </span>
+            )}
+            {errors.country && (
+              <span className="text-red-500">
+                {"country: " + errors.country[0]}
+              </span>
+            )}
+            {errors.content && (
+              <span className="text-red-500">
+                {"content: " + errors.content[0]}
+              </span>
+            )}
+            {errors.agreementTitle && (
+              <span className="text-red-500">
+                {"agreement Title: " + errors.agreementTitle[0]}
+              </span>
+            )}
+            {errors.agreementType && (
+              <span className="text-red-500">
+                {"Agreement Type: " + errors.agreementType[0]}
+              </span>
+            )}
+          </div>
           {renderStep()}
           <div className="flex justify-between flex-row-reverse gap-8">
             {modalStep !== 4 && (
@@ -424,6 +423,7 @@ const AgreementModal = () => {
           </div>
         </form>
       </div>
+
       <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
