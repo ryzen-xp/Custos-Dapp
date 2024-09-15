@@ -76,7 +76,7 @@ const Agree = () => {
       </FadeInSection>
 
       <div className="justify-center items-center flex mb-[15%]">
-        <div onClick={toggleLaunchDapps} href="/agreement">
+        <a  href="/agreement">
           <div className="launch-pad-button-container">
             <img src="./launchPadButton.png" alt="Zoom Image" />
           </div>
@@ -97,7 +97,7 @@ const Agree = () => {
               ></path>
             </svg>
           </button> */}
-        </div>
+        </a>
       </div>
       {showLaunchDapps && <ShowLaunchDapps closeModal={closeModal} />}
       <div className="w-full">
@@ -150,7 +150,7 @@ const Agree = () => {
           </div>
         </div>
         <div className="justify-center items-center flex mb-[15%]">
-          <div onClick={toggleLaunchDapps}>
+          <a href='/crimerecorder'>
             <div className="launch-pad-button-container">
               <img src="./launchPadButton.png" alt="Zoom Image" />
             </div>
@@ -171,7 +171,7 @@ const Agree = () => {
               ></path>
             </svg>
           </button> */}
-          </div>
+          </a>
         </div>
       </FadeInSection>
       <div className="w-full">

@@ -4,30 +4,30 @@ import { FaArrowRight } from "react-icons/fa";
 import { WalletContext } from "./walletprovider";
 
 function ConnectButtoncomponent() {
-  const { connection, connectWallet, disconnectWallet } =
+  const { address, connection, connectWallet, disconnectWallet } =
     useContext(WalletContext);
+
+  const handleConnect = async () => {
+    console.log("Attempting to connect wallet...");
+    await connectWallet();
+  };
 
   return (
     <div className="hover:cursor-pointer p-[1px] rounded-full ">
-      {/* bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef] */}
       {connection ? (
         <button
           onClick={disconnectWallet}
-          className="w-full py-2 px-4 rounded-full"
+          className="w-full py-2 px-4 rounded-full bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef]"
         >
-          <div className="launch-pad-button-container">
-            <img src="./DisconnectButton.png" alt="Zoom Image" />
-          </div>
-
-          {/* DisconnectButton */}
+          {address}
         </button>
       ) : (
         <button
-          onClick={connectWallet}
+          onClick={handleConnect} // make sure this is triggered
           // className="w-full flex items-center bg-black py-2 px-4 rounded-full"
         >
           <div className="launch-pad-button-container">
-            <img src="./connectButton.png" alt="Zoom Image" />
+            <img src="./connectButton.png" alt="Connect Wallet" />
           </div>
           {/* <span className="mr-2">Connect Wallet</span>
           <FaArrowRight /> */}
