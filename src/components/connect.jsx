@@ -13,7 +13,7 @@ function ConnectButtoncomponent() {
         <button
           onClick={disconnectWallet}
 
-          className="w-full py-2 px-4 rounded-full bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef]"
+          className="max-w-[20%] py-2 px-4 rounded-full bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef]"
         >
           {address}
         </button>

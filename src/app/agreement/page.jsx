@@ -35,9 +35,9 @@ function AgreementList() {
   
   // console.log(getOnchainAgreement)
   
-  const getOnchainAgreement = UseReadContractData("agreement", "getUserAgreements", []);
+  // const getOnchainAgreement = UseReadContractData("agreement", "getUserAgreements", []);
   useEffect(() => {
-    if (!getOnchainAgreement) return;
+    // if (!getOnchainAgreement) return;
 
     const fetchAgreements = async () => {
       setLoading(true);
@@ -58,7 +58,7 @@ function AgreementList() {
     };
 
     fetchAgreements();
-  }, [getOnchainAgreement]);
+  }, []);
 
   useEffect(() => {
     const FetchPendingAgreements = async () => {

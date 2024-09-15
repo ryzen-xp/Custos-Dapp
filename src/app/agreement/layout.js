@@ -3,7 +3,7 @@ import "../globals.css";
 import Footer from "@/components/footer";
 import Metadata from "../metadata";
 import BackgroundWrapper from "@/components/backgroundwrapper";
-import { WalletProvider } from "@/components/walletprovider";
+
 import Sidepane from "@/components/dapps/sidepane";
 import Header from "@/components/dapps/header";
 
@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
 
         
 <div className="flex min-h-screen w-full">
-        <div className="w-[25%] h-full bg-gray-800 sticky top-0 bottom-0">
+        <div className="w-fit h-full bg-gray-800 sticky top-0 bottom-0">
           <Sidepane />
         </div>
 
