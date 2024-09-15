@@ -1,12 +1,21 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import bg from "../../../../public/Rectangle.png";
 import icon3 from "../../../../public/rotate.png";
 import Icons from "./Icons";
-import { useWriteToContract } from "@/utils/fetchcontract";
+import { provider, useWriteToContract } from "@/utils/fetchcontract";
 import { useRouter } from "next/navigation";
 import { NFTStorage } from "nft.storage";
-import { WalletContext } from "@/components/walletprovider";
+import { WalletContext, WalletProvider } from "@/components/walletprovider";
+import {
+  executeCalls,
+  fetchAccountCompatibility,
+  fetchAccountsRewards,
+  fetchGasTokenPrices,
+  GasTokenPrice,
+  getGasFeesInGasToken,
+  SEPOLIA_BASE_URL,
+} from "@avnu/gasless-sdk";
 
 const NFT_STORAGE_TOKEN = process.env.NEXT_IPFS_KEY;
 
@@ -19,6 +28,69 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const [videoUrl, setVideoUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [facingMode, setFacingMode] = useState("user"); // "user" for front camera, "environment" for back camera
+  const [loading, setLoading] = useState(false);
+  const [tx, setTx] = useState();
+  const [paymasterRewards, setPaymasterRewards] = useState([]);
+  const [gasTokenPrices, setGasTokenPrices] = useState([]);
+  const [gasTokenPrice, setGasTokenPrice] = useState();
+  const [maxGasTokenAmount, setMaxGasTokenAmount] = useState();
+  const [gaslessCompatibility, setGaslessCompatibility] = useState();
+  const [errorMessage, setErrorMessage] = useState();
+
+  useEffect(() => {
+    if (!account) return;
+    fetchAccountCompatibility(account.address, {
+      baseUrl: SEPOLIA_BASE_URL,
+    }).then(setGaslessCompatibility);
+    fetchAccountsRewards(account.address, {
+      baseUrl: SEPOLIA_BASE_URL,
+      protocol: "gasless-sdk",
+    }).then(setPaymasterRewards);
+  }, [account]);
+
+  useEffect(() => {
+    fetchGasTokenPrices({ baseUrl: SEPOLIA_BASE_URL }).then(setGasTokenPrices);
+  }, []);
+
+  const estimateCalls = useCallback(
+    async (account, calls) => {
+      const contractVersion = await provider.getContractVersion(
+        account.address
+      );
+      const nonce = await provider.getNonceForAddress(account.address);
+      const details = stark.v3Details({ skipValidate: true });
+      const invocation = {
+        ...details,
+        contractAddress: account.address,
+        calldata: transaction.getExecuteCalldata(calls, contractVersion.cairo),
+        signature: [],
+      };
+      return provider.getInvokeEstimateFee(
+        { ...invocation },
+        { ...details, nonce },
+        "pending",
+        true
+      );
+    },
+    [provider]
+  );
+
+  useEffect(() => {
+    if (!account || !gasTokenPrice || !gaslessCompatibility) return;
+    setErrorMessage(undefined);
+    const calls = []; // Add your specific transaction calls here.
+    estimateCalls(account, calls).then((fees) => {
+      const estimatedGasFeesInGasToken = getGasFeesInGasToken(
+        BigInt(fees.overall_fee),
+        gasTokenPrice,
+        BigInt(fees.gas_price || null),
+        BigInt(fees.data_gas_price ?? "0x1"),
+        gaslessCompatibility.gasConsumedOverhead,
+        gaslessCompatibility.dataGasConsumedOverhead
+      );
+      setMaxGasTokenAmount(estimatedGasFeesInGasToken * BigInt(2));
+    });
+  }, [account, gasTokenPrice, gaslessCompatibility, estimateCalls]);
 
   const otherRecorder = (selectedMedia) => {
     return selectedMedia === "vid" ? "aud" : "vid";
@@ -37,11 +109,6 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
         setMediaStream(mediaStream);
 
         document.getElementById("vid-recorder").style.display = "block";
-        // document.getElementById("vid-record-status").innerText =
-        //   'Click the "Stop" button to stop recording';
-
-        // thisButton.disabled = true;
-        // otherButton.disabled = false;
 
         const mediaRecorder = new MediaRecorder(mediaStream);
         setMediaRecorder(mediaRecorder);
@@ -67,18 +134,16 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     if (mediaRecorder && mediaRecorder.state === "recording") {
       mediaRecorder.stop();
       document.getElementById("vid-recorder").style.display = "none";
-      // document.getElementById("vid-record-status").innerText =
-      //   'Click the "Start" button to start recording';
+
+      // Stop all media tracks
+      mediaStream.getTracks().forEach((track) => track.stop());
 
       try {
-        // Convert recorded chunks to a single Blob
         const videoBlob = new Blob(chunks, { type: "video/webm" });
 
-        // Create FormData object and append the video Blob to it
         const formData = new FormData();
-        formData.append("file", videoBlob, "recorded-video.webm"); // Ensure correct field name ('file')
+        formData.append("file", videoBlob, "recorded-video.webm");
 
-        // Send FormData to the backend using fetch or Axios
         const response = await fetch(
           "https://api.pinata.cloud/pinning/pinFileToIPFS",
           {
@@ -97,13 +162,11 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
           localStorage.setItem("video_uri", IpfsHash);
           alert("File uploaded successfully!");
         } else {
-          // Handle upload failure
           console.error("Failed to upload video");
         }
       } catch (error) {
         console.error("Error uploading video:", error);
       }
-      // window.location.reload();
     }
   };
 
@@ -133,7 +196,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     // Display the download button if it exists
     const downloadButton = document.getElementById("download-image");
     if (downloadButton) {
-        downloadButton.style.display = "block";
+      downloadButton.style.display = "block";
     }
 
     try {
@@ -170,13 +233,41 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     }
   };
 
-  const { result } = useWriteToContract("crime", "cover_crime", [uri]);
-  const handleStopMedia = () => {
+  const handleStopMedia = async () => {
+    const { result } = useWriteToContract("crime", "cover_crime", [uri]);
+
+    // Check if the account is available
+    if (!account) {
+      console.error("Account not connected");
+      return;
+    }
+
+    // Handle the media action (image or video)
     if (category === "image") {
       takePicture();
     } else if (category === "video") {
       stopRecording();
     }
+
+    // Execute the transaction with gasless option
+    try {
+      const transactionResponse = await executeCalls(
+        account,
+        result, // Assuming result is the call data
+        {
+          gasTokenAddress: gasTokenPrice?.tokenAddress,
+          maxGasTokenAmount, // Pass the calculated max gas token amount if available
+        },
+        options // Your GaslessOptions object
+      );
+
+      // Log or handle the transaction response if needed
+      console.log("Transaction successful:", transactionResponse);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+    console.log(result);
+
     return result;
   };
 
@@ -213,22 +304,43 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   }, []);
 
   const route = useRouter();
-  console.log(result);
 
   // Function to switch the camera from front to back and vice versa
   const switchCamera = () => {
     setFacingMode((prevMode) => {
       const newMode = prevMode === "user" ? "environment" : "user";
       alert(`Switched to ${newMode === "user" ? "front" : "back"} camera.`);
+
+      // Stop the current media stream
+      if (mediaStream) {
+        mediaStream.getTracks().forEach((track) => track.stop());
+      }
+
+      // Restart the camera with the new facing mode
+      const constraints = {
+        video: { facingMode: newMode },
+        audio: true,
+      };
+
+      navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then((stream) => {
+          const video = document.getElementById("web-cam-container");
+          video.srcObject = stream;
+          setMediaStream(stream);
+        })
+        .catch((err) => {
+          console.error("Error switching camera:", err);
+        });
+
       return newMode;
     });
-  
+
     if (mediaStream) {
       mediaStream.getTracks().forEach((track) => track.stop());
       startCamera();
     }
   };
-  
 
   return (
     <div className="w-full flex flex-col mt-10 items-center gap-6 ">
@@ -245,6 +357,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
           <div id="vid-recorder" className="w-full">
             <video
               autoPlay
+              muted
               id="web-cam-container"
               className="rounded-xl mb-6 w-full"
             >
@@ -252,13 +365,19 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
             </video>
           </div>
           <div className="flex items-center space-x-4">
-  <button onClick={switchCamera}>
-  <Icons icon={icon3} text={`switch camera`} />    
-  </button>
-  <button onClick={handleStopMedia}>
-    <Icons icon={icon1} text={imgText} />
-  </button>
-</div>
+            <button onClick={switchCamera}>
+              <Icons icon={icon3} text={`switch camera`} />
+            </button>
+            <button
+              onClick={handleStopMedia}
+              disabled={
+                loading || (!gasTokenPrice && paymasterRewards.length == 0)
+              }
+            >
+              <Icons icon={icon1} text={imgText} />
+              {loading ? "Processing..." : "Stop Media"}
+            </button>
+          </div>
         </div>
       </div>
     </div>
