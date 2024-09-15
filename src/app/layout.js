@@ -11,20 +11,17 @@ export default function RootLayout({ children }) {
       <head>
         <title>{Metadata.title}</title>
         {Metadata.link}
+    
       </head>
       <body className="flex flex-col min-h-screen justify-between">
-
         <BackgroundWrapper>
           <WalletProvider>
-        <div className="w-full flex flex-col justify-between">
-            <div className="min-h-screen w-full ">
-              {children}
+            <div className="w-full flex flex-col justify-between">
+              <div className="min-h-screen w-full ">{children}</div>
+              <div className="h-fit">
+                <Footer />
+              </div>
             </div>
-            <div className="h-fit">
-
-            <Footer  />
-            </div>
-        </div>
           </WalletProvider>
         </BackgroundWrapper>
       </body>
