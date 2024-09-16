@@ -5,6 +5,8 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 
+
+
 :root {
   /* background: #1e2f37; */
   /* background-image: url("../../public/Rectangle.png"), url("../../public/leftbg.svg"), url("../../public/rightbg.svg"); */
@@ -344,8 +346,15 @@ button .text-transparent {
   overflow: hidden;
   transition: transform 0.5s ease; /* Smooth transition for the container */
 }
+.button-transition{
+  transition: transform 0.5s ease; /* Smooth transition for the container */
 
-.launch-pad-button-container:hover {
+}
+.button-transition:hover{
+  transform: scale(1.1); /* Scale the container on image hover */
+}
+
+ .launch-pad-button-container:hover {
   transform: scale(1.2); /* Scale the container on image hover */
 }
 
@@ -419,3 +428,8 @@ button .text-transparent {
  
  color: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
 } */
+
+.validate-gradient{
+  background: rgb(4,8,12);
+background: linear-gradient(180deg, rgba(4,8,12,1) 32%, rgba(9,19,26,1) 81%);
+}
