@@ -2,7 +2,12 @@
 import { useEffect, useState } from "react";
 import useIdentityVerification from "@/utils/verification";
 
-const ValidateAgreementModal = ({ fullname, agreementId, onClose }) => {
+const ValidateAgreementModal = ({
+  fullname,
+  agreementId,
+  onClose,
+  setFinalValidate,
+}) => {
   const { verifyIdentity, loading, result, error } = useIdentityVerification();
   const [isPending, setIsPending] = useState(true);
   const [currentStep, setCurrentStep] = useState(1); // State for tracking the current step
@@ -55,7 +60,7 @@ const ValidateAgreementModal = ({ fullname, agreementId, onClose }) => {
                   className="w-full p-4 text-[#9B9292] bg-transparent border border-[#ffffff46] rounded-lg"
                   rows="6"
                   readOnly
-                  value={`Sample Terms and Policy Content:\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
+                  value={`Sample Terms and Policy Content:\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt consectetur dolore aut ipsum pariatur nemo recusandae, a fugiat enim saepe magni iure maiores nihil beatae natus quia accusamus tenetur. Aliquam.`}
                 />
               </>
             )}
@@ -67,13 +72,26 @@ const ValidateAgreementModal = ({ fullname, agreementId, onClose }) => {
                   onClick={onClose}
                 />
               </div>
-              <div className="button-transition">
-                <img
-                  src="./ContinueAgreement.png"
-                  alt="Continue Agreement"
-                  onClick={handleContinue} // Move to next step on click
-                />
-              </div>
+              {currentStep === 2 ? (
+                <div className="button-transition">
+                  <img
+                    src="./FinalValidateButton.png"
+                    alt="Validate Agreement"
+                    onClick={() => {
+                      setFinalValidate("show");
+                      onClose();
+                    }} // Move to next step on click
+                  />
+                </div>
+              ) : (
+                <div className="button-transition">
+                  <img
+                    src="./ContinueAgreement.png"
+                    alt="Continue Agreement"
+                    onClick={handleContinue} // Move to next step on click
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>

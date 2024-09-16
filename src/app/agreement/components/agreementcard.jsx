@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import ValidateAgreementModal from "./validateAgreement";
 // import { format } from 'date-fns';
 
@@ -21,6 +21,7 @@ export const AgreementCard = ({
     e.stopPropagation();
     setIsModalOpen(true);
   };
+
   return (
     <div
       onClick={handleCardClick}
@@ -74,8 +75,8 @@ export const PendingAgreementCard = ({
   printAgreement,
   toggleSignModal,
 }) => {
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [finalValidate, setFinalValidate] = useState("");
   const router = useRouter();
   const formattedDate = format(
     new Date(agreement.created_at),
@@ -203,7 +204,18 @@ nemo nam quaerat.`.slice(0, 240) + "..."}
           fullname={"goodness kolapo"}
           agreementId={agreement.second_party_valid_id}
           onClose={() => setIsModalOpen(false)}
+          setFinalValidate={setFinalValidate}
         />
+      )}
+      {console.log(finalValidate)}
+      {finalValidate === "show" ? (
+        <>
+          <div className="bg-black w-full h-screen absolute">
+            <p className="text-[55px]">xdede</p>
+          </div>
+        </>
+      ) : (
+        <p>deded</p>
       )}
     </>
   );
