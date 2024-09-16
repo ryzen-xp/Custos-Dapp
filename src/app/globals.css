@@ -346,11 +346,11 @@ button .text-transparent {
   overflow: hidden;
   transition: transform 0.5s ease; /* Smooth transition for the container */
 }
-.print-agreement{
+.button-transition{
   transition: transform 0.5s ease; /* Smooth transition for the container */
 
 }
-.print-agreement:hover{
+.button-transition:hover{
   transform: scale(1.1); /* Scale the container on image hover */
 }
 
@@ -428,3 +428,8 @@ button .text-transparent {
  
  color: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
 } */
+
+.validate-gradient{
+  background: rgb(4,8,12);
+background: linear-gradient(180deg, rgba(4,8,12,1) 32%, rgba(9,19,26,1) 81%);
+}

@@ -112,7 +112,7 @@ export const PendingAgreementCard = ({
       >
         <div className="relative border-[#43b2ea38] overflow-clip flex flex-col gap-4 backdrop-blur-sm shadow-2xl border-[0.01px] rounded-lg p-2 items-start w-full">
           <div className="w-full flex justify-between">
-            <h2 className="text-[18px] box w-fit flex text-wrap font-bold bg-gradient-to-r br  px-[16px] py-[8px] from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
+            <h2 className="text-[16px] box w-fit flex text-wrap font-bold bg-gradient-to-r br  px-[16px] py-[8px] from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
               <sh></sh>
               {agreement.agreementType}
             </h2>
@@ -161,7 +161,7 @@ nemo nam quaerat.`.slice(0, 240) + "..."}
             }}
           >
             {/* Print Agreement */}
-            <div className="print-agreement">
+            <div className="button-transition">
               <img
                 src="./PrintAgreement.png"
                 width={"80%"}
