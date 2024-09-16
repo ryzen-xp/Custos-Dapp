@@ -24,7 +24,7 @@ export const WalletProvider = ({ children }) => {
   // }, []);
 
   const connectWallet = async () => {
-    const connection = await connect({ modalMode: "neverAsk" });
+    const connection = await connect({ modalMode: "alwaysAsk" });
     if (connection && connection.isConnected) {
       setConnection(connection);
       setAccount(connection.account);
