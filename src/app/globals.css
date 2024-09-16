@@ -346,8 +346,15 @@ button .text-transparent {
   overflow: hidden;
   transition: transform 0.5s ease; /* Smooth transition for the container */
 }
+.print-agreement{
+  transition: transform 0.5s ease; /* Smooth transition for the container */
 
-.launch-pad-button-container:hover {
+}
+.print-agreement:hover{
+  transform: scale(1.1); /* Scale the container on image hover */
+}
+
+ .launch-pad-button-container:hover {
   transform: scale(1.2); /* Scale the container on image hover */
 }
 
