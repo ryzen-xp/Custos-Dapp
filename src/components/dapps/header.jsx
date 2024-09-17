@@ -51,7 +51,7 @@ export const Header = () => {
       </div>
 
       {/* Navbar Bottom Section */}
-      <div className="flex justify-between w-fit">
+      <div className="w-[20%]">
         
 
         {/* Connect Wallet Button */}

@@ -76,7 +76,8 @@ export const PendingAgreementCard = ({
   toggleSignModal,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [finalValidate, setFinalValidate] = useState("");
+  // const [finalValidate, setFinalValidate] = useState("");
+ 
   const router = useRouter();
   const formattedDate = format(
     new Date(agreement.created_at),
@@ -204,19 +205,19 @@ nemo nam quaerat.`.slice(0, 240) + "..."}
           fullname={"goodness kolapo"}
           agreementId={agreement.second_party_valid_id}
           onClose={() => setIsModalOpen(false)}
-          setFinalValidate={setFinalValidate}
+          // setFinalValidate={setFinalValidate}
         />
       )}
-      {console.log(finalValidate)}
-      {finalValidate === "show" ? (
+      {/* {console.log(finalValidate)} */}
+      {/* {finalValidate === "show" ? (
         <>
-          <div className="bg-black w-full h-screen absolute">
-            <p className="text-[55px]">xdede</p>
-          </div>
+        <div className="bg-black w-full z-20 h-screen absolute">
+        <p className="text-[55px] text-teal-50">xdede</p>
+        </div>
         </>
-      ) : (
-        <p>deded</p>
-      )}
+        ) : (
+          ""
+      )} */}
     </>
   );
 };

@@ -1,17 +1,18 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useIdentityVerification from "@/utils/verification";
+import { GlobalStateContext } from "@/context/GlobalStateProvider";
 
 const ValidateAgreementModal = ({
   fullname,
   agreementId,
   onClose,
-  setFinalValidate,
+  // setFinalValidate,
 }) => {
   const { verifyIdentity, loading, result, error } = useIdentityVerification();
   const [isPending, setIsPending] = useState(true);
   const [currentStep, setCurrentStep] = useState(1); // State for tracking the current step
-
+ const { globalState, setGlobalState } = useContext(GlobalStateContext);
   useEffect(() => {
     const validateAgreement = async () => {
       await verifyIdentity(fullname, { agreementId });
@@ -78,7 +79,7 @@ const ValidateAgreementModal = ({
                     src="./FinalValidateButton.png"
                     alt="Validate Agreement"
                     onClick={() => {
-                      setFinalValidate("show");
+                      setGlobalState("show");
                       onClose();
                     }} // Move to next step on click
                   />

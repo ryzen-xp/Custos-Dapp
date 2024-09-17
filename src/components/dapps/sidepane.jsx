@@ -10,6 +10,7 @@ const Sidepane = () => {
           <Image src="/logo.png" alt="logo" width={232.7} height={22} />
         </a>
       </div>
+       
 
       <div className="section2 flex flex-col gap-16 m-aut w-full p-2">
         <Link href={`/crimerecorder`} className="text-[#EAFBFF]">
@@ -18,7 +19,7 @@ const Sidepane = () => {
             <Image src="/cameraicon.svg" alt="icon" width={25} height={20} />
           </div>
         </Link>
-        <Link href={`/crimerecorder`} className="text-[#EAFBFF]">
+        <Link href={`/agreement/create`} className="text-[#EAFBFF]">
           <div className="section2 flex gap-4 m-auto w-full justify-start items-center">
             <p className="text-[1.3em] text-[#EAFBFF]">Agreement</p>
             <Image src="/Plus.svg" alt="icon" width={25} height={20} />
