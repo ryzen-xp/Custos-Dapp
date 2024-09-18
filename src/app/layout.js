@@ -10,7 +10,7 @@ import { GlobalStateProvider } from "@/context/GlobalStateProvider";
 export default function RootLayout({ children }) {
   const pathname = usePathname();
 
-  if (pathname === "/crimerecorder") {
+  if (pathname.includes("/crimerecorder")) {
     return (
       <html lang="en">
         <head>
@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
         <body className="flex flex-col min-h-screen justify-between">
           <BackgroundWrapper>
             <div className="w-full flex flex-col justify-center items-center min-h-screen">
-              <h1 className="text-4xl">404 - Page Not Found</h1>
+              <h1 className="text-4xl text-white">404 - Page Not Found</h1>
             </div>
           </BackgroundWrapper>
         </body>
