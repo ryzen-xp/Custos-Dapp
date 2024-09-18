@@ -13,14 +13,16 @@ function ConnectButtoncomponent() {
   };
 
   return (
-    <div className="hover:cursor-pointer p-[1px] rounded-full ">
+    <div className="">
       {connection ? (
-        <button
-          onClick={disconnectWallet}
-          className="max-w-[30%] py-2 px-4 rounded-full bg-gradient-to-r from-[#0094ff] overflow-clip to-[#A02294] text-[#ededef]"
-        >
-          {address}
-        </button>
+        <div className="py-2 px-4 rounded-full bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef]">
+          <button
+            onClick={disconnectWallet}
+            className="w-full rounded-full overflow-clip"
+          >
+            {address}
+          </button>
+        </div>
       ) : (
         <button
           onClick={handleConnect} // make sure this is triggered
