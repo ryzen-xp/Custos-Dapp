@@ -5,6 +5,7 @@ import Footer from "@/components/footer";
 import Metadata from "./metadata";
 import BackgroundWrapper from "@/components/backgroundwrapper";
 import { WalletProvider } from "@/components/walletprovider";
+import { GlobalStateProvider } from "@/context/GlobalStateProvider";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -36,7 +37,9 @@ export default function RootLayout({ children }) {
         <BackgroundWrapper>
           <WalletProvider>
             <div className="w-full flex flex-col justify-between">
-              <div className="min-h-screen w-full">{children}</div>
+              <div className="min-h-screen w-full ">
+                <GlobalStateProvider>{children}</GlobalStateProvider>
+              </div>
               <div className="h-fit">
                 <Footer />
               </div>
