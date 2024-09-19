@@ -1,13 +1,18 @@
-"use client"
+"use client";
+import React, { useState } from 'react';
 import icon4 from "../../../../public/pause.png";
 import { Recording } from "../components/Recording";
 import { Header } from "../components/Header";
-import React, { useContext } from 'react';
-
 
 const VideoRecorder = () => {
+  const [isRecording, setIsRecording] = useState(false);
+
+  const toggleRecording = () => {
+    setIsRecording(prev => !prev);
+  };
+
   const text = {
-    text3: `Record a video to keep on the blockchain`,
+    text3: isRecording ? `Stop recording` : `Record a video to keep on the blockchain`,
   };
 
   return (
@@ -17,8 +22,10 @@ const VideoRecorder = () => {
         <Recording
           text={text.text3}
           icon1={icon4}
-          imgText={`Stop Recording`}
+          imgText={isRecording ? `Stop Recording` : `Start Recording`}
           category={`video`}
+          isRecording={isRecording}
+          toggleRecording={toggleRecording}
         />
       </div>
     </div>
