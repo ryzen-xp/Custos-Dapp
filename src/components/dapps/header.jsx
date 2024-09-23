@@ -12,9 +12,9 @@ export const Header = () => {
   };
 
   return (
-    <div className="z-50 flex  backdrop-filter backdrop-blur-[10px] bg-[#ffffff0a]  top-0 overflow-clip w-full ">
+    <div className=" flex  backdrop-filter backdrop-blur-[10px] w-full bg-[#ffffff0a] ">
       {/* Navbar Top Section */}
-      <div className="flex items-center justify-between w-full m-auto ">
+      <div className="flex items-center justify-between w-fit m-auto ">
         {/* Search Input with Icon */}
         <div className="relative w-fit justify-end align-middle items-end m-auto ">
           <input
@@ -54,7 +54,7 @@ export const Header = () => {
       </div>
 
       {/* Navbar Bottom Section */}
-      <div className="w-fit align-baseline items-baseline flex pt-3 justify-end">
+      <div className="w-fit align-baseline items-baseline mr-3 flex pt-3 justify-end ">
         
 
         {/* Connect Wallet Button */}
