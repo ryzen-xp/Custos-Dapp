@@ -18,7 +18,7 @@ const Page = ({ params }) => {
 
   useEffect(() => {
     if (key === "access_token") {
-      setAccessToken(value); // Set access token
+      setAccessToken(value || params.agreementAccessToken); // Set access token
       fetchAgreementByAccessToken(value);
     } else {
       fetchAgreementById(key);

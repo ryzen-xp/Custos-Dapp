@@ -85,6 +85,8 @@ export const PendingAgreementCard = ({
   );
 
   const handleCardClick = () => {
+    // console.log(agreement.id);
+    
     if (agreement.access_token) {
       router.push(`/agreement/access_token/${agreement.access_token}`);
     } else {
@@ -203,7 +205,8 @@ nemo nam quaerat.`.slice(0, 240) + "..."}
       {isModalOpen && (
         <ValidateAgreementModal
           fullname={"goodness kolapo"}
-          agreementId={agreement.second_party_valid_id}
+          agreementId={agreement.id}
+          agreementToken={agreement.access_token}
           onClose={() => setIsModalOpen(false)}
           // setFinalValidate={setFinalValidate}
         />
