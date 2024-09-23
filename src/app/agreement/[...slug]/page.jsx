@@ -100,13 +100,13 @@ const Page = ({ params }) => {
       <Slugnav agreement={agreement} />
       <div className="p-4 rounded-lg shadow-lg bg-gradient-to-r w-full ">
         <div className="w-full flex header flex-col md:flex-row align-baseline justify-start gap-4 mb-8">
-          <div className='w-full px-3 '>
+          <div className="w-full px-3 ">
             <span className="">Agreement Type</span>
             <span className="text-[0.8em] mt-2 w-fit flex text-wrap font-bold bg-gradient-to-r br border-slate-800 px-2 py-[0.8em] border border-gradient from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
               {agreement.agreementType}
             </span>
           </div>
-          <div className='w-full px-3 '>
+          <div className="w-full px-3 ">
             <span className="">Second Party Address</span>
             <span className="br w-fit mt-2 overflow-hidden flex border-slate-800 px-2 py-[0.8em] border border-gradient text-[0.7em] text-[#9B9292] whitespace-nowrap overflow-ellipsis">
               {`${agreement.second_party_address}`}
@@ -115,68 +115,99 @@ const Page = ({ params }) => {
 
           <div className="flex-col w-full items-end text-end gap-3 flex">
             {accessToken && (
-              <div className="w-full gap-2 flex items- justify-end cursor-pointer" onClick={handleEditClick}>
+              <div
+                className="w-full gap-2 flex items- justify-end cursor-pointer"
+                onClick={handleEditClick}
+              >
                 <span className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] text-[1.2em] bg-clip-text text-transparent">
                   Edit Agreement
                 </span>
-                <Image src="/edit-blue.svg" alt="Edit Icon" width={20} height={20} />
+                <Image
+                  src="/edit-blue.svg"
+                  alt="Edit Icon"
+                  width={20}
+                  height={20}
+                />
               </div>
             )}
-            <div className='w-full  flex flex-col md:flex-row gap-2 justify-end'>
+            <div className="w-full  flex flex-col md:flex-row gap-2 justify-end">
               <span className="flex-shrink-0">Time Stamp:</span>
-              <span className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">{formattedDate}</span>
+              <span className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
+                {formattedDate}
+              </span>
             </div>
           </div>
         </div>
 
         <div className="space-y-2">
           <div>
-            <strong>ID:</strong> {agreement.id}
+            <strong>ID:</strong>{" "}
+            <p contentEditable={isEditorOpen}>{agreement.id}</p>
           </div>
           <div>
-            <strong>Content:</strong> <ReactMarkdown>{agreement.content}</ReactMarkdown>
+            <strong>Content:</strong>{" "}
+            <ReactMarkdown>{agreement.content}</ReactMarkdown>
           </div>
           <div>
-            <strong>Email:</strong> {agreement.email || 'N/A'}
+            <strong>Email:</strong> {agreement.email || "N/A"}
           </div>
           <div>
             <strong>Access Token:</strong> {agreement.access_token}
           </div>
           <div>
-            <strong>Agreement ID:</strong> {agreement.agreement_id || 'N/A'}
+            <strong>Agreement ID:</strong> {agreement.agreement_id || "N/A"}
           </div>
           <div>
-            <strong>First Party Address:</strong> {agreement.first_party_address}
+            <strong>First Party Address:</strong>{" "}
+            {agreement.first_party_address}
           </div>
           <div>
-            <strong>First Party Valid ID:</strong> {agreement.first_party_valid_id || 'N/A'}
+            <strong>First Party Valid ID:</strong>{" "}
+            {agreement.first_party_valid_id || "N/A"}
+          </div>
+          <img
+            src={
+              
+              "https://www.shutterstock.com/shutterstock/photos/1884767680/display_1500/stock-vector-no-image-icon-vector-no-available-picture-symbol-suitable-for-user-interface-element-isolated-on-1884767680.jpg"
+            }
+            alt="id"
+            className='w-[6em] h-[6em]'
+          />
+          <div>
+            <strong>First Party Country:</strong>{" "}
+            {agreement.first_party_country || "N/A"}
           </div>
           <div>
-            <strong>First Party Country:</strong> {agreement.first_party_country || 'N/A'}
+            <strong>First Party ID Type:</strong>{" "}
+            {agreement.first_party_id_type}
           </div>
           <div>
-            <strong>First Party ID Type:</strong> {agreement.first_party_id_type}
+            <strong>First Party Signature:</strong>{" "}
+            {agreement.first_party_signature || "N/A"}
           </div>
           <div>
-            <strong>First Party Signature:</strong> {agreement.first_party_signature || 'N/A'}
+            <strong>Second Party Address:</strong>{" "}
+            {agreement.second_party_address}
           </div>
           <div>
-            <strong>Second Party Address:</strong> {agreement.second_party_address}
+            <strong>Second Party Valid ID:</strong>{" "}
+            {agreement.second_party_valid_id || "N/A"}
           </div>
           <div>
-            <strong>Second Party Valid ID:</strong> {agreement.second_party_valid_id || 'N/A'}
+            <strong>Second Party Country:</strong>{" "}
+            {agreement.second_party_country || "N/A"}
           </div>
           <div>
-            <strong>Second Party Country:</strong> {agreement.second_party_country || 'N/A'}
+            <strong>Second Party ID Type:</strong>{" "}
+            {agreement.second_party_id_type || "N/A"}
           </div>
           <div>
-            <strong>Second Party ID Type:</strong> {agreement.second_party_id_type || 'N/A'}
+            <strong>Second Party Signature:</strong>{" "}
+            {agreement.second_party_signature || "N/A"}
           </div>
           <div>
-            <strong>Second Party Signature:</strong> {agreement.second_party_signature || 'N/A'}
-          </div>
-          <div>
-            <strong>Created At:</strong> {new Date(agreement.created_at).toLocaleString()}
+            <strong>Created At:</strong>{" "}
+            {new Date(agreement.created_at).toLocaleString()}
           </div>
         </div>
       </div>
