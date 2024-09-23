@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, { useContext, useEffect, useState, useRef , useCallback } from "react";
 import bg from "../../../../public/Rectangle.png";
 import icon3 from "../../../../public/rotate.png";
 import Icons from "./Icons";
@@ -24,13 +24,13 @@ const NFT_STORAGE_TOKEN =
 
 export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const { account } = useContext(WalletContext);
-  const [selectedMedia, setSelectedMedia] = useState(null);
-  const [chunks, setChunks] = useState([]);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [mediaStream, setMediaStream] = useState(null);
-  const [videoUrl, setVideoUrl] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
-  const [facingMode, setFacingMode] = useState("user"); // "user" for front camera, "environment" for back camera
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [recordedChunks, setRecordedChunks] = useState([]);
+  const [currentFacingMode, setCurrentFacingMode] = useState('environment');
+  const [isRecording, setIsRecording] = useState(false);
   const [loading, setLoading] = useState(false);
   const [tx, setTx] = useState();
   const [paymasterRewards, setPaymasterRewards] = useState([]);
@@ -110,118 +110,101 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     return selectedMedia === "vid" ? "aud" : "vid";
   };
 
-  const startRecording = () => {
-    const constraints = {
-      video: { facingMode: facingMode },
-      audio: true,
-    };
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((mediaStream) => {
-        const video = document.getElementById("web-cam-container");
-        video.srcObject = mediaStream;
-        setMediaStream(mediaStream);
+  
 
-        document.getElementById("vid-recorder").style.display = "block";
-
-        const mediaRecorder = new MediaRecorder(mediaStream);
-        setMediaRecorder(mediaRecorder);
-
-        mediaRecorder.start();
-
-        mediaRecorder.onstop = () => {
-          const videoBlob = new Blob(chunks, { type: "video/webm" });
-          const videoUrl = URL.createObjectURL(videoBlob);
-          setVideoUrl(videoUrl);
-        };
-
-        mediaRecorder.ondataavailable = (event) => {
-          setChunks((prevChunks) => [...prevChunks, event.data]);
-        };
-      })
-      .catch((err) => {
-        console.error("Error accessing camera:", err);
-      });
-  };
-
-  const stopRecording = async () => {
-    if (mediaRecorder && mediaRecorder.state === "recording") {
-      mediaRecorder.stop();
-      document.getElementById("vid-recorder").style.display = "none";
-
-      // Stop all media tracks
-      mediaStream.getTracks().forEach((track) => track.stop());
-
-      try {
-        const videoBlob = new Blob(chunks, { type: "video/webm" });
-
-        const formData = new FormData();
-        formData.append("file", videoBlob, "recorded-video.webm");
-
-        const response = await fetch(
-          "https://api.pinata.cloud/pinning/pinFileToIPFS",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
-            },
-            body: formData,
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          const IpfsHash = data.IpfsHash;
-          console.log(IpfsHash);
-          localStorage.setItem("video_uri", IpfsHash);
-          alert("File uploaded successfully!");
-        } else {
-          console.error("Failed to upload video");
-        }
-      } catch (error) {
-        console.error("Error uploading video:", error);
+  useEffect(() => {
+    return () => {
+      // Clean up camera stream on unmount
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
       }
+    };
+  }, [mediaStream]);
+
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: currentFacingMode },
+        audio: true
+      });
+      videoRef.current.srcObject = stream;
+      videoRef.current.muted = true; // Mute video element
+      setMediaStream(stream);
+    } catch (error) {
+      console.error('Error accessing the camera', error);
+      alert('Error accessing the camera: ' + error.message);
     }
   };
 
-  const startCamera = () => {
-    const constraints = { video: true, audio: false };
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((mediaStream) => {
-        const video = document.getElementById("web-cam-container");
-        video.srcObject = mediaStream;
-        setMediaStream(mediaStream);
-      })
-      .catch((err) => {
-        console.error("Error accessing camera:", err);
-      });
+  const stopCamera = () => {
+    if (mediaStream) {
+      mediaStream.getTracks().forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+      setMediaStream(null);
+    }
+  };
+
+  const startRecording = async () => {
+    await startCamera();
+    const recorder = new MediaRecorder(mediaStream);
+    recorder.ondataavailable = event => setRecordedChunks(prev => [...prev, event.data]);
+    recorder.onstop = async () => {
+      const blob = new Blob(recordedChunks, { type: 'video/webm' });
+      saveToDevice(blob, 'video.webm');
+      await uploadToIPFS(blob, 'video.webm');
+      stopCamera();
+      setRecordedChunks([]);
+      
+    };
+    recorder.start();
+    setMediaRecorder(recorder);
+    setIsRecording(true);
+  };
+  
+
+  const stopRecording = () => {
+    if (mediaRecorder) {
+      mediaRecorder.stop();
+      setIsRecording(false);
+    }
   };
 
   const takePicture = async () => {
-    const video = document.getElementById("web-cam-container");
-    const canvas = document.createElement("canvas");
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
-    const imageDataUrl = canvas.toDataURL();
-    setImageUrl(imageDataUrl);
-
-    // Display the download button if it exists
-    const downloadButton = document.getElementById("download-image");
-    if (downloadButton) {
-      downloadButton.style.display = "block";
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      console.error("Canvas element not available");
+      return;
     }
+    const context = canvas.getContext('2d');
+    canvas.width = videoRef.current.videoWidth;
+    canvas.height = videoRef.current.videoHeight;
+    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+
+    const dataURL = canvas.toDataURL('image/png');
+    const blob = await fetch(dataURL).then(res => res.blob());
+    await uploadToIPFS(blob, 'image.png');
+    saveToDevice(blob, 'photo.png');
+  };
+
+
+  const switchCamera = async () => {
+    setCurrentFacingMode(prev => (prev === 'user' ? 'environment' : 'user'));
+    if (isRecording) {
+      mediaRecorder.pause();
+    }
+    stopCamera();
+    await startCamera();
+    if (isRecording) {
+      mediaRecorder.resume();
+    }
+  };
+
+   // Upload to IPFS using Pinata
+   async function uploadToIPFS(fileBlob, fileName) {
+    const formData = new FormData();
+    formData.append('file', fileBlob, fileName);
 
     try {
-      // Convert the captured image to a Blob
-      const blob = await fetch(imageDataUrl).then((res) => res.blob());
-
-      // Create FormData object and append the image blob to it
-      const formData = new FormData();
-      formData.append("file", blob, "captured-image.png"); // 'file' should match the key expected by the backend
-
-      // Send FormData to IPFS using fetch
       const response = await fetch(
         "https://api.pinata.cloud/pinning/pinFileToIPFS",
         {
@@ -247,16 +230,24 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     }
   };
 
-  const crimeContractAddress =
-    "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342";
+  const saveToDevice = (blob, fileName) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
-  const contract = new Contract(
-    crimeContractAbi,
-    crimeContractAddress,
-    account
-  );
-  console.log(account);
   const handleStopMedia = async () => {
+     if (category === "video") {
+      startRecording();
+    } else if (category === "image") {
+      takePicture();
+    }
+
     // Check if the account is available
     if (!account) {
       console.error("Account not connected");
@@ -300,30 +291,6 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   };
 
   useEffect(() => {
-    if (videoUrl) {
-      const downloadLink = document.createElement("a");
-      downloadLink.href = videoUrl;
-      downloadLink.download = "recorded-video.webm";
-      document.body.appendChild(downloadLink);
-      downloadLink.id = "download-video";
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-    }
-  }, [videoUrl]);
-
-  useEffect(() => {
-    if (imageUrl) {
-      const downloadLink = document.createElement("a");
-      downloadLink.href = imageUrl;
-      downloadLink.download = "captured-image.png";
-      document.body.appendChild(downloadLink);
-      downloadLink.id = "download-image";
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-    }
-  }, [imageUrl]);
-
-  useEffect(() => {
     if (category === "video") {
       startRecording();
     } else if (category === "image") {
@@ -333,42 +300,12 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
 
   const route = useRouter();
 
-  // Function to switch the camera from front to back and vice versa
-  const switchCamera = () => {
-    setFacingMode((prevMode) => {
-      const newMode = prevMode === "user" ? "environment" : "user";
-      alert(`Switched to ${newMode === "user" ? "front" : "back"} camera.`);
-
-      // Stop the current media stream
-      if (mediaStream) {
-        mediaStream.getTracks().forEach((track) => track.stop());
-      }
-
-      // Restart the camera with the new facing mode
-      const constraints = {
-        video: { facingMode: newMode },
-        audio: true,
-      };
-
-      navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then((stream) => {
-          const video = document.getElementById("web-cam-container");
-          video.srcObject = stream;
-          setMediaStream(stream);
-        })
-        .catch((err) => {
-          console.error("Error switching camera:", err);
-        });
-
-      return newMode;
+  navigator.mediaDevices.enumerateDevices().then(devices => {
+    devices.forEach(device => {
+      console.log(device.kind + ": " + device.label + " id = " + device.deviceId);
     });
-
-    if (mediaStream) {
-      mediaStream.getTracks().forEach((track) => track.stop());
-      startCamera();
-    }
-  };
+  });
+  
 
   return (
     <div className="w-full flex flex-col mt-10 items-center gap-6 ">
@@ -384,6 +321,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
         >
           <div id="vid-recorder" className="w-full">
             <video
+              ref={videoRef}
               autoPlay
               muted
               id="web-cam-container"
@@ -391,6 +329,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
             >
               Your browser doesn&apos;t support the video tag
             </video>
+            <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
           </div>
           <div className="flex items-center space-x-4">
             <button onClick={switchCamera}>

@@ -42,7 +42,7 @@ const Hero = () => {
           Custos will secure your evidence and legal agreements
         </p>
 
-        {/* <div class="image-container">
+        {/* <div className="image-container">
           <img src="./herod.png" alt="Zoom Image" />
         </div> */}
 
@@ -70,13 +70,13 @@ const Hero = () => {
             </div>
           </div> */}
 
-          <div class="image-container">
+          <div className="image-container">
             <img src="./herod.png" alt="Zoom Image" />
           </div>
-          <div class="image-container">
+          <div className="image-container">
             <img src="./middle.png" alt="Zoom Image" />
           </div>
-          <div class="image-container">
+          <div className="image-container">
             <img src="./herod2.png" alt="Zoom Image" />
           </div>
 

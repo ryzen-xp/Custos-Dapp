@@ -7,29 +7,29 @@ function ConnectButtoncomponent() {
   const { address, connection, connectWallet, disconnectWallet } =
     useContext(WalletContext);
 
-  const addrDisplay = (address) => {
-    let first = String(address).slice(0, 10);
-    let last = String(address).slice(60);
-    let combined = `${first}...${last}`;
-    return <span>{combined}</span>;
+  const handleConnect = async () => {
+    console.log("Attempting to connect wallet...");
+    await connectWallet();
   };
 
   return (
-    <div className="hover:cursor-pointer p-[1px] rounded-full ">
+    <div className="">
       {connection ? (
-        <button
-          onClick={disconnectWallet}
-          className="w-full py-2 px-4 rounded-full bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef]"
-        >
-          {addrDisplay(address)}
-        </button>
+        <div className="py-2 px-4 rounded-full bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef]">
+          <button
+            onClick={disconnectWallet}
+            className="w-full rounded-full overflow-clip"
+          >
+            {address}
+          </button>
+        </div>
       ) : (
         <button
-          onClick={connectWallet}
+          onClick={handleConnect} // make sure this is triggered
           // className="w-full flex items-center bg-black py-2 px-4 rounded-full"
         >
-          <div class="launch-pad-button-container">
-            <img src="./connectButton.png" alt="Zoom Image" />
+          <div className="launch-pad-button-container">
+            <img src="./connectButton.png" alt="Connect Wallet" />
           </div>
           {/* <span className="mr-2">Connect Wallet</span>
           <FaArrowRight /> */}
