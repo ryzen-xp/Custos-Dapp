@@ -12,7 +12,7 @@ export const Header = () => {
   };
 
   return (
-    <div className="flex gap-4 w-full justify-between items-center align-middle p-4 ">
+    <div className="z-50 flex  backdrop-filter backdrop-blur-[10px] bg-[#ffffff0a]  top-0 overflow-clip w-full ">
       {/* Navbar Top Section */}
       <div className="flex items-center justify-between w-full m-auto ">
         {/* Search Input with Icon */}
@@ -34,7 +34,7 @@ export const Header = () => {
         </div>
 
         {/* Dark Mode Toggle */}
-        <div className="flex items-baseline gap-4">
+        {/* <div className="flex items-baseline gap-4">
           <div onClick={toggleDarkMode} className="cursor-pointer">
             {darkMode ? (
               <Image src="/lightmode.svg" alt="Light Mode" width={30} height={20} />
@@ -43,15 +43,18 @@ export const Header = () => {
             )}
           </div>
 
-          {/* Notification Icon */}
+          
           <div className="cursor-pointer">
             <Image src="/bell.svg" alt="Notifications" width={30} height={20} />
           </div>
-        </div>
+        </div> */}
+
+
+
       </div>
 
       {/* Navbar Bottom Section */}
-      <div className="w-[20%]">
+      <div className="w-fit align-baseline items-baseline flex pt-3 justify-end">
         
 
         {/* Connect Wallet Button */}
