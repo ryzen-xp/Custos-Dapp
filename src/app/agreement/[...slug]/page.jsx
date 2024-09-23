@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useRef,useEffect, useState } from 'react';
 import Slugnav from '../components/slugnav';
 import { format } from 'date-fns';
 import Image from 'next/image';
@@ -12,6 +12,7 @@ const Page = ({ params }) => {
   const [accessToken, setAccessToken] = useState(null); // State for access token
   const [isEditorOpen, setIsEditorOpen] = useState(false); // State for editor modal
   const [editorContent, setEditorContent] = useState(''); // State for editor content
+  const contentRef = useRef(null);
 
   const slug = params?.slug || [];
   const [key, value] = slug;
@@ -65,24 +66,32 @@ const Page = ({ params }) => {
 
   const handleSave = async () => {
     // Save the edited content to the server
-    try {
-      const response = await fetch(`/api/agreement/${agreement.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...agreement, content: editorContent }),
-      });
-      if (response.ok) {
-        const updatedAgreement = await response.json();
-        setAgreement(updatedAgreement);
-        setIsEditorOpen(false); // Close the editor modal on successful save
-      } else {
-        console.error('Failed to save edited agreement');
-      }
-    } catch (error) {
-      console.error('Error saving edited agreement:', error);
-    }
+    console.log(document.getElementById('email'));
+    
+        const email = document.getElementById('email').textContent;
+    const content = document.getElementById('content').textContent;
+    
+    console.log("Email:", email);
+    console.log("Content:", content);
+
+    // try {
+    //   const response = await fetch(`/api/agreement/${agreement.id}`, {
+    //     method: 'PUT',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ ...agreement, content: editorContent }),
+    //   });
+    //   if (response.ok) {
+    //     const updatedAgreement = await response.json();
+    //     setAgreement(updatedAgreement);
+    //     setIsEditorOpen(false); // Close the editor modal on successful save
+    //   } else {
+    //     console.error('Failed to save edited agreement');
+    //   }
+    // } catch (error) {
+    //   console.error('Error saving edited agreement:', error);
+    // }
   };
 
   if (loading) {
@@ -115,8 +124,9 @@ const Page = ({ params }) => {
 
           <div className="flex-col w-full items-end text-end gap-3 flex">
             {accessToken && (
+           <>
               <div
-                className="w-full gap-2 flex items- justify-end cursor-pointer"
+                className={`${isEditorOpen?"hidden":"block"} w-full gap-2 flex items- justify-end cursor-pointer`}
                 onClick={handleEditClick}
               >
                 <span className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] text-[1.2em] bg-clip-text text-transparent">
@@ -128,8 +138,24 @@ const Page = ({ params }) => {
                   width={20}
                   height={20}
                 />
+                
               </div>
+                 <div className={`${isEditorOpen?"block":"hidden"} mt-4`}>
+            <button
+              onClick={handleSave}
+              className="mr-2 p-2 bg-blue-500 text-white rounded"
+            >
+              Save
+            </button>
+            <button
+              onClick={() => setIsEditorOpen(false)}
+              className="p-2 bg-gray-500 text-white rounded"
+            >
+              Cancel
+            </button>
+          </div></>
             )}
+
             <div className="w-full  flex flex-col md:flex-row gap-2 justify-end">
               <span className="flex-shrink-0">Time Stamp:</span>
               <span className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
@@ -139,17 +165,39 @@ const Page = ({ params }) => {
           </div>
         </div>
 
-        <div className="space-y-2">
-          <div>
-            <strong>ID:</strong>{" "}
-            <p contentEditable={isEditorOpen}>{agreement.id}</p>
+        <div className="space-y-2" ref={contentRef}>
+          <div className={`${isEditorOpen ? "hidden" : "block"}`}>
+            <strong>ID:</strong> <span>{agreement.id}</span>
+            {/* contentEditable={isEditorOpen} */}
           </div>
-          <div>
+          <div className="flex gap-2">
             <strong>Content:</strong>{" "}
-            <ReactMarkdown>{agreement.content}</ReactMarkdown>
+            {/* <ReactMarkdown>{agreement.content}</ReactMarkdown> */}
+            <p
+              id="content"
+              contentEditable={isEditorOpen}
+              className={`${
+                isEditorOpen ? "px-2 py-1 border rounded-md " : ""
+              }`}
+            >
+              {/* {agreement.content} */}
+              Sample Terms and Policy Content:\n\nLorem ipsum dolor sit amet,
+              consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+              labore et dolore magna aliqua. Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Nesciunt consectetur dolore aut
+              ipsum pariatur nemo recusandae, a fugiat enim saepe magni iure
+              maiores nihil beatae natus quia accusamus tenetur. Aliquam.
+            </p>
           </div>
-          <div>
-            <strong>Email:</strong> {agreement.email || "N/A"}
+          <div className="flex gap-2">
+            <strong>Email:</strong>{" "}
+            <p
+             id="email"
+              contentEditable={isEditorOpen}
+              className={`${isEditorOpen ? "px-2 py-1 border rounded-md" : ""}`}
+            >
+              {agreement.email || "N/A"}
+            </p>
           </div>
           <div>
             <strong>Access Token:</strong> {agreement.access_token}
@@ -167,11 +215,10 @@ const Page = ({ params }) => {
           </div>
           <img
             src={
-              
               "https://www.shutterstock.com/shutterstock/photos/1884767680/display_1500/stock-vector-no-image-icon-vector-no-available-picture-symbol-suitable-for-user-interface-element-isolated-on-1884767680.jpg"
             }
             alt="id"
-            className='w-[6em] h-[6em]'
+            className="w-[6em] h-[6em]"
           />
           <div>
             <strong>First Party Country:</strong>{" "}
@@ -213,7 +260,7 @@ const Page = ({ params }) => {
       </div>
 
       {/* Modal for editing agreement */}
-      <Modal
+      {/* <Modal
         isOpen={isEditorOpen}
         onRequestClose={() => setIsEditorOpen(false)}
         className="modal"
@@ -242,7 +289,7 @@ const Page = ({ params }) => {
             </button>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
