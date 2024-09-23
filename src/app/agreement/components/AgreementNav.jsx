@@ -1,16 +1,18 @@
 import { GlobalStateContext } from "@/context/GlobalStateProvider";
 import React, { useContext } from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import Page from "../[...slug]/page";
 
 const AgreementNav = ({ activeTab, setActiveTab }) => {
   const { globalState } = useContext(GlobalStateContext);
   return (
     <div className="flex flex-col w-full p-4 gap-4 ">
       {/* Back Button */}
+      {/* ${
+          globalState !== "" ? "rounded-[1em] p-4 validate-gradient" : ""
+        } */}
       <div
-        className={`flex flex-col gap-6 ${
-          globalState === "show" ? "rounded-[1em] p-4 validate-gradient" : ""
-        }`}
+        className={`flex flex-col gap-6 `}
       >
         <div className="flex items-center">
           <button
@@ -25,7 +27,7 @@ const AgreementNav = ({ activeTab, setActiveTab }) => {
         </div>
         <div className="flex justify-between items-center">
           <p className="text-3xl font-bold text-white">Agreements</p>
-          <div className="flex">
+          {/* <div className={`${globalState !== "" ? "flex" : "hidden"}`}>
             <div className="button-transition">
               <img
                 src="./PrintAgreement.png"
@@ -42,12 +44,12 @@ const AgreementNav = ({ activeTab, setActiveTab }) => {
                 onClick={() => {}} // Move to next step on click
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
       {/* Tab Navigation */}
-      <div className="relative bg-orange-500">
+      <div className="relative">
         <div className="flex justify-around w-fit gap-16 text-lg">
           <button
             onClick={() => setActiveTab("all")}
@@ -90,14 +92,21 @@ const AgreementNav = ({ activeTab, setActiveTab }) => {
             Validated
           </button>
           {/* {finalValidate === "show" ? ( */}
-
+          {/* 
           <div
             className={`bg-black absolute z-20 left-0 right-0 h-[70vh] ${
-              globalState === "show" ? "block" : "hidden"
+              globalState !== "" ? "block" : "hidden"
             }`}
           >
             <p className="text-[55px] text-teal-50">xdede::: {globalState}</p>
-          </div>
+            <div>
+            </div>
+          </div> */}
+          {/* {globalState === "" ? (
+            ""
+          ) : (
+            <Page agreementAccessToken={globalState} />
+          )} */}
           {/* ) : (
             ""
           )} */}
