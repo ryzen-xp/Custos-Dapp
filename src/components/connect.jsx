@@ -7,6 +7,13 @@ function ConnectButtoncomponent() {
   const { address, connection, connectWallet, disconnectWallet } =
     useContext(WalletContext);
 
+  const addrDisplay = (address) => {
+    let first = String(address).slice(0, 10);
+    let last = String(address).slice(60);
+    let combined = `${first}...${last}`;
+    return <span>{combined}</span>;
+  };
+
   return (
     <div className="hover:cursor-pointer p-[1px] rounded-full ">
       {connection ? (
@@ -14,7 +21,7 @@ function ConnectButtoncomponent() {
           onClick={disconnectWallet}
           className="w-full py-2 px-4 rounded-full bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef]"
         >
-          {address}
+          {addrDisplay(address)}
         </button>
       ) : (
         <button

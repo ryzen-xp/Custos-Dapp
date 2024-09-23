@@ -1,9 +1,8 @@
-"use client"
+"use client";
 import icon4 from "../../../../public/pause.png";
 import { Recording } from "../components/Recording";
 import { Header } from "../components/Header";
-import React, { useContext } from 'react';
-
+import React, { useContext } from "react";
 
 const VideoRecorder = () => {
   const text = {
@@ -11,7 +10,7 @@ const VideoRecorder = () => {
   };
 
   return (
-    <div className="h-screen w-full m-10">
+    <div className="h-screen md:h-auto w-[100%] m-10">
       <Header />
       <div className="flex justify-center" id="stop-vid-recording">
         <Recording

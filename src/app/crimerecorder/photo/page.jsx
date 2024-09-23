@@ -1,5 +1,5 @@
-"use client"
-import React, { useContext } from 'react';
+"use client";
+import React, { useContext } from "react";
 import icon3 from "../../../../public/record.png";
 import { Recording } from "../components/Recording";
 import { Header } from "../components/Header";
@@ -10,7 +10,7 @@ const TakePicture = () => {
   };
 
   return (
-    <div className="h-screen w-full m-10">
+    <div className="h-screen md:h-auto w-[100%] m-10">
       <Header />
       <div className="flex justify-center" id="take-picture">
         <Recording

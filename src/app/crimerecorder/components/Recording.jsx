@@ -7,6 +7,7 @@ import { provider, useWriteToContract } from "@/utils/fetchcontract";
 import { useRouter } from "next/navigation";
 import { NFTStorage } from "nft.storage";
 import { WalletContext, WalletProvider } from "@/components/walletprovider";
+import crimeContractAbi from "../../../utils/coverCrimeAbi.json";
 import {
   executeCalls,
   fetchAccountCompatibility,
@@ -16,8 +17,10 @@ import {
   getGasFeesInGasToken,
   SEPOLIA_BASE_URL,
 } from "@avnu/gasless-sdk";
+import { Contract, byteArray } from "starknet";
 
-const NFT_STORAGE_TOKEN = process.env.NEXT_IPFS_KEY;
+const NFT_STORAGE_TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZGNiMzgxZS1iNDYxLTQ0ODAtYWQ5Zi0wZTAxN2QwMjgwMWYiLCJlbWFpbCI6ImplcnlkYW4xNDhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjYyOTg0ZTY1NTY4ZGUxYjk5MDNiIiwic2NvcGVkS2V5U2VjcmV0IjoiMjdlMjg1YTA0MmVlOGMyMTQ5MzQ1ZjA1ZjhlYTYyMzRkM2I2MWZiYjU3M2ZmNzIxMzU1OWMwNGIxOGE3NzJhYSIsImlhdCI6MTcyNDE2MzU3Mn0.2PAyS8Y_NX17idFPsk6-_b0kg5vGfr0TOlqla49iNKA";
 
 export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const { account } = useContext(WalletContext);
@@ -78,7 +81,18 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   useEffect(() => {
     if (!account || !gasTokenPrice || !gaslessCompatibility) return;
     setErrorMessage(undefined);
-    const calls = []; // Add your specific transaction calls here.
+    const calls = [
+      {
+        entrypoint: "approve",
+        contractAddress:
+          "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+        calldata: [
+          "0x0498E484Da80A8895c77DcaD5362aE483758050F22a92aF29A385459b0365BFE",
+          "0xf",
+          "0x0",
+        ],
+      },
+    ]; // Add your specific transaction calls here.
     estimateCalls(account, calls).then((fees) => {
       const estimatedGasFeesInGasToken = getGasFeesInGasToken(
         BigInt(fees.overall_fee),
@@ -233,9 +247,16 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     }
   };
 
-  const handleStopMedia = async () => {
-    const { result } = useWriteToContract("crime", "cover_crime", [uri]);
+  const crimeContractAddress =
+    "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342";
 
+  const contract = new Contract(
+    crimeContractAbi,
+    crimeContractAddress,
+    account
+  );
+  console.log(account);
+  const handleStopMedia = async () => {
     // Check if the account is available
     if (!account) {
       console.error("Account not connected");
@@ -249,16 +270,23 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       stopRecording();
     }
 
+    const call = contract.populate("crime_record", [
+      ["uri"],
+      ["hgfssdffghhhf"],
+    ]);
+
+    const b = byteArrayFromString(uri);
+    const result = await contract.crime_record(b);
+    console.log(result);
+    await provider.waitForTransaction(result.transaction_hash);
+
     // Execute the transaction with gasless option
     try {
       const transactionResponse = await executeCalls(
         account,
-        result, // Assuming result is the call data
-        {
-          gasTokenAddress: gasTokenPrice?.tokenAddress,
-          maxGasTokenAmount, // Pass the calculated max gas token amount if available
-        },
-        options // Your GaslessOptions object
+        JSON.stringify(call),
+        {},
+        { apiKey: "" }
       );
 
       // Log or handle the transaction response if needed
@@ -266,8 +294,8 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     } catch (error) {
       console.error("Transaction failed:", error);
     }
-    console.log(result);
 
+    console.log(result);
     return result;
   };
 
@@ -366,18 +394,18 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
           </div>
           <div className="flex items-center space-x-4">
             <button onClick={switchCamera}>
-              <Icons icon={icon3} text={`switch camera`} />
+              <Icons icon={icon3} text={`Switch Camera`} />
             </button>
             <button
               onClick={handleStopMedia}
-              disabled={
-                loading || (!gasTokenPrice && paymasterRewards.length == 0)
-              }
+              // disabled={
+              //   loading || (!gasTokenPrice && paymasterRewards.length == 0)
+              // }
             >
               <Icons icon={icon1} text={imgText} />
-              {loading ? "Processing..." : "Stop Media"}
             </button>
           </div>
+          {loading ? "Processing..." : "Stop Media"}
         </div>
       </div>
     </div>
