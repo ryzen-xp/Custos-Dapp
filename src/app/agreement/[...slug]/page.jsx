@@ -1,17 +1,17 @@
 "use client";
-import React, { useRef,useEffect, useState } from 'react';
-import Slugnav from '../components/slugnav';
-import { format } from 'date-fns';
-import Image from 'next/image';
-import Modal from 'react-modal';
-import ReactMarkdown from 'react-markdown';
+import React, { useRef, useEffect, useState } from "react";
+import Slugnav from "../components/slugnav";
+import { format } from "date-fns";
+import Image from "next/image";
+import Modal from "react-modal";
+import ReactMarkdown from "react-markdown";
 
 const Page = ({ params }) => {
   const [agreement, setAgreement] = useState(null);
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState(null); // State for access token
   const [isEditorOpen, setIsEditorOpen] = useState(false); // State for editor modal
-  const [editorContent, setEditorContent] = useState(''); // State for editor content
+  const [editorContent, setEditorContent] = useState(""); // State for editor content
   const contentRef = useRef(null);
 
   const slug = params?.slug || [];
@@ -34,10 +34,10 @@ const Page = ({ params }) => {
         setAgreement(data);
         setEditorContent(data.content); // Set initial editor content
       } else {
-        console.error('Failed to fetch agreement by ID');
+        console.error("Failed to fetch agreement by ID");
       }
     } catch (error) {
-      console.error('Error fetching agreement by ID:', error);
+      console.error("Error fetching agreement by ID:", error);
     } finally {
       setLoading(false);
     }
@@ -45,16 +45,18 @@ const Page = ({ params }) => {
 
   const fetchAgreementByAccessToken = async (token) => {
     try {
-      const response = await fetch(`https://custosbackend.onrender.com/agreement/agreement/access_token/?access_token=${token}`);
+      const response = await fetch(
+        `https://custosbackend.onrender.com/agreement/agreement/access_token/?access_token=${token}`
+      );
       if (response.ok) {
         const data = await response.json();
         setAgreement(data);
         setEditorContent(data.content); // Set initial editor content
       } else {
-        console.error('Failed to fetch agreement by access token');
+        console.error("Failed to fetch agreement by access token");
       }
     } catch (error) {
-      console.error('Error fetching agreement by access token:', error);
+      console.error("Error fetching agreement by access token:", error);
     } finally {
       setLoading(false);
     }
@@ -66,13 +68,17 @@ const Page = ({ params }) => {
 
   const handleSave = async () => {
     // Save the edited content to the server
-    console.log(document.getElementById('email'));
-    
-        const email = document.getElementById('email').textContent;
-    const content = document.getElementById('content').textContent;
-    
+    console.log(document.getElementById("email"));
+
+    const email = document.getElementById("email").textContent;
+    const content = document.getElementById("content").textContent;
+    const FirstPartyCountry =
+      document.getElementById("FirstPartyCountry").textContent;
+    // FirstPartyCountry;
+
     console.log("Email:", email);
     console.log("Content:", content);
+    console.log("Content:", FirstPartyCountry);
 
     // try {
     //   const response = await fetch(`/api/agreement/${agreement.id}`, {
@@ -95,14 +101,17 @@ const Page = ({ params }) => {
   };
 
   if (loading) {
-    return <div className='text-[#EAFBFF]'>Loading...</div>;
+    return <div className="text-[#EAFBFF]">Loading...</div>;
   }
 
   if (!agreement) {
-    return <div className='text-[#EAFBFF]'>Agreement not found</div>;
+    return <div className="text-[#EAFBFF]">Agreement not found</div>;
   }
 
-  const formattedDate = format(new Date(agreement?.created_at), "EEEE, do MMMM yyyy. hh:mm:ss aaaa");
+  const formattedDate = format(
+    new Date(agreement?.created_at),
+    "EEEE, do MMMM yyyy. hh:mm:ss aaaa"
+  );
 
   return (
     <div className="space-y-4 text-[#EAFBFF] w-full overflow-clip flex flex-col">
@@ -124,36 +133,38 @@ const Page = ({ params }) => {
 
           <div className="flex-col w-full items-end text-end gap-3 flex">
             {accessToken && (
-           <>
-              <div
-                className={`${isEditorOpen?"hidden":"block"} w-full gap-2 flex items- justify-end cursor-pointer`}
-                onClick={handleEditClick}
-              >
-                <span className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] text-[1.2em] bg-clip-text text-transparent">
-                  Edit Agreement
-                </span>
-                <Image
-                  src="/edit-blue.svg"
-                  alt="Edit Icon"
-                  width={20}
-                  height={20}
-                />
-                
-              </div>
-                 <div className={`${isEditorOpen?"block":"hidden"} mt-4`}>
-            <button
-              onClick={handleSave}
-              className="mr-2 p-2 bg-blue-500 text-white rounded"
-            >
-              Save
-            </button>
-            <button
-              onClick={() => setIsEditorOpen(false)}
-              className="p-2 bg-gray-500 text-white rounded"
-            >
-              Cancel
-            </button>
-          </div></>
+              <>
+                <div
+                  className={`${
+                    isEditorOpen ? "hidden" : "block"
+                  } w-full gap-2 flex items- justify-end cursor-pointer`}
+                  onClick={handleEditClick}
+                >
+                  <span className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] text-[1.2em] bg-clip-text text-transparent">
+                    Edit Agreement
+                  </span>
+                  <Image
+                    src="/edit-blue.svg"
+                    alt="Edit Icon"
+                    width={20}
+                    height={20}
+                  />
+                </div>
+                <div className={`${isEditorOpen ? "block" : "hidden"} mt-4`}>
+                  <button
+                    onClick={handleSave}
+                    className="mr-2 p-2 bg-blue-500 text-white rounded"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setIsEditorOpen(false)}
+                    className="p-2 bg-gray-500 text-white rounded"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </>
             )}
 
             <div className="w-full  flex flex-col md:flex-row gap-2 justify-end">
@@ -192,69 +203,92 @@ const Page = ({ params }) => {
           <div className="flex gap-2">
             <strong>Email:</strong>{" "}
             <p
-             id="email"
+              id="email"
               contentEditable={isEditorOpen}
               className={`${isEditorOpen ? "px-2 py-1 border rounded-md" : ""}`}
             >
               {agreement.email || "N/A"}
             </p>
           </div>
-          <div>
+          <div className={`${isEditorOpen ? "hidden" : "block"}`}>
             <strong>Access Token:</strong> {agreement.access_token}
           </div>
-          <div>
+          <div className={`${isEditorOpen ? "hidden" : "block"}`}>
             <strong>Agreement ID:</strong> {agreement.agreement_id || "N/A"}
           </div>
-          <div>
+          <div className={`${isEditorOpen ? "hidden" : "block"}`}>
             <strong>First Party Address:</strong>{" "}
             {agreement.first_party_address}
           </div>
-          <div>
+          <div className={`${isEditorOpen ? "hidden" : "block"}`}>
             <strong>First Party Valid ID:</strong>{" "}
             {agreement.first_party_valid_id || "N/A"}
+            <img
+              src={
+                "https://www.shutterstock.com/shutterstock/photos/1884767680/display_1500/stock-vector-no-image-icon-vector-no-available-picture-symbol-suitable-for-user-interface-element-isolated-on-1884767680.jpg"
+              }
+              alt="id"
+              className="w-[6em] h-[6em]"
+            />
           </div>
-          <img
-            src={
-              "https://www.shutterstock.com/shutterstock/photos/1884767680/display_1500/stock-vector-no-image-icon-vector-no-available-picture-symbol-suitable-for-user-interface-element-isolated-on-1884767680.jpg"
-            }
-            alt="id"
-            className="w-[6em] h-[6em]"
-          />
           <div>
             <strong>First Party Country:</strong>{" "}
-            {agreement.first_party_country || "N/A"}
+            <p
+              id="FirstPartyCountry"
+              contentEditable={isEditorOpen}
+              className={`${isEditorOpen ? "px-2 py-1 border rounded-md" : ""}`}
+            >
+              {agreement.first_party_country || "N/A"}
+            </p>
           </div>
           <div>
             <strong>First Party ID Type:</strong>{" "}
-            {agreement.first_party_id_type}
+            <p
+              id="FirstPartyIdType"
+              contentEditable={isEditorOpen}
+              className={`${isEditorOpen ? "px-2 py-1 border rounded-md" : ""}`}
+            >
+              {" "}
+              {agreement.first_party_id_type}
+            </p>
           </div>
           <div>
             <strong>First Party Signature:</strong>{" "}
-            {agreement.first_party_signature || "N/A"}
+            <p
+              id="FirstPartyIdType"
+              contentEditable={isEditorOpen}
+              className={`${isEditorOpen ? "px-2 py-1 border rounded-md" : ""}`}
+            >
+              {agreement.first_party_signature || "N/A"}
+            </p>
           </div>
-          <div>
-            <strong>Second Party Address:</strong>{" "}
-            {agreement.second_party_address}
-          </div>
-          <div>
-            <strong>Second Party Valid ID:</strong>{" "}
-            {agreement.second_party_valid_id || "N/A"}
-          </div>
-          <div>
-            <strong>Second Party Country:</strong>{" "}
-            {agreement.second_party_country || "N/A"}
-          </div>
-          <div>
-            <strong>Second Party ID Type:</strong>{" "}
-            {agreement.second_party_id_type || "N/A"}
-          </div>
-          <div>
-            <strong>Second Party Signature:</strong>{" "}
-            {agreement.second_party_signature || "N/A"}
-          </div>
-          <div>
-            <strong>Created At:</strong>{" "}
-            {new Date(agreement.created_at).toLocaleString()}
+
+          {/* Second party  */}
+          <div className={`${isEditorOpen ? "hidden" : "block"}`}>
+            <div>
+              <strong>Second Party Address:</strong>{" "}
+              {agreement.second_party_address}
+            </div>
+            <div>
+              <strong>Second Party Valid ID:</strong>{" "}
+              {agreement.second_party_valid_id || "N/A"}
+            </div>
+            <div>
+              <strong>Second Party Country:</strong>{" "}
+              {agreement.second_party_country || "N/A"}
+            </div>
+            <div>
+              <strong>Second Party ID Type:</strong>{" "}
+              {agreement.second_party_id_type || "N/A"}
+            </div>
+            <div>
+              <strong>Second Party Signature:</strong>{" "}
+              {agreement.second_party_signature || "N/A"}
+            </div>
+            <div>
+              <strong>Created At:</strong>{" "}
+              {new Date(agreement.created_at).toLocaleString()}
+            </div>
           </div>
         </div>
       </div>
