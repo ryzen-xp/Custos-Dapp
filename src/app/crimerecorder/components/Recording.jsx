@@ -5,7 +5,6 @@ import icon3 from "../../../../public/rotate.png";
 import Icons from "./Icons";
 import { provider, UseWriteToContract } from "@/utils/fetchcontract";
 import { useRouter } from "next/navigation";
-import { NFTStorage } from "nft.storage";
 import { WalletContext, WalletProvider } from "@/components/walletprovider";
 import {
   executeCalls,
@@ -17,7 +16,8 @@ import {
   SEPOLIA_BASE_URL,
 } from "@avnu/gasless-sdk";
 
-const NFT_STORAGE_TOKEN = '';
+const NFT_STORAGE_TOKEN = process.env.NFT_STORAGE_TOKEN;
+
 export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const { account } = useContext(WalletContext);
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -155,6 +155,36 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       setIsRecording(false);
     }
   };
+  // const startRecording = async () => {
+  //   await startCamera();
+  //   const recorder = new MediaRecorder(mediaStream);
+    
+  //   recorder.ondataavailable = event => {
+  //     console.log('Data available:', event.data);
+  //     setRecordedChunks(prev => [...prev, event.data]);
+  //   };
+  
+  //   recorder.onstop = async () => {
+  //     console.log('Recording stopped. Recorded chunks:', recordedChunks);
+  //     const blob = new Blob(recordedChunks, { type: 'video/webm' });
+      
+  //     // Check if blob size is greater than 0
+  //     console.log('Blob size:', blob.size);
+      
+  //     if (blob.size > 0) {
+  //       saveToDevice(blob, 'video.webm');
+  //       await uploadToIPFS(blob, 'video.webm');
+  //     }
+      
+  //     stopCamera();
+  //     setRecordedChunks([]);
+  //   };
+  
+  //   recorder.start();
+  //   setMediaRecorder(recorder);
+  //   setIsRecording(true);
+  // };
+  
 
   const takePicture = async () => {
     const canvas = canvasRef.current;
