@@ -12,7 +12,7 @@ const TakePicture = () => {
   return (
     <div className="h-screen w-full m-10">
       <Header />
-      <div className="flex justify-center" id="take-picture">
+      <div className="flex justify-center mt-40" id="take-picture">
         <Recording
           text={text.text2}
           icon1={icon3}

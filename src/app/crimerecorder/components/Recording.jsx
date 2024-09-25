@@ -17,7 +17,6 @@ import {
 } from "@avnu/gasless-sdk";
 
 const NFT_STORAGE_TOKEN = process.env.NFT_STORAGE_TOKEN;
-
 export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const { account } = useContext(WalletContext);
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -132,21 +131,45 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   };
 
   const startRecording = async () => {
-    await startCamera();
+    await startCamera();  // Ensure the camera starts
     const recorder = new MediaRecorder(mediaStream);
+    
     recorder.ondataavailable = event => setRecordedChunks(prev => [...prev, event.data]);
-    recorder.onstop = async () => {
+    
+    recorder.onstop = () => {
+      // Create a blob from the recorded chunks
       const blob = new Blob(recordedChunks, { type: 'video/webm' });
-      saveToDevice(blob, 'video.webm');
-      await uploadToIPFS(blob, 'video.webm');
-      stopCamera();
-      setRecordedChunks([]);
+  
+      // Check if the blob size is valid and proceed with saving/downloading
+      console.log(blob.size);  // This should give a size greater than 0
+  
+      if (blob.size > 0) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'video.webm';  // The file name for the download
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);  // Clean up the URL reference after download
+      }
+  
+      // Optionally, you can upload the blob to IPFS
+      uploadToIPFS(blob, 'video.webm');
       
+      // Stop the camera after recording finishes
+      stopCamera();
+  
+      // Reset recorded chunks
+      setRecordedChunks([]);
     };
+  
+    // Start recording
     recorder.start();
     setMediaRecorder(recorder);
     setIsRecording(true);
   };
+  
   
 
   const stopRecording = () => {
@@ -154,6 +177,23 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       mediaRecorder.stop();
       setIsRecording(false);
     }
+    mediaRecorder.onstop = () => {
+      const blob = new Blob(recordedChunks, { type: 'video/webm' });  // Correct type
+      
+      // Check if the blob size is valid
+      console.log(blob.size);  // This should give a size greater than 0
+      
+      if (blob.size > 0) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'video.webm';
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);  // Clean up URL reference
+      }
+    };
   };
   // const startRecording = async () => {
   //   await startCamera();
@@ -259,43 +299,42 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   };
 
   const handleStopMedia = async () => {
-     if (category === "video") {
-      startRecording();
+    if (category === "video") {
+      if (isRecording) {
+        stopRecording();  // Stop the recording if it's ongoing
+      } else {
+        startRecording();  // Start recording if it hasn't started yet
+      }
     } else if (category === "image") {
       takePicture();
     }
-
+  
     const { result } = UseWriteToContract("crime", "cover_crime", [uri]);
-
-    // Check if the account is available
+  
     if (!account) {
       console.error("Account not connected");
       return;
     }
-
-    // Handle the media action (image or video)
-   
-    // Execute the transaction with gasless option
+  
     try {
       const transactionResponse = await executeCalls(
         account,
-        result, // Assuming result is the call data
+        result,
         {
           gasTokenAddress: gasTokenPrice?.tokenAddress,
-          maxGasTokenAmount, // Pass the calculated max gas token amount if available
+          maxGasTokenAmount,
         },
-        options // Your GaslessOptions object
+        options
       );
-
-      // Log or handle the transaction response if needed
       console.log("Transaction successful:", transactionResponse);
     } catch (error) {
       console.error("Transaction failed:", error);
     }
+  
     console.log(result);
-
     return result;
   };
+  
 
   useEffect(() => {
     if (category === "video") {

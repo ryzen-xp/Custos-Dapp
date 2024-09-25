@@ -8,7 +8,7 @@ import ConnectButtoncomponent from "@/components/connect";
 
 export const Header = () => {
   return (
-    <div className="flex flex-col gap-10 p-4">
+    <div className="flex flex-col gap-10py-[1rem] pr-[4rem] pl-[1rem] z-50 backdrop-filter backdrop-blur-[10px] bg-[#ffffff0a] fixed top-0 w-full  p-4">
       <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-4">
         <Link href={`/`} className="w-full sm:w-auto">
           <Image src={logo} alt="logo" width={232.7} height={22} />
