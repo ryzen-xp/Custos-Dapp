@@ -51,7 +51,7 @@ const Page = ({ params }) => {
       if (response.ok) {
         const data = await response.json();
         setAgreement(data);
-        setEditorContent(data.content); // Set initial editor content
+        setEditorContent(data.content);
       } else {
         console.error("Failed to fetch agreement by access token");
       }

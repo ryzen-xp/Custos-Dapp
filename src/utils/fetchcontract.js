@@ -67,7 +67,7 @@ export const UseReadContractData = (contractName, methodName, params = []) => {
 };
 
 // Hook to write data to a contract
-export const useWriteToContract = (
+export const UseWriteToContract = (
   contractName,
   methodName,
   params = []

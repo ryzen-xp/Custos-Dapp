@@ -154,7 +154,7 @@ const About = () => {
               className="w-full h-40 object-cover"
             />
             <div className="font-bold text-xl mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
-              GoodnessHero T. Kolapo
+              Goodness T. Kolapo
             </div>
             <p className="text-gray-700 text-base bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
               Smart Contract Developer
