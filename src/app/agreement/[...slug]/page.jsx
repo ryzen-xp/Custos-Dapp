@@ -65,13 +65,12 @@ const Page = ({ params }) => {
 
   const SecondPersonAdrress = "blah"
   const FirstPersonAdrress =
-    "0x07d89790ec033eb9f0e2cfb13d4998e7bcad43ec8101253eedcca316d7ad7425d";
+    "0x07d89790ec033eb9f0e2cfb13d4998e7bcad43ec8101253eedcca316d7ad7425";
 
   const handleEditClick = () => {
     agreement.first_party_address === FirstPersonAdrress
       ? setIsFirstPersonEditorOpen(true)
-      : setIsSecondPersonEditorOpen(true);
-    
+      : setIsFirstPersonEditorOpen(false);
   };
 
   const handleSave = async () => {
@@ -144,9 +143,7 @@ const Page = ({ params }) => {
               <>
                 <div
                   className={`${
-                    isFirstPersonEditorOpen 
-                      ? "hidden"
-                      : "block"
+                    isFirstPersonEditorOpen ? "hidden" : "block"
                   } w-full gap-2 flex items- justify-end cursor-pointer`}
                   onClick={handleEditClick}
                 >
@@ -162,9 +159,7 @@ const Page = ({ params }) => {
                 </div>
                 <div
                   className={`${
-                    isFirstPersonEditorOpen || isSecondPersonEditorOpen
-                      ? "block"
-                      : "hidden"
+                    isFirstPersonEditorOpen ? "block" : "hidden"
                   } mt-4`}
                 >
                   <button
@@ -174,10 +169,7 @@ const Page = ({ params }) => {
                     Save
                   </button>
                   <button
-                    onClick={() =>
-                      setIsFirstPersonEditorOpen(false) ||
-                      setIsSecondPersonEditorOpen(false)
-                    }
+                    onClick={() => setIsFirstPersonEditorOpen(false)}
                     className="p-2 bg-gray-500 text-white rounded"
                   >
                     Cancel
@@ -196,129 +188,129 @@ const Page = ({ params }) => {
         </div>
 
         <div className="space-y-2" ref={contentRef}>
+          {/* <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}> */}
           <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
-            <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
-              <strong>ID:</strong> <span>{agreement.id}</span>
-              {/* contentEditable={isFirstPersonEditorOpen} */}
-            </div>
-            <div className="flex gap-2">
-              <strong>Content:</strong>{" "}
-              {/* <ReactMarkdown>{agreement.content}</ReactMarkdown> */}
-              <p
-                id="content"
-                contentEditable={isFirstPersonEditorOpen}
-                className={`${
-                  isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md " : ""
-                }`}
-              >
-                {/* {agreement.content} */}
-                Sample Terms and Policy Content:\n\nLorem ipsum dolor sit amet,
-                consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua. Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Nesciunt consectetur dolore aut
-                ipsum pariatur nemo recusandae, a fugiat enim saepe magni iure
-                maiores nihil beatae natus quia accusamus tenetur. Aliquam.
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <strong>Email:</strong>{" "}
-              <p
-                id="email"
-                contentEditable={isFirstPersonEditorOpen}
-                className={`${
-                  isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md" : ""
-                }`}
-              >
-                {agreement.email || "N/A"}
-              </p>
-            </div>
-            <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
-              <strong>Access Token:</strong> {agreement.access_token}
-            </div>
-            <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
-              <strong>Agreement ID:</strong> {agreement.agreement_id || "N/A"}
-            </div>
-            <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
-              <strong>First Party Address:</strong>{" "}
-              {agreement.first_party_address}
-            </div>
-            <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
-              <strong>First Party Valid ID:</strong>{" "}
-              {agreement.first_party_valid_id || "N/A"}
-              <img
-                src={
-                  "https://www.shutterstock.com/shutterstock/photos/1884767680/display_1500/stock-vector-no-image-icon-vector-no-available-picture-symbol-suitable-for-user-interface-element-isolated-on-1884767680.jpg"
-                }
-                alt="id"
-                className="w-[6em] h-[6em]"
-              />
-            </div>
-            <div>
-              <strong>First Party Country:</strong>{" "}
-              <p
-                id="FirstPartyCountry"
-                contentEditable={isFirstPersonEditorOpen}
-                className={`${
-                  isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md" : ""
-                }`}
-              >
-                {agreement.first_party_country || "N/A"}
-              </p>
-            </div>
-            <div>
-              <strong>First Party ID Type:</strong>{" "}
-              <p
-                id="FirstPartyIdType"
-                contentEditable={isFirstPersonEditorOpen}
-                className={`${
-                  isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md" : ""
-                }`}
-              >
-                {" "}
-                {agreement.first_party_id_type}
-              </p>
-            </div>
-            <div>
-              <strong>First Party Signature:</strong>{" "}
-              <p
-                id="FirstPartyIdType"
-                contentEditable={isFirstPersonEditorOpen}
-                className={`${
-                  isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md" : ""
-                }`}
-              >
-                {agreement.first_party_signature || "N/A"}
-              </p>
-            </div>
+            <strong>ID:</strong> <span>{agreement.id}</span>
+            {/* contentEditable={isFirstPersonEditorOpen} */}
           </div>
+          <div className="flex gap-2">
+            <strong>Content:</strong>{" "}
+            {/* <ReactMarkdown>{agreement.content}</ReactMarkdown> */}
+            <p
+              id="content"
+              contentEditable={isFirstPersonEditorOpen}
+              className={`${
+                isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md " : ""
+              }`}
+            >
+              {/* {agreement.content} */}
+              Sample Terms and Policy Content:\n\nLorem ipsum dolor sit amet,
+              consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+              labore et dolore magna aliqua. Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Nesciunt consectetur dolore aut
+              ipsum pariatur nemo recusandae, a fugiat enim saepe magni iure
+              maiores nihil beatae natus quia accusamus tenetur. Aliquam.
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <strong>Email:</strong>{" "}
+            <p
+              id="email"
+              contentEditable={isFirstPersonEditorOpen}
+              className={`${
+                isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md" : ""
+              }`}
+            >
+              {agreement.email || "N/A"}
+            </p>
+          </div>
+          <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
+            <strong>Access Token:</strong> {agreement.access_token}
+          </div>
+          <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
+            <strong>Agreement ID:</strong> {agreement.agreement_id || "N/A"}
+          </div>
+          <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
+            <strong>First Party Address:</strong>{" "}
+            {agreement.first_party_address}
+          </div>
+          <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
+            <strong>First Party Valid ID:</strong>{" "}
+            {agreement.first_party_valid_id || "N/A"}
+            <img
+              src={
+                "https://www.shutterstock.com/shutterstock/photos/1884767680/display_1500/stock-vector-no-image-icon-vector-no-available-picture-symbol-suitable-for-user-interface-element-isolated-on-1884767680.jpg"
+              }
+              alt="id"
+              className="w-[6em] h-[6em]"
+            />
+          </div>
+          <div className="flex gap-2">
+            <strong>First Party Country:</strong>{" "}
+            <p
+              id="FirstPartyCountry"
+              contentEditable={isFirstPersonEditorOpen}
+              className={`${
+                isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md" : ""
+              }`}
+            >
+              {agreement.first_party_country || "N/A"}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <strong>First Party ID Type:</strong>{" "}
+            <p
+              id="FirstPartyIdType"
+              contentEditable={isFirstPersonEditorOpen}
+              className={`${
+                isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md" : ""
+              }`}
+            >
+              {" "}
+              {agreement.first_party_id_type}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <strong>First Party Signature:</strong>{" "}
+            <p
+              id="FirstPartyIdType"
+              contentEditable={isFirstPersonEditorOpen}
+              className={`${
+                isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md" : ""
+              }`}
+            >
+              {agreement.first_party_signature || "N/A"}
+            </p>
+          </div>
+          {/* </div> */}
 
           {/* Second party  */}
-          <div className={`${isSecondPersonEditorOpen ? "hidden" : "block"}`}>
-            <div>
-              <strong>Second Party Address:</strong>{" "}
-              {agreement.second_party_address}
-            </div>
-            <div>
-              <strong>Second Party Valid ID:</strong>{" "}
-              {agreement.second_party_valid_id || "N/A"}
-            </div>
-            <div>
-              <strong>Second Party Country:</strong>{" "}
-              {agreement.second_party_country || "N/A"}
-            </div>
-            <div>
-              <strong>Second Party ID Type:</strong>{" "}
-              {agreement.second_party_id_type || "N/A"}
-            </div>
-            <div>
-              <strong>Second Party Signature:</strong>{" "}
-              {agreement.second_party_signature || "N/A"}
-            </div>
-            <div>
-              <strong>Created At:</strong>{" "}
-              {new Date(agreement.created_at).toLocaleString()}
-            </div>
+          {/* <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}> */}
+          <div>
+            <strong>Second Party Address:</strong>{" "}
+            {agreement.second_party_address}
           </div>
+          <div>
+            <strong>Second Party Valid ID:</strong>{" "}
+            {agreement.second_party_valid_id || "N/A"}
+          </div>
+          <div>
+            <strong>Second Party Country:</strong>{" "}
+            {agreement.second_party_country || "N/A"}
+          </div>
+          <div>
+            <strong>Second Party ID Type:</strong>{" "}
+            {agreement.second_party_id_type || "N/A"}
+          </div>
+          <div>
+            <strong>Second Party Signature:</strong>{" "}
+            {agreement.second_party_signature || "N/A"}
+          </div>
+          <div>
+            <strong>Created At:</strong>{" "}
+            {new Date(agreement.created_at).toLocaleString()}
+          </div>
+          {/* </div> */}
         </div>
       </div>
 
