@@ -13,6 +13,7 @@
     "@thirdweb-dev/react": "^4.9.4",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "dotenv": "^16.4.5",
     "ethers": "^6.13.2",
     "framer-motion": "^11.5.4",
     "get-starknet": "^3.3.3",

@@ -1,11 +1,16 @@
 "use client";
-import React, { useContext, useEffect, useState, useRef , useCallback } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
 import bg from "../../../../public/Rectangle.png";
 import icon3 from "../../../../public/rotate.png";
 import Icons from "./Icons";
-import { provider, useWriteToContract } from "@/utils/fetchcontract";
+import { provider, UseWriteToContract } from "@/utils/fetchcontract";
 import { useRouter } from "next/navigation";
-import { NFTStorage } from "nft.storage";
 import { WalletContext, WalletProvider } from "@/components/walletprovider";
 import crimeContractAbi from "../../../utils/coverCrimeAbi.json";
 import {
@@ -22,6 +27,7 @@ import { Contract, byteArray } from "starknet";
 const NFT_STORAGE_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZGNiMzgxZS1iNDYxLTQ0ODAtYWQ5Zi0wZTAxN2QwMjgwMWYiLCJlbWFpbCI6ImplcnlkYW4xNDhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjYyOTg0ZTY1NTY4ZGUxYjk5MDNiIiwic2NvcGVkS2V5U2VjcmV0IjoiMjdlMjg1YTA0MmVlOGMyMTQ5MzQ1ZjA1ZjhlYTYyMzRkM2I2MWZiYjU3M2ZmNzIxMzU1OWMwNGIxOGE3NzJhYSIsImlhdCI6MTcyNDE2MzU3Mn0.2PAyS8Y_NX17idFPsk6-_b0kg5vGfr0TOlqla49iNKA";
 
+const NFT_STORAGE_TOKEN = process.env.NFT_STORAGE_TOKEN;
 export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const { account } = useContext(WalletContext);
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -29,7 +35,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
-  const [currentFacingMode, setCurrentFacingMode] = useState('environment');
+  const [currentFacingMode, setCurrentFacingMode] = useState("environment");
   const [isRecording, setIsRecording] = useState(false);
   const [loading, setLoading] = useState(false);
   const [tx, setTx] = useState();
@@ -110,64 +116,133 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     return selectedMedia === "vid" ? "aud" : "vid";
   };
 
-  
-
   useEffect(() => {
     return () => {
       // Clean up camera stream on unmount
       if (mediaStream) {
-        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream.getTracks().forEach((track) => track.stop());
       }
     };
   }, [mediaStream]);
 
   const startCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: currentFacingMode },
-        audio: true
-      });
-      videoRef.current.srcObject = stream;
-      videoRef.current.muted = true; // Mute video element
-      setMediaStream(stream);
-    } catch (error) {
-      console.error('Error accessing the camera', error);
-      alert('Error accessing the camera: ' + error.message);
+    if (typeof window !== "undefined" && navigator?.mediaDevices) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: currentFacingMode },
+          audio: true,
+        });
+        videoRef.current.srcObject = stream;
+        videoRef.current.muted = true; // Mute video element
+        setMediaStream(stream);
+      } catch (error) {
+        console.error("Error accessing the camera", error);
+        alert("Error accessing the camera: " + error.message);
+      }
     }
   };
 
   const stopCamera = () => {
     if (mediaStream) {
-      mediaStream.getTracks().forEach(track => track.stop());
+      mediaStream.getTracks().forEach((track) => track.stop());
       videoRef.current.srcObject = null;
       setMediaStream(null);
     }
   };
 
   const startRecording = async () => {
-    await startCamera();
+    await startCamera(); // Ensure the camera starts
     const recorder = new MediaRecorder(mediaStream);
-    recorder.ondataavailable = event => setRecordedChunks(prev => [...prev, event.data]);
-    recorder.onstop = async () => {
-      const blob = new Blob(recordedChunks, { type: 'video/webm' });
-      saveToDevice(blob, 'video.webm');
-      await uploadToIPFS(blob, 'video.webm');
+
+    recorder.ondataavailable = (event) =>
+      setRecordedChunks((prev) => [...prev, event.data]);
+
+    recorder.onstop = () => {
+      // Create a blob from the recorded chunks
+      const blob = new Blob(recordedChunks, { type: "video/webm" });
+
+      // Check if the blob size is valid and proceed with saving/downloading
+      console.log(blob.size); // This should give a size greater than 0
+
+      if (blob.size > 0) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "video.webm"; // The file name for the download
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url); // Clean up the URL reference after download
+      }
+
+      // Optionally, you can upload the blob to IPFS
+      uploadToIPFS(blob, "video.webm");
+
+      // Stop the camera after recording finishes
       stopCamera();
+
+      // Reset recorded chunks
       setRecordedChunks([]);
-      
     };
+
+    // Start recording
     recorder.start();
     setMediaRecorder(recorder);
     setIsRecording(true);
   };
-  
 
   const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false);
     }
+    mediaRecorder.onstop = () => {
+      const blob = new Blob(recordedChunks, { type: "video/webm" }); // Correct type
+
+      // Check if the blob size is valid
+      console.log(blob.size); // This should give a size greater than 0
+
+      if (blob.size > 0) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "video.webm";
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url); // Clean up URL reference
+      }
+    };
   };
+  // const startRecording = async () => {
+  //   await startCamera();
+  //   const recorder = new MediaRecorder(mediaStream);
+
+  //   recorder.ondataavailable = event => {
+  //     console.log('Data available:', event.data);
+  //     setRecordedChunks(prev => [...prev, event.data]);
+  //   };
+
+  //   recorder.onstop = async () => {
+  //     console.log('Recording stopped. Recorded chunks:', recordedChunks);
+  //     const blob = new Blob(recordedChunks, { type: 'video/webm' });
+
+  //     // Check if blob size is greater than 0
+  //     console.log('Blob size:', blob.size);
+
+  //     if (blob.size > 0) {
+  //       saveToDevice(blob, 'video.webm');
+  //       await uploadToIPFS(blob, 'video.webm');
+  //     }
+
+  //     stopCamera();
+  //     setRecordedChunks([]);
+  //   };
+
+  //   recorder.start();
+  //   setMediaRecorder(recorder);
+  //   setIsRecording(true);
+  // };
 
   const takePicture = async () => {
     const canvas = canvasRef.current;
@@ -175,20 +250,19 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       console.error("Canvas element not available");
       return;
     }
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext("2d");
     canvas.width = videoRef.current.videoWidth;
     canvas.height = videoRef.current.videoHeight;
     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
-    const dataURL = canvas.toDataURL('image/png');
-    const blob = await fetch(dataURL).then(res => res.blob());
-    await uploadToIPFS(blob, 'image.png');
-    saveToDevice(blob, 'photo.png');
+    const dataURL = canvas.toDataURL("image/png");
+    const blob = await fetch(dataURL).then((res) => res.blob());
+    await uploadToIPFS(blob, "image.png");
+    saveToDevice(blob, "photo.png");
   };
 
-
   const switchCamera = async () => {
-    setCurrentFacingMode(prev => (prev === 'user' ? 'environment' : 'user'));
+    setCurrentFacingMode((prev) => (prev === "user" ? "environment" : "user"));
     if (isRecording) {
       mediaRecorder.pause();
     }
@@ -199,10 +273,10 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     }
   };
 
-   // Upload to IPFS using Pinata
-   async function uploadToIPFS(fileBlob, fileName) {
+  // Upload to IPFS using Pinata
+  async function uploadToIPFS(fileBlob, fileName) {
     const formData = new FormData();
-    formData.append('file', fileBlob, fileName);
+    formData.append("file", fileBlob, fileName);
 
     try {
       const response = await fetch(
@@ -228,11 +302,11 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     } catch (error) {
       console.error("Error uploading image:", error);
     }
-  };
+  }
 
   const saveToDevice = (blob, fileName) => {
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = fileName;
     document.body.appendChild(a);
@@ -242,8 +316,12 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   };
 
   const handleStopMedia = async () => {
-     if (category === "video") {
-      startRecording();
+    if (category === "video") {
+      if (isRecording) {
+        stopRecording(); // Stop the recording if it's ongoing
+      } else {
+        startRecording(); // Start recording if it hasn't started yet
+      }
     } else if (category === "image") {
       takePicture();
     }
@@ -279,8 +357,6 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
         {},
         { apiKey: "" }
       );
-
-      // Log or handle the transaction response if needed
       console.log("Transaction successful:", transactionResponse);
     } catch (error) {
       console.error("Transaction failed:", error);
@@ -300,12 +376,17 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
 
   const route = useRouter();
 
-  navigator.mediaDevices.enumerateDevices().then(devices => {
-    devices.forEach(device => {
-      console.log(device.kind + ": " + device.label + " id = " + device.deviceId);
-    });
-  });
-  
+  useEffect(() => {
+    if (typeof window !== "undefined" && navigator?.mediaDevices) {
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
+        devices.forEach((device) => {
+          console.log(
+            device.kind + ": " + device.label + " id = " + device.deviceId
+          );
+        });
+      });
+    }
+  }, []);
 
   return (
     <div className="w-full flex flex-col mt-10 items-center gap-6 ">
@@ -329,7 +410,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
             >
               Your browser doesn&apos;t support the video tag
             </video>
-            <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
+            <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
           </div>
           <div className="flex items-center space-x-4">
             <button onClick={switchCamera}>

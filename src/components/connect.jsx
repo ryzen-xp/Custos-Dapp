@@ -13,27 +13,30 @@ function ConnectButtoncomponent() {
   };
 
   return (
-    <div className="">
+    <div className=" justify-end flex items-end">
       {connection ? (
-        <div className="py-2 px-4 rounded-full bg-gradient-to-r from-[#0094ff] to-[#A02294] text-[#ededef]">
+        <div className=" cursor-auto max-w-[40%] border-gradient py-2 px-4 rounded-full  text-[#ededef]" onClick={disconnectWallet}>
           <button
             onClick={disconnectWallet}
-            className="w-full rounded-full overflow-clip"
+            className="w-full bg-transparent rounded-full overflow-clip"
           >
             {address}
           </button>
         </div>
       ) : (
+        <div className=" w-full">
+
         <button
-          onClick={handleConnect} // make sure this is triggered
-          // className="w-full flex items-center bg-black py-2 px-4 rounded-full"
-        >
-          <div className="launch-pad-button-container">
-            <img src="./connectButton.png" alt="Connect Wallet" />
+          onClick={handleConnect} 
+          // className="w-full flex items-centerpy-2 px-4 rounded-full"
+          >
+          <div className="">
+            <img src="/connectButton.png" alt="Connect Wallet"  className=" h-[3em]" />
           </div>
           {/* <span className="mr-2">Connect Wallet</span>
           <FaArrowRight /> */}
         </button>
+      </div>
       )}
     </div>
   );

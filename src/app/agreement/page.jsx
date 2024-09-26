@@ -20,6 +20,7 @@ function AgreementList() {
   const [totalAgreements, setTotalAgreements] = useState([]);
   const [selectedAgreement, setSelectedAgreement] = useState(null);
   const { address } = useContext(WalletContext);
+  console.log('new address', address);
 
   const [activeTab, setActiveTab] = useState("all");
 
@@ -151,7 +152,7 @@ function AgreementList() {
 
     if (activeTab === "pending") {
       return pendingAgreements.length > 0 ? (
-        <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           {pendingAgreements.map((agreement, index) => (
             <PendingAgreementCard
               key={index}
@@ -193,6 +194,9 @@ function AgreementList() {
     }
   };
 
+
+
+  
   return (
     <div className="w-full flex flex-col">
       {/* Secondary Navbar */}

@@ -5,14 +5,14 @@ const useIdentityVerification = () => {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
 
-  const apiKey = process.env.RAPIDAPI_KEY; // Retrieve the API key from environment variables
-  const apiHost = process.env.RAPIDAPI_HOST; // Retrieve the API host from environment variables
+  const apiKey = process.env.RAPIDAPI_KEY;
+  const apiHost = process.env.RAPIDAPI_HOST;
 
   const verifyIdentity = async (fullname, idNumber) => {
     const url = 'https://identity-verification-from-id.p.rapidapi.com/verify-identity';
     const data = new FormData();
     data.append('fullname', fullname);
-    data.append('id_number', idNumber); // Include the ID number in the request
+    data.append('id_number', idNumber); 
 
     const options = {
       method: 'POST',

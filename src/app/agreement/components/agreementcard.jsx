@@ -85,6 +85,8 @@ export const PendingAgreementCard = ({
   );
 
   const handleCardClick = () => {
+    // console.log(agreement.id);
+    
     if (agreement.access_token) {
       router.push(`/agreement/access_token/${agreement.access_token}`);
     } else {
@@ -110,7 +112,7 @@ export const PendingAgreementCard = ({
     <>
       <div
         onClick={handleCardClick}
-        className="p-3 text-base space-y-[1em] flex flex-col bg-gradient-to- border-gradien bg-[#97c7fe09] h-fit backdrop-blur-sm  text-transparent rounded-[1em] relative w-fit cursor-pointer"
+        className="p-3 text-base space-y-[1em] flex flex-col bg-gradient-to- border-gradient bg-[#97c7fe09] h-fit backdrop-blur-sm  text-transparent rounded-[1em] relative w-full cursor-pointer"
       >
         <div className="relative border-[#43b2ea38] overflow-clip flex flex-col gap-4 backdrop-blur-sm shadow-2xl border-[0.01px] rounded-lg p-2 items-start w-full">
           <div className="w-full flex justify-between">
@@ -142,7 +144,7 @@ export const PendingAgreementCard = ({
           </div>
           <div className="text-wrap w-fit text-white">
             <p className="max-h-[8em] overflow-hidden font-bold text-[0.7em]">
-              {/* {agreement.content} */}
+              {agreement.content}
               {`Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti,
 quia ipsam. Assumenda ipsam, asperiores dolores unde alias quas
 placeat sapiente vitae dolor ex m ipsum dolor sit amet consectetur adipisicing elit. Deleniti,
@@ -151,8 +153,15 @@ placeat sapiente vitae dolor ex fugiat, sed quae ea nemo nam
 quaerat. Lorem ipsum dolor sit amet consectetur adipisicing elit.
 Deleniti, quia ipsam. Assumenda ipsam, asperiores dolores unde
 alias quas placeat sapiente vitae dolor ex fugiat, sed quae ea
+ceat sapiente vitae dolor ex m ipsum dolor sit amet consectetur adipisicing elit. Deleniti,
+quia ipsam. Assumenda ipsam, asperiores dolores unde alias quas
+placeat sapiente vitae dolor ex fugiat, sed quae ea nemo nam
+quaerat. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+Deleniti, quia ipsam. Assumenda ipsam, asperiores dolores unde
+alias quas placeat sapiente vitae dolor ex fugiat, sed quae ea
 nemo nam quaerat.`.slice(0, 240) + "..."}
-            </p>
+
+            </p> 
           </div>
         </div>
         <div className="mt-4 flex justify-between items-center w-full ">
@@ -203,7 +212,8 @@ nemo nam quaerat.`.slice(0, 240) + "..."}
       {isModalOpen && (
         <ValidateAgreementModal
           fullname={"goodness kolapo"}
-          agreementId={agreement.second_party_valid_id}
+          agreementId={agreement.id}
+          agreementToken={agreement.access_token}
           onClose={() => setIsModalOpen(false)}
           // setFinalValidate={setFinalValidate}
         />

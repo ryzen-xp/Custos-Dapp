@@ -1,18 +1,22 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import { useContext, useEffect, useState } from "react";
 import useIdentityVerification from "@/utils/verification";
 import { GlobalStateContext } from "@/context/GlobalStateProvider";
+import { useRouter } from "next/navigation";
 
 const ValidateAgreementModal = ({
   fullname,
   agreementId,
+  agreementToken,
   onClose,
   // setFinalValidate,
 }) => {
   const { verifyIdentity, loading, result, error } = useIdentityVerification();
   const [isPending, setIsPending] = useState(true);
   const [currentStep, setCurrentStep] = useState(1); // State for tracking the current step
- const { globalState, setGlobalState } = useContext(GlobalStateContext);
+  const { globalState, setGlobalState } = useContext(GlobalStateContext);
+  const router = useRouter();
   useEffect(() => {
     const validateAgreement = async () => {
       await verifyIdentity(fullname, { agreementId });
@@ -79,7 +83,14 @@ const ValidateAgreementModal = ({
                     src="./FinalValidateButton.png"
                     alt="Validate Agreement"
                     onClick={() => {
-                      setGlobalState("show");
+                      // setGlobalState(agreementToken);
+                       if (agreementToken) {
+                         router.push(
+                           `/agreement/access_token/${agreementToken}`
+                         );
+                       } else {
+                         router.push(`/agreement/id/${agreementId}`);
+                       }
                       onClose();
                     }} // Move to next step on click
                   />
