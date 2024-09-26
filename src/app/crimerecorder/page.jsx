@@ -25,7 +25,7 @@ const Recorder = () => {
 
   return (
     <div className="min-h-screen w-full p-4 md:p-10">
-      <Header />
+      
       <div className="flex flex-col items-center md:mt-10 mt-4">
         {readData ? readData?.name() : "undefined"}
         {/* {writeData ? writeData?.crime_record("International", "0") : "0x0"} */}
