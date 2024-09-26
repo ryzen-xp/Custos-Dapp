@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import logo from "../../../../public/CustosLogo.png";
 import icon from "../../../../public/cameraicon.svg";
 import bg from "../../../../public/Rectangle.png";
-import { FaBars } from 'react-icons/fa'; // Importing the hamburger icon from React Icons
+import { FaBars, FaTimes } from 'react-icons/fa'; // Import both hamburger and X icons
 import Link from "next/link";
 import ConnectButtoncomponent from "@/components/connect";
 
@@ -21,9 +21,13 @@ export const Header = () => {
           <Image src={logo} alt="logo" width={232.7} height={22} />
         </Link>
   
-        {/* Hamburger icon using React Icons */}
+        {/* Hamburger or X icon using React Icons */}
         <button className="sm:hidden block" onClick={toggleMenu}>
-          <FaBars className="h-6 w-6 text-white" />
+          {menuOpen ? (
+            <FaTimes className="h-6 w-6 text-white" />  // X icon when menu is open
+          ) : (
+            <FaBars className="h-6 w-6 text-white" />  // Hamburger icon when menu is closed
+          )}
         </button>
   
         {/* Menu content hidden on mobile, visible on larger screens */}
@@ -62,5 +66,4 @@ export const Header = () => {
       </div>
     </div>
   );
-  
 };
