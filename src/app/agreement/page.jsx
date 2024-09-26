@@ -212,9 +212,11 @@ function AgreementList() {
           renderAgreements()
         )}
       </div>
+{/* 
+      <div className="w-full">
 
       <Modal
-        isOpen={showAgreementModal}
+        isOpen={true}
         onRequestClose={toggleSignModal}
         contentLabel="Sign Agreement Modal"
         className="modal-content bg-red-500"
@@ -225,6 +227,8 @@ function AgreementList() {
           toggleSignModal={toggleSignModal}
         />
       </Modal>
+
+      </div> */}
     </div>
   );
 }

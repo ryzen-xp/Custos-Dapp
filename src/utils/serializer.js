@@ -3,11 +3,11 @@ import {Buffer} from 'buffer'
 
 
 /**
- * Pads a given Ethereum address with leading zeros to ensure it is 64 characters long.
+ * Pads a given starknet address with leading zeros to ensure it is 64 characters long.
  *
  * @function padAddress
- * @param {string} address - The Ethereum address to pad.
- * @returns {string} The padded Ethereum address.
+ * @param {string} address - The starknet address to pad.
+ * @returns {string} The padded starknet address.
  *
  * @example
  * const address = '0x1234567890abcdef';

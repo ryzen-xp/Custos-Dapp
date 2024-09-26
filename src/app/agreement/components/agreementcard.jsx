@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import ValidateAgreementModal from "./validateAgreement";
+import SignAgreementModal from "./signagreementmodal";
 // import { format } from 'date-fns';
 
 export const AgreementCard = ({
@@ -70,14 +71,15 @@ export const AgreementCard = ({
   );
 };
 
+
 export const PendingAgreementCard = ({
   agreement,
   printAgreement,
   toggleSignModal,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [finalValidate, setFinalValidate] = useState("");
- 
+  const [isSignModalOpen, setIsSignModalOpen] = useState(false);
+  
   const router = useRouter();
   const formattedDate = format(
     new Date(agreement.created_at),
@@ -85,8 +87,6 @@ export const PendingAgreementCard = ({
   );
 
   const handleCardClick = () => {
-    // console.log(agreement.id);
-    
     if (agreement.access_token) {
       router.push(`/agreement/access_token/${agreement.access_token}`);
     } else {
@@ -108,6 +108,11 @@ export const PendingAgreementCard = ({
     setIsModalOpen(true);
   };
 
+  const handleSignClick = (e) => {
+    e.stopPropagation();
+    setIsSignModalOpen(true);
+  };
+
   return (
     <>
       <div
@@ -117,7 +122,6 @@ export const PendingAgreementCard = ({
         <div className="relative border-[#43b2ea38] overflow-clip flex flex-col gap-4 backdrop-blur-sm shadow-2xl border-[0.01px] rounded-lg p-2 items-start w-full">
           <div className="w-full flex justify-between">
             <h2 className="text-[16px] box w-fit flex text-wrap font-bold bg-gradient-to-r br  px-[16px] py-[8px] from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
-              <sh></sh>
               {agreement.agreementType}
             </h2>
             {agreement.access_token && (
@@ -132,36 +136,18 @@ export const PendingAgreementCard = ({
             )}
           </div>
           <div className="br w-fit overflow-hidden flex px-[16px] py-[8px] font-bold  text-[10px] text-[#f3f2f294] whitespace-nowrap overflow-ellipsis box">
-            <sh></sh>
             {`Second Party Address: ${agreement.second_party_address}`}
           </div>
           <div className="w-fit font-bold flex items-center justify-start text-center space-x-14 text-[0.7em] text-white">
             Time Stamp :
             <span className="text-center align-middle font-bold bg-gradient-to-r from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
-              &nbsp;
               {formattedDate}
             </span>
           </div>
           <div className="text-wrap w-fit text-white">
             <p className="max-h-[8em] overflow-hidden font-bold text-[0.7em]">
-              {agreement.content}
-              {`Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti,
-quia ipsam. Assumenda ipsam, asperiores dolores unde alias quas
-placeat sapiente vitae dolor ex m ipsum dolor sit amet consectetur adipisicing elit. Deleniti,
-quia ipsam. Assumenda ipsam, asperiores dolores unde alias quas
-placeat sapiente vitae dolor ex fugiat, sed quae ea nemo nam
-quaerat. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-Deleniti, quia ipsam. Assumenda ipsam, asperiores dolores unde
-alias quas placeat sapiente vitae dolor ex fugiat, sed quae ea
-ceat sapiente vitae dolor ex m ipsum dolor sit amet consectetur adipisicing elit. Deleniti,
-quia ipsam. Assumenda ipsam, asperiores dolores unde alias quas
-placeat sapiente vitae dolor ex fugiat, sed quae ea nemo nam
-quaerat. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-Deleniti, quia ipsam. Assumenda ipsam, asperiores dolores unde
-alias quas placeat sapiente vitae dolor ex fugiat, sed quae ea
-nemo nam quaerat.`.slice(0, 240) + "..."}
-
-            </p> 
+              {agreement.content.slice(0, 240) + "..."}
+            </p>
           </div>
         </div>
         <div className="mt-4 flex justify-between items-center w-full ">
@@ -171,7 +157,6 @@ nemo nam quaerat.`.slice(0, 240) + "..."}
               printAgreement(agreement);
             }}
           >
-            {/* Print Agreement */}
             <div className="button-transition">
               <img
                 src="./PrintAgreement.png"
@@ -180,6 +165,7 @@ nemo nam quaerat.`.slice(0, 240) + "..."}
               />
             </div>
           </button>
+
           {agreement.access_token ? (
             <button
               onClick={handleValidateClick}
@@ -192,42 +178,37 @@ nemo nam quaerat.`.slice(0, 240) + "..."}
             </button>
           ) : (
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleSignModal();
-              }}
-              disabled={!agreement.second_party_signature}
-              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient2 bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
+              onClick={handleSignClick}
+              disabled={agreement.second_party_signature}
+              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient  bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
                 !agreement.second_party_signature
-                  ? "cursor-not-allowed opacity-50"
-                  : ""
+                  ? ""
+                  : "cursor-not-allowed opacity-50"
               }`}
             >
               Sign Agreement
             </button>
           )}
         </div>
+      
       </div>
 
       {isModalOpen && (
         <ValidateAgreementModal
-          fullname={"goodness kolapo"}
+          fullname={agreement.second_party_fullname}
           agreementId={agreement.id}
           agreementToken={agreement.access_token}
           onClose={() => setIsModalOpen(false)}
-          // setFinalValidate={setFinalValidate}
         />
       )}
-      {/* {console.log(finalValidate)} */}
-      {/* {finalValidate === "show" ? (
-        <>
-        <div className="bg-black w-full z-20 h-screen absolute">
-        <p className="text-[55px] text-teal-50">xdede</p>
-        </div>
-        </>
-        ) : (
-          ""
-      )} */}
+
+      {isSignModalOpen && (
+        <SignAgreementModal
+          fullname={agreement.second_party_fullname}
+          agreementId={agreement.id}
+          onClose={() => setIsSignModalOpen(false)}
+        />
+      )}
     </>
   );
 };

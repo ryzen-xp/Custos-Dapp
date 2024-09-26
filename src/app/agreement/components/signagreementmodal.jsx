@@ -1,62 +1,112 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react/no-unescaped-entities */
 "use client";
-// import { useWriteToContract } from "@/utils/fetchcontract";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import useIdentityVerification from "@/utils/verification";
+import { GlobalStateContext } from "@/context/GlobalStateProvider";
+import { useRouter } from "next/navigation";
+import { Input } from "postcss";
 
-const SignAgreementModal = ({ agreementid }) => {
-  const [secondPartyValidId, setSecondPartyValidId] = useState("");
-  const [isPending, setIsPending] = useState(false);
+const SignAgreementModal = ({
+  fullname,
+  agreementId,
+  agreementToken,
+  onClose,
+  // setFinalValidate,
+}) => {
+  const { verifyIdentity, loading, result, error } = useIdentityVerification();
+  const [isPending, setIsPending] = useState(true);
+  const [currentStep, setCurrentStep] = useState(1); // State for tracking the current step
+  const { globalState, setGlobalState } = useContext(GlobalStateContext);
+  const router = useRouter();
+  useEffect(() => {
+    const validateAgreement = async () => {
+      await verifyIdentity(fullname, { agreementId });
+      setIsPending(false);
+    };
+    validateAgreement();
+  }, [fullname, agreementId]);
 
-//   const {
-//     sendTransaction,
-//     transaction,
-//     isPending,
-//     isLoading,
-//     error,
-//     data,
-//     isSuccess,
-//   } = useWriteToContract(
-//     "agreement",
-//     `function signAgreement(
-//         uint256 _agreementId,
-//         string memory _fullname,
-//         string memory _validId
-//     ) external`,
-//     [agreementid, secondPartyValidId]
-//   );
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // sendTransaction(transaction);
-    // isSuccess && console.log("Successfully signed");
+  // Function to handle continue button click
+  const handleContinue = () => {
+    setCurrentStep((prevStep) => prevStep + 1); // Go to the next step
   };
 
   return (
-    <div className="p-3 text-base space-y-[1em] flex flex-col bg-gradient-to-r border-gradient h-fit backdrop-blur-2xl from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent rounded-lg relative">
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-        <div className="mb-4">
-          <label
-            htmlFor="firstPartyValidId"
-            className="block text-sm font-medium text-[#c92eff]"
-          >
-            Signer&apos;s Valid ID
-          </label>
-          <input
-            type="text"
-            id="firstPartyValidId"
-            name="firstPartyValidId"
-            value={secondPartyValidId}
-            onChange={(e) => setSecondPartyValidId(e.target.value)}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#c92eff] text-[#090909] focus:border-[#c92eff] sm:text-sm p-3"
-          />
+    <div className="p-3 h-screen bg-[#00000095] w-full flex items-center justify-center text-white text-transparent rounded-lg absolute left-0 z-50 top-0">
+      {loading ? (
+        <div className="text-center">Loading...</div>
+      ) : error ? (
+        <div className="text-center text-red-500">Error: {error}</div>
+      ) : (
+        <div className="box w-[30%]">
+          <div className="bo p-4 h-fit rounded-[23px] validate-gradient flex flex-col gap-4">
+            <h3 className="text-lg font-bold mb-4">Verify Your Identity</h3>
+
+            {currentStep === 1 && (
+              <>
+                <strong>Country</strong>
+                <input type='text' className="py-2 text-[#9B9292] px-4  border border-[#ffffff46]  rounded-lg bg-transparent" />
+                  
+                <strong>Identity Type</strong>
+                <select type='text' className="py-2 text-[#9B9292] px-4  border border-[#ffffff46]  rounded-lg bg-transparent" >
+                  <options></options>
+                  </select>                  
+                <strong>Second Party's Wallet Address:</strong>
+                <input type='text' className="py-2 text-[#9B9292] px-4  border border-[#ffffff46]  rounded-lg bg-transparent" />
+                  
+              </>
+            )}
+
+            {currentStep === 2 && (
+              <>
+                <strong>Terms and Conditions</strong>
+                <textarea
+                  className="w-full p-4 text-[#9B9292] bg-transparent border border-[#ffffff46] rounded-lg"
+                  rows="6"
+                  readOnly
+                  value={`Sample Terms and Policy Content:\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt consectetur dolore aut ipsum pariatur nemo recusandae, a fugiat enim saepe magni iure maiores nihil beatae natus quia accusamus tenetur. Aliquam.`}
+                />
+              </>
+            )}
+            <div className="flex justify-between">
+              <div className="button-transition">
+                <img
+                  src="./cancleAgreement.png"
+                  alt="Cancel Agreement"
+                  onClick={onClose}
+                />
+              </div>
+              {currentStep === 2 ? (
+                <div className="button-transition">
+                  <img
+                    src="./FinalValidateButton.png"
+                    alt="Validate Agreement"
+                    onClick={() => {
+                      // setGlobalState(agreementToken);
+                       if (agreementToken) {
+                         router.push(
+                           `/agreement/access_token/${agreementToken}`
+                         );
+                       } else {
+                         router.push(`/agreement/id/${agreementId}`);
+                       }
+                      onClose();
+                    }} // Move to next step on click
+                  />
+                </div>
+              ) : (
+                <div className="button-transition">
+                  <img
+                    src="./ContinueAgreement.png"
+                    alt="Continue Agreement"
+                    onClick={handleContinue} // Move to next step on click
+                  />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-        <button
-          type="submit"
-          className="bg-[#c92eff] w-fit rounded-lg hover:bg-[#090909] text-white font-bold py-2 px-4 border-2 border-[#c92eff] font-san hover:border-[#c92eff] inline-flex justify-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c92eff]"
-        >
-          {isPending ? "Signing" : "Sign Agreement"}
-        </button>
-      </form>
+      )}
     </div>
   );
 };
