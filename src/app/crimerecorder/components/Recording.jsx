@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState, useRef , useCallback } from "re
 import bg from "../../../../public/Rectangle.png";
 import icon3 from "../../../../public/rotate.png";
 import Icons from "./Icons";
-import { provider, useWriteToContract } from "@/utils/fetchcontract";
+import { provider, UseWriteToContract } from "@/utils/fetchcontract";
 import { useRouter } from "next/navigation";
 import { NFTStorage } from "nft.storage";
 import { WalletContext, WalletProvider } from "@/components/walletprovider";
@@ -107,6 +107,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   }, [mediaStream]);
 
   const startCamera = async () => {
+    if (typeof window !== "undefined" && navigator?.mediaDevices) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: currentFacingMode },
@@ -119,6 +120,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       console.error('Error accessing the camera', error);
       alert('Error accessing the camera: ' + error.message);
     }
+  }
   };
 
   const stopCamera = () => {
@@ -233,7 +235,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       takePicture();
     }
 
-    const { result } = useWriteToContract("crime", "cover_crime", [uri]);
+    const { result } = UseWriteToContract("crime", "cover_crime", [uri]);
 
     // Check if the account is available
     if (!account) {
@@ -275,11 +277,16 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
 
   const route = useRouter();
 
-  navigator.mediaDevices.enumerateDevices().then(devices => {
-    devices.forEach(device => {
-      console.log(device.kind + ": " + device.label + " id = " + device.deviceId);
-    });
-  });
+ 
+  useEffect(() => {
+    if (typeof window !== "undefined" && navigator?.mediaDevices) {
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
+        devices.forEach((device) => {
+          console.log(device.kind + ": " + device.label + " id = " + device.deviceId);
+        });
+      });
+    }
+  }, []);
   
 
   return (
