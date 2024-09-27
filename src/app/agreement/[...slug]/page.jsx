@@ -23,7 +23,7 @@ const Page = ({ params }) => {
       setAccessToken(value || params.agreementAccessToken); // Set access token
       fetchAgreementByAccessToken(value);
     } else {
-      fetchAgreementById(key);
+      fetchAgreementById(value);
     }
   }, [key, value]);
 
