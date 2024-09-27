@@ -81,6 +81,9 @@ function AgreementList() {
     if (address) {
       FetchPendingAgreements();
     }
+    else{
+      setPendingAgreements(null);
+    }
   }, [address]);
 
   useEffect(() => {
@@ -126,7 +129,7 @@ function AgreementList() {
 
   const renderAgreements = () => {
     if (activeTab === "all") {
-      return agreements.length > 0 || pendingAgreements.length > 0 ? (
+      return agreements.length > 0 || pendingAgreements?.length > 0 ? (
         <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {pendingAgreements.map((agreement, index) => (
             <PendingAgreementCard
@@ -151,9 +154,20 @@ function AgreementList() {
     }
 
     if (activeTab === "pending") {
-      return pendingAgreements.length > 0 ? (
+      const filteredPendingAgreements = pendingAgreements?.filter((agreement) => {
+        if (agreement.first_party_address == address) {
+          console.log(agreement.second_party_address)
+          return agreement.second_party_signature !== null;
+        }
+        else if (agreement.second_party_address == address) {
+          return agreement.second_party_signature == null;
+        }
+        return false;
+      });
+    
+      return filteredPendingAgreements?.length > 0 ? (
         <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-          {pendingAgreements.map((agreement, index) => (
+          {filteredPendingAgreements.map((agreement, index) => (
             <PendingAgreementCard
               key={index}
               agreement={agreement}
@@ -166,12 +180,16 @@ function AgreementList() {
         <NoAgreementscreen />
       );
     }
-
+    
     if (activeTab === "signed") {
-      return agreements.length > 0 ? (
+      const signedAgreements = pendingAgreements?.filter(
+        (agreement) => agreement.second_party_signature !== null
+      );
+    
+      return signedAgreements?.length > 0 ? (
         <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {agreements.map((agreement, index) => (
-            <AgreementCard
+          {signedAgreements.map((agreement, index) => (
+            <PendingAgreementCard
               key={index}
               agreement={agreement}
               printAgreement={printAgreement}
@@ -183,6 +201,7 @@ function AgreementList() {
         <NoAgreementscreen />
       );
     }
+    
 
     if (activeTab === "validated") {
       // Add validation logic as needed

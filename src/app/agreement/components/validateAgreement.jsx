@@ -1,20 +1,22 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 import { useContext, useEffect, useState } from "react";
 import useIdentityVerification from "@/utils/verification";
 import { GlobalStateContext } from "@/context/GlobalStateProvider";
 import { useRouter } from "next/navigation";
+import { UseWriteToContract } from "@/utils/fetchcontract";
 
 const ValidateAgreementModal = ({
   fullname,
   agreementId,
   agreementToken,
   onClose,
-  // setFinalValidate,
+  agreement,
 }) => {
   const { verifyIdentity, loading, result, error } = useIdentityVerification();
   const [isPending, setIsPending] = useState(true);
-  const [currentStep, setCurrentStep] = useState(1); // State for tracking the current step
+  const [currentStep, setCurrentStep] = useState(1); 
   const { globalState, setGlobalState } = useContext(GlobalStateContext);
   const router = useRouter();
   useEffect(() => {
@@ -24,6 +26,28 @@ const ValidateAgreementModal = ({
     };
     validateAgreement();
   }, [fullname, agreementId]);
+
+  const handleValidate = async () => {
+    try {
+      const result = await UseWriteToContract("agreement", "createAgreement", [
+        agreement.content,
+        agreement.second_party_address,
+        agreement.first_party_valid_id,
+        agreement.second_party_valid_id,
+      ]);
+      console.log("result", result);
+      //   if (agreementToken) {
+      //     router.push(
+      //       `/agreement/access_token/${agreementToken}`
+      //     );
+      //   } else {
+      //     router.push(`/agreement/id/${agreementId}`);
+      //   }
+      //  onClose();
+    } catch (err) {
+      console.error("Contract interaction failed", err);
+    }
+  };
 
   // Function to handle continue button click
   const handleContinue = () => {
@@ -82,17 +106,7 @@ const ValidateAgreementModal = ({
                   <img
                     src="./FinalValidateButton.png"
                     alt="Validate Agreement"
-                    onClick={() => {
-                      // setGlobalState(agreementToken);
-                       if (agreementToken) {
-                         router.push(
-                           `/agreement/access_token/${agreementToken}`
-                         );
-                       } else {
-                         router.push(`/agreement/id/${agreementId}`);
-                       }
-                      onClose();
-                    }} // Move to next step on click
+                    onClick={handleValidate} // Move to next step on click
                   />
                 </div>
               ) : (
@@ -100,7 +114,7 @@ const ValidateAgreementModal = ({
                   <img
                     src="./ContinueAgreement.png"
                     alt="Continue Agreement"
-                    onClick={handleContinue} // Move to next step on click
+                    onClick={handleContinue}
                   />
                 </div>
               )}

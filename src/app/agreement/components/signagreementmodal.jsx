@@ -1,59 +1,160 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import { useContext, useEffect, useState } from "react";
-import useIdentityVerification from "@/utils/verification";
-import { GlobalStateContext } from "@/context/GlobalStateProvider";
+import { useContext, useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Input } from "postcss";
+import { GlobalStateContext } from "@/context/GlobalStateProvider";
+import SignaturePad from "react-signature-canvas";
+import useIdentityVerification from "@/utils/verification";
 
 const SignAgreementModal = ({
   fullname,
   agreementId,
   agreementToken,
   onClose,
-  // setFinalValidate,
 }) => {
   const { verifyIdentity, loading, result, error } = useIdentityVerification();
-  const [isPending, setIsPending] = useState(true);
-  const [currentStep, setCurrentStep] = useState(1); // State for tracking the current step
-  const { globalState, setGlobalState } = useContext(GlobalStateContext);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [signatureType, setSignatureType] = useState("");
+  const [idType, setIdType] = useState("");
+  const [country, setCountry] = useState("");
+  const [uploadedSignature, setUploadedSignature] = useState(null);
+  const [uploadedId, setUploadedId] = useState(null); // New state for uploaded ID
+  const signaturePadRef = useRef(null);
+  const { globalState } = useContext(GlobalStateContext);
   const router = useRouter();
-  useEffect(() => {
-    const validateAgreement = async () => {
-      await verifyIdentity(fullname, { agreementId });
-      setIsPending(false);
-    };
-    validateAgreement();
-  }, [fullname, agreementId]);
 
   // Function to handle continue button click
   const handleContinue = () => {
-    setCurrentStep((prevStep) => prevStep + 1); // Go to the next step
+    setCurrentStep((prevStep) => prevStep + 1); // Go to next step
   };
 
+  // Function to handle signature upload
+  const handleSignatureUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadedSignature(file); // Store the uploaded signature image
+    }
+  };
+
+  // Function to handle ID upload
+  const handleIdUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadedId(file); // Store the uploaded ID image
+    }
+  };
+
+// Function to convert base64 to a File object
+const base64ToFile = (base64String, fileName) => {
+  const arr = base64String.split(",");
+  const mime = arr[0].match(/:(.*?);/)[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], fileName, { type: mime });
+};
+
+
+const handleSignAgreement = async () => {
+  let signatureData = null;
+
+  
+  if (signatureType === "draw" && signaturePadRef.current) {
+    const base64Signature = signaturePadRef.current.toDataURL();
+    signatureData = base64ToFile(base64Signature, "signature.png"); 
+  }
+
+  if (signatureType === "upload" && uploadedSignature) {
+    signatureData = uploadedSignature; 
+  }
+
+  if (signatureData && uploadedId) {
+    const formData = new FormData();
+    formData.append("second_party_signature", signatureData);
+    formData.append("second_party_valid_id", uploadedId);
+    formData.append("second_party_id_type", idType);
+    formData.append("second_party_country", country);
+
+    await fetch(
+      `https://custosbackend.onrender.com/agreement/agreement/${agreementId}/sign/`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    onClose();
+  }
+};
+
+
   return (
-    <div className="p-3 h-screen bg-[#00000095] w-full flex items-center justify-center text-white text-transparent rounded-lg absolute left-0 z-50 top-0">
+    <div className="p-3 h-screen bg-[#00000095] w-full flex items-center justify-center text-white rounded-lg absolute left-0 z-50 top-0">
       {loading ? (
         <div className="text-center">Loading...</div>
       ) : error ? (
         <div className="text-center text-red-500">Error: {error}</div>
       ) : (
         <div className="box w-[30%]">
-          <div className="bo p-4 h-fit rounded-[23px] validate-gradient flex flex-col gap-4">
-            <h3 className="text-lg font-bold mb-4">Verify Your Identity</h3>
+          <div className="p-4 h-fit rounded-[23px] validate-gradient flex flex-col gap-4">
+            <h3 className="text-lg font-bold mb-4">Sign the Agreement</h3>
 
             {currentStep === 1 && (
               <>
                 <strong>Country</strong>
-                <input type='text' className="py-2 text-[#9B9292] px-4  border border-[#ffffff46]  rounded-lg bg-transparent" />
-                  
+                <input
+                  type="text"
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="py-2 text-[#9B9292] px-4 border border-[#ffffff46] rounded-lg bg-transparent"
+                />
                 <strong>Identity Type</strong>
-                <select type='text' className="py-2 text-[#9B9292] px-4  border border-[#ffffff46]  rounded-lg bg-transparent" >
-                  <options></options>
-                  </select>                  
-                <strong>Second Party's Wallet Address:</strong>
-                <input type='text' className="py-2 text-[#9B9292] px-4  border border-[#ffffff46]  rounded-lg bg-transparent" />
-                  
+                <select
+                  onChange={(e) => setIdType(e.target.value)}
+                  placeholder="Select ID Type"
+                  className="mt-1 w-full border-[#BEBDBD] px-2 py-3 rounded-md bg-transparent border shadow-sm text-[#9B9292] sm:text-sm"
+                >
+                  <option value="" className="bg-[#04080C] text-[#9B9292]">
+                    {" "}
+                    Select ID type{" "}
+                  </option>
+                  <option
+                    value="International Passport"
+                    className="bg-[#04080C] text-[#9B9292]"
+                  >
+                    {" "}
+                    International Passport{" "}
+                  </option>
+                  <option
+                    value="National Identification"
+                    className="bg-[#04080C] text-[#9B9292]"
+                  >
+                    {" "}
+                    National Identification{" "}
+                  </option>
+                  <option
+                    value="Work Id card"
+                    className="bg-[#04080C] text-[#9B9292]"
+                  >
+                    {" "}
+                    Work Identity{" "}
+                  </option>
+                </select>
+                <strong>Identity Number</strong>
+                <input
+                  type="text"
+                  placeholder="Enter Your Id number"
+                  className="py-2 text-[#9B9292] px-4 border border-[#ffffff46] rounded-lg bg-transparent"
+                />
+                <strong>Upload Id</strong>
+                <input
+                  type="file"
+                  onChange={handleIdUpload}
+                  className="py-2 px-4 border border-[#ffffff46] rounded-lg bg-transparent"
+                />{" "}
+                {/* Add onChange to capture uploaded ID */}
               </>
             )}
 
@@ -64,44 +165,66 @@ const SignAgreementModal = ({
                   className="w-full p-4 text-[#9B9292] bg-transparent border border-[#ffffff46] rounded-lg"
                   rows="6"
                   readOnly
-                  value={`Sample Terms and Policy Content:\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt consectetur dolore aut ipsum pariatur nemo recusandae, a fugiat enim saepe magni iure maiores nihil beatae natus quia accusamus tenetur. Aliquam.`}
+                  value="Sample terms and policy content..."
                 />
+
+                <strong>Signature Type</strong>
+                <select
+                  value={signatureType}
+                  onChange={(e) => setSignatureType(e.target.value)}
+                  className="mt-1 w-full border-[#BEBDBD] px-2 py-3 rounded-md bg-transparent border shadow-sm text-[#9B9292] sm:text-sm"
+                >
+                  <option value="">Select Signature Type</option>
+                  <option value="draw">Draw Signature</option>
+                  <option value="upload">Upload Signature</option>
+                </select>
+
+                {signatureType === "draw" && (
+                  <div className="signature-draw-container my-4 border border-[#ffffff46] rounded-lg p-4">
+                    <SignaturePad
+                      ref={signaturePadRef}
+                      canvasProps={{
+                        className: "signature-pad w-full h-32 bg-white",
+                      }}
+                    />
+                    <button
+                      className="text-red-500 mt-2"
+                      onClick={() => signaturePadRef.current.clear()}
+                    >
+                      Clear Signature
+                    </button>
+                  </div>
+                )}
+
+                {signatureType === "upload" && (
+                  <div className="upload-signature-container my-4">
+                    <input type="file" onChange={handleSignatureUpload} />
+                  </div>
+                )}
               </>
             )}
+
             <div className="flex justify-between">
-              <div className="button-transition">
-                <img
-                  src="./cancleAgreement.png"
-                  alt="Cancel Agreement"
-                  onClick={onClose}
-                />
-              </div>
+              <button
+                className="bg-gray-500 py-2 px-4 rounded"
+                onClick={onClose}
+              >
+                Cancel
+              </button>
               {currentStep === 2 ? (
-                <div className="button-transition">
-                  <img
-                    src="./FinalValidateButton.png"
-                    alt="Validate Agreement"
-                    onClick={() => {
-                      // setGlobalState(agreementToken);
-                       if (agreementToken) {
-                         router.push(
-                           `/agreement/access_token/${agreementToken}`
-                         );
-                       } else {
-                         router.push(`/agreement/id/${agreementId}`);
-                       }
-                      onClose();
-                    }} // Move to next step on click
-                  />
-                </div>
+                <button
+                  className="bg-blue-500 py-2 px-4 rounded"
+                  onClick={handleSignAgreement}
+                >
+                  Sign Agreement
+                </button>
               ) : (
-                <div className="button-transition">
-                  <img
-                    src="./ContinueAgreement.png"
-                    alt="Continue Agreement"
-                    onClick={handleContinue} // Move to next step on click
-                  />
-                </div>
+                <button
+                  className="bg-blue-500 py-2 px-4 rounded"
+                  onClick={handleContinue}
+                >
+                  Continue
+                </button>
               )}
             </div>
           </div>

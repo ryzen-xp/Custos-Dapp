@@ -22,13 +22,13 @@ const Page = ({ params }) => {
       setAccessToken(value || params.agreementAccessToken); // Set access token
       fetchAgreementByAccessToken(value);
     } else {
-      fetchAgreementById(key);
+      fetchAgreementById(value);
     }
   }, [key, value]);
 
   const fetchAgreementById = async (agreementId) => {
     try {
-      const response = await fetch(`/api/agreement/${agreementId}`);
+      const response = await fetch(`https://custosbackend.onrender.com/agreement/agreement/${agreementId}/`);
       if (response.ok) {
         const data = await response.json();
         setAgreement(data);

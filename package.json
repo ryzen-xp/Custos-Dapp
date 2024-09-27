@@ -29,6 +29,7 @@
     "react-markdown": "^9.0.1",
     "react-modal": "^3.16.1",
     "react-query": "^3.39.3",
+    "react-signature-canvas": "^1.0.6",
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
     "starknet": "^6.12.1",
