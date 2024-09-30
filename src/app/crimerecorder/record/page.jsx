@@ -9,6 +9,7 @@ import { UseReadContractData } from "../../../utils/fetchcontract";
 import { Contract, RpcProvider } from "starknet";
 import { WalletContext } from "@/components/walletprovider";
 import Record from "../components/Record";
+import Header from "@/components/dapps/header";
 
 const Recorder = () => {
   const text = {
@@ -22,10 +23,10 @@ const Recorder = () => {
   } = UseReadContractData("crime", "name", []);
 
   console.log(readData);
-
+ 
   return (
     <div className="min-h-screen w-full p-4 md:p-10">
-      
+     
       <div className="flex flex-col items-center md:mt-10 mt-4">
         {readData ? readData?.name() : "undefined"}
         {/* {writeData ? writeData?.crime_record("International", "0") : "0x0"} */}

@@ -1,57 +1,64 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 const Sidepane = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Toggle sidebar
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <div className="bg-gradient-to-r from-[#04080C] flex items-center gap-[8em] flex-col to-[#09131A] h-screen w-full p-8">
-      <div className="w-full">
-        <a href="/" className="w-auto">
-          <Image src="/logo.png" alt="logo" width={232.7} height={22} />
-        </a>
+    <div className="relative h-screen w-full">
+      {/* Toggle button for mobile */}
+      <button
+        className="md:hidden fixed top-4 left-4 z-50 text-white"
+        onClick={toggleSidebar}
+      >
+        {isOpen ? <FaTimes size={30} /> : <FaBars size={30} />}
+      </button>
+
+      {/* Sidebar */}
+      <div
+        className={`${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } bg-gradient-to-r from-[#04080C] to-[#09131A] fixed top-0 left-0 h-full w-[250px] md:w-[300px] p-8 flex flex-col items-center gap-16 transition-transform duration-300 ease-in-out z-40`}
+      >
+        {/* Logo */}
+        <div className="w-full">
+          <a href="/" className="w-auto">
+            <Image src="/logo.png" alt="logo" width={232.7} height={22} />
+          </a>
+        </div>
+
+        {/* Navigation Links */}
+        <div className="section2 flex flex-col gap-16 w-full p-2">
+          <Link href={`/crimerecorder`} className="text-[#EAFBFF]">
+            <div className="flex gap-4 w-full items-center">
+              <p className="text-[1.3em] text-[#EAFBFF]">Videos</p>
+              <Image src="/cameraicon.svg" alt="icon" width={25} height={20} />
+            </div>
+          </Link>
+          <Link href={`/agreement/create`} className="text-[#EAFBFF]">
+            <div className="flex gap-4 w-full items-center">
+              <p className="text-[1.3em] text-[#EAFBFF]">Agreement</p>
+              <Image src="/Plus.svg" alt="icon" width={25} height={20} />
+            </div>
+          </Link>
+        </div>
       </div>
-       
 
-      <div className="section2 flex flex-col gap-16 m-aut w-full p-2">
-        <Link href={`/crimerecorder`} className="text-[#EAFBFF]">
-          <div className="section2 flex gap-4 m-auto w-full items-center">
-            <p className="text-[1.3em] text-[#EAFBFF]">Videos</p>
-            <Image src="/cameraicon.svg" alt="icon" width={25} height={20} />
-          </div>
-        </Link>
-        <Link href={`/agreement/create`} className="text-[#EAFBFF]">
-          <div className="section2 flex gap-4 m-auto w-full justify-start items-center">
-            <p className="text-[1.3em] text-[#EAFBFF]">Agreement</p>
-            <Image src="/Plus.svg" alt="icon" width={25} height={20} />
-          </div>
-        </Link>
-        {/* <Link href={`/agreement/`} className="text-[#EAFBFF]">
-          <div className="section2 flex gap-4 m-auto w-full p-2 items-center">
-            <p className="text-[1.3em] text-[#EAFBFF]">Agreement</p>
-            <Image src="/Plus.svg" alt="icon" width={25} height={20} />
-          </div>
-        </Link> */}
+      {/* Main content */}
+      <div
+        className={`ml-0 md:ml-[300px] transition-all duration-300 ease-in-out ${
+          isOpen ? "blur-sm" : ""
+        }`}
+      >
+        {/* Rest of the content */}
       </div>
-
-      {/* <div className="section2 flex flex-col gap-16 m-auto w-full p-2">
-        <button className="bg-[#0094FF] rounded-full p-[0.6px]">
-          <span className="flex justify-between items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#04080C]  to-[#09131A] shadow-[#A02294_2px_1px_2px_0.2px] rounded-[1.5em] w-full">
-            <Link href={`/crimerecorder/video`} className="text-[#EAFBFF]">
-              Record a Video
-            </Link>
-            <Image src="/cameraicon.svg" alt="logo" width={24} height={24} />
-          </span>
-        </button>
-
-        <button className="bg-[#0094FF] rounded-full p-[0.6px]">
-          <span className="flex justify-between items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#04080C]  to-[#09131A] shadow-[#A02294_2px_1px_2px_0.2px] rounded-[1.5em] w-full">
-            <Link href={`/agreement/create`} className="text-[#EAFBFF]">
-              Create Agreement
-            </Link>
-            <Image src="/Plus.svg" alt="logo" width={24} height={24} />
-          </span>
-        </button>
-      </div> */}
     </div>
   );
 };
