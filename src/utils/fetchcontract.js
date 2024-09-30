@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { WalletContext } from "@/components/walletprovider";
 
 export const provider = new RpcProvider({
-  nodeUrl: "https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_7/57FdUR7-uJBlEowYnrUIn6yR_eIA4deP",
+  nodeUrl: process.env.NEXT_SEPOLIA_BASE_URL,
 });
 
 const contractConfigs = {
@@ -67,12 +67,7 @@ export const UseReadContractData = (contractName, methodName, params = []) => {
 };
 
 // Hook to write data to a contract
-export const UseWriteToContract = (
-  contractName,
-  methodName,
-  params = []
-  // account
-) => {
+export const UseWriteToContract = (contractName, methodName, params = []) => {
   let account = useContext(WalletContext);
   console.log(account);
 

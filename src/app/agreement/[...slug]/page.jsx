@@ -1,10 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 import Slugnav from "../components/slugnav";
 import { format } from "date-fns";
 import Image from "next/image";
 import Modal from "react-modal";
-import ReactMarkdown from "react-markdown";
+import {createRoot} from 'react-dom/client'
+import Markdown from 'react-markdown'
 
 const Page = ({ params }) => {
   const [agreement, setAgreement] = useState(null);
@@ -23,13 +25,13 @@ const Page = ({ params }) => {
       setAccessToken(value || params.agreementAccessToken); // Set access token
       fetchAgreementByAccessToken(value);
     } else {
-      fetchAgreementById(key);
+      fetchAgreementById(value);
     }
   }, [key, value]);
 
   const fetchAgreementById = async (agreementId) => {
     try {
-      const response = await fetch(`/api/agreement/${agreementId}`);
+      const response = await fetch(`https://custosbackend.onrender.com/agreement/agreement/${agreementId}/`);
       if (response.ok) {
         const data = await response.json();
         setAgreement(data);
@@ -190,8 +192,7 @@ const Page = ({ params }) => {
         <div className="space-y-2" ref={contentRef}>
           {/* <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}> */}
           <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
-            <strong>ID:</strong> <span>{agreement.id}</span>
-            {/* contentEditable={isFirstPersonEditorOpen} */}
+            <strong>Agreement ID:</strong> {agreement.agreement_id || "N/A"}
           </div>
           <div className="flex gap-2">
             <strong>Content:</strong>{" "}
@@ -203,14 +204,8 @@ const Page = ({ params }) => {
                 isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md " : ""
               }`}
             >
-              {/* {agreement.content} */}
-              Sample Terms and Policy Content:\n\nLorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-              labore et dolore magna aliqua. Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Nesciunt consectetur dolore aut
-              ipsum pariatur nemo recusandae, a fugiat enim saepe magni iure
-              maiores nihil beatae natus quia accusamus tenetur. Aliquam.
-            </p>
+              {agreement.content}
+              </p>
           </div>
           <div className="flex gap-2">
             <strong>Email:</strong>{" "}
@@ -224,22 +219,17 @@ const Page = ({ params }) => {
               {agreement.email || "N/A"}
             </p>
           </div>
-          <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
-            <strong>Access Token:</strong> {agreement.access_token}
-          </div>
-          <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
-            <strong>Agreement ID:</strong> {agreement.agreement_id || "N/A"}
-          </div>
+      
+       
           <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
             <strong>First Party Address:</strong>{" "}
             {agreement.first_party_address}
           </div>
           <div className={`${isFirstPersonEditorOpen ? "hidden" : "block"}`}>
             <strong>First Party Valid ID:</strong>{" "}
-            {agreement.first_party_valid_id || "N/A"}
             <img
               src={
-                "https://www.shutterstock.com/shutterstock/photos/1884767680/display_1500/stock-vector-no-image-icon-vector-no-available-picture-symbol-suitable-for-user-interface-element-isolated-on-1884767680.jpg"
+               agreement.first_party_valid_id
               }
               alt="id"
               className="w-[6em] h-[6em]"
@@ -272,15 +262,18 @@ const Page = ({ params }) => {
           </div>
           <div className="flex gap-2">
             <strong>First Party Signature:</strong>{" "}
-            <p
+            <img
               id="FirstPartyIdType"
               contentEditable={isFirstPersonEditorOpen}
               className={`${
                 isFirstPersonEditorOpen ? "px-2 py-1 border rounded-md" : ""
               }`}
-            >
-              {agreement.first_party_signature || "N/A"}
-            </p>
+              alt="sig"
+              src={
+               agreement.first_party_signature
+              }
+            />
+            
           </div>
           {/* </div> */}
 
@@ -315,7 +308,7 @@ const Page = ({ params }) => {
       </div>
 
       {/* Modal for editing agreement */}
-      {/* <Modal
+      <Modal
         isOpen={isFirstPersonEditorOpen}
         onRequestClose={() => setIsFirstPersonEditorOpen(false)}
         className="modal"
@@ -344,7 +337,7 @@ const Page = ({ params }) => {
             </button>
           </div>
         </div>
-      </Modal> */}
+      </Modal>
     </div>
   );
 };

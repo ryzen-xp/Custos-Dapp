@@ -169,9 +169,9 @@ export const PendingAgreementCard = ({
           {agreement.access_token ? (
             <button
               onClick={handleValidateClick}
-              // disabled={!agreement.second_party_signature}
-              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient2 bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
-                !agreement.second_party_signature ? " opacity-50" : ""
+              disabled={!agreement.second_party_signature}
+              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
+                !agreement.second_party_signature ? " opacity-50 cursor-not-allowed" : ""
               }`}
             >
               Validate Agreement
@@ -179,8 +179,8 @@ export const PendingAgreementCard = ({
           ) : (
             <button
               onClick={handleSignClick}
-              disabled={agreement.second_party_signature}
-              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient  bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
+              disabled={agreement.second_party_signature != null || undefined}
+              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
                 !agreement.second_party_signature
                   ? ""
                   : "cursor-not-allowed opacity-50"
@@ -199,6 +199,7 @@ export const PendingAgreementCard = ({
           agreementId={agreement.id}
           agreementToken={agreement.access_token}
           onClose={() => setIsModalOpen(false)}
+          agreement={agreement}
         />
       )}
 
