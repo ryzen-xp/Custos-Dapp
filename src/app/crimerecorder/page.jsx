@@ -19,4 +19,4 @@ const Recorder = () => {
   );
 }
 
-export default NoRecordingScreen ;
+export default Recorder ;

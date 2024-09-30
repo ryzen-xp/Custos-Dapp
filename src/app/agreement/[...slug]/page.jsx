@@ -5,7 +5,8 @@ import Slugnav from "../components/slugnav";
 import { format } from "date-fns";
 import Image from "next/image";
 import Modal from "react-modal";
-import ReactMarkdown from "react-markdown";
+import {createRoot} from 'react-dom/client'
+import Markdown from 'react-markdown'
 
 const Page = ({ params }) => {
   const [agreement, setAgreement] = useState(null);
@@ -307,7 +308,7 @@ const Page = ({ params }) => {
       </div>
 
       {/* Modal for editing agreement */}
-      {/* <Modal
+      <Modal
         isOpen={isFirstPersonEditorOpen}
         onRequestClose={() => setIsFirstPersonEditorOpen(false)}
         className="modal"
@@ -336,7 +337,7 @@ const Page = ({ params }) => {
             </button>
           </div>
         </div>
-      </Modal> */}
+      </Modal>
     </div>
   );
 };

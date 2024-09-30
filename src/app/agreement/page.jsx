@@ -24,17 +24,7 @@ function AgreementList() {
 
   const [activeTab, setActiveTab] = useState("all");
 
-  
-  // const provider = new RpcProvider({
-  //   nodeUrl: "https://free-rpc.nethermind.io/sepolia-juno/v0_7",
-  // });
-  // const readData = new Contract(
-  //   agreementAbi,
-  //   "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
-  //   provider
-  // );
-  
-  // console.log(getOnchainAgreement)
+
   
   // const getOnchainAgreement = UseReadContractData("agreement", "getUserAgreements", []);
   useEffect(() => {
