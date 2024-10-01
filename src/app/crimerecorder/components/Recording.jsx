@@ -1,33 +1,21 @@
 "use client";
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import bg from "../../../../public/Rectangle.png";
 import icon3 from "../../../../public/rotate.png";
 import Icons from "./Icons";
 import { useRouter } from "next/navigation";
 import { WalletContext } from "@/components/walletprovider";
-import { provider } from "../../../utils/fetchcontract";
-import abi from "../../../utils/coverCrimeAbi";
 import {
   executeCalls,
   fetchAccountCompatibility,
   fetchAccountsRewards,
   fetchGasTokenPrices,
-  GasTokenPrice,
-  getGasFeesInGasToken,
   SEPOLIA_BASE_URL,
 } from "@avnu/gasless-sdk";
-import { Contract } from "starknet";
-import { hash, byteArray, CallData } from "starknet";
-import { Log } from "ethers";
+import { byteArray, CallData } from "starknet";
 
-const NFT_STORAGE_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZGNiMzgxZS1iNDYxLTQ0ODAtYWQ5Zi0wZTAxN2QwMjgwMWYiLCJlbWFpbCI6ImplcnlkYW4xNDhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjYyOTg0ZTY1NTY4ZGUxYjk5MDNiIiwic2NvcGVkS2V5U2VjcmV0IjoiMjdlMjg1YTA0MmVlOGMyMTQ5MzQ1ZjA1ZjhlYTYyMzRkM2I2MWZiYjU3M2ZmNzIxMzU1OWMwNGIxOGE3NzJhYSIsImlhdCI6MTcyNDE2MzU3Mn0.2PAyS8Y_NX17idFPsk6-_b0kg5vGfr0TOlqla49iNKA";
+const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
+
 export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const options = { baseUrl: SEPOLIA_BASE_URL };
   console.log(
@@ -309,28 +297,18 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       stopRecording();
     }
 
-    const contract = new Contract(
-      abi,
-      "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
-      account
-    );
-
     // Execute the transaction with gasless option
     try {
       const transactionResponse = await executeCalls(
         account,
         JSON.parse(call),
         {},
-        { ...options, apiKey: "35106557-8d70-496d-8cba-10c9eb8293d0" }
+        { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
       );
       console.log("Transaction successful:", transactionResponse);
     } catch (error) {
       console.error("Transaction failed:", error);
     }
-
-    console.log(call);
-    console.log(calls);
-    // return transactionResponse;
   };
 
   useEffect(() => {
