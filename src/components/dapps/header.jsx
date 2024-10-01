@@ -1,26 +1,37 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import Link from "next/link";
+import { FaBars, FaTimes } from "react-icons/fa";
 import ConnectButtoncomponent from "@/components/connect";
-import Button from "@/components/Button";
 
-export const Header = () => {
+export const Header = ({ onToggle }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
+  const toggleMenu = () => {
+    const newState = !isOpen;
+    setIsOpen(newState);
+    onToggle(newState); // Pass the new state to parent
+  };
+
   return (
-    <div className=" flex w-full">
-      {/* Navbar Top Section */}
-      <div className="flex items-center justify-between w-fit m-auto ">
-        {/* Search Input with Icon */}
-        <div className="relative w-fit justify-end align-middle items-end m-auto ">
+    <div className="flex flex-col sm:flex-row justify-between items-center w-full backdrop-filter backdrop-blur-[10px] bg-[#ffffff0a] p-2">
+      {/* Logo on the left */}
+      <div className="flex items-center flex-grow mb-2 sm:mb-0">
+        <a href="/"><Image src="/logo.png" alt="Logo" width={100} height={40} /></a>
+      </div>
+
+      {/* Main Header Content */}
+      <div className="flex items-center justify-between flex-grow w-full">
+        {/* Search Input */}
+        <div className="relative w-full sm:w-fit justify-end items-end m-auto mb-4 sm:mb-0">
           <input
             type="search"
             placeholder="Search"
-            className="w-full pl-10  py-4 bg-[#3A3A3A] border rounded-[2em] focus:outline-none 
+            className="w-full pl-10 py-4 bg-[#3A3A3A] border rounded-[2em] focus:outline-none 
                        text-transparent bg-clip-text"
             style={{
               backgroundImage: "linear-gradient(to right, #EAF9FF, #8E9A9A)",
@@ -34,7 +45,7 @@ export const Header = () => {
         </div>
 
         {/* Dark Mode Toggle */}
-        {/* <div className="flex items-baseline gap-4">
+        <div className="flex items-center gap-4 sm:ml-4">
           <div onClick={toggleDarkMode} className="cursor-pointer">
             {darkMode ? (
               <Image src="/lightmode.svg" alt="Light Mode" width={30} height={20} />
@@ -43,22 +54,20 @@ export const Header = () => {
             )}
           </div>
 
-          
+          {/* Notification Icon */}
           <div className="cursor-pointer">
             <Image src="/bell.svg" alt="Notifications" width={30} height={20} />
           </div>
-        </div> */}
-
-
-
+        </div>
       </div>
 
-      {/* Navbar Bottom Section */}
-      <div className="w-fit align-baseline items-baseline mr-3 flex pt-3 justify-end ">
-        
+      {/* Collapse Menu Toggle and Connect Wallet Button on the right */}
+      <div className="flex items-center gap-4 sm:ml-auto">
+        {/* Show Connect Button only when the menu is open */}
+         <ConnectButtoncomponent />
 
-        {/* Connect Wallet Button */}
-        <ConnectButtoncomponent />
+        {/* Toggle Button for Mobile */}
+        
       </div>
     </div>
   );
