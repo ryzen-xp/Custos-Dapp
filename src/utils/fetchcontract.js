@@ -67,43 +67,37 @@ export const UseReadContractData = (contractName, methodName, params = []) => {
 };
 
 // Hook to write data to a contract
-export const UseWriteToContract = (contractName, methodName, params = []) => {
-  let account = useContext(WalletContext);
-  console.log(account);
+export const UseWriteToContract = () => {
+  const account = useContext(WalletContext);
 
-  const fetchData = async () => {
+  const writeToContract = async (contractName, methodName, params = []) => {
     try {
-      const contractConfig = contractConfigs[contractName];
-      if (!contractConfig) {
-        throw new Error(
-          `Contract "${contractName}" not found in configurations.`
-        );
+      if (!account || !account.account) {
+        throw new Error("Wallet not connected");
       }
 
-      // console.log('called', contractConfig)
+      const contractConfig = contractConfigs[contractName];
+      if (!contractConfig) {
+        throw new Error(`Contract "${contractName}" not found in configurations.`);
+      }
+
       const contract = new Contract(
         contractConfig.abi,
         contractConfig.address,
-        account
+        account.account
       );
 
-      // console.log('calling result')
-      const result =
-        params.length > 0
-          ? await contract[methodName](...params)
-          : await contract[methodName]();
+      const result = params.length > 0
+        ? await contract[methodName](...params)
+        : await contract[methodName]();
+
       console.log("result", result);
-      // setData(result);
+      return result;
     } catch (err) {
-      // setError(err);
-      console.log(err);
-    } finally {
-      // setLoading(false);
+      console.error("Contract interaction failed", err);
+      throw err;
     }
   };
 
-  const result = fetchData();
-  // }, [contractName, methodName, params]);
-
-  return result;
+  return { writeToContract };
 };

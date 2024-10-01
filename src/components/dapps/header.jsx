@@ -20,7 +20,7 @@ export const Header = ({ onToggle }) => {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center w-full p-2">
       {/* Logo on the left */}
-      <div className="flex items-center sm:hidden flex-grow mb-2 sm:mb-0">
+      <div className="flex items-center md:hidden flex-grow mb-2 sm:mb-0">
         <a href="/"><Image src="/logo.png" alt="Logo" width={300} height={300} /></a>
       </div>
 
@@ -31,7 +31,7 @@ export const Header = ({ onToggle }) => {
           <input
             type="search"
             placeholder="Search"
-            className="w-full pl-10 py-4 bg-[#3A3A3A] hidden border rounded-[2em] md:block focus:outline-none 
+            className="w-full pl-10 py-2 bg-[#3A3A3A] hidden border rounded-[2em] md:block focus:outline-none 
                        text-transparent bg-clip-text"
             style={{
               backgroundImage: "linear-gradient(to right, #EAF9FF, #8E9A9A)",
@@ -45,7 +45,7 @@ export const Header = ({ onToggle }) => {
         </div>
 
         {/* Dark Mode Toggle */}
-        <div className="flex items-center gap-4 sm:ml-4">
+        <div className="flex items-end justify-end gap-4 sm:ml-4  ">
           {/* <div onClick={toggleDarkMode} className="cursor-pointer">
             {darkMode ? (
               <Image src="/lightmode.svg" alt="Light Mode" width={30} height={20} />
@@ -55,14 +55,14 @@ export const Header = ({ onToggle }) => {
           </div> */}
 
           {/* Notification Icon */}
-          <div className="cursor-pointer">
+          <div className="cursor-pointer hidden md:block">
             <Image src="/bell.svg" alt="Notifications" width={30} height={20} />
           </div>
         </div>
       </div>
 
       {/* Collapse Menu Toggle and Connect Wallet Button on the right */}
-      <div className="md:flex  hidden items-center gap-4 sm:ml-auto">
+      <div className="md:flex w-fit hidden items-center sm:ml-4">
         {/* Show Connect Button only when the menu is open */}
          <ConnectButtoncomponent />
 

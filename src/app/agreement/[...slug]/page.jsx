@@ -227,7 +227,7 @@ const Page = ({ params }) => {
                 </select>
               </>
             ) : (
-              <div className="bg-[#091219] p-4 rounded-lg">
+              <div className=" p-4 rounded-lg">
                 {renderContent(agreement.content)}
               </div>
             )}
