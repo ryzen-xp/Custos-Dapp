@@ -24,7 +24,7 @@ const Sidepane = () => {
       {/* Sidebar */}
       <div
         className={`${
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         } bg-gradient-to-r from-[#04080C] to-[#09131A] fixed top-0 left-0 h-full w-[250px] md:w-[300px] p-8 flex flex-col items-center gap-16 transition-transform duration-300 ease-in-out z-40`}
       >
         {/* Logo */}

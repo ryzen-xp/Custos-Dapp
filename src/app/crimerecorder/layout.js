@@ -23,22 +23,17 @@ export default function RootLayout({ children }) {
       <div className="flex-1 min-h-screen flex flex-col">
         {/* Fixed Header */}
         <div className="fixed left-0 right-0 z-10">
-          <Header  />
+          <Header />
         </div>
 
         {/* Main Content */}
         <div
-          className={`flex flex-col w-full transition-all mt-40 duration-300 ${
-            headerOpen ? "pt-40" : "pt-16"
+          className={`flex flex-col w-full transition-all mt-40 md:my-5 duration-300 ${
+            headerOpen ? "pt-40" : "pt-16 md:pt-0"
           }`} // Adjust padding-top dynamically based on header state
         >
-          <div className="w-full px-8 flex flex-col">
-            {children}
-          </div>
+          <div className="w-full px-8 flex flex-col">{children}</div>
         </div>
-
-        {/* Optional Footer */}
-        <Footer />
       </div>
     </div>
   );

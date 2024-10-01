@@ -9,7 +9,7 @@ import {
   FaPhone,
 } from "react-icons/fa";
 
-export default function ShowLaunchDapps({closeModal}) {  
+export default function ShowLaunchDapps({ closeModal }) {
   return (
     <>
       <div className="sm:fixed fixed p-4  inset-0 h-[100vh] z-50 flex items-center justify-center w-full bg-[#00000098] bg-opacity-90 ">
@@ -54,7 +54,7 @@ export default function ShowLaunchDapps({closeModal}) {
             </a>
 
             <a
-              href="/crimerecorder"
+              href="/crimerecorder/recorder"
               className="text-white mb-4 z-[100] hover:bg-[#015A9B] sm:p-4 rounded-lg cursor-pointer"
             >
               <p className="flex items-center text-xl font-semibold text-white">

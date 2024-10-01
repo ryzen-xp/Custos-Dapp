@@ -23,21 +23,25 @@ import {
   SEPOLIA_BASE_URL,
 } from "@avnu/gasless-sdk";
 import { Contract } from "starknet";
+import { hash, byteArray, CallData } from "starknet";
+import { Log } from "ethers";
 
-const NFT_STORAGE_TOKEN = process.env.NFT_STORAGE_TOKEN;
+const NFT_STORAGE_TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZGNiMzgxZS1iNDYxLTQ0ODAtYWQ5Zi0wZTAxN2QwMjgwMWYiLCJlbWFpbCI6ImplcnlkYW4xNDhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjYyOTg0ZTY1NTY4ZGUxYjk5MDNiIiwic2NvcGVkS2V5U2VjcmV0IjoiMjdlMjg1YTA0MmVlOGMyMTQ5MzQ1ZjA1ZjhlYTYyMzRkM2I2MWZiYjU3M2ZmNzIxMzU1OWMwNGIxOGE3NzJhYSIsImlhdCI6MTcyNDE2MzU3Mn0.2PAyS8Y_NX17idFPsk6-_b0kg5vGfr0TOlqla49iNKA";
 export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const options = { baseUrl: SEPOLIA_BASE_URL };
-
+  console.log(
+    CallData.compile(byteArray?.byteArrayFromString(String(uri))).toString()
+  );
   const calls = [
     {
       entrypoint: "crime_record",
       contractAddress:
         "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
-      calldata: [
-        "0x0498E484Da80A8895c77DcaD5362aE483758050F22a92aF29A385459b0365BFE",
-        "0xf",
-        "0x0",
-      ],
+      calldata: CallData.compile([
+        byteArray?.byteArrayFromString(String(uri)),
+        0,
+      ]),
     },
   ];
 
@@ -74,46 +78,10 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
     fetchGasTokenPrices({ baseUrl: SEPOLIA_BASE_URL }).then(setGasTokenPrices);
   }, []);
 
-  const estimateCalls = useCallback(
-    async (account, calls) => {
-      const contractVersion = await provider.getContractVersion(
-        account.address
-      );
-      const nonce = await provider.getNonceForAddress(account.address);
-      const details = stark.v3Details({ skipValidate: true });
-      const invocation = {
-        ...details,
-        contractAddress: account.address,
-        calldata: transaction.getExecuteCalldata(calls, contractVersion.cairo),
-        signature: [],
-      };
-      return provider.getInvokeEstimateFee(
-        { ...invocation },
-        { ...details, nonce },
-        "pending",
-        true
-      );
-    },
-    [provider]
-  );
-
   useEffect(() => {
     if (!account || !gasTokenPrice || !gaslessCompatibility) return;
     setErrorMessage(undefined);
-
-    // Add your specific transaction calls here.
-    estimateCalls(account, JSON.parse(calls)).then((fees) => {
-      const estimatedGasFeesInGasToken = getGasFeesInGasToken(
-        BigInt(fees.overall_fee),
-        gasTokenPrice,
-        BigInt(fees.gas_price || null),
-        BigInt(fees.data_gas_price ?? "0x1"),
-        gaslessCompatibility.gasConsumedOverhead,
-        gaslessCompatibility.dataGasConsumedOverhead
-      );
-      setMaxGasTokenAmount(estimatedGasFeesInGasToken * BigInt(2));
-    });
-  }, [account, gasTokenPrice, gaslessCompatibility, estimateCalls]);
+  }, [account, gasTokenPrice, gaslessCompatibility]);
 
   const otherRecorder = (selectedMedia) => {
     return selectedMedia === "vid" ? "aud" : "vid";
@@ -347,28 +315,21 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       account
     );
 
-    // const call = contract.populate("crime_record", [["uri"], ["hhffffj"]]);
-
-    // const b = byteArrayFromString(uri);
-    // const result = await contract.crime_record(b);
-    // console.log(result);
-    // await provider.waitForTransaction(result.transaction_hash);
-
     // Execute the transaction with gasless option
     try {
       const transactionResponse = await executeCalls(
         account,
         JSON.parse(call),
-        // { gasTokenAddress: gasTokenPrice?.tokenAddress, maxGasTokenAmount },
         {},
-        options
+        { ...options, apiKey: "35106557-8d70-496d-8cba-10c9eb8293d0" }
       );
       console.log("Transaction successful:", transactionResponse);
     } catch (error) {
       console.error("Transaction failed:", error);
     }
 
-    // console.log(transactionResponse);
+    console.log(call);
+    console.log(calls);
     // return transactionResponse;
   };
 
@@ -395,9 +356,9 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col mt-10 items-center gap-6 ">
+    <div className="w-full flex flex-col mt-10 items-center gap-6">
       <p className="text-white text-xl">{text}</p>
-      <div className="bg-gradient-to-r from-[#0094ff] to-[#A02294] w-[50%] p-[1px] rounded-xl">
+      <div className="bg-gradient-to-r from-[#0094ff] to-[#A02294] w-[50%] p-[1px] rounded-xl md:mb-5">
         <div
           className="w-full h-full flex flex-col justify-center items-center rounded-xl p-10"
           style={{

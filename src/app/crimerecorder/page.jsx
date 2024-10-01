@@ -11,12 +11,11 @@ const Recorder = () => {
 
   return (
     <div className="min-h-screen w-full p-4 md:p-10">
-      <Header />
       <div className="flex flex-col items-center md:mt-10 mt-4">
         <Record text={text.text1} icon1={icon1} icon2={icon2} />
       </div>
     </div>
   );
-}
+};
 
-export default Recorder ;
+export default Recorder;
