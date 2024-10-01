@@ -12,7 +12,7 @@ export const Header = () => {
   };
 
   return (
-    <div className=" flex  backdrop-filter backdrop-blur-[10px] w-full bg-[#ffffff0a] ">
+    <div className=" flex w-full">
       {/* Navbar Top Section */}
       <div className="flex items-center justify-between w-fit m-auto ">
         {/* Search Input with Icon */}
