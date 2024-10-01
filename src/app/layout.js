@@ -8,7 +8,7 @@ import { WalletProvider } from "@/components/walletprovider";
 import { GlobalStateProvider } from "@/context/GlobalStateProvider";
 
 export default function RootLayout({ children }) {
-  const pathname = usePathname();
+  // const pathname = usePathname();
 
   // if (pathname.includes("/crimerecorder")) {
   //   return (
