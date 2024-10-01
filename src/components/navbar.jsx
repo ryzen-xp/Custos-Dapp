@@ -160,7 +160,7 @@ const Navbar = () => {
               </a>
 
               <a
-                href="/crimerecorder/recorder"
+                href="/crimerecorder"
                 className="text-white mb-4 z-[100] hover:bg-[#015A9B] sm:p-4 rounded-lg cursor-pointer"
               >
                 <p className="flex items-center text-xl font-semibold text-white">

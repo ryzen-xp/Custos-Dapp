@@ -1,21 +1,37 @@
-"use client";
-import { Header } from "./components/Header";
-import { Record } from "./components/Record";
-import icon1 from "../../../public/record2.png";
-import icon2 from "../../../public/picture.png";
+import React from "react";
+import Image from "next/image";
+import Button from "@/components/Button";
+import Link from "next/link";
 
-const Recorder = () => {
-  const text = {
-    text1: `You can record a video, or take a picture to keep on the blockchain`,
-  };
-
+const NoRecordScreen = () => {
   return (
-    <div className="min-h-screen w-full p-4 md:p-10">
-      <div className="flex flex-col items-center md:mt-10 mt-4">
-        <Record text={text.text1} icon1={icon1} icon2={icon2} />
-      </div>
+    <div className="m-auto w-full text-center items-center flex flex-col gap-10 justify-center h-screen">
+      <Image
+        src="/gifs/noagreement.gif"
+        alt="norecord"
+        width={200}
+        height={200}
+      />
+      <p className="text-[#EAFBFF]">
+        You have not saved any video or image on the blockchain yet. <br />
+        Launch your camera to record your evidence.
+      </p>
+      {/* <Button
+        text="Create Agreement"
+        icon={<Image src="/Plus.svg" alt="plus" width={18} height={18} />}
+        link={"/agreement/create"}
+      /> */}
+
+      <Link href="/crimerecorder/record">
+        <button
+          className="launch-pad-button-container"
+          link={"/crimerecorder/record"}
+        >
+          <img src="/RecordButton.png" alt="Zoom Image" />
+        </button>
+      </Link>
     </div>
   );
 };
 
-export default Recorder;
+export default NoRecordScreen;
