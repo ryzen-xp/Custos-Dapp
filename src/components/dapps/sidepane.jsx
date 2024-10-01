@@ -12,10 +12,10 @@ const Sidepane = () => {
   };
 
   return (
-    <div className="relative h-screen w-full">
+    <div className="relative w-full">
       {/* Toggle button for mobile */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 text-white"
+        className="md:hidden z-50 text-white"
         onClick={toggleSidebar}
       >
         {isOpen ? <FaTimes size={30} /> : <FaBars size={30} />}
@@ -24,8 +24,8 @@ const Sidepane = () => {
       {/* Sidebar */}
       <div
         className={`${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } bg-gradient-to-r from-[#04080C] to-[#09131A] fixed top-0 left-0 h-full w-[250px] md:w-[300px] p-8 flex flex-col items-center gap-16 transition-transform duration-300 ease-in-out z-40`}
+          isOpen || !isOpen ? "translate-x-0" : "-translate-x-full"
+        } bg-gradient-to-r from-[#04080C] to-[#09131A] top-0 left-0 h-screen w-[250px] md:w-[300px] p-8 flex flex-col items-center gap-16 transition-transform duration-300 ease-in-out z-40`}
       >
         {/* Logo */}
         <div className="w-full">
@@ -35,7 +35,7 @@ const Sidepane = () => {
         </div>
 
         {/* Navigation Links */}
-        <div className="section2 flex flex-col gap-16 w-full p-2">
+        <div className=" flex flex-col gap-16 w-full p-2">
           <Link href={`/crimerecorder`} className="text-[#EAFBFF]">
             <div className="flex gap-4 w-full items-center">
               <p className="text-[1.3em] text-[#EAFBFF]">Videos</p>
