@@ -32,8 +32,8 @@ const ValidateAgreementModal = ({
       const params = [
         stringToFelt(agreement.content),
         agreement.second_party_address,
-        stringToFelt(agreement.first_party_valid_id),
-        stringToFelt(agreement.first_party_valid_id),
+        stringToFelt('test'),
+        stringToFelt("test"),
       ];
 
       // Log the parameters to check if any of them are null or undefined

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react'; // Import useState for managing sidepane visibility and useEffect for handling side effects
+import { useState, useEffect, useContext } from 'react'; // Import useContext to access WalletContext
 import { FiX } from 'react-icons/fi'; // Import only the close icon
 import "../globals.css";
 import Footer from "@/components/footer";
@@ -9,9 +9,11 @@ import BackgroundWrapper from "@/components/backgroundwrapper";
 import Sidepane from "@/components/dapps/sidepane";
 import Header from "@/components/dapps/header";
 import Image from 'next/image';
+import { WalletContext } from "@/components/walletprovider"; // Import WalletContext
 
 export default function RootLayout({ children }) {
   const [isSidepaneOpen, setSidepaneOpen] = useState(false); // State to toggle sidepane
+  const { address, signMessage } = useContext(WalletContext); // Access address and signMessage from WalletContext
 
   // Function to toggle sidepane visibility
   const toggleSidepane = (e) => {
@@ -35,6 +37,25 @@ export default function RootLayout({ children }) {
       setSidepaneOpen(false);
     }
   };
+
+  useEffect(() => {
+    const handleSignMessage = async () => {
+      try {
+        if (!signMessage) {
+          throw new Error("signMessage function is not available");
+        }
+        const message = "Your message to sign";
+        const signedMessage = await signMessage(message);
+        console.log("Signed message:", signedMessage);
+      } catch (err) {
+        console.error("Error signing message:", err);
+      }
+    };
+
+    if (address) {
+      handleSignMessage();
+    }
+  }, [address, signMessage]); // Effect runs when address or signMessage changes
 
   return (
 <div className={`flex min-h-[100vh] w-full ${isSidepaneOpen ? 'sidepane-open backdrop-blur-lg' : ''}`} onClick={handleOutsideClick}>

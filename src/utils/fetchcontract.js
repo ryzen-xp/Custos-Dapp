@@ -101,3 +101,25 @@ export const UseWriteToContract = () => {
 
   return { writeToContract };
 };
+
+// Hook to sign a message using the wallet extension
+export const UseSignMessage = () => {
+  const account = useContext(WalletContext);
+
+  const signMessage = async (message) => {
+    try {
+      if (!account || !account.account) {
+        throw new Error("Wallet not connected");
+      }
+
+      const signature = await account.account.signMessage(message);
+      console.log("Signature:", signature);
+      return signature;
+    } catch (err) {
+      console.error("Message signing failed", err);
+      throw err;
+    }
+  };
+
+  return { signMessage };
+};
