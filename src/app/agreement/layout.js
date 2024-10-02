@@ -1,4 +1,6 @@
 "use client";
+import { useState, useEffect } from "react"; // Import useState for managing sidepane visibility and useEffect for handling side effects
+import { FiX } from "react-icons/fi"; // Import only the close icon
 import "../globals.css";
 import Footer from "@/components/footer";
 import Metadata from "../metadata";
@@ -6,23 +8,70 @@ import BackgroundWrapper from "@/components/backgroundwrapper";
 
 import Sidepane from "@/components/dapps/sidepane";
 import Header from "@/components/dapps/header";
+import Image from "next/image";
 
 export default function RootLayout({ children }) {
+  const [isSidepaneOpen, setSidepaneOpen] = useState(false); // State to toggle sidepane
+
+  // Function to toggle sidepane visibility
+  const toggleSidepane = (e) => {
+    e.stopPropagation(); // Stop event propagation
+    setSidepaneOpen(!isSidepaneOpen);
+  };
+
+  // Effect to disable scrolling when sidepane is open
+  useEffect(() => {
+    if (isSidepaneOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isSidepaneOpen]);
+
+  // Function to close sidepane if clicked outside
+  const handleOutsideClick = (e) => {
+    console.log("triggered");
+    if (!e.target.closest(".sidepane")) {
+      setSidepaneOpen(false);
+    }
+  };
+
   return (
-    <div className="flex min-h-screen w-full">
-      <div className="w-fit h-full z-[10] bg-gray-800 sticky top-0 bottom-0">
+    <div
+      className={`flex min-h-[100vh] w-full ${
+        isSidepaneOpen ? "sidepane-open backdrop-blur-lg" : ""
+      }`}
+      onClick={handleOutsideClick}
+    >
+      {/* Sidepane */}
+      <div
+        className={`w-fit ${
+          isSidepaneOpen ? "absolute" : "hidden"
+        } h-full z-20 md:flex top-0 left-0 sidepane`}
+      >
         <Sidepane />
       </div>
 
-      <div className="w-full min-h-screen flex flex-col">
-        <div className=" left-0  right-0  fixed">
+      {/* Main content area */}
+      <div
+        className={`flex flex-col w-full  h-[100vh] overflow-y-scroll scrollbar-hide md:pl-0 ${
+          isSidepaneOpen ? "backdrop-blur-lg" : ""
+        }`}
+      >
+        {/* Header */}
+        <div className="flex backdrop-filter backdrop-blur-[10px] w-full bg-[#ffffff0a] sticky top-0 z-[400]">
           <Header />
+          <button className="md:hidden z-30" onClick={(e) => toggleSidepane(e)}>
+            {isSidepaneOpen ? (
+              <FiX size={40} className="text-[#afb9c0e1]" />
+            ) : (
+              <img src="/hamburger.svg" alt="Menu" width={50} height={20} />
+            )}
+          </button>
         </div>
 
         {/* Children Content */}
-        <div className="flex flex-col px-3 w-full mt-[5%]">
-          <div className="w-full px-8 flex flex-col">{children}</div>
-        </div>
+        <div className="flex flex-col p-3 w-full mb-10">{children}</div>
       </div>
     </div>
   );
