@@ -13,14 +13,12 @@ import {
   SEPOLIA_BASE_URL,
 } from "@avnu/gasless-sdk";
 import { byteArray, CallData } from "starknet";
+import SuccessScreen from "./Success";
 
 const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 
 export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const options = { baseUrl: SEPOLIA_BASE_URL };
-  console.log(
-    CallData.compile(byteArray?.byteArrayFromString(String(uri))).toString()
-  );
   const calls = [
     {
       entrypoint: "crime_record",
@@ -50,6 +48,13 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
   const [gaslessCompatibility, setGaslessCompatibility] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const [call, setCalls] = useState(JSON.stringify(calls, null, 2));
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const route = useRouter();
+  const closeModal = () => {
+    setModalOpen(false);
+    route.push("/crimerecorder/uploads");
+  };
 
   useEffect(() => {
     if (!account) return;
@@ -306,6 +311,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
         { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
       );
       console.log("Transaction successful:", transactionResponse);
+      setModalOpen(true);
     } catch (error) {
       console.error("Transaction failed:", error);
     }
@@ -318,8 +324,6 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
       startCamera();
     }
   }, []);
-
-  const route = useRouter();
 
   useEffect(() => {
     if (typeof window !== "undefined" && navigator?.mediaDevices) {
@@ -335,6 +339,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
 
   return (
     <div className="w-full flex flex-col mt-10 items-center gap-6">
+      <SuccessScreen open={isModalOpen} onClose={closeModal} />
       <p className="text-white text-xl">{text}</p>
       <div className="bg-gradient-to-r from-[#0094ff] to-[#A02294] w-[50%] p-[1px] rounded-xl md:mb-5">
         <div
@@ -361,12 +366,7 @@ export const Recording = ({ text, icon1, imgText, uri, category }) => {
             <button onClick={switchCamera}>
               <Icons icon={icon3} text={`Switch Camera`} />
             </button>
-            <button
-              onClick={handleStopMedia}
-              // disabled={
-              //   loading || (!gasTokenPrice && paymasterRewards.length == 0)
-              // }
-            >
+            <button onClick={handleStopMedia}>
               <Icons icon={icon1} text={imgText} />
             </button>
           </div>
