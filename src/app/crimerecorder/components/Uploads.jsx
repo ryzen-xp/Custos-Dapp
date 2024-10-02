@@ -6,31 +6,39 @@ import { WalletContext } from "@/components/walletprovider";
 
 const Uploads = () => {
   const { address } = useContext(WalletContext);
-  const [readData, setReadData] = useState(null);
+  const [readData, setReadData] = useState([]);
 
   useEffect(() => {
     const retrieve = async () => {
       let { fetchData } = UseReadContractData();
       let result = await fetchData("crime", "get_all_user_uploads", [address]);
-      console.log("i am result from fetch ", result);
-      setReadData(result);
+      let arr = Object.keys(result);
+      setReadData(arr);
     };
 
     retrieve();
   }, [address]);
 
-  console.log(readData);
+  useEffect(() => {
+    if (readData !== []) {
+      const userUploads = async () => {
+        let item = readData.map(async (data) => {
+          let { fetchData } = UseReadContractData();
+          let uploads = await fetchData("crime", "get_token_uri", [data]);
+          console.log("i am the user uploads", uploads);
+        });
+        console.log(item);
+      };
+
+      userUploads();
+    }
+  }, []);
 
   return (
     <div className="grid grid-cols-3 w-100">
-      {/* {arr.map((data, index) => {
+      {readData.map((data, index) => {
         return <Upload key={index} />;
-      })} */}
-      {/* <Upload />
-      <Upload />
-      <Upload />
-      <Upload />
-      <Upload /> */}
+      })}
     </div>
   );
 };
