@@ -24,16 +24,14 @@ export const WalletProvider = ({ children }) => {
   //   starknetConnect();
   // }, []);
 
-  console.log("address: ",  address)
-
   const connectWallet = async () => {
     const connection = await connect({ modalMode: "alwaysAsk" });
     // await starknet?.enable({ starknetVersion: "v4" })
     if (connection && connection.isConnected) {
       setConnection(connection);
       setAccount(connection.account);
-      
-      const cleanedAddress = padAddress(connection.selectedAddress)
+
+      const cleanedAddress = padAddress(connection.selectedAddress);
       setAddress(cleanedAddress);
     }
   };
