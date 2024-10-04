@@ -42,14 +42,11 @@ export const Recording = ({ text, icon1, imgText, category }) => {
   const [currentFacingMode, setCurrentFacingMode] = useState("environment");
   const [isRecording, setIsRecording] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [tx, setTx] = useState();
   const [paymasterRewards, setPaymasterRewards] = useState([]);
   const [gasTokenPrices, setGasTokenPrices] = useState([]);
   const [gasTokenPrice, setGasTokenPrice] = useState();
-  const [maxGasTokenAmount, setMaxGasTokenAmount] = useState();
   const [gaslessCompatibility, setGaslessCompatibility] = useState();
   const [errorMessage, setErrorMessage] = useState();
-  const [call, setCalls] = useState(JSON.stringify(calls, null, 2));
   const callRef = useRef(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -72,6 +69,7 @@ export const Recording = ({ text, icon1, imgText, category }) => {
           ]),
         },
       ];
+      callRef.current = JSON.stringify(calls, null, 2);
     }
 
     // Execute the transaction with gasless option

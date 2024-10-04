@@ -3,10 +3,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { Upload } from "./Upload";
 import { UseReadContractData } from "@/utils/fetchcontract";
 import { WalletContext } from "@/components/walletprovider";
+import NoRecordScreen from "./NoRecordScreen";
 
 const Uploads = () => {
   const { address } = useContext(WalletContext);
   const [readData, setReadData] = useState([]);
+  const [uri, setUri] = useState([]);
 
   useEffect(() => {
     const retrieve = async () => {
@@ -20,24 +22,28 @@ const Uploads = () => {
   }, [address]);
 
   useEffect(() => {
-    if (readData !== []) {
-      const userUploads = async () => {
-        let item = readData.map(async (data) => {
+    const userUploads = async () => {
+      let items = await Promise.all(
+        readData.map(async (data) => {
           let { fetchData } = UseReadContractData();
           let uploads = await fetchData("crime", "get_token_uri", [data]);
-          console.log("i am the user uploads", uploads);
-        });
-        console.log(item);
-      };
+          return uploads;
+        })
+      );
+      setUri(items);
+    };
 
-      userUploads();
-    }
-  }, []);
+    if (readData.length) userUploads();
+  }, [readData]);
+
+  if (!address || readData.length === 0) {
+    return <NoRecordScreen />;
+  }
 
   return (
     <div className="grid grid-cols-3 w-100">
       {readData.map((data, index) => {
-        return <Upload key={index} />;
+        return <Upload key={index} uri={uri[index]} />;
       })}
     </div>
   );
