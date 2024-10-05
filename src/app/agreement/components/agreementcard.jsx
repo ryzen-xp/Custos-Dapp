@@ -4,7 +4,32 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import ValidateAgreementModal from "./validateAgreement";
 import SignAgreementModal from "./signagreementmodal";
-// import { format } from 'date-fns';
+import DOMPurify from 'dompurify';
+import ReactMarkdown from 'react-markdown';
+import parse from 'html-react-parser';
+
+const detectContentFormat = (content) => {
+  if (content.startsWith('<')) {
+    return 'html';
+  } else if (content.includes('**') || content.includes('#')) {
+    return 'markdown';
+  } else {
+    return 'plain';
+  }
+};
+
+const renderContent = (content) => {
+  const contentFormat = detectContentFormat(content);
+  switch (contentFormat) {
+    case 'html':
+      const cleanHtml = DOMPurify.sanitize(content);
+      return parse(cleanHtml);
+    case 'markdown':
+      return <ReactMarkdown>{content}</ReactMarkdown>;
+    default:
+      return <span>{content}</span>;
+  }
+};
 
 export const AgreementCard = ({
   agreement,
@@ -26,7 +51,7 @@ export const AgreementCard = ({
   return (
     <div
       onClick={handleCardClick}
-      className="p-3 text-base space-y-[1em] flex flex-col bg-gradient-to-r border-gradient h-fit backdrop-blur-2xl from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent rounded-lg relative w-full cursor-pointer"
+      className="p-3 text-base space-y-[1em] flex flex-col bg-gradient-to-r border-gradient backdrop-blur-2xl from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent rounded-lg relative w-full cursor-pointer overflow-clip max-h-[30em]"
     >
       <div className="relative border-[#4404245e] h-[220px] overflow-clip flex flex-col gap-4 backdrop-blur-sm shadow-2xl border-[0.01px] rounded-lg p-2 items-start w-full">
         <div className="w-full flex justify-between">
@@ -117,9 +142,9 @@ export const PendingAgreementCard = ({
     <>
       <div
         onClick={handleCardClick}
-        className="p-3 text-base space-y-[1em] flex flex-col bg-gradient-to- border-gradient bg-[#97c7fe09] h-fit backdrop-blur-sm  text-transparent rounded-[1em] relative w-full cursor-pointer"
+        className="p-3 text-base space-y-[1em] flex flex-col justify-between bg-gradient-to- border-gradient bg-[#97c7fe09] h-[20em] backdrop-blur-sm  text-transparent rounded-[1em] relative w-full cursor-pointer"
       >
-        <div className="relative border-[#43b2ea38] overflow-clip flex flex-col gap-4 backdrop-blur-sm shadow-2xl border-[0.01px] rounded-lg p-2 items-start w-full">
+        <div className="relative border-[#43b2ea38] h-[80%] overflow-clip flex flex-col gap-4 backdrop-blur-sm shadow-2xl border-[0.01px] rounded-lg p-2 items-start w-full">
           <div className="w-full flex justify-between">
             <h2 className="text-[16px] box w-fit flex text-wrap font-bold bg-gradient-to-r br  px-[16px] py-[8px] from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
               {agreement.agreementType}
@@ -135,8 +160,8 @@ export const PendingAgreementCard = ({
               />
             )}
           </div>
-          <div className="br w-fit overflow-hidden flex px-[16px] py-[8px] font-bold  text-[10px] text-[#f3f2f294] whitespace-nowrap overflow-ellipsis box">
-            {`Second Party Address: ${agreement.second_party_address}`}
+          <div className="br w-[75%] overflow-hidden flex px-4 font-bold  text-[10px] text-[#f3f2f294] whitespace-nowrap border-gradient">
+            <p className="py-2 whitespace-nowrap overflow-hidden overflow-ellipsis">Second Party Address: {agreement.second_party_address}</p>
           </div>
           <div className="w-fit font-bold flex items-center justify-start text-center space-x-14 text-[0.7em] text-white">
             Time Stamp :
@@ -146,7 +171,7 @@ export const PendingAgreementCard = ({
           </div>
           <div className="text-wrap w-fit text-white">
             <p className="max-h-[8em] overflow-hidden font-bold text-[0.7em]">
-              {agreement.content.slice(0, 240) + "..."}
+              {renderContent(agreement.content)}
             </p>
           </div>
         </div>

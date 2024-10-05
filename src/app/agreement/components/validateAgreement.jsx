@@ -6,6 +6,7 @@ import useIdentityVerification from "@/utils/verification";
 import { GlobalStateContext } from "@/context/GlobalStateProvider";
 import { useRouter } from "next/navigation";
 import { UseWriteToContract } from "@/utils/fetchcontract";
+import { stringToFelt } from "@/utils/serializer";
 
 const ValidateAgreementModal = ({
   fullname,
@@ -19,33 +20,36 @@ const ValidateAgreementModal = ({
   const [currentStep, setCurrentStep] = useState(1); 
   const { globalState, setGlobalState } = useContext(GlobalStateContext);
   const router = useRouter();
-  useEffect(() => {
-    const validateAgreement = async () => {
-      await verifyIdentity(fullname, { agreementId });
-      setIsPending(false);
-    };
-    validateAgreement();
-  }, [fullname, agreementId]);
+
+  const { writeToContract, isLoading, isError } = UseWriteToContract();
 
   const handleValidate = async () => {
     try {
-      const result = await UseWriteToContract("agreement", "createAgreement", [
-        agreement.content,
+      if (!writeToContract) {
+        throw new Error("writeToContract function is not available");
+      }
+
+      const params = [
+        stringToFelt(agreement.content),
         agreement.second_party_address,
-        agreement.first_party_valid_id,
-        agreement.second_party_valid_id,
-      ]);
+        stringToFelt(agreement.first_party_valid_id),
+        stringToFelt(agreement.first_party_valid_id),
+      ];
+
+      // Log the parameters to check if any of them are null or undefined
+      console.log("Parameters for createAgreement:", params);
+
+      // Check if any parameter is null or undefined
+      if (params.some(param => param == null)) {
+        throw new Error("One or more parameters are null or undefined");
+      }
+
+      const result = await writeToContract("agreement", "createAgreement", params);
       console.log("result", result);
-      //   if (agreementToken) {
-      //     router.push(
-      //       `/agreement/access_token/${agreementToken}`
-      //     );
-      //   } else {
-      //     router.push(`/agreement/id/${agreementId}`);
-      //   }
-      //  onClose();
+      // Handle successful validation here
     } catch (err) {
       console.error("Contract interaction failed", err);
+      // Handle the error, maybe show an error message to the user
     }
   };
 
@@ -69,16 +73,21 @@ const ValidateAgreementModal = ({
               <>
                 <strong>Second Party's Full Name:</strong>
                 <p className="py-2 text-[#9B9292] px-4  border border-[#ffffff46]  rounded-lg">
-                  {fullname}
+                  {agreement.second_party_fullname}
                 </p>
-                <strong>Second Party's ID Number:</strong>
+                <strong>Second Party's ID </strong>
                 <p className="py-2 text-[#9B9292] px-4  border border-[#ffffff46]  rounded-lg">
-                  {agreementId || "ID"}{" "}
+                  <img src={agreement.second_party_valid_id} alt="ID" />
                 </p>
                 <strong>Second Party's Wallet Address:</strong>
-                <p className="py-2 text-[#9B9292] px-4  border border-[#ffffff46]  rounded-lg">
-                  0x2437357910yw63uj9dok6
+                <p className="px-2 border border-[#ffffff46] rounded-lg">
+                <p className="py-2 text-[#9B9292] border-none overflow-scroll scrollbar-hide rounded-lg"
+                >
+
+                  
+                  {agreement.second_party_address}
                 </p>
+                  </p>
               </>
             )}
 

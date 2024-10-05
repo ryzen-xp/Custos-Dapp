@@ -10,21 +10,19 @@ export const WalletProvider = ({ children }) => {
   const [account, setAccount] = useState("");
   const [address, setAddress] = useState("");
 
-  // useEffect(() => {
-  //   const starknetConnect = async () => {
-  //     const connection = await connect({
-  //       modalMode: "neverAsk",
-  //     });
-  //     if (connection && connection.isConnected) {
-  //       setConnection(connection);
-  //       setAccount(connection.account);
-  //       setAddress(connection.selectedAddress);
-  //     }
-  //   };
-  //   starknetConnect();
-  // }, []);
-
-  console.log("address: ",  address)
+  useEffect(() => {
+    const starknetConnect = async () => {
+      const connection = await connect({
+        modalMode: "neverAsk",
+      });
+      if (connection && connection.isConnected) {
+        setConnection(connection);
+        setAccount(connection.account);
+        setAddress(connection.selectedAddress);
+      }
+    };
+    starknetConnect();
+  }, []);
 
   const connectWallet = async () => {
     const connection = await connect({ modalMode: "alwaysAsk" });
@@ -32,8 +30,8 @@ export const WalletProvider = ({ children }) => {
     if (connection && connection.isConnected) {
       setConnection(connection);
       setAccount(connection.account);
-      
-      const cleanedAddress = padAddress(connection.selectedAddress)
+
+      const cleanedAddress = padAddress(connection.selectedAddress);
       setAddress(cleanedAddress);
     }
   };

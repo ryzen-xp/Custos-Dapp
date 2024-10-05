@@ -18,18 +18,13 @@ const contractConfigs = {
   agreement: {
     abi: agreementAbi,
     address:
-      "0x0478d4506cc35111aab21193341e53b9c2f9e3c284aff79b510234b670f7fb9c",
+      "0x072b532064e037ebfa163d647ef9d73d1f00d5e6a6f67408cdd3e040d447c637",
   },
 };
 
 // Hook to read data from a contract
-export const UseReadContractData = (contractName, methodName, params = []) => {
-  // const [data, setData] = useState(null);
-  // const [error, setError] = useState(null);
-  // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  const fetchData = async () => {
+export const UseReadContractData = () => {
+  const fetchData = async (contractName, methodName, params = []) => {
     try {
       const contractConfig = contractConfigs[contractName];
       if (!contractConfig) {
@@ -51,6 +46,8 @@ export const UseReadContractData = (contractName, methodName, params = []) => {
           ? await contract[methodName](...params)
           : await contract[methodName]();
       console.log("result", result);
+      return result;
+
       // setData(result);
     } catch (err) {
       // setError(err);
@@ -58,21 +55,22 @@ export const UseReadContractData = (contractName, methodName, params = []) => {
     } finally {
       // setLoading(false);
     }
+    // return result;
   };
 
-  const result = fetchData();
-  // }, [contractName, methodName, params]);
-
-  return result;
+  return { fetchData };
 };
 
 // Hook to write data to a contract
-export const UseWriteToContract = (contractName, methodName, params = []) => {
-  let account = useContext(WalletContext);
-  console.log(account);
+export const UseWriteToContract = () => {
+  const account = useContext(WalletContext);
 
-  const fetchData = async () => {
+  const writeToContract = async (contractName, methodName, params = []) => {
     try {
+      if (!account || !account.account) {
+        throw new Error("Wallet not connected");
+      }
+
       const contractConfig = contractConfigs[contractName];
       if (!contractConfig) {
         throw new Error(
@@ -80,30 +78,24 @@ export const UseWriteToContract = (contractName, methodName, params = []) => {
         );
       }
 
-      // console.log('called', contractConfig)
       const contract = new Contract(
         contractConfig.abi,
         contractConfig.address,
-        account
+        account.account
       );
 
-      // console.log('calling result')
       const result =
         params.length > 0
           ? await contract[methodName](...params)
           : await contract[methodName]();
+
       console.log("result", result);
-      // setData(result);
+      return result;
     } catch (err) {
-      // setError(err);
-      console.log(err);
-    } finally {
-      // setLoading(false);
+      console.error("Contract interaction failed", err);
+      throw err;
     }
   };
 
-  const result = fetchData();
-  // }, [contractName, methodName, params]);
-
-  return result;
+  return { writeToContract };
 };

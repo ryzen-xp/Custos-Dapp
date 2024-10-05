@@ -22,9 +22,12 @@ const NoRecordScreen = () => {
         link={"/agreement/create"}
       /> */}
 
-      <Link href="/crimerecorder">
-        <button className="launch-pad-button-container" link={"/crimerecorder"}>
-          <img src="../RecordButton.png" alt="Zoom Image" />
+      <Link href="/crimerecorder/record">
+        <button
+          className="launch-pad-button-container"
+          link={"/crimerecorder/record"}
+        >
+          <img src="/RecordButton.png" alt="Zoom Image" />
         </button>
       </Link>
     </div>

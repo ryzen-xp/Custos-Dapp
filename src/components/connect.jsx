@@ -13,9 +13,9 @@ function ConnectButtoncomponent() {
   };
 
   return (
-    <div className=" justify-end flex items-end">
+    <div className=" justify-end flex max-w-[13em] overflow-clip w-fit items-end">
       {connection ? (
-        <div className=" cursor-auto max-w-[40%] border-gradient py-2 px-4 rounded-full  text-[#ededef]" onClick={disconnectWallet}>
+        <div className=" cursor-auto  border-gradient py-2 px-4 w-full rounded-full  text-[#ededef]" onClick={disconnectWallet}>
           <button
             onClick={disconnectWallet}
             className="w-full bg-transparent rounded-full overflow-clip"

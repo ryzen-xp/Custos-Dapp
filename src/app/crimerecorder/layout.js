@@ -4,6 +4,7 @@ import "../globals.css";
 import Footer from "@/components/footer";
 import Sidepane from "@/components/dapps/sidepane";
 import Header from "@/components/dapps/header";
+import { FaArrowLeft } from "react-icons/fa";
 
 export default function RootLayout({ children }) {
   const [headerOpen, setHeaderOpen] = useState(false); // Track header state
@@ -20,10 +21,26 @@ export default function RootLayout({ children }) {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 min-h-screen flex flex-col">
+      <div className="w-full min-h-screen flex flex-col">
         {/* Fixed Header */}
         <div className="fixed left-0 right-0 z-10">
           <Header />
+          <div className="ml-[20rem] rounded-2xl flex-col w-full flex gap-2 h-fit px-6 py-3 shadow-2xl bg-gradient-to-t from-[#04080C] to-[#09131A]">
+            <button
+              className="w-full text-[#EAFBFF] flex justify-start items-center  align-middle"
+              onClick={() => window.history.back()}
+            >
+              <FaArrowLeft className="mr-2 text-[#EAFBFF]" />{" "}
+              <p className="text-[#EAFBFF]">Back</p>
+            </button>
+
+            <div className="mt-4 flex justify-end items-center w-full m-auto">
+              <div className="w-full flex text-[#EAFBFF] text-[1.3em] justify-start">
+                Video Recorder
+              </div>
+              <div className="w-full md:flex justify-end items-center gap-4 hidden"></div>
+            </div>
+          </div>
         </div>
 
         {/* Main Content */}
