@@ -16,7 +16,6 @@ import { byteArray, CallData } from "starknet";
 import SuccessScreen from "./Success";
 
 const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
-
 export const Recording = ({ text, icon1, imgText, category }) => {
   const [uri, setUri] = useState("");
 
@@ -49,6 +48,9 @@ export const Recording = ({ text, icon1, imgText, category }) => {
   const [errorMessage, setErrorMessage] = useState();
   const callRef = useRef(null);
   const [isModalOpen, setModalOpen] = useState(false);
+  const recordedVideoRef = useRef(null);
+  const photoRef = useRef(null); 
+
 
   const route = useRouter();
   const closeModal = () => {
@@ -119,122 +121,86 @@ export const Recording = ({ text, icon1, imgText, category }) => {
     return selectedMedia === "vid" ? "aud" : "vid";
   };
 
-  useEffect(() => {
-    return () => {
-      // Clean up camera stream on unmount
-      if (mediaStream) {
-        mediaStream.getTracks().forEach((track) => track.stop());
-      }
-    };
-  }, [mediaStream]);
+ 
 
+ 
   const startCamera = async () => {
-    if (typeof window !== "undefined" && navigator?.mediaDevices) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: currentFacingMode },
-          audio: true,
-        });
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: currentFacingMode },
+        audio: true
+      });
+      setMediaStream(stream);
+      if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        videoRef.current.muted = true; // Mute video element
-        setMediaStream(stream);
-      } catch (error) {
-        console.error("Error accessing the camera", error);
-        alert("Error accessing the camera: " + error.message);
+        videoRef.current.muted = true; // Mute to avoid feedback
+        videoRef.current.style.display = 'block'; // Show the video feed when camera starts
       }
+    } catch (error) {
+      console.error('Error accessing the camera', error);
+      alert('Error accessing the camera: ' + error.message);
     }
   };
 
   const stopCamera = () => {
     if (mediaStream) {
-      mediaStream.getTracks().forEach((track) => track.stop());
-      videoRef.current.srcObject = null;
+      mediaStream.getTracks().forEach(track => track.stop());
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+        videoRef.current.style.display = 'none'; // Hide video feed when stopped
+      }
       setMediaStream(null);
     }
   };
 
   const startRecording = async () => {
-    await startCamera(); // Ensure the camera starts
-    const recorder = new MediaRecorder(mediaStream);
-
-    recorder.ondataavailable = (event) =>
-      setRecordedChunks((prev) => [...prev, event.data]);
-
-    recorder.onstop = () => {
-      // Create a blob from the recorded chunks
-      const blob = new Blob(recordedChunks, { type: "video/webm" });
-
-      // Check if the blob size is valid and proceed with saving/downloading
-      console.log(blob.size); // This should give a size greater than 0
-
-      if (blob.size > 0) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.style.display = "none";
-        a.href = url;
-        a.download = "video.webm"; // The file name for the download
-        document.body.appendChild(a);
-        a.click();
-        URL.revokeObjectURL(url); // Clean up the URL reference after download
-      }
-
-      // Optionally, you can upload the blob to IPFS
-      uploadToIPFS(blob, "video.webm");
-
-      // Stop the camera after recording finishes
+    await startCamera(); 
+    if (!mediaStream) {
+      console.error("Media stream not available");
+      return;
+    }
+  
+    const chunks = [];
+    const recorder = new MediaRecorder(mediaStream); // Ensure mediaStream is not null
+    recorder.ondataavailable = (event) => chunks.push(event.data);
+    recorder.onstop = async () => {
+      const blob = new Blob(chunks, { type: "video/webm" });
+      saveToDevice(blob, `${Date.now()}-video.webm`); // Use unique name here
+      await uploadToIPFS(blob, `${Date.now()}-video.webm`);
       stopCamera();
-
-      // Reset recorded chunks
-      setRecordedChunks([]);
+      if (recordedVideoRef.current) {
+        recordedVideoRef.current.style.display = "none"; // Hide video on stop
+      }
     };
-
-    // Start recording
+  
     recorder.start();
-    setMediaRecorder(recorder);
     setIsRecording(true);
+    setMediaRecorder(recorder);
+    setRecordedChunks(chunks);
   };
+  
 
   const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false);
     }
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(recordedChunks, { type: "video/webm" }); // Correct type
-
-      // Check if the blob size is valid
-      console.log(blob.size); // This should give a size greater than 0
-
-      if (blob.size > 0) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.style.display = "none";
-        a.href = url;
-        a.download = "video.webm";
-        document.body.appendChild(a);
-        a.click();
-        URL.revokeObjectURL(url); // Clean up URL reference
-      }
-    };
+    stopCamera();
   };
 
   const takePicture = async () => {
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      console.error("Canvas element not available");
-      return;
-    }
-    const context = canvas.getContext("2d");
-    canvas.width = videoRef.current.videoWidth;
-    canvas.height = videoRef.current.videoHeight;
-    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    const context = canvasRef.current.getContext('2d');
+    canvasRef.current.width = videoRef.current.videoWidth;
+    canvasRef.current.height = videoRef.current.videoHeight;
+    context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
 
-    const dataURL = canvas.toDataURL("image/png");
-    const blob = await fetch(dataURL).then((res) => res.blob());
-    await uploadToIPFS(blob, "image.png");
-    saveToDevice(blob, "photo.png");
+    const dataURL = canvasRef.current.toDataURL('image/png');
+    const blob = await fetch(dataURL).then(res => res.blob());
+    await uploadToIPFS(blob, 'image.png');
+    saveToDevice(blob, 'photo.png');
+    photoRef.current.style.display = 'none'; // Hide photo after capture
   };
-
+  
   const switchCamera = async () => {
     setCurrentFacingMode((prev) => (prev === "user" ? "environment" : "user"));
     if (isRecording) {
@@ -249,9 +215,10 @@ export const Recording = ({ text, icon1, imgText, category }) => {
 
   // Upload to IPFS using Pinata
   async function uploadToIPFS(fileBlob, fileName) {
+    const uniqueFileName = `${Date.now()}-${fileName}`; // Add timestamp to create a unique filename
     const formData = new FormData();
-    formData.append("file", fileBlob, fileName);
-
+    formData.append("file", fileBlob, uniqueFileName);
+  
     try {
       const response = await fetch(
         "https://api.pinata.cloud/pinning/pinFileToIPFS",
@@ -263,10 +230,10 @@ export const Recording = ({ text, icon1, imgText, category }) => {
           body: formData,
         }
       );
-
+  
       if (response.ok) {
         const data = await response.json();
-        const IpfsHash = data.IpfsHash; // Corrected the path to access IpfsHash
+        const IpfsHash = data.IpfsHash;
         console.log(IpfsHash);
         localStorage.setItem("image_uri", IpfsHash);
         setUri(IpfsHash);
@@ -278,17 +245,19 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       console.error("Error uploading image:", error);
     }
   }
-
+  
   const saveToDevice = (blob, fileName) => {
+    const uniqueFileName = `${Date.now()}-${fileName}`; // Add timestamp to create a unique filename
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = fileName;
+    a.download = uniqueFileName;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
+  
 
   const handleStopMedia = async () => {
     if (category === "video") {
