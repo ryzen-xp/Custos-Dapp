@@ -14,8 +14,7 @@ import {
 } from "@avnu/gasless-sdk";
 import { byteArray, CallData } from "starknet";
 import SuccessScreen from "./Success";
-
-const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
+const NFT_STORAGE_TOKEN ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJlNTE3YjA4MS0yODczLTQwOTQtYjA3OS00ZmJmMDBlYzA0MzUiLCJlbWFpbCI6ImN1c3Rvc2RpcmV0cml6QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6IkZSQTEifSx7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6Ik5ZQzEifV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJkMjE3NTc3Y2VmMmYwNjFiNWE3MSIsInNjb3BlZEtleVNlY3JldCI6IjBiNzJlN2VjZDhiYzBiMmRlNTJiNjMxMWQzNWM3N2RmYTRmOTlkY2Y1NjE4YzgyNTBjYWY1YjZmYmM0Mzc0MjMiLCJleHAiOjE3NTk2Nzk2NzV9.s2jx940y7oV3SWSnNEX5ZCJi4ISbc_lgt3lOTMwf0A4';
 export const Recording = ({ text, icon1, imgText, category }) => {
   const [uri, setUri] = useState("");
 
@@ -231,20 +230,47 @@ export const Recording = ({ text, icon1, imgText, category }) => {
         }
       );
   
-      if (response.ok) {
-        const data = await response.json();
-        const IpfsHash = data.IpfsHash;
-        console.log(IpfsHash);
-        localStorage.setItem("image_uri", IpfsHash);
-        setUri(IpfsHash);
-        console.log("Image uploaded successfully!");
-      } else {
-        console.error("Failed to upload image");
+      if (!response.ok) {
+        throw new Error("Failed to upload file to IPFS");
       }
+  
+      const data = await response.json();
+      const ipfsHash = data.IpfsHash;
+  
+      console.log("IPFS Hash:", ipfsHash);
+  
+      // Store the IPFS hash locally for the current user
+      localStorage.setItem("uri", ipfsHash);
+      setUri(ipfsHash);
+  
+      if (!account) {
+        console.error("Wallet not connected. Cannot associate file with account.");
+        return;
+      }
+  
+      // Additional logic to store IPFS hash and associate it with the wallet address
+      const existingUserFiles = JSON.parse(localStorage.getItem("user_files")) || [];
+  
+      // Create an object for the current upload
+      const newFileData = {
+        walletAddress: account.address, // Ensure that account contains wallet details
+        ipfsHash,
+        fileName: uniqueFileName,
+        timestamp: Date.now(),
+      };
+  
+      // Update the array with the new file entry
+      const updatedUserFiles = [...existingUserFiles, newFileData];
+  
+      // Save the updated array back to localStorage
+      localStorage.setItem("user_files", JSON.stringify(updatedUserFiles));
+  
+      console.log("File uploaded successfully and data saved!");
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("Error uploading file:", error);
     }
   }
+  
   
   const saveToDevice = (blob, fileName) => {
     const uniqueFileName = `${Date.now()}-${fileName}`; // Add timestamp to create a unique filename
