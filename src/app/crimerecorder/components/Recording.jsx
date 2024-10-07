@@ -14,7 +14,7 @@ import {
 } from "@avnu/gasless-sdk";
 import { byteArray, CallData } from "starknet";
 import SuccessScreen from "./Success";
-const NFT_STORAGE_TOKEN ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJlNTE3YjA4MS0yODczLTQwOTQtYjA3OS00ZmJmMDBlYzA0MzUiLCJlbWFpbCI6ImN1c3Rvc2RpcmV0cml6QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6IkZSQTEifSx7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6Ik5ZQzEifV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJkMjE3NTc3Y2VmMmYwNjFiNWE3MSIsInNjb3BlZEtleVNlY3JldCI6IjBiNzJlN2VjZDhiYzBiMmRlNTJiNjMxMWQzNWM3N2RmYTRmOTlkY2Y1NjE4YzgyNTBjYWY1YjZmYmM0Mzc0MjMiLCJleHAiOjE3NTk2Nzk2NzV9.s2jx940y7oV3SWSnNEX5ZCJi4ISbc_lgt3lOTMwf0A4';
+const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY
 export const Recording = ({ text, icon1, imgText, category }) => {
   const [uri, setUri] = useState("");
 
