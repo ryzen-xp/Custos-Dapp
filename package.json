@@ -39,7 +39,8 @@
     "starknet": "6.9.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-border-gradient-radius": "^3.0.1",
-    "urql": "^4.0.7"
+    "urql": "^4.0.7",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "eslint": "^8",

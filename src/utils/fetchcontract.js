@@ -24,11 +24,6 @@ const contractConfigs = {
 
 // Hook to read data from a contract
 export const UseReadContractData = () => {
-  // const [data, setData] = useState(null);
-  // const [error, setError] = useState(null);
-  // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
   const fetchData = async (contractName, methodName, params = []) => {
     try {
       const contractConfig = contractConfigs[contractName];
