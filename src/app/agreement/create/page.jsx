@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 // /* eslint-disable react/no-unescaped-entities */
 "use client";
-// import { useWriteToContract } from "@/utils/fetchcontract";
+import { UseWriteToContract } from "@/utils/fetchcontract";
 import { useState, useContext } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Header } from "../components/AgreementNav";
@@ -27,20 +27,20 @@ const AgreementModal = () => {
   const [errors, setErrors] = useState({});
   const { address } = useContext(WalletContext);
 
-  // const {
-  //   sendTransaction,
-  //   transaction,
-  //   isPending,
-  //   isLoading,
-  //   error,
-  //   data,
-  //   isSuccess,
-  // } = useWriteToContract("agreement", "createAgreement", [
-  //   content,
-  //   secondPartyAddress,
-  //   "firstPartyName",
-  //   idNumber,
-  // ]);
+  const {
+    sendTransaction,
+    transaction,
+    isPending,
+    isLoading,
+    error,
+    data,
+    isSuccess,
+  } = UseWriteToContract("agreement", "createAgreement", [
+    content,
+    secondPartyAddress,
+    "firstPartyName",
+    idNumber,
+  ]);
 
   // const creatoraddress = useAccount()?.address;
   const handleSubmit = async (event) => {
@@ -344,10 +344,7 @@ const AgreementModal = () => {
     <div className="w-full px-4 flex flex-col gap-8 overflow-clip  justify-center items-center h-[80vh]">
       <div className="rounded-2xl box border-gradien  p-6">
         <sh></sh>
-        <form
-          className=" w-full space-y-5"
-          onSubmit={handleSubmit}
-        >
+        <form className=" w-full space-y-5" onSubmit={handleSubmit}>
           {modalStep > 1 && (
             <button
               type="button"
