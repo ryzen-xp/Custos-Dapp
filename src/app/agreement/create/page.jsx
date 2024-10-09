@@ -12,7 +12,7 @@ import SuccessScreen from "../components/Success";
 
 const AgreementModal = () => {
   const [modalStep, setModalStep] = useState(1);
-
+  const [idNumber, setIdNumber] = useState("");
   const [agreementType, setAgreementType] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [content, setContent] = useState("");
