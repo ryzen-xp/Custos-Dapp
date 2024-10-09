@@ -11,6 +11,7 @@ import SignAgreementModal from "./components/signagreementmodal";
 import { WalletContext } from "@/components/walletprovider";
 // import { UseReadContractData } from "@/utils/fetchcontract";
 import agreementAbi from "../../utils/agreementAbi.json"
+import { UseReadContractData } from "@/utils/fetchcontract";
 
 function AgreementList() {
   const [loading, setLoading] = useState(false);
@@ -26,21 +27,20 @@ function AgreementList() {
 
 
   
-  // const getOnchainAgreement = UseReadContractData("agreement", "getUserAgreements", []);
+  const { fetchData } = UseReadContractData();
   useEffect(() => {
-    // if (!getOnchainAgreement) return;
+    
 
     const fetchAgreements = async () => {
       setLoading(true);
       try {
         // Fetch agreement details
-        // const agreementsDetails = await Promise.all(
-        //   totalAgreements.map((id) =>
-        //     useReadContractData("agreement", "getAgreementDetails", [id])
-        //   )
-        // );
-        // setAgreements(agreementsDetails);
-        // console.log("agreements are", agreementsDetails);
+        const agreementsDetails = await Promise.all(
+          
+            fetchData("agreement", "get_user_agreements", [address])
+        );
+        setAgreements(agreementsDetails);
+        console.log("agreements are", agreementsDetails);
       } catch (error) {
         console.error("Error fetching agreement details:", error);
       } finally {
@@ -49,7 +49,7 @@ function AgreementList() {
     };
 
     fetchAgreements();
-  }, []);
+  }, [address, fetchData]);
 
   useEffect(() => {
     const FetchPendingAgreements = async () => {

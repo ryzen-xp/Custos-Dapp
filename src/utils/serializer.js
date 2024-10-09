@@ -57,3 +57,42 @@ export const feltToString = (felt)=> {
 export const stringToFelt = (str)=> {
     return "0x" + Buffer.from(str).toString('hex');
 }
+
+
+
+
+
+/**
+ * Converts a string to a byte array.
+ *
+ * @function stringToByteArray
+ * @param {string} str - The string to convert.
+ * @returns {Uint8Array} The byte array representation of the string.
+ *
+ * @example
+ * const inputString = 'Hello, World!';
+ * const byteArray = stringToByteArray(inputString);
+ * console.log(byteArray); // Output: Uint8Array(13) [72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33]
+ */
+export const stringToByteArray = (str) => {
+    return new TextEncoder().encode(str);
+};
+
+
+
+
+/**
+ * Converts a byte array to a string.
+ *
+ * @function byteArrayToString
+ * @param {Uint8Array} byteArray - The byte array to convert.
+ * @returns {string} The string representation of the byte array.
+ *
+ * @example
+ * const byteArray = new Uint8Array([72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33]);
+ * const outputString = byteArrayToString(byteArray);
+ * console.log(outputString); // Output: 'Hello, World!'
+ */
+export const byteArrayToString = (byteArray) => {
+    return new TextDecoder().decode(byteArray);
+};

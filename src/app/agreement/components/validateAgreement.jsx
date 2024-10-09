@@ -6,7 +6,8 @@ import useIdentityVerification from "@/utils/verification";
 import { GlobalStateContext } from "@/context/GlobalStateProvider";
 import { useRouter } from "next/navigation";
 import { UseWriteToContract } from "@/utils/fetchcontract";
-import { stringToFelt } from "@/utils/serializer";
+import { stringToByteArray, stringToFelt } from "@/utils/serializer";
+import SuccessScreen from "./Success";
 
 const ValidateAgreementModal = ({
   fullname,
@@ -17,9 +18,10 @@ const ValidateAgreementModal = ({
 }) => {
   const { verifyIdentity, loading, result, error } = useIdentityVerification();
   const [isPending, setIsPending] = useState(true);
-  const [currentStep, setCurrentStep] = useState(1); 
+  const [currentStep, setCurrentStep] = useState(1);
   const { globalState, setGlobalState } = useContext(GlobalStateContext);
   const router = useRouter();
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const { writeToContract, isLoading, isError } = UseWriteToContract();
 
@@ -30,32 +32,44 @@ const ValidateAgreementModal = ({
       }
 
       const params = [
-        stringToFelt(agreement.content),
+        `"${stringToByteArray(agreement.content)}"`,
         agreement.second_party_address,
-        stringToFelt('test'),
-        stringToFelt("test"),
+        `"${stringToByteArray(agreement.first_party_valid_id)}"`,
+        `"${stringToByteArray(agreement.second_party_valid_id)}"`,
       ];
-
-      // Log the parameters to check if any of them are null or undefined
       console.log("Parameters for createAgreement:", params);
-
-      // Check if any parameter is null or undefined
       if (params.some(param => param == null)) {
         throw new Error("One or more parameters are null or undefined");
       }
-
-      const result = await writeToContract("agreement", "createAgreement", params);
+      const result = await writeToContract("agreement", "create_agreement", params);
       console.log("result", result);
-      // Handle successful validation here
+
+      if (result && result.transaction_hash) {
+        // Update the backend
+        const response = await fetch(`https://custosbackend.onrender.com/agreement/agreement/${agreementId}/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            agreement_id: result.transaction_hash,
+          }),
+        });
+
+        if (response.ok) {
+          setIsSuccessModalOpen(true);
+        } else {
+          console.error('Failed to update agreement validation status');
+        }
+      }
     } catch (err) {
       console.error("Contract interaction failed", err);
-      // Handle the error, maybe show an error message to the user
     }
   };
 
   // Function to handle continue button click
   const handleContinue = () => {
-    setCurrentStep((prevStep) => prevStep + 1); // Go to the next step
+    setCurrentStep((prevStep) => prevStep + 1);
   };
 
   return (
@@ -130,6 +144,15 @@ const ValidateAgreementModal = ({
             </div>
           </div>
         </div>
+      )}
+      
+      {isSuccessModalOpen && (
+        <SuccessScreen 
+          onClose={() => {
+            setIsSuccessModalOpen(false);
+            onClose();
+          }}
+        />
       )}
     </div>
   );
