@@ -12,6 +12,8 @@ import { WalletContext } from "@/components/walletprovider";
 // import { UseReadContractData } from "@/utils/fetchcontract";
 import agreementAbi from "../../utils/agreementAbi.json"
 import { UseReadContractData } from "@/utils/fetchcontract";
+import Loading from "@/components/loading";
+
 
 function AgreementList() {
   const [loading, setLoading] = useState(false);
@@ -42,6 +44,7 @@ function AgreementList() {
         setAgreements(agreementsDetails);
         console.log("agreements are", agreementsDetails);
       } catch (error) {
+        setLoading(false);
         console.error("Error fetching agreement details:", error);
       } finally {
         setLoading(false);
@@ -76,28 +79,7 @@ function AgreementList() {
     }
   }, [address]);
 
-  useEffect(() => {
-    const GetTotalAgreements = async () => {
-      if (totalAgreements.length === 0) return;
 
-      setLoading(true);
-      try {
-        // const agreementsDetails = await Promise.all(
-        //   totalAgreements.map((id) =>
-        //     useReadContractData("agreement", "getAgreementDetails", [id])
-        //   )
-        // );
-        // setAgreements(agreementsDetails);
-        // console.log("agreements are", agreementsDetails);
-      } catch (error) {
-        console.error("Error fetching agreement details:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    GetTotalAgreements();
-  }, [totalAgreements]);
 
   const printAgreement = (agreement) => {
     const printContent = `
@@ -210,13 +192,10 @@ function AgreementList() {
     <div className="w-full flex flex-col">
       {/* Secondary Navbar */}
       <AgreementNav activeTab={activeTab} setActiveTab={setActiveTab} />
-
+      
       <div className="w-full">
         {loading ? (
-          <div className="text-center py-8">
-            <div className="loader ease-linear rounded-full border-8 border-t-8 bg-[#130316] border-gray-200 h-16 w-16 mx-auto"></div>
-            <p className="mt-2 text-white">Loading agreements...</p>
-          </div>
+          <Loading text="Loading Agreements..." />
         ) : (
           renderAgreements()
         )}

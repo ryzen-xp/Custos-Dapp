@@ -38,24 +38,7 @@ export default function RootLayout({ children }) {
     }
   };
 
-  useEffect(() => {
-    const handleSignMessage = async () => {
-      try {
-        if (!signMessage) {
-          throw new Error("signMessage function is not available");
-        }
-        const message = "Your message to sign";
-        const signedMessage = await signMessage(message);
-        console.log("Signed message:", signedMessage);
-      } catch (err) {
-        console.error("Error signing message:", err);
-      }
-    };
 
-    if (address) {
-      handleSignMessage();
-    }
-  }, [address, signMessage]); // Effect runs when address or signMessage changes
 
   return (
     <div

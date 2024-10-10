@@ -5,9 +5,10 @@ import { useContext, useEffect, useState } from "react";
 import useIdentityVerification from "@/utils/verification";
 import { GlobalStateContext } from "@/context/GlobalStateProvider";
 import { useRouter } from "next/navigation";
-import { UseWriteToContract } from "@/utils/fetchcontract";
+import { provider, UseWriteToContract } from "@/utils/fetchcontract";
 import { stringToByteArray, stringToFelt } from "@/utils/serializer";
 import SuccessScreen from "./Success";
+import Loading from "@/components/loading";
 
 const ValidateAgreementModal = ({
   fullname,
@@ -21,16 +22,19 @@ const ValidateAgreementModal = ({
   const [currentStep, setCurrentStep] = useState(1);
   const { globalState, setGlobalState } = useContext(GlobalStateContext);
   const router = useRouter();
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isResultModalOpen, setIsResultModalOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isValidating, setIsValidating] = useState(false);
 
   const { writeToContract, isLoading, isError } = UseWriteToContract();
 
   const handleValidate = async () => {
+    setIsValidating(true);
     try {
       if (!writeToContract) {
         throw new Error("writeToContract function is not available");
       }
-
+      
       const params = [
         `"${stringToByteArray(agreement.content)}"`,
         agreement.second_party_address,
@@ -42,28 +46,39 @@ const ValidateAgreementModal = ({
         throw new Error("One or more parameters are null or undefined");
       }
       const result = await writeToContract("agreement", "create_agreement", params);
-      console.log("result", result);
+            
+      const txReceipt = await provider.waitForTransaction(result.transaction_hash);
+      if (txReceipt.isSuccess()) {
+        const agreement_id = txReceipt.events
+        console.log("agreement_id", agreement_id);
+      }
 
       if (result && result.transaction_hash) {
-        // Update the backend
-        const response = await fetch(`https://custosbackend.onrender.com/agreement/agreement/${agreementId}/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            agreement_id: result.transaction_hash,
-          }),
+        const formData = new FormData();
+        formData.append('agreement_id', result.transaction_hash);
+
+        // Construct the URL with the access_token as a query parameter
+        const url = `https://custosbackend.onrender.com/agreement/agreement/update_by_access_token/?access_token=${encodeURIComponent(agreement.access_token)}`;
+
+        const response = await fetch(url, {
+          method: 'PUT',
+          body: formData,
         });
 
         if (response.ok) {
-          setIsSuccessModalOpen(true);
+          setIsSuccess(true);
         } else {
-          console.error('Failed to update agreement validation status');
+          throw new Error('Failed to update agreement validation status');
         }
+      } else {
+        throw new Error('Transaction hash not received');
       }
     } catch (err) {
       console.error("Contract interaction failed", err);
+      setIsSuccess(false);
+    } finally {
+      setIsValidating(false);
+      setIsResultModalOpen(true);
     }
   };
 
@@ -74,8 +89,10 @@ const ValidateAgreementModal = ({
 
   return (
     <div className="p-3 h-screen bg-[#00000095] w-full flex items-center justify-center text-white text-transparent rounded-lg absolute left-0 z-50 top-0">
-      {loading ? (
-        <div className="text-center">Loading...</div>
+      {loading || isValidating ? (
+        <div className="text-center">
+         <Loading text="Agreement is being created onchain..... please Wait" />
+        </div>
       ) : error ? (
         <div className="text-center text-red-500">Error: {error}</div>
       ) : (
@@ -145,14 +162,18 @@ const ValidateAgreementModal = ({
           </div>
         </div>
       )}
-      
-      {isSuccessModalOpen && (
+      {isResultModalOpen && (
+      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+
         <SuccessScreen 
           onClose={() => {
-            setIsSuccessModalOpen(false);
+            setIsResultModalOpen(false);
             onClose();
           }}
+          isSuccess={isSuccess}
         />
+      </div>
+      
       )}
     </div>
   );

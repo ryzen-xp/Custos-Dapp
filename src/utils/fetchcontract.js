@@ -89,7 +89,6 @@ export const UseWriteToContract = () => {
           ? await contract[methodName](...params)
           : await contract[methodName]();
 
-      console.log("result", result);
       return result;
     } catch (err) {
       console.error("Contract interaction failed", err);
