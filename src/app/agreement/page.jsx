@@ -16,7 +16,8 @@ import Loading from "@/components/loading";
 
 
 function AgreementList() {
-  const [loading, setLoading] = useState(false);
+  const [loadingAgreements, setLoadingAgreements] = useState(false);
+  const [loadingPendingAgreements, setLoadingPendingAgreements] = useState(false);
   const [showAgreementModal, setShowAgreementModal] = useState(false);
   const [pendingAgreements, setPendingAgreements] = useState([]);
   const [agreements, setAgreements] = useState([]);
@@ -31,32 +32,29 @@ function AgreementList() {
   
   const { fetchData } = UseReadContractData();
   useEffect(() => {
-    
-
     const fetchAgreements = async () => {
-      setLoading(true);
+      setLoadingAgreements(true);
       try {
-        // Fetch agreement details
         const agreementsDetails = await Promise.all(
-          
-            fetchData("agreement", "get_user_agreements", [address])
+          fetchData("agreement", "get_user_agreements", [address])
         );
         setAgreements(agreementsDetails);
         console.log("agreements are", agreementsDetails);
       } catch (error) {
-        setLoading(false);
         console.error("Error fetching agreement details:", error);
       } finally {
-        setLoading(false);
+        setLoadingAgreements(false);
       }
     };
 
-    fetchAgreements();
+    if (address) {
+      fetchAgreements();
+    }
   }, [address, fetchData]);
 
   useEffect(() => {
     const FetchPendingAgreements = async () => {
-      setLoading(true);
+      setLoadingPendingAgreements(true);
       try {
         const res = await fetch(
           `https://custosbackend.onrender.com/agreement/agreement/by_party/?address=${address}`
@@ -67,14 +65,13 @@ function AgreementList() {
       } catch (error) {
         console.error("Error fetching agreements:", error);
       } finally {
-        setLoading(false);
+        setLoadingPendingAgreements(false);
       }
     };
 
     if (address) {
       FetchPendingAgreements();
-    }
-    else{
+    } else {
       setPendingAgreements(null);
     }
   }, [address]);
@@ -194,7 +191,7 @@ function AgreementList() {
       <AgreementNav activeTab={activeTab} setActiveTab={setActiveTab} />
       
       <div className="w-full">
-        {loading ? (
+        {loadingAgreements || loadingPendingAgreements ? (
           <Loading text="Loading Agreements..." />
         ) : (
           renderAgreements()
