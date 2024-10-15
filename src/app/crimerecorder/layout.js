@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
 
             <div className="mt-4 flex justify-end items-center w-full m-auto">
               <div className="w-full flex text-[#EAFBFF] text-[1.3em] justify-start">
-                Video Recorder
+                <a href="/crimerecorder/record"> Video Recorder</a>
               </div>
               <div className="w-full md:flex justify-end items-center gap-4 hidden"></div>
             </div>

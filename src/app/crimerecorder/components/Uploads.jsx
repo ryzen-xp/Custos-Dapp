@@ -78,6 +78,18 @@ const Uploads = () => {
   const isVideoFile = (fileName) => {
     return /\.(mp4|webm|ogg|mov)$/i.test(fileName);
   };
+  const saveToDevice = (blob, fileName) => {
+    const uniqueFileName = `${Date.now()}-${fileName}`; // Add timestamp to create a unique filename
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = uniqueFileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  
 
   // Function to format date to show month, day name, and date
   const formatDate = (timestamp) => {
@@ -90,8 +102,19 @@ const Uploads = () => {
     });
   };
 
-  return (
-    <div className="min-h-screen">
+ // Function to download the file (image or video) by fetching the file as a blob first
+const handleDownload = async (file) => {
+  try {
+    const response = await fetch(`https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`);
+    const blob = await response.blob(); // Convert the file into a blob
+    saveToDevice(blob, file.fileName); // Call saveToDevice with the blob and file name
+  } catch (error) {
+    console.error("Error downloading the file:", error);
+  }
+};
+
+return (
+   <div className="min-h-screen">
       <div className="p-6">
         {/* Check if there are uploaded files */}
         {!uploadedFiles.length ? (
@@ -121,7 +144,7 @@ const Uploads = () => {
                 <p
                   className="w-full px-2 py-2 text-[#0094FF] rounded-[2em] border-slate-800 shadow-lg 
                   transform hover:scale-105 transition-transform duration-300 border-gradient2 bg-opacity-50 
-                  backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] 
+                  backdrop-filter backdrop-blur-lg flex items-center text-left relative text-[0.8em] 
                   overflow-hidden text-ellipsis whitespace-nowrap max-w-full mt-4"
                   style={{ maxWidth: '250px' }}  // Adjust the size of the file name box
                 >
@@ -135,13 +158,12 @@ const Uploads = () => {
                 </p>
 
                 {/* Download Button */}
-                <a
-                  href={`https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`}
-                  download={file.fileName}
-                  className="inline-block mt-5 bg-[#0094FF] text-white py-2 px-4 rounded-[2em] mb-5"
-                >
-                  {isVideoFile(file.fileName) ? "Download Video" : "Download Image"}
-                </a>
+                <button
+          onClick={() => handleDownload(file)} // Call handleDownload with the file object
+          className="inline-block mt-5 bg-[#0094FF] text-white py-2 px-4 rounded-[2em] mb-5"
+        >
+          {isVideoFile(file.fileName) ? "Download Video" : "Download Image"}
+        </button>
               </div>
             ))}
           </div>

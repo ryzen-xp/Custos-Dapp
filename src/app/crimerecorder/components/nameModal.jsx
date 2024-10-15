@@ -1,40 +1,52 @@
-import React, { useState } from 'react';
+'use client'
+import { useState } from "react";
+import { FaTimes } from "react-icons/fa";
 
-const FileUploadModal = ({ isOpen, onClose, onSubmit }) => {
+const Filename = ({ open, onClose, onSubmit }) => {
+  if (!open) {
+    return null;
+  }
   const [fileName, setFileName] = useState("");
 
   const handleSubmit = () => {
     if (fileName.trim()) {
+      // Call the onSubmit prop with the filename
       onSubmit(fileName);
+      onClose(); // Close the modal after submission
     } else {
       alert("Please enter a valid file name.");
     }
   };
 
-  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-md">
-        <h2 className="text-lg font-semibold mb-4">Enter File Name</h2>
+    <div className="fixed top-80 border rounded-xl bg-[#04080C] p-4 border-[#19B1D2] h-fit w-[40%] shadow-2xl items-center justify-center flex flex-col m-auto">
+      <div className="w-full flex justify-between gap-x-32 flex-row-reverse mb-4">
+        <button className="text-white" onClick={onClose}>
+          <FaTimes size={20} />
+        </button>
+        <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A]">
+         Enyer your file name
+        </h1>
+      </div>
+     
         <input
           type="text"
           value={fileName}
           onChange={(e) => setFileName(e.target.value)}
-          className="border p-2 w-full mb-4"
-          placeholder="Enter a file name"
+          className="border bg-[#04080C] text-white p-2 w-full mb-4 rounded-[2em]"
+          placeholder="Enter a file name here"
         />
         <div className="flex justify-end space-x-4">
-          <button onClick={onClose} className="bg-gray-400 px-4 py-2 rounded">
-            Cancel
-          </button>
-          <button onClick={handleSubmit} className="bg-blue-500 px-4 py-2 rounded text-white">
-            Upload
+          
+          <button
+            onClick={handleSubmit}
+            className="inline-block mt-5 bg-[#0094FF] text-white py-2 px-4 rounded-[2em]  mb-5">
+            Submit
           </button>
         </div>
       </div>
-    </div>
   );
 };
 
-export default FileUploadModal;
+export default Filename;
