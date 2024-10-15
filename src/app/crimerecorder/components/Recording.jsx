@@ -134,9 +134,10 @@
 
     const handleFileNameSubmit = (inputFileName) => {
       setFileName(inputFileName);  // Store the filename input from the modal
-      isUploadModalOpen(false);  // Close the modal after filename submission
+      setUploadModalOpen(false);  // Close the modal after filename submission
       uploadToIPFS(recordedChunks); // Proceed with the IPFS upload
     };
+    
 
     const startCamera = async () => {
       try {

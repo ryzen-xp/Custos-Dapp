@@ -7,7 +7,7 @@ const SuccessScreen = ({ open, onClose }) => {
   }
 
   return (
-    <div className="fixed top-50 border rounded-xl bg-[#04080C] p-4 border-[#19B1D2] h-fit w-[40%] shadow-2xl items-center justify-center flex flex-col m-auto">
+    <div className="fixed top-80 border rounded-xl bg-[#04080C] p-4 border-[#19B1D2] h-fit w-[40%] shadow-2xl items-center justify-center flex flex-col m-auto">
       <div className="w-full flex justify-between gap-x-32 flex-row-reverse mb-4">
         <button className="text-white" onClick={onClose}>
           <FaTimes size={20} />

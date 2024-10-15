@@ -34,9 +34,7 @@ const Filename = ({ open, onClose, onSubmit }) => {
           type="text"
           value={fileName}
           onChange={(e) => setFileName(e.target.value)}
-          className="border bg-[#04080C] text-white p-2 w-full mb-4 rounded-[2em]"
-          placeholder="Enter a file name here"
-        />
+          className="border bg-[#04080C] text-white p-2 w-full mb-4 rounded-[2em]" />
         <div className="flex justify-end space-x-4">
           
           <button
