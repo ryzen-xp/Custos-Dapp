@@ -6,7 +6,7 @@ import useIdentityVerification from "@/utils/verification";
 import { GlobalStateContext } from "@/context/GlobalStateProvider";
 import { useRouter } from "next/navigation";
 import { provider, UseWriteToContract } from "@/utils/fetchcontract";
-import { stringToByteArray, stringToFelt } from "@/utils/serializer";
+import { hexToNumber, stringToByteArray, stringToFelt } from "@/utils/serializer";
 import SuccessScreen from "./Success";
 import Loading from "@/components/loading";
 
@@ -28,6 +28,8 @@ const ValidateAgreementModal = ({
 
   const { writeToContract, isLoading, isError } = UseWriteToContract();
 
+  const EVENT_SELECTOR = '0x014c05f7f3f16c18069b3e5dfe85b725aad852e37813fa307559077b451d54d2';
+
   const handleValidate = async () => {
     setIsValidating(true);
     try {
@@ -48,14 +50,20 @@ const ValidateAgreementModal = ({
       const result = await writeToContract("agreement", "create_agreement", params);
             
       const txReceipt = await provider.waitForTransaction(result.transaction_hash);
+      let agreement_id;
       if (txReceipt.isSuccess()) {
-        const agreement_id = txReceipt.events
+        const events = txReceipt.events;
+        console.log("All events:", events);
+
+        agreement_id = events[0].keys[1]
+        agreement_id = hexToNumber(agreement_id)
+        console.log(agreement_id)
         console.log("agreement_id", agreement_id);
       }
 
       if (result && result.transaction_hash) {
         const formData = new FormData();
-        formData.append('agreement_id', result.transaction_hash);
+        formData.append('agreement_id', agreement_id);
 
         // Construct the URL with the access_token as a query parameter
         const url = `https://custosbackend.onrender.com/agreement/agreement/update_by_access_token/?access_token=${encodeURIComponent(agreement.access_token)}`;
