@@ -138,9 +138,16 @@
         console.error("Filename is required!");
         return;
       }
-      setFileName(inputFileName);  // Store the filename
+      
+      // Append the correct file extension based on the media type (e.g., .webm for video, .png for image)
+      let fileExtension = category === "video" ? ".webm" : ".png";
+      const fullFileName = inputFileName + fileExtension;
+    
+      console.log("Full filename with extension:", fullFileName); // Debugging log
+    
+      setFileName(fullFileName);  // Store the filename with extension
       setUploadModalOpen(false);  // Close the modal after filename submission
-      uploadToIPFS(recordedChunks, inputFileName);  // Proceed with the IPFS upload
+      uploadToIPFS(recordedChunks, fullFileName);  // Proceed with the IPFS upload
     };
     
       
