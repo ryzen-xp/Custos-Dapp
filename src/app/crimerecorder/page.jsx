@@ -30,6 +30,7 @@ const Uploads = () => {
   const isVideoFile = (fileName) => {
     return /\.(mp4|webm|ogg|mov)$/i.test(fileName);
   };
+
   const saveToDevice = (blob, fileName) => {
     const uniqueFileName = `${Date.now()}-${fileName}`; // Add timestamp to create a unique filename
     const url = URL.createObjectURL(blob);
@@ -42,8 +43,7 @@ const Uploads = () => {
     URL.revokeObjectURL(url);
   };
   
-
-  // Function to format date to show month, day name, and date
+  // Function to format date to show month, day name, date, and time
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString("en-US", {
@@ -51,22 +51,27 @@ const Uploads = () => {
       year: 'numeric',
       month: 'long',  // e.g., January
       day: 'numeric'  // e.g., 10
+    }) + ' ' + date.toLocaleTimeString("en-US", {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit', // Includes seconds
+      hour12: true      // Display time in 12-hour format with AM/PM
     });
   };
 
  // Function to download the file (image or video) by fetching the file as a blob first
-const handleDownload = async (file) => {
-  try {
-    const response = await fetch(`https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`);
-    const blob = await response.blob(); // Convert the file into a blob
-    saveToDevice(blob, file.fileName); // Call saveToDevice with the blob and file name
-  } catch (error) {
-    console.error("Error downloading the file:", error);
-  }
-};
+  const handleDownload = async (file) => {
+    try {
+      const response = await fetch(`https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`);
+      const blob = await response.blob(); // Convert the file into a blob
+      saveToDevice(blob, file.fileName); // Call saveToDevice with the blob and file name
+    } catch (error) {
+      console.error("Error downloading the file:", error);
+    }
+  };
 
-return (
-   <div className="min-h-screen">
+  return (
+    <div className="min-h-screen">
       <div className="p-6">
         {/* Check if there are uploaded files */}
         {!uploadedFiles.length ? (
@@ -111,11 +116,11 @@ return (
 
                 {/* Download Button */}
                 <button
-          onClick={() => handleDownload(file)} // Call handleDownload with the file object
-          className="inline-block mt-5 bg-[#0094FF] text-white py-2 px-4 rounded-[2em] mb-5"
-        >
-          {isVideoFile(file.fileName) ? "Download Video" : "Download Image"}
-        </button>
+                  onClick={() => handleDownload(file)} // Call handleDownload with the file object
+                  className="inline-block mt-5 bg-[#0094FF] text-white py-2 px-4 rounded-[2em] mb-5"
+                >
+                  {isVideoFile(file.fileName) ? "Download Video" : "Download Image"}
+                </button>
               </div>
             ))}
           </div>
