@@ -202,14 +202,14 @@ const Page = ({ params }) => {
         </div>
 
         <div className="space-y-4">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-co items-center gap-2">
             <strong className="text-sm">Agreement ID:</strong>
             <span>{agreement.agreement_id || "N/A"}</span>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-co gap-2">
             <strong className="text-sm">Content:</strong>
             {isEditing ? (
-              <>
+              <div className="w-full">
                 <textarea
                   value={editableFields.content}
                   onChange={(e) => handleInputChange('content', e.target.value)}
@@ -219,20 +219,20 @@ const Page = ({ params }) => {
                 <select
                   value={contentFormat}
                   onChange={(e) => setContentFormat(e.target.value)}
-                  className="mt-2 p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
+                  className="mt-2 w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
                 >
                   <option value="plain">Plain Text</option>
                   <option value="html">HTML</option>
                   <option value="markdown">Markdown</option>
                 </select>
-              </>
+              </div>
             ) : (
               <div className=" p-4 rounded-lg">
                 {renderContent(agreement.content)}
               </div>
             )}
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-co gap-2">
             <strong className="text-sm">Email:</strong>
             {isEditing ? (
               <input
