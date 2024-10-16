@@ -133,11 +133,24 @@
   
 
     const handleFileNameSubmit = (inputFileName) => {
-      setFileName(inputFileName);  // Store the filename input from the modal
+      console.log("Filename received:", inputFileName);  // Debugging log
+      if (!inputFileName) {
+        console.error("Filename is required!");
+        return;
+      }
+      
+      // Append the correct file extension based on the media type (e.g., .webm for video, .png for image)
+      let fileExtension = category === "video" ? ".webm" : ".png";
+      const fullFileName = inputFileName + fileExtension;
+    
+      console.log("Full filename with extension:", fullFileName); // Debugging log
+    
+      setFileName(fullFileName);  // Store the filename with extension
       setUploadModalOpen(false);  // Close the modal after filename submission
-      uploadToIPFS(recordedChunks); // Proceed with the IPFS upload
+      uploadToIPFS(recordedChunks, fullFileName);  // Proceed with the IPFS upload
     };
     
+      
 
     const startCamera = async () => {
       try {
@@ -224,12 +237,17 @@
       }
     };
 
-    // Upload to IPFS using Pinata
     async function uploadToIPFS(fileBlob, fileName) {
       const formData = new FormData();
       formData.append("file", fileBlob, fileName);
-  
+    
       try {
+        if (!account || !account.address) {
+          console.error("Wallet not connected. Cannot associate file with account.");
+          return;
+        }
+    
+        console.log("Uploading file:", fileName); // Log the file name
         const response = await fetch(
           "https://api.pinata.cloud/pinning/pinFileToIPFS",
           {
@@ -240,23 +258,46 @@
             body: formData,
           }
         );
-  
+    
         if (!response.ok) {
           throw new Error("Failed to upload file to IPFS");
         }
-  
+    
         const data = await response.json();
         const ipfsHash = data.IpfsHash;
-  
+    
         console.log("IPFS Hash:", ipfsHash);
-  
+    
+        // Store the IPFS hash locally for the current user
+        localStorage.setItem("uri", ipfsHash);
         setUri(ipfsHash);
+    
+        // Additional logic to store IPFS hash and associate it with the wallet address
+        const existingUserFiles = JSON.parse(localStorage.getItem("user_files")) || [];
+    
+        // Create an object for the current upload
+        const newFileData = {
+          walletAddress: account.address,
+          ipfsHash,
+          fileName, // Ensure the fileName is set
+          timestamp: Date.now(),
+        };
+    
+        console.log("New file data:", newFileData); // Log new file data
+        // Update the array with the new file entry
+        const updatedUserFiles = [...existingUserFiles, newFileData];
+    
+        // Save the updated array back to localStorage
+        localStorage.setItem("user_files", JSON.stringify(updatedUserFiles));
+    
+        console.log("File uploaded successfully and data saved!");
         setSuccessModalOpen(true);  // Open the success modal after upload
-  
+    
       } catch (error) {
         console.error("Error uploading file:", error);
       }
     }
+    
     
     
     const handleStopMedia = async () => {

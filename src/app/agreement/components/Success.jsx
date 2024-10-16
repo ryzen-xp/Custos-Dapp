@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { FaTimes, FaTimesCircle } from 'react-icons/fa';
 
-const SuccessScreen = ({ onClose, isSuccess }) => {
+const SuccessScreen = ({ onClose, isSuccess, message }) => {
   return (
     <div className="border rounded-xl bg-[#04080C] p-8 border-[#19B1D2] h-fit w-fit shadow-2xl items-center justify-center flex flex-col m-auto">
       <div className="w-full flex justify-between gap-x-16 flex-row-reverse">
@@ -9,7 +9,7 @@ const SuccessScreen = ({ onClose, isSuccess }) => {
           <FaTimes size={20} />
         </button>
         <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A]">
-          {isSuccess ? "Agreement creation Successful" : "Agreement creation Failed"}
+          {message}
         </h1>
       </div>
       <div className="h-full flex items-center justify-center m-auto align-middle w-full text-center">
@@ -26,7 +26,7 @@ const SuccessScreen = ({ onClose, isSuccess }) => {
       </div>
       {!isSuccess && (
         <p className="text-red-500 mt-4">
-          An error occurred while creating the agreement. Please try again.
+          {message}
         </p>
       )}
     </div>
