@@ -92,6 +92,8 @@ const Page = ({ params }) => {
   };
 
   const handleSave = async () => {
+    setIsEditing(!true);
+
     try {
       const formData = new FormData();
       Object.entries(editableFields).forEach(([key, value]) => {
@@ -203,54 +205,61 @@ const Page = ({ params }) => {
 
         <div className="space-y-4">
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">Agreement ID:</strong>
-            <span>{agreement.agreement_id || "N/A"}</span>
+            <strong className="text-lg">Agreement Title:</strong>
+            <span className="text-sm">
+              {/* {agreement.agreement_id || "N/A"} */}
+              <div className="box w-fit p-2">
+                <sh></sh>
+              
+              </div>
+            </span>
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">Content:</strong>
+            <strong className="text-lg">Content:</strong>
             {isEditing ? (
-              <>
+              <div className="w-full">
                 <textarea
                   value={editableFields.content}
-                  onChange={(e) => handleInputChange('content', e.target.value)}
+                  onChange={(e) => handleInputChange("content", e.target.value)}
                   rows="10"
                   className="w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
                 />
                 <select
                   value={contentFormat}
                   onChange={(e) => setContentFormat(e.target.value)}
-                  className="mt-2 p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
+                  className="mt-2 w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
                 >
                   <option value="plain">Plain Text</option>
                   <option value="html">HTML</option>
                   <option value="markdown">Markdown</option>
                 </select>
-              </>
+              </div>
             ) : (
-              <div className=" p-4 rounded-lg">
+              <div className=" py-4 rounded-lg font-normal text-sm">
                 {renderContent(agreement.content)}
+               
               </div>
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">Email:</strong>
+            <strong className="text-lg">Email:</strong>
             {isEditing ? (
               <input
                 type="email"
                 value={editableFields.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
+                onChange={(e) => handleInputChange("email", e.target.value)}
                 className="w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
               />
             ) : (
-              <span>{agreement.email || "N/A"}</span>
+              <span className="text-sm">{agreement.email || "N/A"}</span>
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">First Party Address:</strong>
-            <span>{agreement.first_party_address}</span>
+            <strong className="text-lg">First Party Address:</strong>
+            <span className="text-sm">{agreement.first_party_address}</span>
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">First Party Valid ID:</strong>
+            <strong className="text-lg">First Party Valid ID:</strong>
             <img
               src={agreement.first_party_valid_id}
               alt="First Party ID"
@@ -258,29 +267,33 @@ const Page = ({ params }) => {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">First Party Country:</strong>
+            <strong className="text-lg">First Party Country:</strong>
             {isEditing ? (
               <input
                 type="text"
                 value={editableFields.first_party_country}
-                onChange={(e) => handleInputChange('first_party_country', e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("first_party_country", e.target.value)
+                }
                 className="w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
               />
             ) : (
-              <span>{agreement.first_party_country || "N/A"}</span>
+              <span className="text-sm">{agreement.first_party_country || "N/A"}</span>
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">First Party ID Type:</strong>
+            <strong className="text-lg">First Party ID Type:</strong>
             {isEditing ? (
               <input
                 type="text"
                 value={editableFields.first_party_id_type}
-                onChange={(e) => handleInputChange('first_party_id_type', e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("first_party_id_type", e.target.value)
+                }
                 className="w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
               />
             ) : (
-              <span>{agreement.first_party_id_type}</span>
+              <span className="text-sm">{agreement.first_party_id_type}</span>
             )}
           </div>
           <div className="flex flex-col gap-2">
@@ -292,28 +305,28 @@ const Page = ({ params }) => {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">Second Party Address:</strong>
-            <span>{agreement.second_party_address}</span>
+            <strong className="text-lg">Second Party Address:</strong>
+            <span className="text-sm">{agreement.second_party_address}</span>
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">Second Party Valid ID:</strong>
-            <span>{agreement.second_party_valid_id || "N/A"}</span>
+            <strong className="text-lg">Second Party Valid ID:</strong>
+            <span className="text-sm">{agreement.second_party_valid_id || "N/A"}</span>
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">Second Party Country:</strong>
-            <span>{agreement.second_party_country || "N/A"}</span>
+            <strong className="text-lg">Second Party Country:</strong>
+            <span className="text-sm">{agreement.second_party_country || "N/A"}</span>
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">Second Party ID Type:</strong>
-            <span>{agreement.second_party_id_type || "N/A"}</span>
+            <strong className="text-lg">Second Party ID Type:</strong>
+            <span className="text-sm">{agreement.second_party_id_type || "N/A"}</span>
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">Second Party Signature:</strong>
-            <span>{agreement.second_party_signature || "N/A"}</span>
+            <strong className="text-lg">Second Party Signature:</strong>
+            <span className="text-sm">{agreement.second_party_signature || "N/A"}</span>
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-sm">Created At:</strong>
-            <span>{new Date(agreement.created_at).toLocaleString()}</span>
+            <strong className="text-lg">Created At:</strong>
+            <span className="text-sm">{new Date(agreement.created_at).toLocaleString()}</span>
           </div>
         </div>
       </div>
