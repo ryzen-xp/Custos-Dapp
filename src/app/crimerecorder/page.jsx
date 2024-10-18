@@ -73,7 +73,6 @@ const Uploads = () => {
 
 return (
    <div className="min-h-screen">
-    <AgreementNav activeTab={'activeTab'} setActiveTab={'setActiveTab'} text={'Video Recorder'} mode={"video"}/>
       <div className="p-6">
         {!uploadedFiles.length ? (
           <NoRecordScreen />

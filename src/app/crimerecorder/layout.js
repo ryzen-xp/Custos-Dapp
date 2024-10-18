@@ -10,6 +10,7 @@ import Sidepane from "@/components/dapps/sidepane";
 import Header from "@/components/dapps/header";
 import Image from 'next/image';
 import { WalletContext } from "@/components/walletprovider"; // Import WalletContext
+import AgreementNav from "../agreement/components/AgreementNav";
 
 export default function RootLayout({ children }) {
   const [isSidepaneOpen, setSidepaneOpen] = useState(false); // State to toggle sidepane
@@ -73,6 +74,9 @@ export default function RootLayout({ children }) {
             )}
           </button>
         </div>
+
+        <AgreementNav activeTab={'activeTab'} setActiveTab={'setActiveTab'} text={'Video Recorder'} mode={"video"}/>
+
 
         {/* Children Content */}
         <div className="flex flex-col p-3 w-full mb-10">{children}</div>
