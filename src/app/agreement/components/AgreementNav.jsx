@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import Page from "../[...slug]/page";
 
-const AgreementNav = ({ activeTab, setActiveTab }) => {
+const AgreementNav = ({ activeTab, setActiveTab, text, mode}) => {
   const { globalState } = useContext(GlobalStateContext);
   return (
     <div className="flex flex-col w-full p-4 gap-4 ">
@@ -26,7 +26,7 @@ const AgreementNav = ({ activeTab, setActiveTab }) => {
           </button>
         </div>
         <div className="flex justify-between items-center">
-          <p className="text-3xl font-bold text-white">Agreements</p>
+          <p className="text-3xl font-bold text-white">{text}</p>
           {/* <div className={`${globalState !== "" ? "flex" : "hidden"}`}>
             <div className="button-transition">
               <img
@@ -49,6 +49,7 @@ const AgreementNav = ({ activeTab, setActiveTab }) => {
       </div>
 
       {/* Tab Navigation */}
+      {!mode &&
       <div className="relative">
         <div className="flex justify-around w-fit gap-16 text-lg">
           <button
@@ -112,6 +113,7 @@ const AgreementNav = ({ activeTab, setActiveTab }) => {
           )} */}
         </div>
       </div>
+}
     </div>
   );
 };

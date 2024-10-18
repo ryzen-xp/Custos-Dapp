@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { WalletContext } from "@/components/walletprovider"; 
 import NoRecordScreen from "./components/NoRecordScreen";
+import AgreementNav from "../agreement/components/AgreementNav";
 
 
 const Uploads = () => {
@@ -67,6 +68,7 @@ const handleDownload = async (file) => {
 
 return (
    <div className="min-h-screen">
+    <AgreementNav activeTab={'activeTab'} setActiveTab={'setActiveTab'} text={'Video Recorder'} mode={"video"}/>
       <div className="p-6">
         {/* Check if there are uploaded files */}
         {!uploadedFiles.length ? (
