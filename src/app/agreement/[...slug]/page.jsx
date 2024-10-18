@@ -210,7 +210,7 @@ const Page = ({ params }) => {
               {/* {agreement.agreement_id || "N/A"} */}
               <div className="box w-fit p-2">
                 <sh></sh>
-                <p className="">Employment Contract Between Custos Direct'z and Mercy</p>
+              
               </div>
             </span>
           </div>
