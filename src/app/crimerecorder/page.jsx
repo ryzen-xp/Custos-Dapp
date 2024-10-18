@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { WalletContext } from "@/components/walletprovider";
 import NoRecordScreen from "./components/NoRecordScreen";
+import AgreementNav from "../agreement/components/AgreementNav";
 
 const Uploads = () => {
   const { account } = useContext(WalletContext);
@@ -59,8 +60,19 @@ const Uploads = () => {
     });
   };
 
-  return (
-    <div className="min-h-screen">
+ // Function to download the file (image or video) by fetching the file as a blob first
+// const handleDownload = async (file) => {
+//   try {
+//     const response = await fetch(`https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`);
+//     const blob = await response.blob(); // Convert the file into a blob
+//     saveToDevice(blob, file.fileName); // Call saveToDevice with the blob and file name
+//   } catch (error) {
+//     console.error("Error downloading the file:", error);
+//   }
+// };
+
+return (
+   <div className="min-h-screen">
       <div className="p-6">
         {!uploadedFiles.length ? (
           <NoRecordScreen />
@@ -80,7 +92,7 @@ const Uploads = () => {
                   <video
                     src={`https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`}
                     className="w-full h-auto rounded"
-                    controls
+                    
                   />
                 ) : (
                   <p className="text-red-500">Unsupported file type: {file.fileName}</p>
