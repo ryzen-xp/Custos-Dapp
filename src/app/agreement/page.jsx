@@ -188,7 +188,7 @@ function AgreementList() {
   return (
     <div className="w-full flex flex-col">
       {/* Secondary Navbar */}
-      <AgreementNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      <AgreementNav activeTab={activeTab} setActiveTab={setActiveTab} text={'Agreement'}/>
       
       <div className="w-full">
         {loadingAgreements || loadingPendingAgreements ? (

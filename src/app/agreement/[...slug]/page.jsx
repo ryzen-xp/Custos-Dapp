@@ -210,7 +210,7 @@ const Page = ({ params }) => {
               {/* {agreement.agreement_id || "N/A"} */}
               <div className="box w-fit p-2">
                 <sh></sh>
-                <p className="">Employment Contract Between Custos Direct'z and Mercy</p>
+              
               </div>
             </span>
           </div>
@@ -236,89 +236,8 @@ const Page = ({ params }) => {
               </div>
             ) : (
               <div className=" py-4 rounded-lg font-normal text-sm">
-                {/* {renderContent(agreement.content)} */}
-                Below is a draft of a Non-Disclosure Employment Contract between
-                Custos Diretriz and Mercy. This contract includes
-                confidentiality, employment terms, and other essential clauses
-                to protect both parties' interests. --- ### Non-Disclosure
-                Employment Contract **This Employment Agreement** ("Agreement")
-                is made and entered into on this [Day] day of [Month], [Year],
-                by and between: **Custos Diretriz** [Address] [City, State, Zip
-                Code] ("Employer") and **Mercy** [Address] [City, State, Zip
-                Code] ("Employee") ### 1. **Employment Terms** 1.1 **Position**:
-                The Employer agrees to employ the Employee in the position of
-                [Position Title]. 1.2 **Start Date**: The Employee shall
-                commence employment on [Start Date]. 1.3 **Duties**: The
-                Employee agrees to perform the duties and responsibilities
-                assigned by the Employer, including but not limited to [brief
-                description of duties]. 1.4 **Compensation**: The Employee will
-                receive a salary of [Salary Amount] per [Month/Year], paid
-                [Weekly/Bi-weekly/Monthly]. 1.5 **Benefits**: The Employee will
-                be eligible for benefits including [list benefits, e.g., health
-                insurance, retirement plans, etc.]. ### 2. **Confidential
-                Information** 2.1 **Definition**: For the purposes of this
-                Agreement, "Confidential Information" shall include any and all
-                non-public information, knowledge, or data disclosed to the
-                Employee by the Employer, whether oral, written, graphic, or
-                electronic, including but not limited to: - Business plans and
-                strategies - Financial information - Marketing plans - Product
-                designs - Customer and supplier lists - Trade secrets -
-                Intellectual property 2.2 **Obligations**: The Employee agrees:
-                - Not to disclose Confidential Information to any third party
-                without the Employer's written consent. - To use the
-                Confidential Information only for the purposes of fulfilling
-                their employment duties. - To take all necessary precautions to
-                protect the confidentiality of the information. 2.3 **Return of
-                Materials**: Upon termination of employment, the Employee agrees
-                to return all documents, materials, and property belonging to
-                the Employer, including any Confidential Information. ### 3.
-                **Intellectual Property** 3.1 **Assignment**: The Employee
-                agrees that any work product, inventions, designs, or
-                developments created during the course of employment that relate
-                to the Employer’s business shall be the property of the
-                Employer. 3.2 **Disclosure**: The Employee agrees to disclose
-                promptly any such work product to the Employer. ### 4. **Term
-                and Termination** 4.1 **Term**: This Agreement shall continue
-                until terminated by either party in accordance with this
-                Section. 4.2 **Termination by Employer**: The Employer may
-                terminate this Agreement at any time with or without cause,
-                provided [notice period, e.g., two weeks’] notice is given. 4.3
-                **Termination by Employee**: The Employee may terminate this
-                Agreement at any time by providing [notice period, e.g., two
-                weeks’] written notice to the Employer. 4.4 **Effect of
-                Termination**: Upon termination, the Employee shall cease all
-                use of Confidential Information and shall return all materials
-                as outlined in Section 2.3. ### 5. **Non-Competition and
-                Non-Solicitation** 5.1 **Non-Competition**: During the term of
-                employment and for a period of [duration, e.g., one year]
-                following termination, the Employee agrees not to engage in any
-                business that competes directly with the Employer. 5.2
-                **Non-Solicitation**: During the term of employment and for a
-                period of [duration, e.g., one year] following termination, the
-                Employee agrees not to solicit or induce any employee or
-                contractor of the Employer to leave their position or work for a
-                competing business. ### 6. **General Provisions** 6.1
-                **Governing Law**: This Agreement shall be governed by and
-                construed in accordance with the laws of the State of [State].
-                6.2 **Entire Agreement**: This Agreement constitutes the entire
-                agreement between the parties and supersedes all prior
-                agreements or understandings, whether written or oral, relating
-                to the subject matter hereof. 6.3 **Amendments**: This Agreement
-                may only be amended or modified by a written instrument signed
-                by both parties. 6.4 **Severability**: If any provision of this
-                Agreement is found to be invalid or unenforceable, the remaining
-                provisions shall remain in full force and effect. 6.5
-                **Waiver**: The waiver by either party of any breach of this
-                Agreement shall not operate as a waiver of any subsequent
-                breach. **IN WITNESS WHEREOF**, the parties have executed this
-                Agreement as of the day and year first above written. ---
-                **Employer** Custos Diretriz By: _______________________________
-                Name: [Name] Title: [Title] Date: [Date] --- **Employee** Mercy
-                By: _______________________________ Name: Mercy Date: [Date] ---
-                Feel free to customize the placeholders (like [Position Title],
-                [Start Date], [Salary Amount], [State], etc.) to fit the
-                specific details of your agreement. If you need further
-                customization or additional clauses, let me know!
+                {renderContent(agreement.content)}
+               
               </div>
             )}
           </div>
