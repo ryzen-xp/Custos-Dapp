@@ -74,6 +74,7 @@ const Hero = () => {
 
           <div className=" transform  box transition-transform duration-300 hover:scale-110">
             <sh></sh>
+            
             <div className="w-fit p-2 sm:w-[20em] rounded-[1.1em] shadow-lg border-gradien bg-[#5c80b50c] bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-full overflow-clip">
               {/* <div className="w-fit sm:w-[20em] rounded-[1.1em] shadow-lg border-gradient bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-[20em] overflow-clip"> */}
               <div className="py-2 text-center h-full">
