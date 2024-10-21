@@ -8,12 +8,12 @@ import { useEffect, useState, useRef } from "react";
 import ShowLaunchDapps from "../showLaunchDapps";
 
 const Hero = () => {
-    const [showLaunchDapps, setShowLaunchDapps] = useState(false);
+  const [showLaunchDapps, setShowLaunchDapps] = useState(false);
   const starRef = useRef(null);
 
-   const toggleLaunchDapps = () => {
-     setShowLaunchDapps(!showLaunchDapps);
-   };
+  const toggleLaunchDapps = () => {
+    setShowLaunchDapps(!showLaunchDapps);
+  };
   const closeModal = () => {
     setShowLaunchDapps(false);
   };
@@ -32,9 +32,7 @@ const Hero = () => {
             />
           </button>
         </div>
-        {showLaunchDapps && (
-          <ShowLaunchDapps closeModal={closeModal} />
-        )}
+        {showLaunchDapps && <ShowLaunchDapps closeModal={closeModal} />}
         <p className="text-4xl font-bold my-6 bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent text-center w-full p-3">
           The new blockchain safe
         </p>
@@ -47,8 +45,10 @@ const Hero = () => {
         </div> */}
 
         <div className="flex flex-col lg:flex-row justify-center w-fit gap-[4em] mt-[4rem]">
-          {/* <div className="p-2 transform transition-transform duration-300 hover:scale-110">
-            <div className="w-fit sm:w-[20em] rounded-[1.1em] bg-[#5c80b50c] shadow-lg border-gradient backdrop-filter backdrop-blur-[1px] flex flex-col items-center relative h-[20em] overflow-clip">
+          <div className="transform box transition-transform duration-300 hover:scale-110 backdrop-filter backdrop-blur-[10px] bg-[#ffffff12] shadow-lg rounded-lg w-full">
+            <div className="sh"></div>
+            {/* <div className="w-fit sm:w-[20em] rounded-[1.1em] shadow-lg border-gradient bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-[20em] overflow-clip"> */}
+            <div className="w-fit p-2 sm:w-[20em] rounded-[1.1em] shadow-lg flex flex-col items-center relative h-full overflow-clip">
               <div className="py-2 text-center h-full">
                 <div className="font-bold text-[1.2em] mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
                   Crime scene recorder
@@ -68,20 +68,11 @@ const Hero = () => {
                 />
               </div>
             </div>
-          </div> */}
-
-          <div className="image-container">
-            <img src="./herod.png" alt="Zoom Image" />
-          </div>
-          <div className="image-container">
-            <img src="./middle.png" alt="Zoom Image" />
-          </div>
-          <div className="image-container">
-            <img src="./herod2.png" alt="Zoom Image" />
           </div>
 
-          {/* <div className="p-2 transform transition-transform duration-300 hover:scale-110">
-            <div className="w-fit sm:w-[20em] rounded-[1.1em] shadow-lg border-gradient bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-[20em] overflow-clip">
+          <div className="transform box transition-transform duration-300 hover:scale-110 backdrop-filter backdrop-blur-[10px] bg-[#ffffff12] shadow-lg rounded-lg w-full">
+            <div className="sh"></div>
+            <div className="w-fit p-2 sm:w-[20em] rounded-[1.1em] shadow-lg border-gradien flex flex-col items-center relative h-full overflow-hidden">
               <div className="py-2 text-center h-full">
                 <div className="font-bold text-[1.2em] mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
                   A very secure blockchain safe
@@ -89,7 +80,7 @@ const Hero = () => {
                 <p className="text-gray-700 text-[0.8em] w-[80%] m-auto text-center items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
                   Leveraging on Starknet’s advanced technology for unparalleled
                   security and efficiency, we have built a safe for your
-                  agreement and videos
+                  agreement and videos.
                 </p>
               </div>
               <div className="h-fit mb-5">
@@ -102,10 +93,13 @@ const Hero = () => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
 
-          {/* <div className="p-2 transform transition-transform duration-300 hover:scale-110">
-            <div className="w-fit sm:w-[20em] rounded-[1.1em] shadow-lg border-gradient bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-[20em] overflow-clip">
+          {/* <div className="w-fit sm:w-[20em] rounded-[1.1em] shadow-lg border-gradient bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-[20em] overflow-clip"> */}
+          <div className="transform box transition-transform duration-300 hover:scale-110 backdrop-filter backdrop-blur-[10px] bg-[#ffffff12] shadow-lg rounded-lg w-full">
+            <div className="sh"></div>
+            {/* <div className="w-fit sm:w-[20em] rounded-[1.1em] shadow-lg border-gradient bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-[20em] overflow-clip"> */}
+            <div className="w-fit p-2 sm:w-[20em] rounded-[1.1em] shadow-lg flex flex-col items-center relative h-full overflow-clip">
               <div className="py-2 text-center h-full">
                 <div className="font-bold text-[1.2em] mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
                   Agreement documentation
@@ -125,7 +119,7 @@ const Hero = () => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </main>
