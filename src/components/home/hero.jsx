@@ -45,10 +45,10 @@ const Hero = () => {
         </div> */}
 
         <div className="flex flex-col lg:flex-row justify-center w-fit gap-[4em] mt-[4rem]">
-          <div className="transform box transition-transform duration-300 hover:scale-110">
-            <sh></sh>
+          <div className="transform box transition-transform duration-300 hover:scale-110 backdrop-filter backdrop-blur-[10px] bg-[#ffffff12] shadow-lg rounded-lg w-full">
+            <div className="sh"></div>
             {/* <div className="w-fit sm:w-[20em] rounded-[1.1em] shadow-lg border-gradient bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-[20em] overflow-clip"> */}
-            <div className="w-fit p-2 sm:w-[20em] rounded-[1.1em] shadow-lg border-gradien bg-[#5c80b50c] bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-full overflow-clip">
+            <div className="w-fit p-2 sm:w-[20em] rounded-[1.1em] shadow-lg flex flex-col items-center relative h-full overflow-clip">
               <div className="py-2 text-center h-full">
                 <div className="font-bold text-[1.2em] mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
                   Crime scene recorder
@@ -70,13 +70,9 @@ const Hero = () => {
             </div>
           </div>
 
-    
-
-          <div className=" transform  box transition-transform duration-300 hover:scale-110">
-            <sh></sh>
-            
-            <div className="w-fit p-2 sm:w-[20em] rounded-[1.1em] shadow-lg border-gradien bg-[#5c80b50c] bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-full overflow-clip">
-              {/* <div className="w-fit sm:w-[20em] rounded-[1.1em] shadow-lg border-gradient bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-[20em] overflow-clip"> */}
+          <div className="transform box transition-transform duration-300 hover:scale-110 backdrop-filter backdrop-blur-[10px] bg-[#ffffff12] shadow-lg rounded-lg w-full">
+            <div className="sh"></div>
+            <div className="w-fit p-2 sm:w-[20em] rounded-[1.1em] shadow-lg border-gradien flex flex-col items-center relative h-full overflow-hidden">
               <div className="py-2 text-center h-full">
                 <div className="font-bold text-[1.2em] mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
                   A very secure blockchain safe
@@ -84,7 +80,7 @@ const Hero = () => {
                 <p className="text-gray-700 text-[0.8em] w-[80%] m-auto text-center items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
                   Leveraging on Starknet’s advanced technology for unparalleled
                   security and efficiency, we have built a safe for your
-                  agreement and videos
+                  agreement and videos.
                 </p>
               </div>
               <div className="h-fit mb-5">
@@ -99,10 +95,11 @@ const Hero = () => {
             </div>
           </div>
 
-          <div className="p- transform box transition-transform duration-300 hover:scale-110">
-            <sh></sh>
+          {/* <div className="w-fit sm:w-[20em] rounded-[1.1em] shadow-lg border-gradient bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-[20em] overflow-clip"> */}
+          <div className="transform box transition-transform duration-300 hover:scale-110 backdrop-filter backdrop-blur-[10px] bg-[#ffffff12] shadow-lg rounded-lg w-full">
+            <div className="sh"></div>
             {/* <div className="w-fit sm:w-[20em] rounded-[1.1em] shadow-lg border-gradient bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-[20em] overflow-clip"> */}
-            <div className="w-fit p-2 sm:w-[20em] rounded-[1.1em] shadow-lg border-gradien bg-[#5c80b50c] bg-opacity-95 backdrop-filter backdrop-blur-[10px] flex flex-col items-center relative h-full overflow-clip">
+            <div className="w-fit p-2 sm:w-[20em] rounded-[1.1em] shadow-lg flex flex-col items-center relative h-full overflow-clip">
               <div className="py-2 text-center h-full">
                 <div className="font-bold text-[1.2em] mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
                   Agreement documentation
