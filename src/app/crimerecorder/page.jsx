@@ -92,7 +92,7 @@ return (
                   <video
                     src={`https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`}
                     className="w-full h-auto rounded"
-                    controls
+                    
                   />
                 ) : (
                   <p className="text-red-500">Unsupported file type: {file.fileName}</p>

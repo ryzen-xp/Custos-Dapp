@@ -12,6 +12,7 @@ import ShowLaunchDapps from "../showLaunchDapps";
 
 import { TextFade } from "./textFade";
 import FadeInSection from "../fadeInSection";
+import { FaLongArrowAltRight } from "react-icons/fa";
 // const printAgreement = (agreement) => {
 //   const printContent = `
 //     <h1>${agreement.title}</h1>
@@ -76,9 +77,12 @@ const Agree = () => {
       </FadeInSection>
 
       <div className="justify-center items-center flex mb-[15%]">
-        <a  href="/agreement">
-          <div className="launch-pad-button-container">
-            <img src="./launchPadButton.png" alt="Zoom Image" />
+        <a href="/agreement">
+          <div className=" flex box items-center text-white text-sm py-4 px-8 rounded-[100] bg-[#ffffff0a] backdrop-filter backdrop-blur-[50px]  hover:bg-[#209af1]">
+            <div className="sh-btn"></div>
+            Launch Dapps
+            <FaLongArrowAltRight className="ml-2" />
+            {/* <img src="./launchPadButton.png" alt="Zoom Image" /> */}
           </div>
           {/* <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
             <span className="flex items-center">Launch Dapp</span>
@@ -150,9 +154,11 @@ const Agree = () => {
           </div>
         </div>
         <div className="justify-center items-center flex mb-[15%]">
-          <a href='/crimerecorder'>
-            <div className="launch-pad-button-container">
-              <img src="./launchPadButton.png" alt="Zoom Image" />
+          <a href="/crimerecorder">
+            <div className=" flex box items-center text-white text-sm py-4 px-8 rounded-[100] bg-[#ffffff0a] backdrop-filter backdrop-blur-[10px]  hover:bg-[#209af1]">
+              <div className="sh-btn"></div>
+              Launch Dapps
+              <FaLongArrowAltRight className="ml-2" />
             </div>
             {/* <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
             <span className="flex items-center">Launch Dapp</span>
