@@ -78,7 +78,7 @@ const Agree = () => {
 
       <div className="justify-center items-center flex mb-[15%]">
         <a href="/agreement">
-          <div className=" flex box items-center text-white text-sm py-4 px-8 rounded-[100] bg-[#ffffff0a] backdrop-filter backdrop-blur-[50px]  hover:bg-[#209af1]">
+          <div className="flex box-btn items-center text-white text-sm py-4 px-8 rounded-[100px] bg-[#84c2f513] backdrop-filter backdrop-blur-[10px] hover:bg-[#209af1] transition-colors duration-300 ease-in-out">
             <div className="sh-btn"></div>
             Launch Dapps
             <FaLongArrowAltRight className="ml-2" />
@@ -103,6 +103,7 @@ const Agree = () => {
           </button> */}
         </a>
       </div>
+      
       {showLaunchDapps && <ShowLaunchDapps closeModal={closeModal} />}
       <div className="w-full">
         <Shape />
@@ -153,9 +154,10 @@ const Agree = () => {
             </a>
           </div>
         </div>
-        <div className="justify-center items-center flex mb-[15%]">
+        
+        <div className="justify-center items-center flex mb-[15%] ">
           <a href="/crimerecorder">
-            <div className=" flex box items-center text-white text-sm py-4 px-8 rounded-[100] bg-[#ffffff0a] backdrop-filter backdrop-blur-[10px]  hover:bg-[#209af1]">
+            <div className=" flex box-btn items-center text-white text-sm py-4 px-8 rounded-[100px] bg-[#84c2f513] backdrop-filter backdrop-blur-[10px] hover:bg-[#209af1] transition-colors duration-300 ease-in-out">
               <div className="sh-btn"></div>
               Launch Dapps
               <FaLongArrowAltRight className="ml-2" />
