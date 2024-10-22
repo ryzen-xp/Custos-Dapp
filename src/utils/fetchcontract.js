@@ -18,7 +18,7 @@ const contractConfigs = {
   agreement: {
     abi: agreementAbi,
     address:
-      "0x02a863d0bf7fac2928c727e79acbe1faca2e2d78ed1bfca49cf8762928874225",
+      "0x02d3a86690e7d7608e85c7df117b73663666d2303ae645f082706ce4e49f32f1",
   },
 };
 

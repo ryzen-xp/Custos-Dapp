@@ -35,11 +35,15 @@ function AgreementList() {
     const fetchAgreements = async () => {
       setLoadingAgreements(true);
       try {
-        const agreementsDetails = await Promise.all(
-          fetchData("agreement", "get_user_agreements", [address])
-        );
-        setAgreements(agreementsDetails);
-        console.log("agreements are", agreementsDetails);
+        // Ensure fetchData returns an array of promises
+        const agreementsDetails = await fetchData("agreement", "get_user_agreements", [address]);
+        // Check if agreementsDetails is an array
+        if (Array.isArray(agreementsDetails)) {
+          setAgreements(agreementsDetails);
+          console.log("agreements are", agreementsDetails);
+        } else {
+          throw new Error("fetchData did not return an array");
+        }
       } catch (error) {
         console.error("Error fetching agreement details:", error);
       } finally {

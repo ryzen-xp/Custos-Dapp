@@ -48,6 +48,8 @@ export const AgreementCard = ({
     setIsModalOpen(true);
   };
 
+  console.log("fetchedagrrement", agreement)
+
   return (
     <div
       onClick={handleCardClick}
@@ -56,7 +58,7 @@ export const AgreementCard = ({
       <div className="relative border-[#4404245e] h-[220px] overflow-clip flex flex-col gap-4 backdrop-blur-sm shadow-2xl border-[0.01px] rounded-lg p-2 items-start w-full">
         <div className="w-full flex justify-between">
           <h2 className="text-[0.8em] w-fit flex text-wrap font-bold bg-gradient-to-r br border-slate-800 px-2 py-[0.8] border from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
-            {agreement[1]}
+            {agreement.content}
           </h2>
         </div>
         <div className="br w-[96%] overflow-hidden flex border-slate-800 px-2 py-[0.8] border text-[0.7em] text-[#9B9292] whitespace-nowrap overflow-ellipsis">
