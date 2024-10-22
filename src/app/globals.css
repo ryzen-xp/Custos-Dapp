@@ -421,23 +421,24 @@ button .text-transparent {
   transform: translate(0px, 0px);
 }
 
-.box .sh-btn {
+.box-btn .sh-btn {
   position: absolute;
   padding: 2px;
   inset: calc(0px - 0px - 0px);
-  border: calc(0px + 1px + 0px) solid #0000;
-  border-radius: calc(0px + 1px + 0px + 23px);
+  border: calc(0px + 1px + 0px) solid #1f85ad;
+  border-radius: 100px;
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   transform: translateZ(-1px);
   pointer-events: none;
 }
-.box .sh-btn::before {
+.box-btn .sh-btn::before {
   content: "";
   position: absolute;
   inset: -2px;
-  border-radius: 23px;
+  border-radius: 100px;
+  /* color: #ffffff1a; */
   background: conic-gradient(from 90deg at 80% -25%, #a0229337, #209af1);
   /*  #ffd700, #f79d03, #ee6907, #e6390a, #de0d0d, #d61039, #cf1261, #c71585, #cf1261, #d61039, #de0d0d, #ee6907, #f79d03, #ffd700, #ffd700, #ffd700 */
   filter: blur(0px);

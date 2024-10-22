@@ -27,10 +27,10 @@ function ConnectButtoncomponent() {
           </button>
         </div>
       ) : (
-        <div className=" w-full">
+        <div className=" w-full  backdrop-blur-[10px] bg-[#84c2f513] rounded-[100px]">
           <button
             onClick={handleConnect}
-            className=" flex box items-center text-white text-sm py-4 px-8 rounded-[100] bg-[#ffffff0a] backdrop-filter backdrop-blur-[10px]  hover:bg-[#209af1]"
+            className="flex box-btn items-center text-white text-sm py-4 px-10 rounded-[100px]  hover:bg-[#209af1] transition-colors duration-300 ease-in-out"
           >
             <div className="sh-btn"></div>
             Connect Wallet
