@@ -42,6 +42,7 @@ function ConnectButtoncomponent() {
             src="/connectButton.png"
             alt="Connect Wallet"
             className=" h-[3em]"
+            ,,,
           /> */}
         </div>
       )}
