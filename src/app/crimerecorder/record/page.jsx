@@ -10,7 +10,7 @@ const Recorder = () => {
 
   return (
     <div className="min-h-screen w-full p-4 md:p-10">
-      <div className="flex flex-col items-center md:mt-10 mt-4">
+      <div className="flex flex-col items-center mt-[-50px] md:mt-[-100px]">
         <Record text={text.text1} icon1={icon1} icon2={icon2} />
       </div>
     </div>

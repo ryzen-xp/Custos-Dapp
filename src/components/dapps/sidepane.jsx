@@ -6,11 +6,15 @@ const Sidepane = () => {
   // Removed state and toggle function
 
   return (
-    <div className="relative w-fit">
+    <div className="flex flex-col min-h-screen ">
+     <div className="flex flex-1">
       {/* Removed Toggle button for mobile */}
 
       {/* Sidebar */}
-      <div className="translate-x-0 bg-gradient-to-r from-[#04080C] to-[#09131A] top-0 left-0 h-screen w-fit p-8 flex flex-col items-center gap-16 transition-transform duration-300 ease-in-out z-40">
+      
+
+      
+      <aside className="w-[250px] bg-gradient-to-r from-[#04080C] to-[#09131A] p-6 flex flex-col items-center gap-8 h-auto">
         {/* Logo */}
         <div className="w-full">
           <a href="/" className="w-auto">
@@ -33,10 +37,11 @@ const Sidepane = () => {
             </div>
           </Link>
         </div>
-      </div>
+      </aside>
 
       {/* Main content */}
-      <div className="ml-0 md:ml-[300px] transition-all duration-300 ease-in-out">
+      <main className="flex-1 overflow-auto">
+      </main>
         {/* Rest of the content */}
       </div>
     </div>

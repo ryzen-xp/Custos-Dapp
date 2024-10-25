@@ -20,7 +20,7 @@ const VideoRecorder = () => {
   return (
     <div className="h-screen w-full md:px-4 px-10">
       <div
-        className="flex justify-center md:mt-20 mt-40"
+        className="flex justify-center md:mt-5 mt-10"
         id="stop-vid-recording"
       >
         <Recording

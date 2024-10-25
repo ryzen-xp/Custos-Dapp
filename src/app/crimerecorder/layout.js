@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
 
   return (
     <div
-      className={`flex min-h-[100vh] w-full ${
+      className={`flex min-h-[100vh] w-full relative ${
         isSidepaneOpen ? "sidepane-open backdrop-blur-lg" : ""
       }`}
       onClick={handleOutsideClick}
@@ -51,15 +51,15 @@ export default function RootLayout({ children }) {
       {/* Sidepane */}
       <div
         className={`w-fit ${
-          isSidepaneOpen ? "absolute" : "hidden"
-        } h-full z-20 md:flex top-0 left-0 sidepane`}
+          isSidepaneOpen ? "sticky" : "hidden"
+        } min-h-screen z-20 md:flex top-0 left-0 sidepane sticky`}
       >
         <Sidepane />
       </div>
 
       {/* Main content area */}
       <div
-        className={`flex flex-col w-full  h-[100vh] overflow-y-scroll scrollbar-hide md:pl-0 ${
+        className={`flex flex-col w-full overflow-y-scroll scrollbar-hide md:pl-0 ${
           isSidepaneOpen ? "backdrop-blur-lg" : ""
         }`}
       >
@@ -80,6 +80,7 @@ export default function RootLayout({ children }) {
 
         {/* Children Content */}
         <div className="flex flex-col p-3 w-full mb-10">{children}</div>
+        
       </div>
     </div>
   );
