@@ -1,7 +1,6 @@
 'use client';
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import SuccessScreen from "@/app/agreement/components/Success";
 
 const Filename = ({ open, onClose, onSubmit }) => {
   const [fileName, setFileName] = useState("");

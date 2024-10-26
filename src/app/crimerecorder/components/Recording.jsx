@@ -18,7 +18,7 @@ import {
 } from "@avnu/gasless-sdk";
 import { byteArray, CallData } from "starknet";
 import SuccessScreen from "./Success";
-import Filename from "./NameModal.jsx";
+import Filename from "./nameModal.jsx";
 
 const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 export const Recording = ({ text, icon1, icon2, imgText, category }) => {
@@ -250,7 +250,7 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
   async function uploadToIPFS(fileBlob, fileName) {
     const formData = new FormData();
     formData.append("file", fileBlob, fileName);
-    setSuccessModalOpen(true);
+    
     try {
       if (!account || !account.address) {
         console.error(
