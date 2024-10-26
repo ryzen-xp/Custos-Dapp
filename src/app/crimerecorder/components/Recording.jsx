@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { WalletContext } from "@/components/walletprovider";
 import stopIcon from "../../../../public/record.png";
 import icon2 from "../../../../public/picture.png";
+import Modal from "react-modal";
 
 import {
   executeCalls,
@@ -17,7 +18,7 @@ import {
 } from "@avnu/gasless-sdk";
 import { byteArray, CallData } from "starknet";
 import SuccessScreen from "./Success";
-import Filename from "./nameModal";
+import Filename from "./NameModal.jsx";
 
 const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 export const Recording = ({ text, icon1, icon2, imgText, category }) => {
@@ -249,7 +250,7 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
   async function uploadToIPFS(fileBlob, fileName) {
     const formData = new FormData();
     formData.append("file", fileBlob, fileName);
-
+    setSuccessModalOpen(true);
     try {
       if (!account || !account.address) {
         console.error(
@@ -350,8 +351,20 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
   }, []);
 
   return (
+    <>
     <div className="w-full flex flex-col mt-10 items-center gap-6">
-      <SuccessScreen open={isSuccessModalOpen} onClose={closeSuccessModal} />
+      
+    <Modal
+        isOpen={isSuccessModalOpen}
+        onRequestClose={closeSuccessModal}
+        className="flex items-center justify-center"
+        overlayClassName="fixed inset-0 backdrop-blur-sm flex items-center justify-center"
+      >
+        <SuccessScreen open={isSuccessModalOpen} onClose={closeSuccessModal} />
+      </Modal>
+
+      
+      
       <Filename
         open={isUploadModalOpen}
         onClose={closeUploadModal}
@@ -406,5 +419,6 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
         </div>
       </div>
     </div>
+  </>
   );
 };

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { provider, UseWriteToContract } from "@/utils/fetchcontract";
 import { hexToNumber, stringToByteArray, stringToFelt } from "@/utils/serializer";
 import SuccessScreen from "./Success";
-import Loading from "@/components/loading";
+import Loading from "@/components/Loading";
 
 const ValidateAgreementModal = ({
   fullname,
