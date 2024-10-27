@@ -250,7 +250,7 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
   async function uploadToIPFS(fileBlob, fileName) {
     const formData = new FormData();
     formData.append("file", fileBlob, fileName);
-    
+   
     try {
       if (!account || !account.address) {
         console.error(
@@ -373,7 +373,7 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
       <p className="text-white text-lg sm:text-xl">{text}</p>
       <div className="bg-gradient-to-r from-[#0094ff] to-[#A02294] w-full max-w-lg rounded-xl md:mb-5">
         <div
-          className="w-full h-full flex flex-col justify-center items-center rounded-xl p-6 sm:p-10"
+          className=" w-full h-full flex flex-col justify-center items-center rounded-xl p-6 sm:p-10"
           style={{
             backgroundColor: "#1e2f37",
             backgroundImage: `url(${bg.src})`,
