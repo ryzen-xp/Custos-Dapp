@@ -20,7 +20,7 @@ const About = () => {
         </a>
 
         <p className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent text-center w-full p-3">
-          We are building the safest <br /> blockchain for your Asset
+          We are building a safe on the <br /> blockchain for your assets
         </p>
 
         <div className="flex flex-wrap justify-center space-x-0 space-y-4 sm:space-x-4 sm:space-y-0">
@@ -38,15 +38,15 @@ const About = () => {
 
       <div className="mx-5 transform hover:scale-105 transition-transform duration-300">
         <div className="flex flex-col md:flex-row justify-between items-center my-32 ml-10">
-          <div className=" mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent md:text-[50px] text-[30px]">
-            <p>About Custos Diretriz</p>
+          <div className="mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent md:text-[50px] text-[30px]">
+            <p className="mb-12 text-3xl">About Custos Diretriz</p> {/* Changed from text-4xl to text-3xl */}
             <div className="flex justify-center">
               <Image
                 src="/ElliH.png"
                 alt="Image"
                 width={200} // Keep the width smaller for desktop
                 height={100} // Keep the height smaller for desktop
-                className="w-48 h-auto md:w-32" // Adjust width for responsiveness
+                className="w-48 h-auto md:w-32 eclipse" // Added bounce class here
               />
             </div>
           </div>
@@ -69,30 +69,32 @@ const About = () => {
       <div className="flex mt-8 items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
         <div className="text-center p-8 bg-transparent rounded shadow-lg">
           <div className="flex flex-col md:flex-row items-center justify-center">
-            <p className="text-[1.5em] mb-4 md:mb-0">Our vision</p>
+            <p className="text-[1.5em] mb-4 md:mb-0 mr-2">Our vision</p>
             <Image
               src="/ElliS.png"
               alt="Image"
               width={200}
               height={100}
-              className="w-12 h-auto md:w-32 md:mr-4 mb-4 md:mb-0" // Adjust width for responsiveness
+              className="w-12 h-auto md:w-32 md:mr-4 mb-4 md:mb-0 eclipse" // Adjust width for responsiveness
             />
           </div>
 
           <div className="text-left mt-4">
             {" "}
             {/* Adds some margin above the text paragraphs */}
-            <p className="text-[20px] mb-4">
-              By leveraging technology and collaboration, we strive to <br />
-              build a world where everyone feels empowered to make a <br />{" "}
-              difference in their communities.
-            </p>
-            <br />
-            <p className="text-[1em] mb-4">
-              We envision a safer and more transparent society where <br />
-              individuals have the tools and resources they need to contribute
-              to <br /> crime prevention and intervention efforts.
-            </p>
+            <div className="text-center"> {/* Added this div for center alignment */}
+              <p className="text-[20px] mb-4">
+                By leveraging technology and collaboration, we strive to build<br />
+                 a world where everyone feels empowered to make a <br />
+                difference in their communities.
+              </p>
+              <br />
+              <p className="text-[1em] mb-4">
+                We envision a safer and more transparent society where individuals<br />
+                 have the tools and resources they need to contribute to <br />
+                crime prevention and intervention efforts.
+              </p>
+            </div>
           </div>
         </div>
       </div>
