@@ -370,10 +370,10 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
         onClose={closeUploadModal}
         onSubmit={handleFileNameSubmit}
       />
-      <p className="text-white text-xl">{text}</p>
-      <div className="bg-gradient-to-r from-[#0094ff] to-[#A02294] w-[50%] p-[1px] rounded-xl md:mb-5">
+      <p className="text-white text-lg sm:text-xl">{text}</p>
+      <div className="bg-gradient-to-r from-[#0094ff] to-[#A02294] w-full max-w-lg rounded-xl md:mb-5">
         <div
-          className="w-full h-full flex flex-col justify-center items-center rounded-xl p-10"
+          className="w-full h-full flex flex-col justify-center items-center rounded-xl p-6 sm:p-10"
           style={{
             backgroundColor: "#1e2f37",
             backgroundImage: `url(${bg.src})`,

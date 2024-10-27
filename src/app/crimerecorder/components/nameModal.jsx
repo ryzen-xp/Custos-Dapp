@@ -43,12 +43,12 @@ const Filename = ({ open, onClose, onSubmit }) => {
         className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 overflow-hidden"
         onClick={handleClose}
       />
-        <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 border rounded-xl bg-[#04080C] p-4 border-[#19B1D2] h-fit w-[40%] shadow-2xl items-center justify-center flex flex-col overflow-hidden">
-          <div className="w-full flex justify-between gap-x-32 flex-row-reverse mb-4">
+        <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 border rounded-xl bg-[#04080C] p-4 border-[#19B1D2] h-fit w-[90%] sm:w-[60%] md:w-[40%] shadow-2xl items-center justify-center flex flex-col overflow-hidden">
+          <div className="w-full flex justify-between items-center mb-4 px-2 sm:px-0">
             <button className="text-white" onClick={handleClose}>
               <FaTimes size={20} />
             </button>
-            <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A]">
+            <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] text-center text-sm sm:text-base md:text-lg lg:text-xl">
               Would you like to name your evidence?
             </h1>
           </div>
