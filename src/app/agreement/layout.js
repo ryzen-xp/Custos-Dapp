@@ -41,7 +41,7 @@ export default function RootLayout({ children }) {
       {/* Main content area */}
       <div className="flex flex-col w-full h-[100vh] overflow-y-scroll scrollbar-hide md:pl-0">
         {/* Header */}
-        <div className="flex backdrop-filter backdrop-blur-[10px] w-full bg-[#ffffff0a] sticky top-0 z-[400]">
+        <div className="flex w-full sticky top-0 z-[400]">
           <Header />
           <button className="md:hidden z-30" onClick={(e) => toggleSidepane(e)}>
             {isSidepaneOpen ? (

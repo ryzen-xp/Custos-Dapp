@@ -9,14 +9,6 @@ const Sidepane = ({ isOpen, onClose }) => {
 
   const navLinks = [
     {
-      href: "/",
-      text: "Home",
-    },
-    {
-      href: "/company",
-      text: "Company",
-    },
-    {
       href: "/agreement/create",
       text: "Agreement",
       icon: "/Plus.svg"
@@ -41,7 +33,7 @@ const Sidepane = ({ isOpen, onClose }) => {
       {/* Sidebar */}
       <div
         className={`fixed md:sticky top-0 left-0 h-screen w-full md:w-[300px] flex flex-col
-          md:bg-black
+          md:bg-gradient-to-b from-[#04080C] to-[#09131A] md:backdrop-filter
           backdrop-blur-xl md:backdrop-blur-none
           bg-white/5
           transition-all duration-300 ease-in-out z-40
@@ -59,9 +51,14 @@ const Sidepane = ({ isOpen, onClose }) => {
                 width={232.7} 
                 height={22} 
                 priority 
-                className="transition-opacity hover:opacity-80"
+                className="transition-opacity hover:opacity-80 pr-4"
               />
             </Link>
+            <Image 
+            src="/solar_minimize-square-minimalistic-linear.png"
+            width={25}
+            height={25}
+            ></Image>
           </div>
 
           {/* Navlinks */}
@@ -124,10 +121,6 @@ const Sidepane = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* Connect Wallet Button - Desktop */}
-          <div className="hidden md:block w-full mt-auto">
-            <ConnectButtoncomponent />
-          </div>
         </div>
       </div>
     </>
