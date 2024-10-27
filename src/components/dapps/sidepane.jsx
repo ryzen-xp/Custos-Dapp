@@ -9,6 +9,16 @@ const Sidepane = ({ isOpen, onClose }) => {
 
   const navLinks = [
     {
+      href: "/",
+      text: "Home",
+      icon: ""
+    },
+    {
+      href: "/",
+      text: "Company",
+      icon: "/Plus.svg"
+    },
+    {
       href: "/agreement/create",
       text: "Agreement",
       icon: "/Plus.svg"

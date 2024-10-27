@@ -17,7 +17,7 @@ function ConnectButtoncomponent() {
     <div className="justify-end flex max-w-[13em] overflow-hidden w-fit items-end">
       {connection ? (
         <div
-          className="cursor-pointer border-gradient py-2 px-4 w-full rounded-full text-[#ededef] bg-gradient-to-r from-[#00A3FF] to-[#0047FF] p-[1px]"
+          className="cursor-pointer border-gradient w-full rounded-full text-[#ededef] bg-gradient-to-r from-[#00A3FF] to-[#0047FF] p-[1px]"
           onClick={disconnectWallet}
         >
           <div className="bg-[#121212] rounded-full py-1 px-3">
@@ -34,7 +34,7 @@ function ConnectButtoncomponent() {
           <div className="bg-[#121212] rounded-[100px]">
             <button
               onClick={handleConnect}
-              className="flex items-center text-white text-sm py-3 px-6 rounded-[100px] hover:bg-[#209af133] transition-colors duration-300 ease-in-out"
+              className="flex items-center text-white text-sm py-3 px-6 rounded-[100px] hover:bg-gradient-to-r from-[#19B1D2] to-[#0094FF] transition-colors duration-300 ease-in-out"
             >
               <span>Connect Wallet</span>
               <FaLongArrowAltRight className="ml-2" />
