@@ -16,7 +16,7 @@ const Sidepane = ({ isOpen, onClose }) => {
     {
       href: "/",
       text: "Company",
-      icon: "/Plus.svg"
+      icon: ""
     },
     {
       href: "/agreement/create",
