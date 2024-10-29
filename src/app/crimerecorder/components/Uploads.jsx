@@ -8,7 +8,8 @@ import NoRecordScreen from "./NoRecordScreen";
 const Uploads = () => {
   const { address } = useContext(WalletContext);
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [uri, setUri] = useState([]);
+  const [fileData, setFileData] = useState([]);
+  const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 
   useEffect(() => {
     const retrieve = async () => {
@@ -16,13 +17,10 @@ const Uploads = () => {
         const { fetchData } = UseReadContractData();
         const result = await fetchData("crime", "get_all_user_uploads", [address]);
   
-        // Convert each file to a readable string and assign an id
         const files = result && typeof result === 'object' 
           ? Object.keys(result).map((key) => ({
-              id: result[key].toString(),         // Assign the ID for each file
-              fileName: `File-${result[key].toString()}`,
-              uri: "",                             // Placeholder for IPFS URI
-              timestamp: Date.now()                // Placeholder timestamp
+              id: result[key].toString(),
+              timestamp: Date.now() // Placeholder timestamp
             }))
           : [];
   
@@ -41,19 +39,41 @@ const Uploads = () => {
         const items = await Promise.all(
           uploadedFiles.map(async (file) => {
             const { fetchData } = UseReadContractData();
-            const uploadUri = await fetchData("crime", "get_token_uri", [file.id]);  // Use file.id to fetch URI
-            console.log(uploadUri)
-            return `https://gateway.pinata.cloud/ipfs/${uploadUri}`;
+            const uploadUri = await fetchData("crime", "get_token_uri", [file.id]);
+            
+            // Fetch metadata from Pinata
+            const response = await fetch(`https://api.pinata.cloud/v3/files',`, {
+              method: 'GET',
+              headers: { Authorization: `Bearer ${NFT_STORAGE_TOKEN}` },
+            });
+            
+            if (!response.ok) throw new Error("Error fetching metadata from Pinata");
+
+            const metadata = await response.json();
+
+            // Check if CID from Pinata matches URI from the blockchain
+            const matchedFile = metadata.rows.find((item) => item.ipfs_pin_hash === uploadUri);
+            if (matchedFile) {
+              return {
+                uri: uploadUri,
+                filename: matchedFile.metadata.name || "Unknown Filename",
+                timestamp: file.timestamp
+              };
+            } else {
+              return null;
+            }
           })
         );
-        setUri(items);
+
+        // Filter out any unmatched files
+        setFileData(items.filter(Boolean));
       } catch (error) {
-        console.error("Error retrieving URIs:", error);
+        console.error("Error retrieving URIs or metadata:", error);
       }
     };
-  
+
     if (uploadedFiles.length) userUploads();
-  }, [uploadedFiles]);  
+  }, [uploadedFiles]); 
 
   const isImageFile = (fileName) => /\.(jpg|jpeg|png|gif|bmp)$/i.test(fileName);
   const isVideoFile = (fileName) => /\.(mp4|webm|ogg|mov)$/i.test(fileName);
@@ -82,9 +102,9 @@ const Uploads = () => {
 
   const handleDownload = async (file) => {
     try {
-      const response = await fetch(`https://gateway.pinata.cloud/ipfs/${uploadUri}`);
+      const response = await fetch(`https://gateway.pinata.cloud/ipfs/${file.uri}`);
       const blob = await response.blob();
-      saveToDevice(blob, file.fileName);
+      saveToDevice(blob, file.filename);
     } catch (error) {
       console.error("Error downloading the file:", error);
     }
@@ -93,22 +113,22 @@ const Uploads = () => {
   return (
     <div className="min-h-screen">
       <div className="p-6">
-        {!uploadedFiles.length ? (
+        {!fileData.length ? (
           <NoRecordScreen />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-white">
-            {uploadedFiles.map((file, index) => (
+            {fileData.map((file, index) => (
               <div key={index} className="relative text-sm whitespace-nowrap mb-2 sm:mb-0 bg-transparent rounded-lg backdrop-blur-lg p-10 shadow-lg">
                 
-                {isImageFile(file.fileName) ? (
+                {isImageFile(file.filename) ? (
                   <img
-                    src={`https://gateway.pinata.cloud/ipfs/${uri[index]}`}
-                    alt={file.fileName}
+                    src={`https://gateway.pinata.cloud/ipfs/${file.uri}`}
+                    alt={file.filename}
                     className="w-full h-auto rounded"
                   />
-                ) : isVideoFile(file.fileName) ? (
+                ) : isVideoFile(file.filename) ? (
                   <video
-                    src={`https://gateway.pinata.cloud/ipfs/${uri[index]}`}
+                    src={`https://gateway.pinata.cloud/ipfs/${file.uri}`}
                     className="w-full h-auto rounded"
                     controls
                   />
@@ -121,7 +141,7 @@ const Uploads = () => {
                   backdrop-filter backdrop-blur-lg flex items-center text-left relative text-[0.8em] 
                   overflow-hidden text-ellipsis whitespace-nowrap max-w-full mt-4"
                   style={{ maxWidth: '250px' }}>
-                  {file.fileName}
+                  {file.filename}
                 </p>
 
                 <p className="text-sm flex mt-4">
@@ -133,7 +153,7 @@ const Uploads = () => {
                   onClick={() => handleDownload(file)}
                   className="inline-block mt-5 bg-[#0094FF] text-white py-2 px-4 rounded-[2em] mb-5"
                 >
-                  {isVideoFile(file.fileName) ? "Download Video" : "Download Image"}
+                  {isVideoFile(file.filename) ? "Download Video" : "Download Image"}
                 </button>
               </div>
             ))}

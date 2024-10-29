@@ -253,7 +253,7 @@ import ErrorScreen from "./error";
     
         console.log("Uploading file:", fileName); // Log the file name
         const response = await fetch(
-          "https://api.pinata.cloud/pinning/pinFileToIPFS",
+          'https://uploads.pinata.cloud/v3/files',
           {
             method: "POST",
             headers: {
@@ -268,31 +268,13 @@ import ErrorScreen from "./error";
         }
     
         const data = await response.json();
-        const ipfsHash = data.IpfsHash;
+        const ipfsHash = data.data.cid;
     
         console.log("IPFS Hash:", ipfsHash);
     
         // Store the IPFS hash locally for the current user
         localStorage.setItem("uri", ipfsHash);
         setUri(ipfsHash);
-    
-        // Additional logic to store IPFS hash and associate it with the wallet address
-        const existingUserFiles = JSON.parse(localStorage.getItem("user_files")) || [];
-    
-        // Create an object for the current upload
-        const newFileData = {
-          walletAddress: account.address,
-          ipfsHash,
-          fileName, // Ensure the fileName is set
-          timestamp: Date.now(),
-        };
-    
-        console.log("New file data:", newFileData); // Log new file data
-        // Update the array with the new file entry
-        const updatedUserFiles = [...existingUserFiles, newFileData];
-    
-        // Save the updated array back to localStorage
-        localStorage.setItem("user_files", JSON.stringify(updatedUserFiles));
     
         console.log("File uploaded successfully and data saved!");
        // setSuccessModalOpen(true);  // Open the success modal after upload
