@@ -15,6 +15,7 @@
   import { byteArray, CallData } from "starknet";
   import SuccessScreen from "./Success";
   import Filename from "./nameModal";
+import ErrorScreen from "./error";
 
   const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY
   export const Recording = ({ text, icon1, imgText, category }) => {
@@ -49,8 +50,9 @@
     const [errorMessage, setErrorMessage] = useState();
     const callRef = useRef(null);
     const [isUploadModalOpen, setUploadModalOpen] = useState(false); // For the file name input modal
-  const [isSuccessModalOpen, setSuccessModalOpen] = useState(false); // For the success confirmation modal
-  const [fileName, setFileName] = useState(""); 
+    const [isSuccessModalOpen, setSuccessModalOpen] = useState(false); // For the success confirmation modal
+    const [isErrorModalOpen, setErrorModalOpen] = useState(false); // For the success confirmation modal
+    const [fileName, setFileName] = useState(""); 
     const recordedVideoRef = useRef(null);
     const photoRef = useRef(null); 
 
@@ -75,7 +77,7 @@
         ];
         callRef.current = JSON.stringify(calls, null, 2);
       }
-
+    
       // Execute the transaction with gasless option
       const triggerWallet = async () => {
         if (uri) {
@@ -88,17 +90,17 @@
                 { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
               );
               console.log("Transaction successful:", transactionResponse);
-              isUploadModalOpen(true);
+              setSuccessModalOpen(true); // Show success modal after transaction
             }
           } catch (error) {
             console.error("Transaction failed:", error);
+            setErrorModalOpen(true); // Show error modal if transaction fails
           }
         }
       };
-
+    
       if (uri !== "") triggerWallet();
     }, [uri]);
-
     useEffect(() => {
       if (!account) return;
       fetchAccountCompatibility(account.address, {
@@ -130,7 +132,9 @@
       setSuccessModalOpen(false);
       route.push("/crimerecorder/uploads");
     };
-  
+    const closeErrorModal = () => {
+      setErrorModalOpen(false);
+    }
 
     const handleFileNameSubmit = (inputFileName) => {
       console.log("Filename received:", inputFileName);  // Debugging log
@@ -291,10 +295,11 @@
         localStorage.setItem("user_files", JSON.stringify(updatedUserFiles));
     
         console.log("File uploaded successfully and data saved!");
-        setSuccessModalOpen(true);  // Open the success modal after upload
+       // setSuccessModalOpen(true);  // Open the success modal after upload
     
       } catch (error) {
         console.error("Error uploading file:", error);
+        //setErrorModalOpen(true); 
       }
     }
     
@@ -341,6 +346,7 @@
     return (
       <div className="w-full flex flex-col mt-10 items-center gap-6">
          <SuccessScreen open={isSuccessModalOpen} onClose={closeSuccessModal} />
+         <ErrorScreen open={isErrorModalOpen} onClose={closeErrorModal} />
       <Filename 
         open={isUploadModalOpen}
         onClose={closeUploadModal}

@@ -1,85 +1,65 @@
- "use client";
-// import React, { useContext, useEffect, useState } from "react";
-// import { Upload } from "./Upload";
-// import { UseReadContractData } from "@/utils/fetchcontract";
-// import { WalletContext } from "@/components/walletprovider";
-// import NoRecordScreen from "./NoRecordScreen";
-
-// const Uploads = () => {
-//   const { address } = useContext(WalletContext);
-//   const [readData, setReadData] = useState([]);
-//   const [uri, setUri] = useState([]);
-
-//   useEffect(() => {
-//     const retrieve = async () => {
-//       let { fetchData } = UseReadContractData();
-//       let result = await fetchData("crime", "get_all_user_uploads", [address]);
-//       let arr = Object.keys(result);
-//       setReadData(arr);
-//     };
-
-//     retrieve();
-//   }, [address]);
-
-//   useEffect(() => {
-//     const userUploads = async () => {
-//       let items = await Promise.all(
-//         readData.map(async (data) => {
-//           let { fetchData } = UseReadContractData();
-//           let uploads = await fetchData("crime", "get_token_uri", [data]);
-//           return uploads;
-//         })
-//       );
-//       setUri(items);
-//     };
-
-//     if (readData.length) userUploads();
-//   }, [readData]);
-
-//   if (!address || readData.length === 0) {
-//     return <NoRecordScreen />;
-//   }
-
-//   return (
-//     <div className="grid grid-cols-3 w-100">
-//       {readData.map((data, index) => {
-//         return <Upload key={index} uri={uri[index]} />;
-//       })}
-//     </div>
-//   );
-// };
+"use client";
 import React, { useContext, useEffect, useState } from "react";
-import { WalletContext } from "@/components/walletprovider"; 
+import { Upload } from "./Upload";
+import { UseReadContractData } from "@/utils/fetchcontract";
+import { WalletContext } from "@/components/walletprovider";
 import NoRecordScreen from "./NoRecordScreen";
 
 const Uploads = () => {
-  const { account } = useContext(WalletContext); // Using WalletContext to get connected account
+  const { address } = useContext(WalletContext);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [uri, setUri] = useState([]);
 
   useEffect(() => {
-    // Retrieve the uploaded files from localStorage
-    const fetchUploadedFiles = () => {
-      const files = JSON.parse(localStorage.getItem("user_files")) || [];
-      // Filter files by the connected wallet address
-      const userFiles = files.filter(file => file.walletAddress === account?.address);
-      setUploadedFiles(userFiles);
+    const retrieve = async () => {
+      try {
+        const { fetchData } = UseReadContractData();
+        const result = await fetchData("crime", "get_all_user_uploads", [address]);
+  
+        // Convert each file to a readable string and assign an id
+        const files = result && typeof result === 'object' 
+          ? Object.keys(result).map((key) => ({
+              id: result[key].toString(),         // Assign the ID for each file
+              fileName: `File-${result[key].toString()}`,
+              uri: "",                             // Placeholder for IPFS URI
+              timestamp: Date.now()                // Placeholder timestamp
+            }))
+          : [];
+  
+        setUploadedFiles(files);
+      } catch (error) {
+        console.error("Error fetching uploaded files:", error);
+      }
     };
+  
+    if (address) retrieve();
+  }, [address]);
+  
+  useEffect(() => {
+    const userUploads = async () => {
+      try {
+        const items = await Promise.all(
+          uploadedFiles.map(async (file) => {
+            const { fetchData } = UseReadContractData();
+            const uploadUri = await fetchData("crime", "get_token_uri", [file.id]);  // Use file.id to fetch URI
+            console.log(uploadUri)
+            return `https://gateway.pinata.cloud/ipfs/${uploadUri}`;
+          })
+        );
+        setUri(items);
+      } catch (error) {
+        console.error("Error retrieving URIs:", error);
+      }
+    };
+  
+    if (uploadedFiles.length) userUploads();
+  }, [uploadedFiles]);  
 
-    if (account?.address) {
-      fetchUploadedFiles();
-    }
-  }, [account?.address]); // Re-run the effect when the wallet address changes
+  const isImageFile = (fileName) => /\.(jpg|jpeg|png|gif|bmp)$/i.test(fileName);
+  const isVideoFile = (fileName) => /\.(mp4|webm|ogg|mov)$/i.test(fileName);
 
-  // Function to check if a file is an image or video
-  const isImageFile = (fileName) => {
-    return /\.(jpg|jpeg|png|gif|bmp)$/i.test(fileName);
-  };
-
-  const isVideoFile = (fileName) => {
-    return /\.(mp4|webm|ogg|mov)$/i.test(fileName);
-  };
   const saveToDevice = (blob, fileName) => {
-    const uniqueFileName = `${Date.now()}-${fileName}`; // Add timestamp to create a unique filename
+    const uniqueFileName = `${Date.now()}-${fileName}`;
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -89,81 +69,72 @@ const Uploads = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
-  
 
-  // Function to format date to show month, day name, and date
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString("en-US", {
-      weekday: 'long', // e.g., Monday
+      weekday: 'long',
       year: 'numeric',
-      month: 'long',  // e.g., January
-      day: 'numeric'  // e.g., 10
+      month: 'long',
+      day: 'numeric'
     });
   };
 
- // Function to download the file (image or video) by fetching the file as a blob first
-const handleDownload = async (file) => {
-  try {
-    const response = await fetch(`https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`);
-    const blob = await response.blob(); // Convert the file into a blob
-    saveToDevice(blob, file.fileName); // Call saveToDevice with the blob and file name
-  } catch (error) {
-    console.error("Error downloading the file:", error);
-  }
-};
+  const handleDownload = async (file) => {
+    try {
+      const response = await fetch(`https://gateway.pinata.cloud/ipfs/${uploadUri}`);
+      const blob = await response.blob();
+      saveToDevice(blob, file.fileName);
+    } catch (error) {
+      console.error("Error downloading the file:", error);
+    }
+  };
 
-return (
-   <div className="min-h-screen">
+  return (
+    <div className="min-h-screen">
       <div className="p-6">
-        {/* Check if there are uploaded files */}
         {!uploadedFiles.length ? (
-          <NoRecordScreen/>
+          <NoRecordScreen />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-white">
             {uploadedFiles.map((file, index) => (
-              <div key={index} className="relative text-sm whitespace-nowrap mb-2 sm:mb-0 bg-transparent rounded-lg backdrop-blur-lg p-10 shadow-lg ">
+              <div key={index} className="relative text-sm whitespace-nowrap mb-2 sm:mb-0 bg-transparent rounded-lg backdrop-blur-lg p-10 shadow-lg">
                 
-                {/* Display image or video based on file type */}
                 {isImageFile(file.fileName) ? (
                   <img
-                    src={`https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`}
+                    src={`https://gateway.pinata.cloud/ipfs/${uri[index]}`}
                     alt={file.fileName}
                     className="w-full h-auto rounded"
                   />
                 ) : isVideoFile(file.fileName) ? (
                   <video
-                    src={`https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`}
+                    src={`https://gateway.pinata.cloud/ipfs/${uri[index]}`}
                     className="w-full h-auto rounded"
+                    controls
                   />
                 ) : (
                   <p className="text-red-500">Unsupported file type</p>
                 )}
 
-                {/* Space under filename */}
-                <p
-                  className="w-full px-2 py-2 text-[#0094FF] rounded-[2em] border-slate-800 shadow-lg 
+                <p className="w-full px-2 py-2 text-[#0094FF] rounded-[2em] border-slate-800 shadow-lg 
                   transform hover:scale-105 transition-transform duration-300 border-gradient2 bg-opacity-50 
                   backdrop-filter backdrop-blur-lg flex items-center text-left relative text-[0.8em] 
                   overflow-hidden text-ellipsis whitespace-nowrap max-w-full mt-4"
-                  style={{ maxWidth: '250px' }}  // Adjust the size of the file name box
-                >
+                  style={{ maxWidth: '250px' }}>
                   {file.fileName}
                 </p>
 
-                {/* Space under timestamp */}
                 <p className="text-sm flex mt-4">
                   <span className="text-[#EAFBFF]">Time Stamp: </span>
                   <span className="text-[#19B1D2] ml-1">{formatDate(file.timestamp)}</span>
                 </p>
 
-                {/* Download Button */}
                 <button
-          onClick={() => handleDownload(file)} // Call handleDownload with the file object
-          className="inline-block mt-5 bg-[#0094FF] text-white py-2 px-4 rounded-[2em] mb-5"
-        >
-          {isVideoFile(file.fileName) ? "Download Video" : "Download Image"}
-        </button>
+                  onClick={() => handleDownload(file)}
+                  className="inline-block mt-5 bg-[#0094FF] text-white py-2 px-4 rounded-[2em] mb-5"
+                >
+                  {isVideoFile(file.fileName) ? "Download Video" : "Download Image"}
+                </button>
               </div>
             ))}
           </div>
