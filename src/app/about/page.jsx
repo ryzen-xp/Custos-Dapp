@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Navbar from "@/components/navbar";
 import ShowLaunchDapps from "../../components/showLaunchDapps";
+import { FaLongArrowAltRight } from "react-icons/fa";
 
 const About = () => {
   const [showLaunchDapps, setShowLaunchDapps] = useState(false);
@@ -192,27 +193,11 @@ const About = () => {
             We paid the price to keep your videos and legal agreements safe.
           </p>
         </div>
-        <a href="/about">
-          <button className="relative max-w-sm w-full text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mt-20 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center rounded-xl overflow-clip">
-            <span className="flex items-center">
-              Send Us a Message
-              <svg
-                className="ml-2 w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                ></path>
-              </svg>
-            </span>
-          </button>
-        </a>
+        <div className="flex box-btn items-center text-white text-sm mb-10 py-4 px-8 rounded-[100px] bg-[#84c2f513] backdrop-filter backdrop-blur-[10px] hover:bg-[#209af1] transition-colors duration-300 ease-in-out">
+          <div className="sh-btn"></div>
+          Send Us a Message
+          <FaLongArrowAltRight className="ml-2" />
+        </div>
       </div>
     </main>
   );
