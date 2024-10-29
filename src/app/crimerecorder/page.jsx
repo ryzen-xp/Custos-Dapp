@@ -79,7 +79,7 @@ return (
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-white">
             {uploadedFiles.map((file, index) => (
-              <div key={index} className="relative text-sm whitespace-nowrap mb-2 sm:mb-0 bg-transparent rounded-lg backdrop-blur-lg p-10 shadow-lg">
+              <div key={index} className="relative text-sm whitespace-nowrap mb-2 sm:mb-0 bg-transparent rounded-lg backdrop-blur-lg md:p-10 xs:p-0 sm:p-0 shadow-lg">
                 {isImageFile(file.fileName) ? (
                   // Load the image from IPFS using the IPFS hash
                   <img
