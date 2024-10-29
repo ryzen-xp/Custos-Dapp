@@ -246,29 +246,29 @@ import ErrorScreen from "./error";
       formData.append("file", fileBlob, fileName);
     
       try {
+        // Check if the wallet is connected
         if (!account || !account.address) {
           console.error("Wallet not connected. Cannot associate file with account.");
           return;
         }
     
         console.log("Uploading file:", fileName); // Log the file name
-        const response = await fetch(
-          'https://uploads.pinata.cloud/v3/files',
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
-            },
-            body: formData,
-          }
-        );
     
+        const response = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
+          },
+          body: formData,
+        });
+    
+        // Handle response
         if (!response.ok) {
-          throw new Error("Failed to upload file to IPFS");
+          throw new Error(`Failed to upload file to IPFS: ${response.status} ${response.statusText}`);
         }
     
         const data = await response.json();
-        const ipfsHash = data.data.cid;
+        const ipfsHash = data.IpfsHash; // Access the IPFS hash from the response
     
         console.log("IPFS Hash:", ipfsHash);
     
@@ -277,13 +277,16 @@ import ErrorScreen from "./error";
         setUri(ipfsHash);
     
         console.log("File uploaded successfully and data saved!");
-       // setSuccessModalOpen(true);  // Open the success modal after upload
+        // Optionally open the success modal after upload
+        // setSuccessModalOpen(true);
     
       } catch (error) {
         console.error("Error uploading file:", error);
-        //setErrorModalOpen(true); 
+        // Optionally open the error modal
+        // setErrorModalOpen(true);
       }
     }
+    
     
     
     

@@ -36,50 +36,56 @@ const Uploads = () => {
   useEffect(() => {
     const userUploads = async () => {
       try {
-        const items = await Promise.all(
+        // Step 1: Fetch URIs from the blockchain for each file
+        const blockchainUris = await Promise.all(
           uploadedFiles.map(async (file) => {
             const { fetchData } = UseReadContractData();
             const uploadUri = await fetchData("crime", "get_token_uri", [file.id]);
-            
-            // Fetch metadata from Pinata
-            const response = await fetch(`https://api.pinata.cloud/v3/files',`, {
-              method: 'GET',
-              headers: { Authorization: `Bearer ${NFT_STORAGE_TOKEN}` },
-            });
-            
-            if (!response.ok) throw new Error("Error fetching metadata from Pinata");
-
-            const metadata = await response.json();
-
-            // Check if CID from Pinata matches URI from the blockchain
-            const matchedFile = metadata.rows.find((item) => item.ipfs_pin_hash === uploadUri);
-            if (matchedFile) {
-              return {
-                uri: uploadUri,
-                filename: matchedFile.metadata.name || "Unknown Filename",
-                timestamp: file.timestamp
-              };
-            } else {
-              return null;
-            }
+            return uploadUri;
           })
         );
-
-        // Filter out any unmatched files
-        setFileData(items.filter(Boolean));
+  
+        // Step 2: Fetch metadata from Pinata
+        const response = await fetch(`https://api.pinata.cloud/data/pinList`, {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${NFT_STORAGE_TOKEN}` },
+        });
+  
+        if (!response.ok) throw new Error("Error fetching metadata from Pinata");
+  
+        const metadata = await response.json();
+        const pinataFiles = metadata.rows;  // Use `rows` as per the structure in your data
+        console.log(pinataFiles);
+  
+        // Step 3: Find matches between blockchain URIs and Pinata CIDs
+        const matchedFiles = blockchainUris.map((uri) => {
+          const matchedFile = pinataFiles.find((file) => file.ipfs_pin_hash === uri);
+          if (matchedFile) {
+            console.log("Match found:", matchedFile);
+            return {
+              uri,
+              filename: matchedFile.metadata.name || "Unknown Filename",
+              timestamp: new Date(matchedFile.date_pinned).getTime(),  // Use actual timestamp
+            };
+          }
+          return null;
+        }).filter(Boolean); // Filter out unmatched items
+  
+        setFileData(matchedFiles);
       } catch (error) {
         console.error("Error retrieving URIs or metadata:", error);
       }
     };
-
+  
     if (uploadedFiles.length) userUploads();
-  }, [uploadedFiles]); 
-
+  }, [uploadedFiles]);
+  
+  
   const isImageFile = (fileName) => /\.(jpg|jpeg|png|gif|bmp)$/i.test(fileName);
   const isVideoFile = (fileName) => /\.(mp4|webm|ogg|mov)$/i.test(fileName);
 
   const saveToDevice = (blob, fileName) => {
-    const uniqueFileName = `${Date.now()}-${fileName}`;
+    const uniqueFileName = `${fileName}`;
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -97,7 +103,7 @@ const Uploads = () => {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
-    });
+    });   
   };
 
   const handleDownload = async (file) => {
@@ -130,7 +136,6 @@ const Uploads = () => {
                   <video
                     src={`https://gateway.pinata.cloud/ipfs/${file.uri}`}
                     className="w-full h-auto rounded"
-                    controls
                   />
                 ) : (
                   <p className="text-red-500">Unsupported file type</p>
