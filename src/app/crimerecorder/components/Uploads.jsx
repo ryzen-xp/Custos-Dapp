@@ -118,7 +118,7 @@ const Uploads = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="p-6">
+      <div className="p-2">
         {!fileData.length ? (
           <NoRecordScreen />
         ) : (

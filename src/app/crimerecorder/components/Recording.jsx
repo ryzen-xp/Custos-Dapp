@@ -19,6 +19,7 @@ import {
 import { byteArray, CallData } from "starknet";
 import SuccessScreen from "./Success";
 import Filename from "./nameModal.jsx";
+import ErrorScreen from "./error";
 
 const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 export const Recording = ({ text, icon1, icon2, imgText, category }) => {
@@ -54,16 +55,14 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
   const callRef = useRef(null);
   const [isUploadModalOpen, setUploadModalOpen] = useState(false); // For the file name input modal
   const [isSuccessModalOpen, setSuccessModalOpen] = useState(false); // For the success confirmation modal
+  const [isErrorModalOpen, setErrorModalOpen] = useState(false); // For the success confirmation modal
   const [fileName, setFileName] = useState("");
   const recordedVideoRef = useRef(null);
   const photoRef = useRef(null);
   const [isClicked, setIsClicked] = useState(false);
 
   const route = useRouter();
-  const closeModal = () => {
-    isUploadModalOpen(false);
-    route.push("/crimerecorder/uploads");
-  };
+  
 
     useEffect(() => {
       if (uri !== "") {
@@ -93,10 +92,11 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
                 { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
               );
               console.log("Transaction successful:", transactionResponse);
-              isUploadModalOpen(true);
+              setSuccessModalOpen(true);
             }
           } catch (error) {
             console.error("Transaction failed:", error);
+            setErrorModalOpen(true);
           }
         }
       };
@@ -134,6 +134,10 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
   const closeSuccessModal = () => {
     setSuccessModalOpen(false);
     route.push("/crimerecorder/uploads");
+  };
+  const closeErrorModal = () => {
+    setErrorModalOpen(false);
+   
   };
 
   const handleFileNameSubmit = (inputFileName) => {
@@ -292,82 +296,7 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
         // setErrorModalOpen(true);
       }
     }
-    
-    
-    
-    
-    const handleStopMedia = async () => {
-      if (category === "video") {
-        if (isRecording) {
-          stopRecording(); // Stop the recording if it's ongoing
-        } else {
-          startRecording(); // Start recording if it hasn't started yet
-        }
-      } else if (category === "image") {
-        takePicture();
-      }
-  async function uploadToIPFS(fileBlob, fileName) {
-    const formData = new FormData();
-    formData.append("file", fileBlob, fileName);
-   
-    try {
-      if (!account || !account.address) {
-        console.error(
-          "Wallet not connected. Cannot associate file with account."
-        );
-        return;
-      }
-
-      console.log("Uploading file:", fileName); // Log the file name
-      const response = await fetch(
-        "https://api.pinata.cloud/pinning/pinFileToIPFS",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
-          },
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to upload file to IPFS");
-      }
-
-      const data = await response.json();
-      const ipfsHash = data.IpfsHash;
-
-      console.log("IPFS Hash:", ipfsHash);
-
-      // Store the IPFS hash locally for the current user
-      localStorage.setItem("uri", ipfsHash);
-      setUri(ipfsHash);
-
-      // Additional logic to store IPFS hash and associate it with the wallet address
-      const existingUserFiles =
-        JSON.parse(localStorage.getItem("user_files")) || [];
-
-      // Create an object for the current upload
-      const newFileData = {
-        walletAddress: account.address,
-        ipfsHash,
-        fileName, // Ensure the fileName is set
-        timestamp: Date.now(),
-      };
-
-      console.log("New file data:", newFileData); // Log new file data
-      // Update the array with the new file entry
-      const updatedUserFiles = [...existingUserFiles, newFileData];
-
-      // Save the updated array back to localStorage
-      localStorage.setItem("user_files", JSON.stringify(updatedUserFiles));
-
-      console.log("File uploaded successfully and data saved!");
-      setSuccessModalOpen(true); // Open the success modal after upload
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
-  }
+  
 
   const handleStopMedia = async () => {
     if (category === "video") {
@@ -412,15 +341,9 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
   return (
     <>
     <div className="w-full flex flex-col mt-10 items-center gap-6">
-      
-    <Modal
-        isOpen={isSuccessModalOpen}
-        onRequestClose={closeSuccessModal}
-        className="flex items-center justify-center"
-        overlayClassName="fixed inset-0 backdrop-blur-sm flex items-center justify-center"
-      >
-        <SuccessScreen open={isSuccessModalOpen} onClose={closeSuccessModal} />
-      </Modal>
+            
+        <SuccessScreen open={isSuccessModalOpen} onClose={closeSuccessModal} className="flex items-center justify-center fixed inset-0 backdrop-blur-sm"/>
+        <ErrorScreen open={isErrorModalOpen} onClose={closeErrorModal} className="flex items-center justify-center fixed inset-0 backdrop-blur-sm"/>
 
       
       
