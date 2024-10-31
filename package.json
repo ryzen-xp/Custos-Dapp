@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "daisyui": "^4.12.14",
     "@avnu/gasless-sdk": "^0.1.6",
     "@ducanh2912/next-pwa": "^10.2.9",
     "clsx": "^2.1.1",
@@ -45,6 +44,7 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "daisyui": "^4.12.14",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
