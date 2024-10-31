@@ -19,6 +19,8 @@ import {
 import { byteArray, CallData } from "starknet";
 import SuccessScreen from "./Success";
 import Filename from "./nameModal.jsx";
+import ErrorScreen from "./error";
+import Image from "next/image";
 
 const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 export const Recording = ({ text, icon1, icon2, imgText, category }) => {
@@ -54,66 +56,69 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
   const callRef = useRef(null);
   const [isUploadModalOpen, setUploadModalOpen] = useState(false); // For the file name input modal
   const [isSuccessModalOpen, setSuccessModalOpen] = useState(false); // For the success confirmation modal
+  const [isErrorModalOpen, setErrorModalOpen] = useState(false); // For the success confirmation modal
   const [fileName, setFileName] = useState("");
   const recordedVideoRef = useRef(null);
   const photoRef = useRef(null);
   const [isClicked, setIsClicked] = useState(false);
 
   const route = useRouter();
-  const closeModal = () => {
-    isUploadModalOpen(false);
-    route.push("/crimerecorder/uploads");
-  };
+  
 
-  useEffect(() => {
-    if (uri !== "") {
-      const calls = [
-        {
-          entrypoint: "crime_record",
-          contractAddress:
-            "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
-          calldata: CallData.compile([
-            byteArray?.byteArrayFromString(String(uri)),
-            0,
-          ]),
-        },
-      ];
-      callRef.current = JSON.stringify(calls, null, 2);
-    }
-
-    // Execute the transaction with gasless option
-    const triggerWallet = async () => {
-      if (uri) {
-        try {
-          if (uri !== "") {
-            const transactionResponse = await executeCalls(
-              account,
-              JSON.parse(callRef.current),
-              {},
-              { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
-            );
-            console.log("Transaction successful:", transactionResponse);
-            isUploadModalOpen(true);
-          }
-        } catch (error) {
-          console.error("Transaction failed:", error);
-        }
+    useEffect(() => {
+      if (uri !== "") {
+        const calls = [
+          {
+            entrypoint: "crime_record",
+            contractAddress:
+              "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
+            calldata: CallData.compile([
+              byteArray?.byteArrayFromString(String(uri)),
+              0,
+            ]),
+          },
+        ];
+        callRef.current = JSON.stringify(calls, null, 2);
       }
-    };
 
-    if (uri !== "") triggerWallet();
-  }, [uri]);
+      // Execute the transaction with gasless option
+      const triggerWallet = async () => {
+        if (uri) {
+          try {
+            if (uri !== "") {
+              const transactionResponse = await executeCalls(
+                account,
+                JSON.parse(callRef.current),
+                {},
+                { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
+              );
+              console.log("Transaction successful:", transactionResponse);
+              setLoading(false);
+              setSuccessModalOpen(true);
+              
+            }
+          } catch (error) {
+            console.error("Transaction failed:", error);
+            setLoading(false);
+            setErrorModalOpen(true);
+            
+          }
+        }
+      };
 
-  useEffect(() => {
-    if (!account) return;
-    fetchAccountCompatibility(account.address, {
-      baseUrl: SEPOLIA_BASE_URL,
-    }).then(setGaslessCompatibility);
-    fetchAccountsRewards(account.address, {
-      baseUrl: SEPOLIA_BASE_URL,
-      protocol: "gasless-sdk",
-    }).then(setPaymasterRewards);
-  }, [account]);
+      if (uri !== "") triggerWallet();
+    }, [uri]);
+
+    useEffect(() => {
+      if (!account) return;
+      fetchAccountCompatibility(account.address, {
+        baseUrl: SEPOLIA_BASE_URL,
+      }).then(setGaslessCompatibility);
+      fetchAccountsRewards(account.address, {
+        baseUrl: SEPOLIA_BASE_URL,
+        protocol: "gasless-sdk",
+      }).then(setPaymasterRewards);
+    }, [account]);
 
   useEffect(() => {
     fetchGasTokenPrices({ baseUrl: SEPOLIA_BASE_URL }).then(setGasTokenPrices);
@@ -134,6 +139,10 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
   const closeSuccessModal = () => {
     setSuccessModalOpen(false);
     route.push("/crimerecorder/uploads");
+  };
+  const closeErrorModal = () => {
+    setErrorModalOpen(false);
+   
   };
 
   const handleFileNameSubmit = (inputFileName) => {
@@ -247,68 +256,51 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
     }
   };
 
-  async function uploadToIPFS(fileBlob, fileName) {
-    const formData = new FormData();
-    formData.append("file", fileBlob, fileName);
-   
-    try {
-      if (!account || !account.address) {
-        console.error(
-          "Wallet not connected. Cannot associate file with account."
-        );
-        return;
-      }
-
-      console.log("Uploading file:", fileName); // Log the file name
-      const response = await fetch(
-        "https://api.pinata.cloud/pinning/pinFileToIPFS",
-        {
+    async function uploadToIPFS(fileBlob, fileName) {
+      const formData = new FormData();
+      formData.append("file", fileBlob, fileName);
+      setLoading(true); 
+      try {
+        // Check if the wallet is connected
+        if (!account || !account.address) {
+          console.error("Wallet not connected. Cannot associate file with account.");
+          setLoading(false); 
+          return;
+        }
+    
+        console.log("Uploading file:", fileName); // Log the file name
+    
+        const response = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
           method: "POST",
           headers: {
             Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
           },
           body: formData,
+        });
+    
+        // Handle response
+        if (!response.ok) {
+          throw new Error(`Failed to upload file to IPFS: ${response.status} ${response.statusText}`);
         }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to upload file to IPFS");
+    
+        const data = await response.json();
+        const ipfsHash = data.IpfsHash; // Access the IPFS hash from the response
+    
+        console.log("IPFS Hash:", ipfsHash);
+    
+        // Store the IPFS hash locally for the current user
+        localStorage.setItem("uri", ipfsHash);
+        setUri(ipfsHash);
+    
+        console.log("File uploaded successfully and data saved!");
+    
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        setLoading(true); 
+       
       }
-
-      const data = await response.json();
-      const ipfsHash = data.IpfsHash;
-
-      console.log("IPFS Hash:", ipfsHash);
-
-      // Store the IPFS hash locally for the current user
-      localStorage.setItem("uri", ipfsHash);
-      setUri(ipfsHash);
-
-      // Additional logic to store IPFS hash and associate it with the wallet address
-      const existingUserFiles =
-        JSON.parse(localStorage.getItem("user_files")) || [];
-
-      // Create an object for the current upload
-      const newFileData = {
-        walletAddress: account.address,
-        ipfsHash,
-        fileName, // Ensure the fileName is set
-        timestamp: Date.now(),
-      };
-
-      console.log("New file data:", newFileData); // Log new file data
-      // Update the array with the new file entry
-      const updatedUserFiles = [...existingUserFiles, newFileData];
-
-      // Save the updated array back to localStorage
-      localStorage.setItem("user_files", JSON.stringify(updatedUserFiles));
-
-      console.log("File uploaded successfully and data saved!");
-      setSuccessModalOpen(true); // Open the success modal after upload
-    } catch (error) {
-      console.error("Error uploading file:", error);
     }
-  }
+   
 
   const handleStopMedia = async () => {
     if (category === "video") {
@@ -353,15 +345,9 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
   return (
     <>
     <div className="w-full flex flex-col mt-10 items-center gap-6">
-      
-    <Modal
-        isOpen={isSuccessModalOpen}
-        onRequestClose={closeSuccessModal}
-        className="flex items-center justify-center"
-        overlayClassName="fixed inset-0 backdrop-blur-sm flex items-center justify-center"
-      >
-        <SuccessScreen open={isSuccessModalOpen} onClose={closeSuccessModal} />
-      </Modal>
+            
+        <SuccessScreen open={isSuccessModalOpen} onClose={closeSuccessModal} className="flex items-center justify-center fixed inset-0 backdrop-blur-sm"/>
+        <ErrorScreen open={isErrorModalOpen} onClose={closeErrorModal} className="flex items-center justify-center fixed inset-0 backdrop-blur-sm"/>
 
       
       
@@ -415,7 +401,19 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
               />
             </button>
           </div>
-          {loading ? "Processing..." : ""}
+          {loading && ( // Display overlay when loading
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center">
+          <div className="flex flex-col items-center">
+            <Image src="/logo.svg" alt="Loading" width={100} height={100} />
+            <p className="text-white mt-4 text-lg">sending your file onchain, please wait...</p>
+          </div>
+          <style jsx>{`
+            div {
+              backdrop-filter: blur(10px); /* Blur background */
+            }
+          `}</style>
+        </div>
+      )}
         </div>
       </div>
     </div>
