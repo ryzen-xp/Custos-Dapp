@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FaTimes } from "react-icons/fa";
 
-const ErrorScreen = ({ open, onClose }) => {
+const ErrorScreen = ({ open, onClose, message }) => {
   if (!open) {
     return null;
   }
@@ -13,7 +13,7 @@ const ErrorScreen = ({ open, onClose }) => {
           <FaTimes size={20} />
         </button>
         <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A]">
-          You Encounter an error, File not save onchain
+          {message || "You Encounter an error, File not saved onchain"}
         </h1>
       </div>
       <div className="h-full flex items-center justify-center m-6 align-middle w-full text-center ">

@@ -1,42 +1,47 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { Upload } from "./Upload";
 import { UseReadContractData } from "@/utils/fetchcontract";
-import { WalletContext } from "@/components/walletprovider";
 import NoRecordScreen from "./NoRecordScreen";
+import { WalletContext } from "@/components/walletprovider";
+import Image from "next/image"; // Import Image component
 
 const Uploads = () => {
   const { address } = useContext(WalletContext);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [fileData, setFileData] = useState([]);
+  const [loading, setLoading] = useState(false); // Loading state
   const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 
   useEffect(() => {
     const retrieve = async () => {
+      setLoading(true); // Start loading
       try {
         const { fetchData } = UseReadContractData();
         const result = await fetchData("crime", "get_all_user_uploads", [address]);
-  
+
         const files = result && typeof result === 'object' 
           ? Object.keys(result).map((key) => ({
               id: result[key].toString(),
               timestamp: Date.now() // Placeholder timestamp
             }))
           : [];
-  
+
         setUploadedFiles(files);
       } catch (error) {
         console.error("Error fetching uploaded files:", error);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
-  
+
     if (address) retrieve();
   }, [address]);
-  
+
   useEffect(() => {
     const userUploads = async () => {
+      setLoading(true); // Start loading for file data fetch
       try {
-        // Step 1: Fetch URIs from the blockchain for each file
+        // Fetch URIs from the blockchain for each file
         const blockchainUris = await Promise.all(
           uploadedFiles.map(async (file) => {
             const { fetchData } = UseReadContractData();
@@ -44,43 +49,42 @@ const Uploads = () => {
             return uploadUri;
           })
         );
-  
-        // Step 2: Fetch metadata from Pinata
+
+        // Fetch metadata from Pinata
         const response = await fetch(`https://api.pinata.cloud/data/pinList`, {
           method: 'GET',
           headers: { Authorization: `Bearer ${NFT_STORAGE_TOKEN}` },
         });
-  
+
         if (!response.ok) throw new Error("Error fetching metadata from Pinata");
-  
+
         const metadata = await response.json();
-        const pinataFiles = metadata.rows;  // Use `rows` as per the structure in your data
-        console.log(pinataFiles);
-  
-        // Step 3: Find matches between blockchain URIs and Pinata CIDs
+        const pinataFiles = metadata.rows;
+
+        // Match blockchain URIs with Pinata CIDs
         const matchedFiles = blockchainUris.map((uri) => {
           const matchedFile = pinataFiles.find((file) => file.ipfs_pin_hash === uri);
           if (matchedFile) {
-            console.log("Match found:", matchedFile);
             return {
               uri,
               filename: matchedFile.metadata.name || "Unknown Filename",
-              timestamp: new Date(matchedFile.date_pinned).getTime(),  // Use actual timestamp
+              timestamp: new Date(matchedFile.date_pinned).getTime(),
             };
           }
           return null;
-        }).filter(Boolean); // Filter out unmatched items
-  
+        }).filter(Boolean);
+
         setFileData(matchedFiles);
       } catch (error) {
         console.error("Error retrieving URIs or metadata:", error);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
-  
+
     if (uploadedFiles.length) userUploads();
   }, [uploadedFiles]);
-  
-  
+
   const isImageFile = (fileName) => /\.(jpg|jpeg|png|gif|bmp)$/i.test(fileName);
   const isVideoFile = (fileName) => /\.(mp4|webm|ogg|mov)$/i.test(fileName);
 
@@ -117,7 +121,21 @@ const Uploads = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {loading && ( // Display overlay when loading
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center">
+          <div className="flex flex-col items-center">
+            <Image src="/logo.svg" alt="Loading" width={100} height={100} />
+            <p className="text-white mt-4 text-lg">Loading your files, please wait...</p>
+          </div>
+          <style jsx>{`
+            div {
+              backdrop-filter: blur(10px); /* Blur background */
+            }
+          `}</style>
+        </div>
+      )}
+      
       <div className="p-2">
         {!fileData.length ? (
           <NoRecordScreen />
