@@ -38,7 +38,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="py-[1rem] pr-[4rem] pl-[1rem] z-50  backdrop-blur-[10px] bg-[#84c2f513] fixed top-0 w-full ">
+      <nav className="py-[1rem] z-50 mt-4 bg-black bg-opacity-80 fixed top-0 w-full">
         <div className="w-full mx-auto">
           <div className="flex justify-around items-center">
             <div className="">
@@ -91,27 +91,156 @@ const Navbar = () => {
           </div>
           {isMenuOpen && (
             <div className="lg:hidden bg-black bg-opacity-80 p-4">
-              <ul className="flex flex-col space-y-4 mt-4">
-                <li>
-                  <button
-                    onClick={toggleLaunchDapps}
-                    className="text-white hover:text-[#c92eff] flex items-center justify-between w-full"
-                  >
-                    Launch Dapps
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={toggleCompany}
-                    className="text-white hover:text-[#c92eff] flex items-center justify-between"
-                  >
-                    Company
-                  </button>
-                </li>
-                <li className="self-center">
-                  <ConnectButtoncomponent />
-                </li>
-              </ul>
+              <div className="flex items-center justify-center mb-8">
+                <ul className="flex flex-col space-y-4 mt-4">
+                  <li className="collapse lg:hidden collapse-arrow bg-[#00000098] border-gradient">
+                    <input type="radio" name="my-accordion-2" defaultChecked />
+                    <div className="collapse-title text-xl font-medium">
+                      Launch Dapps
+                    </div>
+                    <div className="collapse-content">
+                      <div className="inset-0 z-50 flex items-center justify-center bg-[#00000098] bg-opacity-90 ">
+                        <div className="relative rounded-lg shadow-lg w-full sm:flex md:flex-row h-full md:h-auto ">
+                          <div className="flex p-3 flex-col justify-between bg-opacity-90">
+                            <div>
+                              <p className="mt-4 text-gray-300">
+                                Decentralized apps help you leverage blockchain
+                                technology to secure your evidence and legal
+                                agreements.
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex flex-col gap-4 sm:gap-4  m-auto w-full sm:p-0 p-3 rounded-lg md:h-auto ">
+                            <a
+                              href="/agreement"
+                              className="text-white mb-4 z-[100] w-full hover:bg-[#015A9B] p-3 rounded-lg cursor-pointer bg-base-200"
+                            >
+                              <p className="flex items-center text-xl font-semibold">
+                                <FaPlus className="mr-2" />
+                                Create Agreement
+                              </p>
+                              <p className="text-gray-300 text-sm mt-1 ml-7">
+                                Custos ensures that agreements are securely
+                                stored.
+                              </p>
+                            </a>
+                            <a
+                              href="/crimerecorder"
+                              className="text-white mb-4 z-[100] hover:bg-[#015A9B] p-3 rounded-lg cursor-pointer bg-base-200"
+                            >
+                              <p className="flex items-center text-xl font-semibold text-white">
+                                <FaVideo className="mr-2" />
+                                Record Video
+                              </p>
+                              <p className="text-gray-300 text-sm mt-1 ml-7">
+                                Custos ensures that agreements are securely
+                                stored.
+                              </p>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="collapse lg:hidden collapse-arrow bg-[#00000098] border-gradient">
+                    <input type="radio" name="my-accordion-2" />
+                    <div className="collapse-title text-xl font-medium">
+                      Company
+                    </div>
+                    <div className="collapse-content">
+                      <div className="inset-0 z-50 flex items-center justify-center bg-[#00000098] bg-opacity-90 ">
+                        <div className="relative rounded-lg shadow-lg w-full sm:flex md:flex-row h-full md:h-auto ">
+                          <div className="flex p-3 flex-col justify-between bg-opacity-90">
+                            <div>
+                              <p className="text-2xl text-white">
+                                Invulnerable
+                              </p>
+                              <p className="my-4 text-gray-300">
+                                Custos Diretriz is mastering the art of
+                                preservation and shielding on the blockchain.
+                              </p>
+                              <Link
+                                href="#"
+                                className="mt-4 z-[100] hover:bg-[#015A9B] flex items-center text-[#00bfff]"
+                              >
+                                Join the Community
+                                <FaArrowRight className="ml-1" />
+                              </Link>
+                              <Link
+                                href="#"
+                                className="mt-2 z-[100] hover:bg-[#015A9B] flex items-center text-[#00bfff]"
+                              >
+                                Learn More About Custos
+                                <FaArrowRight className="ml-1" />
+                              </Link>
+                            </div>
+                          </div>
+                          <div className="flex flex-col gap-4 sm:gap-4 m-auto w-full p-0 rounded-lg md:h-auto]">
+                            <Link
+                              href="/about"
+                              className="text-white z-[100] hover:bg-[#015A9B] rounded-lg w-full items-center p-2 bg-base-200"
+                            >
+                              <p className="flex sm:text-xl gap-4 sm:gap-6 h-full font-semibold text-white ">
+                                <img
+                                  src="/about.svg"
+                                  alt="about"
+                                  className="rounded-lg h-fit p-1 w-[2em]"
+                                />
+                                <p className="flex flex-col ">
+                                  About Us
+                                  <p className="text-gray-300 text-[0.8em] mt-1 font-thin">
+                                    Get to know the team behind Custos
+                                  </p>
+                                </p>
+                              </p>
+                            </Link>
+                            <Link
+                              href="#"
+                              className="text-white z-[100] hover:bg-[#015A9B] rounded-lg w-full items-center p-2 bg-base-200"
+                            >
+                              <p className="flex sm:text-xl gap-4 sm:gap-6 h-full font-semibold text-white ">
+                                <img
+                                  src="/careers.svg"
+                                  alt="careers"
+                                  className="rounded-lg h-fit w-[2em]"
+                                />
+                                <p className="flex flex-col ">
+                                  Careers
+                                  <p className="text-gray-300 text-[0.8em] mt-1 font-thin">
+                                    Find your dream role
+                                  </p>
+                                </p>
+                              </p>
+                            </Link>
+                            <Link
+                              href="#"
+                              className="text-white z-[100] hover:bg-[#015A9B] rounded-lg w-full items-center p-2 bg-base-200"
+                            >
+                              <p className="flex sm:text-xl gap-4 sm:gap-6 h-full font-semibold text-white ">
+                                <img
+                                  src="/call.svg"
+                                  alt="call"
+                                  className="rounded-lg h-fit w-[2em]"
+                                />
+                                <p className="flex flex-col ">
+                                  Contact Us
+                                  <p className="text-gray-300 text-[0.8em] mt-1 font-thin">
+                                    Reach out to us for questions and
+                                    clarifications
+                                  </p>
+                                </p>
+                              </p>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div className="w-fit mx-auto" onClick={toggleMenu}>
+                <ConnectButtoncomponent />
+              </div>
             </div>
           )}
         </div>

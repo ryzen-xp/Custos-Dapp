@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "daisyui": "^4.12.14",
     "@avnu/gasless-sdk": "^0.1.6",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
