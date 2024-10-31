@@ -20,6 +20,7 @@ import { byteArray, CallData } from "starknet";
 import SuccessScreen from "./Success";
 import Filename from "./nameModal.jsx";
 import ErrorScreen from "./error";
+import Image from "next/image";
 
 const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 export const Recording = ({ text, icon1, icon2, imgText, category }) => {
@@ -92,11 +93,15 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
                 { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
               );
               console.log("Transaction successful:", transactionResponse);
+              setLoading(false);
               setSuccessModalOpen(true);
+              
             }
           } catch (error) {
             console.error("Transaction failed:", error);
+            setLoading(false);
             setErrorModalOpen(true);
+            
           }
         }
       };
@@ -254,11 +259,12 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
     async function uploadToIPFS(fileBlob, fileName) {
       const formData = new FormData();
       formData.append("file", fileBlob, fileName);
-    
+      setLoading(true); 
       try {
         // Check if the wallet is connected
         if (!account || !account.address) {
           console.error("Wallet not connected. Cannot associate file with account.");
+          setLoading(false); 
           return;
         }
     
@@ -287,16 +293,14 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
         setUri(ipfsHash);
     
         console.log("File uploaded successfully and data saved!");
-        // Optionally open the success modal after upload
-        // setSuccessModalOpen(true);
     
       } catch (error) {
         console.error("Error uploading file:", error);
-        // Optionally open the error modal
-        // setErrorModalOpen(true);
+        setLoading(true); 
+       
       }
     }
-  
+   
 
   const handleStopMedia = async () => {
     if (category === "video") {
@@ -397,7 +401,19 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
               />
             </button>
           </div>
-          {loading ? "Processing..." : ""}
+          {loading && ( // Display overlay when loading
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center">
+          <div className="flex flex-col items-center">
+            <Image src="/logo.svg" alt="Loading" width={100} height={100} />
+            <p className="text-white mt-4 text-lg">sending your file onchain, please wait...</p>
+          </div>
+          <style jsx>{`
+            div {
+              backdrop-filter: blur(10px); /* Blur background */
+            }
+          `}</style>
+        </div>
+      )}
         </div>
       </div>
     </div>
