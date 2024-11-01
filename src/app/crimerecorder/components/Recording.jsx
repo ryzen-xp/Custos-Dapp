@@ -265,6 +265,7 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
         if (!account || !account.address) {
           console.error("Wallet not connected. Cannot associate file with account.");
           setLoading(false); 
+          setErrorModalOpen(true);
           return;
         }
     
@@ -296,7 +297,8 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
     
       } catch (error) {
         console.error("Error uploading file:", error);
-        setLoading(true); 
+        setLoading(false);
+        setErrorModalOpen(true);
        
       }
     }
