@@ -38,7 +38,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="py-[1rem] z-50 mt-4 bg-black bg-opacity-80 fixed top-0 w-full">
+      <nav className="py-[1rem] z-50 backdrop-blur-[10px] bg-[#84c2f513] fixed top-0 w-full">
         <div className="w-full mx-auto">
           <div className="flex justify-around items-center">
             <div className="">
