@@ -265,6 +265,8 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
         if (!account || !account.address) {
           console.error("Wallet not connected. Cannot associate file with account.");
           setLoading(false); 
+          setErrorMessage("Transaction failed: Wallet not connected");
+          setErrorModalOpen(true);
           return;
         }
     
@@ -296,7 +298,9 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
     
       } catch (error) {
         console.error("Error uploading file:", error);
-        setLoading(true); 
+        setLoading(false);
+        setErrorMessage("Error uploading file");
+        setErrorModalOpen(true);
        
       }
     }
@@ -347,7 +351,7 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
     <div className="w-full flex flex-col mt-10 items-center gap-6">
             
         <SuccessScreen open={isSuccessModalOpen} onClose={closeSuccessModal} className="flex items-center justify-center fixed inset-0 backdrop-blur-sm"/>
-        <ErrorScreen open={isErrorModalOpen} onClose={closeErrorModal} className="flex items-center justify-center fixed inset-0 backdrop-blur-sm"/>
+        <ErrorScreen open={isErrorModalOpen} onClose={closeErrorModal} message={errorMessage} className="flex items-center justify-center fixed inset-0 backdrop-blur-sm"/>
 
       
       

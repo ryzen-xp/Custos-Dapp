@@ -123,7 +123,7 @@ const Uploads = () => {
   return (
     <div className="min-h-screen relative">
       {loading && ( // Display overlay when loading
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 bg-gradient-to-r bg-opacity-70 flex items-center justify-center">
           <div className="flex flex-col items-center">
             <Image src="/logo.svg" alt="Loading" width={100} height={100} />
             <p className="text-white mt-4 text-lg">Loading your files, please wait...</p>
