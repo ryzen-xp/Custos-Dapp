@@ -12,7 +12,7 @@ import {
   stringToFelt,
 } from "@/utils/serializer";
 import SuccessScreen from "./Success";
-import Loading from "@/components/loading";
+import Loading from "@/components/loading"
 
 const ValidateAgreementModal = ({
   fullname,

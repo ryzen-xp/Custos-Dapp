@@ -1,5 +1,3 @@
-"use client";
-import { usePathname } from "next/navigation";
 import "./globals.css";
 import Footer from "@/components/footer";
 import Metadata from "./metadata";
@@ -8,6 +6,11 @@ import { WalletProvider } from "@/components/walletprovider";
 import { ModalProvider } from "@/context/ModalProvider";
 import { NotificationProvider } from "@/context/NotificationProvider";
 import { GlobalStateProvider } from "@/context/GlobalStateProvider";
+
+// Add the manifest so that it can be injected at nextjs runtime.
+// NOTE: Removing this or moving this to the metadata.js file will not allow the 
+// InstallPWA component to be loaded from the InstallPWA component.
+export const metadata = { ...Metadata, manifest: "/manifest.json" }
 
 export default function RootLayout({ children }) {
   //  const pathname = usePathname();

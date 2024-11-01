@@ -10,19 +10,17 @@ const SuccessScreen = () => {
   // }
 
   return (
-    <div className="fixed w-screen h-screen bg-[#04090ECC] flex items-center top-0 justify-center z-[10]">
-      <div className="border rounded-xl bg-[#04080C] p-4 border-[#19B1D2] h-fit w-[40%] shadow-2xl items-center justify-center flex flex-col m-auto">
-        <div className="w-full flex justify-between gap-x-32 flex-row-reverse mb-4">
-          <button className="text-white" onClick={closeModal}>
-            <FaTimes size={20} />
-          </button>
-          <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A]">
-            Your Media is saved onChain
-          </h1>
-        </div>
-        <div className="h-full flex items-center justify-center m-6 align-middle w-full text-center ">
-          <Image src={"/success.svg"} width={150} height={150} alt="success" />
-        </div>
+    <div className="fixed top-40 md:top-28 lg:top-24 border rounded-xl bg-[#04080C] p-4 md:p-6 lg:p-8 border-[#19B1D2] w-[90%] sm:w-[75%] md:w-[60%] lg:w-[40%] shadow-2xl flex flex-col items-center justify-center m-auto z-50">
+      <div className="w-full flex justify-between gap-x-8 sm:gap-x-16 md:gap-x-24 lg:gap-x-32 flex-row-reverse mb-4">
+        <button className="text-white" onClick={onClose}>
+          <FaTimes size={20} />
+        </button>
+        <h1 className="max-w-[80%] sm:w-full absolute top-5 left-5 text-transparent bg-clip-text bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A]">
+          Your Media is saved onChain
+        </h1>
+      </div>
+      <div className="h-full flex items-center justify-center m-6 align-middle w-full text-center ">
+        <Image src={"/success.svg"} width={150} height={150} alt="success" />
       </div>
     </div>
   );

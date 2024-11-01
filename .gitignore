@@ -39,3 +39,7 @@ next-env.d.ts
 .env.local
 .env.development.local
 .env.test.local
+
+# Serwist
+public/sw*
+public/swe-worker*
