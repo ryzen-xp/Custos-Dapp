@@ -1,4 +1,5 @@
 // ModalContext.js
+"use client";
 import React, { createContext, useContext, useState } from "react";
 import SuccessScreen from "@/app/crimerecorder/components/Success";
 

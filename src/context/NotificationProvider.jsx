@@ -1,4 +1,5 @@
 // NotificationContext.js
+"use client";
 import React, {
   createContext,
   useContext,

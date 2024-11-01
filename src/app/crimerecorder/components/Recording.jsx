@@ -25,8 +25,8 @@ import {
   SEPOLIA_BASE_URL,
 } from "@avnu/gasless-sdk";
 import { byteArray, CallData } from "starknet";
-import { toast } from "react-toastify";
 import SuccessScreen from "./Success";
+import ErrorScreen from "./error";
 import Filename from "./nameModal";
 import Image from "next/image";
 
