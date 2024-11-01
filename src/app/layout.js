@@ -3,6 +3,8 @@ import Footer from "@/components/footer";
 import Metadata from "./metadata";
 import BackgroundWrapper from "@/components/backgroundwrapper";
 import { WalletProvider } from "@/components/walletprovider";
+import { ModalProvider } from "@/context/ModalProvider";
+import { NotificationProvider } from "@/context/NotificationProvider";
 import { GlobalStateProvider } from "@/context/GlobalStateProvider";
 
 // Add the manifest so that it can be injected at nextjs runtime.
@@ -38,16 +40,20 @@ export default function RootLayout({ children }) {
       </head>
       <body className="flex flex-col min-h-screen justify-between">
         <BackgroundWrapper>
-          <WalletProvider>
-            <div className="w-full flex flex-col justify-between">
-              <div className="min-h-screen w-full ">
-                <GlobalStateProvider>{children}</GlobalStateProvider>
-              </div>
-              <div className="h-fit">
-                <Footer />
-              </div>
-            </div>
-          </WalletProvider>
+          <NotificationProvider>
+            <WalletProvider>
+              <ModalProvider>
+                <div className="w-full flex flex-col justify-between">
+                  <div className="min-h-screen w-full ">
+                    <GlobalStateProvider>{children}</GlobalStateProvider>
+                  </div>
+                  <div className="h-fit">
+                    <Footer />
+                  </div>
+                </div>
+              </ModalProvider>
+            </WalletProvider>
+          </NotificationProvider>
         </BackgroundWrapper>
       </body>
     </html>
