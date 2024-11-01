@@ -32,7 +32,7 @@ const Notification = ({ type, headText, subText }) => {
     }
   }
   return (
-    <div className="fixed top-10 left-0 w-full h-full flex justify-center z-[500]">
+    <div className="fixed top-10 left-0 w-full flex justify-center z-[500]">
       <div className="relative">
         <div className={`border ${getBorder()} flex items-start gap-4 p-4 rounded-2xl w-full max-w-[505px]`} style={{background: getBg()}}>
           <div className="text-white bg-[#0C1215] rounded-[6px] p-2">
