@@ -100,7 +100,6 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
           } catch (error) {
             console.error("Transaction failed:", error);
             setLoading(false);
-            setErrorMessage("Transaction failed:", error);
             setErrorModalOpen(true);
             
           }
@@ -300,7 +299,7 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
       } catch (error) {
         console.error("Error uploading file:", error);
         setLoading(false);
-        setErrorMessage("Error uploading file:", error);
+        setErrorMessage("Error uploading file");
         setErrorModalOpen(true);
        
       }
