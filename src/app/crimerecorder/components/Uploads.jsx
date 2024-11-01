@@ -1,4 +1,4 @@
- "use client";
+"use client";
 // import React, { useContext, useEffect, useState } from "react";
 // import { Upload } from "./Upload";
 // import { UseReadContractData } from "@/utils/fetchcontract";
@@ -49,7 +49,7 @@
 //   );
 // };
 import React, { useContext, useEffect, useState } from "react";
-import { WalletContext } from "@/components/walletprovider"; 
+import { WalletContext } from "@/components/walletprovider";
 import NoRecordScreen from "./NoRecordScreen";
 
 const Uploads = () => {
@@ -61,7 +61,9 @@ const Uploads = () => {
     const fetchUploadedFiles = () => {
       const files = JSON.parse(localStorage.getItem("user_files")) || [];
       // Filter files by the connected wallet address
-      const userFiles = files.filter(file => file.walletAddress === account?.address);
+      const userFiles = files.filter(
+        (file) => file.walletAddress === account?.address
+      );
       setUploadedFiles(userFiles);
     };
 
@@ -89,41 +91,44 @@ const Uploads = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
-  
 
   // Function to format date to show month, day name, and date
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString("en-US", {
-      weekday: 'long', // e.g., Monday
-      year: 'numeric',
-      month: 'long',  // e.g., January
-      day: 'numeric'  // e.g., 10
+      weekday: "long", // e.g., Monday
+      year: "numeric",
+      month: "long", // e.g., January
+      day: "numeric", // e.g., 10
     });
   };
 
- // Function to download the file (image or video) by fetching the file as a blob first
-const handleDownload = async (file) => {
-  try {
-    const response = await fetch(`https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`);
-    const blob = await response.blob(); // Convert the file into a blob
-    saveToDevice(blob, file.fileName); // Call saveToDevice with the blob and file name
-  } catch (error) {
-    console.error("Error downloading the file:", error);
-  }
-};
+  // Function to download the file (image or video) by fetching the file as a blob first
+  const handleDownload = async (file) => {
+    try {
+      const response = await fetch(
+        `https://gateway.pinata.cloud/ipfs/${file.ipfsHash}`
+      );
+      const blob = await response.blob(); // Convert the file into a blob
+      saveToDevice(blob, file.fileName); // Call saveToDevice with the blob and file name
+    } catch (error) {
+      console.error("Error downloading the file:", error);
+      openNotification("error", "", "Error downloading the file");
+    }
+  };
 
-return (
-   <div className="min-h-screen">
+  return (
+    <div className="min-h-screen">
       <div className="p-6">
         {/* Check if there are uploaded files */}
         {!uploadedFiles.length ? (
-          <NoRecordScreen/>
+          <NoRecordScreen />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-white">
             {uploadedFiles.map((file, index) => (
-              <div key={index} className="relative text-sm whitespace-nowrap mb-2 sm:mb-0 bg-transparent rounded-lg backdrop-blur-lg p-10 shadow-lg ">
-                
+              <div
+                key={index}
+                className="relative text-sm whitespace-nowrap mb-2 sm:mb-0 bg-transparent rounded-lg backdrop-blur-lg p-10 shadow-lg ">
                 {/* Display image or video based on file type */}
                 {isImageFile(file.fileName) ? (
                   <img
@@ -146,7 +151,7 @@ return (
                   transform hover:scale-105 transition-transform duration-300 border-gradient2 bg-opacity-50 
                   backdrop-filter backdrop-blur-lg flex items-center text-left relative text-[0.8em] 
                   overflow-hidden text-ellipsis whitespace-nowrap max-w-full mt-4"
-                  style={{ maxWidth: '250px' }}  // Adjust the size of the file name box
+                  style={{ maxWidth: "250px" }} // Adjust the size of the file name box
                 >
                   {file.fileName}
                 </p>
@@ -154,16 +159,19 @@ return (
                 {/* Space under timestamp */}
                 <p className="text-sm flex mt-4">
                   <span className="text-[#EAFBFF]">Time Stamp: </span>
-                  <span className="text-[#19B1D2] ml-1">{formatDate(file.timestamp)}</span>
+                  <span className="text-[#19B1D2] ml-1">
+                    {formatDate(file.timestamp)}
+                  </span>
                 </p>
 
                 {/* Download Button */}
                 <button
-          onClick={() => handleDownload(file)} // Call handleDownload with the file object
-          className="inline-block mt-5 bg-[#0094FF] text-white py-2 px-4 rounded-[2em] mb-5"
-        >
-          {isVideoFile(file.fileName) ? "Download Video" : "Download Image"}
-        </button>
+                  onClick={() => handleDownload(file)} // Call handleDownload with the file object
+                  className="inline-block mt-5 bg-[#0094FF] text-white py-2 px-4 rounded-[2em] mb-5">
+                  {isVideoFile(file.fileName)
+                    ? "Download Video"
+                    : "Download Image"}
+                </button>
               </div>
             ))}
           </div>

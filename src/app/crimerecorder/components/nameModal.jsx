@@ -14,7 +14,7 @@
         onSubmit(fileName);
         onClose(); // Close the modal after submission
       } else {
-        alert("Please enter a valid file name.");
+        openNotification("error", "", "Please enter a valid file name");
       }
     };
 

@@ -107,9 +107,11 @@ export default function Camera() {
 
       const result = await response.json();
       console.log('File uploaded to IPFS:', result);
+      openNotification("success", "File uploaded to IPFS", `${result.IpfsHash}`);
       alert(`File uploaded to IPFS: ${result.IpfsHash}`);
     } catch (error) {
       console.error('Error uploading to IPFS:', error);
+      openNotification("error", "", `Error uploading to IPFS: ${error.message}`);
       alert('Error uploading to IPFS: ' + error.message);
     }
   };
