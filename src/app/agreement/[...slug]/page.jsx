@@ -185,14 +185,14 @@ const Page = ({ params }) => {
     <div className="space-y-4 text-[#EAFBFF] w-full overflow-clip flex flex-col">
       <Slugnav agreement={agreement} />
       <div className="p-4 rounded-lg shadow-lg bg-gradient-to-r w-full">
-        <div className="w-full flex header flex-col md:flex-row align-baseline justify-start gap-4 mb-8">
-          <div className="w-full px-3">
+        <div className="w-full flex max-lg:flex-col header align-baseline justify-start gap-4 mb-8">
+          <div className="w-full px-3 max-md:px-0">
             <span className="text-sm">Agreement Type</span>
             <span className="text-[0.8em] mt-2 w-fit flex text-wrap font-bold bg-gradient-to-r br border-slate-800 px-2 py-[0.8em] border border-gradient from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
               {agreement.agreementType}
             </span>
           </div>
-          <div className="w-full px-3">
+          <div className="w-full px-3 max-md:px-0">
             <span className="text-sm">Second Party Address</span>
             <span className="br w-fit mt-2 overflow-hidden flex border-slate-800 px-2 py-[0.8em] border border-gradient text-[0.7em] text-[#9B9292] whitespace-nowrap overflow-ellipsis">
               {agreement.second_party_address}
@@ -201,8 +201,9 @@ const Page = ({ params }) => {
           <div className="flex-col w-full items-end text-end gap-3 flex">
             {accessToken && (
               <div
-                className="w-full gap-2 flex items-center justify-end cursor-pointer"
-                onClick={isEditing ? handleSave : handleEditClick}>
+                className="w-full gap-2 flex items-center justify-end max-lg:justify-start cursor-pointer"
+                onClick={isEditing ? handleSave : handleEditClick}
+              >
                 <span className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] text-[1.2em] bg-clip-text text-transparent">
                   {isEditing ? "Save Agreement" : "Edit Agreement"}
                 </span>
@@ -214,9 +215,9 @@ const Page = ({ params }) => {
                 />
               </div>
             )}
-            <div className="w-full flex flex-col md:flex-row gap-2 justify-end">
+            <div className="w-full flex flex-col lg:flex-row gap-2 justify-end max-lg:items-start">
               <span className="flex-shrink-0 text-sm">Time Stamp:</span>
-              <span className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] bg-clip-text text-left text-transparent">
                 {formattedDate}
               </span>
             </div>

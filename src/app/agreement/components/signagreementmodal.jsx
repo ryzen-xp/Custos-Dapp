@@ -44,51 +44,51 @@ const SignAgreementModal = ({
     }
   };
 
-// Function to convert base64 to a File object
-const base64ToFile = (base64String, fileName) => {
-  const arr = base64String.split(",");
-  const mime = arr[0].match(/:(.*?);/)[1];
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new File([u8arr], fileName, { type: mime });
-};
+  // Function to convert base64 to a File object
+  const base64ToFile = (base64String, fileName) => {
+    const arr = base64String.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], fileName, { type: mime });
+  };
 
 
-const handleSignAgreement = async () => {
-  let signatureData = null;
+  const handleSignAgreement = async () => {
+    let signatureData = null;
 
-  
-  if (signatureType === "draw" && signaturePadRef.current) {
-    const base64Signature = signaturePadRef.current.toDataURL();
-    signatureData = base64ToFile(base64Signature, "signature.png"); 
-  }
 
-  if (signatureType === "upload" && uploadedSignature) {
-    signatureData = uploadedSignature; 
-  }
+    if (signatureType === "draw" && signaturePadRef.current) {
+      const base64Signature = signaturePadRef.current.toDataURL();
+      signatureData = base64ToFile(base64Signature, "signature.png");
+    }
 
-  if (signatureData && uploadedId) {
-    const formData = new FormData();
-    formData.append("second_party_signature", signatureData);
-    formData.append("second_party_valid_id", uploadedId);
-    formData.append("second_party_id_type", idType);
-    formData.append("second_party_country", country);
+    if (signatureType === "upload" && uploadedSignature) {
+      signatureData = uploadedSignature;
+    }
 
-    await fetch(
-      `https://custosbackend.onrender.com/agreement/agreement/${agreementId}/sign/`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    if (signatureData && uploadedId) {
+      const formData = new FormData();
+      formData.append("second_party_signature", signatureData);
+      formData.append("second_party_valid_id", uploadedId);
+      formData.append("second_party_id_type", idType);
+      formData.append("second_party_country", country);
 
-    onClose();
-  }
-};
+      await fetch(
+        `https://custosbackend.onrender.com/agreement/agreement/${agreementId}/sign/`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      onClose();
+    }
+  };
 
 
   return (
@@ -142,12 +142,12 @@ const handleSignAgreement = async () => {
                     Work Identity{" "}
                   </option>
                 </select>
-                <strong>Identity Number</strong>
+                {/* <strong>Identity Number</strong>
                 <input
                   type="text"
                   placeholder="Enter Your Id number"
                   className="py-2 text-[#9B9292] px-4 border border-[#ffffff46] rounded-lg bg-transparent"
-                />
+                /> */}
                 <strong>Upload Id</strong>
                 <input
                   type="file"
@@ -205,26 +205,29 @@ const handleSignAgreement = async () => {
             )}
 
             <div className="flex justify-between">
-              <button
-                className="bg-gray-500 py-2 px-4 rounded"
-                onClick={onClose}
-              >
-                Cancel
-              </button>
+              <div className="button-transition">
+                <img
+                  src="/cancleAgreement.png"
+                  alt="Cancel Agreement"
+                  onClick={onClose}
+                />
+              </div>
               {currentStep === 2 ? (
-                <button
-                  className="bg-blue-500 py-2 px-4 rounded"
-                  onClick={handleSignAgreement}
-                >
-                  Sign Agreement
-                </button>
+                <div className="button-transition">
+                  <img
+                    src="/SignAgreement.png"
+                    alt="Validate Agreement"
+                    onClick={handleSignAgreement}
+                  />
+                </div>
               ) : (
-                <button
-                  className="bg-blue-500 py-2 px-4 rounded"
-                  onClick={handleContinue}
-                >
-                  Continue
-                </button>
+                <div className="button-transition">
+                  <img
+                    src="/ContinueAgreement.png"
+                    alt="Continue Agreement"
+                    onClick={handleContinue}
+                  />
+                </div>
               )}
             </div>
           </div>
