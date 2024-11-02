@@ -36,7 +36,7 @@ const ValidateAgreementModal = ({
       if (!writeToContract) {
         throw new Error("writeToContract function is not available");
       }
-      
+
       const params = [
         `"${stringToByteArray(agreement.content)}"`,
         agreement.second_party_address,
@@ -48,7 +48,7 @@ const ValidateAgreementModal = ({
         throw new Error("One or more parameters are null or undefined");
       }
       const result = await writeToContract("agreement", "create_agreement", params);
-            
+
       const txReceipt = await provider.waitForTransaction(result.transaction_hash);
       let agreement_id;
       if (txReceipt.isSuccess()) {
@@ -99,7 +99,7 @@ const ValidateAgreementModal = ({
     <div className="p-3 h-screen bg-[#00000095] w-full flex items-center justify-center text-white text-transparent rounded-lg absolute left-0 z-50 top-0">
       {loading || isValidating ? (
         <div className="text-center">
-         <Loading text="Agreement is being created onchain..... please Wait" />
+          <Loading text="Agreement is being created onchain..... please Wait" />
         </div>
       ) : error ? (
         <div className="text-center text-red-500">Error: {error}</div>
@@ -120,13 +120,11 @@ const ValidateAgreementModal = ({
                 </p>
                 <strong>Second Party's Wallet Address:</strong>
                 <p className="px-2 border border-[#ffffff46] rounded-lg">
-                <p className="py-2 text-[#9B9292] border-none overflow-scroll scrollbar-hide rounded-lg"
-                >
-
-                  
-                  {agreement.second_party_address}
-                </p>
+                  <p className="py-2 text-[#9B9292] border-none overflow-scroll scrollbar-hide rounded-lg"
+                  >
+                    {agreement.second_party_address}
                   </p>
+                </p>
               </>
             )}
 
@@ -144,7 +142,7 @@ const ValidateAgreementModal = ({
             <div className="flex justify-between">
               <div className="button-transition">
                 <img
-                  src="./cancleAgreement.png"
+                  src="/cancleAgreement.png"
                   alt="Cancel Agreement"
                   onClick={onClose}
                 />
@@ -152,7 +150,7 @@ const ValidateAgreementModal = ({
               {currentStep === 2 ? (
                 <div className="button-transition">
                   <img
-                    src="./FinalValidateButton.png"
+                    src="/FinalValidateButton.png"
                     alt="Validate Agreement"
                     onClick={handleValidate} // Move to next step on click
                   />
@@ -160,7 +158,7 @@ const ValidateAgreementModal = ({
               ) : (
                 <div className="button-transition">
                   <img
-                    src="./ContinueAgreement.png"
+                    src="/ContinueAgreement.png"
                     alt="Continue Agreement"
                     onClick={handleContinue}
                   />
@@ -171,17 +169,17 @@ const ValidateAgreementModal = ({
         </div>
       )}
       {isResultModalOpen && (
-      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
 
-        <SuccessScreen 
-          onClose={() => {
-            setIsResultModalOpen(false);
-            onClose();
-          }}
-          isSuccess={isSuccess}
-        />
-      </div>
-      
+          <SuccessScreen
+            onClose={() => {
+              setIsResultModalOpen(false);
+              onClose();
+            }}
+            isSuccess={isSuccess}
+          />
+        </div>
+
       )}
     </div>
   );

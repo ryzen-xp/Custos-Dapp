@@ -106,7 +106,7 @@ export const PendingAgreementCard = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignModalOpen, setIsSignModalOpen] = useState(false);
-  
+
   const router = useRouter();
   const formattedDate = format(
     new Date(agreement.created_at),
@@ -197,9 +197,8 @@ export const PendingAgreementCard = ({
             <button
               onClick={handleValidateClick}
               disabled={!agreement.second_party_signature || agreement.agreement_id !== null}
-              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
-                !agreement.second_party_signature || agreement.agreement_id !== null ? " opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${!agreement.second_party_signature || agreement.agreement_id !== null ? " opacity-50 cursor-not-allowed" : ""
+                }`}
             >
               Validate Agreement
             </button>
@@ -207,17 +206,16 @@ export const PendingAgreementCard = ({
             <button
               onClick={handleSignClick}
               disabled={agreement.second_party_signature != null || undefined}
-              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
-                !agreement.second_party_signature
+              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${!agreement.second_party_signature
                   ? ""
                   : "cursor-not-allowed opacity-50"
-              }`}
+                }`}
             >
               Sign Agreement
             </button>
           )}
         </div>
-      
+
       </div>
 
       {isModalOpen && (
