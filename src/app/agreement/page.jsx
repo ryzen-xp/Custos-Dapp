@@ -42,9 +42,11 @@ function AgreementList() {
           setAgreements(agreementsDetails);
           console.log("agreements are", agreementsDetails);
         } else {
+          openNotification("error", "", "fetchData did not return an array");
           throw new Error("fetchData did not return an array");
         }
       } catch (error) {
+        openNotification("error", "Error fetching agreement details", `${error}`);
         console.error("Error fetching agreement details:", error);
       } finally {
         setLoadingAgreements(false);
@@ -67,6 +69,7 @@ function AgreementList() {
         console.log("response::", data);
         setPendingAgreements(data);
       } catch (error) {
+        openNotification("error", "Error fetching agreements", `${error}`);
         console.error("Error fetching agreements:", error);
       } finally {
         setLoadingPendingAgreements(false);

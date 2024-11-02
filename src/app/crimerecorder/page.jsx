@@ -28,6 +28,7 @@ const Uploads = () => {
 
         setUploadedFiles(files);
       } catch (error) {
+        openNotification("error", "", "Error fetching uploaded files");
         console.error("Error fetching uploaded files:", error);
       } finally {
         setLoading(false); // Stop loading
@@ -167,9 +168,11 @@ const Uploads = () => {
                   {file.filename}
                 </p>
 
-                <p className="text-sm flex mt-4">
+                <p className="text-xs flex mt-4">
                   <span className="text-[#EAFBFF]">Time Stamp: </span>
-                  <span className="text-[#19B1D2] ml-1">{formatDate(file.timestamp)}</span>
+                  <span className="text-[#19B1D2] ml-1 overflow-hidden whitespace-nowrap text-ellipsis">
+                    {formatDate(file.timestamp)}
+                  </span>
                 </p>
 
                 <button

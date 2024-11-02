@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useEffect, useState } from "react";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 import Slugnav from "../components/slugnav";
 import { format } from "date-fns";
 import Image from "next/image";
-import ReactMarkdown from 'react-markdown';
-import parse from 'html-react-parser';
-import { useRouter } from 'next/navigation';
+import ReactMarkdown from "react-markdown";
+import parse from "html-react-parser";
+import { useRouter } from "next/navigation";
 import mammoth from "mammoth";
 
 const Page = ({ params }) => {
@@ -16,7 +16,7 @@ const Page = ({ params }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editableFields, setEditableFields] = useState({});
-  const [contentFormat, setContentFormat] = useState('plain');
+  const [contentFormat, setContentFormat] = useState("plain");
   const router = useRouter();
 
   const slug = params?.slug || [];
@@ -33,16 +33,20 @@ const Page = ({ params }) => {
 
   const fetchAgreementById = async (agreementId) => {
     try {
-      const response = await fetch(`https://custosbackend.onrender.com/agreement/agreement/${agreementId}/`);
+      const response = await fetch(
+        `https://custosbackend.onrender.com/agreement/agreement/${agreementId}/`
+      );
       if (response.ok) {
         const data = await response.json();
         setAgreement(data);
         initializeEditableFields(data);
       } else {
         console.error("Failed to fetch agreement by ID");
+        openNotification("error", "", "Failed to fetch agreement by ID");
       }
     } catch (error) {
       console.error("Error fetching agreement by ID:", error);
+      openNotification("error", "Error fetching agreement by ID", `${error}`);
     } finally {
       setLoading(false);
     }
@@ -59,21 +63,31 @@ const Page = ({ params }) => {
         initializeEditableFields(data);
       } else {
         console.error("Failed to fetch agreement by access token");
+        openNotification(
+          "error",
+          "",
+          "Failed to fetch agreement by access token"
+        );
       }
     } catch (error) {
       console.error("Error fetching agreement by access token:", error);
+      openNotification(
+        "error",
+        "Error feching agreement by access token",
+        `${error}`
+      );
     } finally {
       setLoading(false);
     }
   };
 
   const detectContentFormat = (content) => {
-    if (content.startsWith('<')) {
-      return 'html';
-    } else if (content.includes('**') || content.includes('#')) {
-      return 'markdown';
+    if (content.startsWith("<")) {
+      return "html";
+    } else if (content.includes("**") || content.includes("#")) {
+      return "markdown";
     } else {
-      return 'plain';
+      return "plain";
     }
   };
 
@@ -100,42 +114,42 @@ const Page = ({ params }) => {
         formData.append(key, value);
       });
 
-      const response = await fetch(`https://custosbackend.onrender.com/agreement/agreement/update_by_access_token/?access_token=${accessToken}`, {
-        method: 'PUT',
-        body: formData,
-      });
+      const response = await fetch(
+        `https://custosbackend.onrender.com/agreement/agreement/update_by_access_token/?access_token=${accessToken}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         const updatedAgreement = await response.json();
         setAgreement(updatedAgreement);
         setIsEditing(false);
       } else {
-        console.error('Failed to save edited agreement');
+        console.error("Failed to save edited agreement");
+        openNotification("error", "", "Failed to save edited agreement");
       }
     } catch (error) {
-      console.error('Error saving edited agreement:', error);
+      console.error("Error saving edited agreement:", error);
+      openNotification("error", "Error saving edited agreement", `${error}`);
     }
   };
 
   const handleInputChange = (field, value) => {
-    setEditableFields(prev => ({ ...prev, [field]: value }));
+    setEditableFields((prev) => ({ ...prev, [field]: value }));
   };
-
 
   const renderContent = (content) => {
     const ContentWrapper = ({ children }) => (
       <div className="agreement-content-wrapper">{children}</div>
     );
-  
+
     switch (contentFormat) {
-      case 'html':
+      case "html":
         const cleanHtml = DOMPurify.sanitize(content);
-        return (
-          <ContentWrapper>
-            {parse(cleanHtml)}
-          </ContentWrapper>
-        );
-      case 'markdown':
+        return <ContentWrapper>{parse(cleanHtml)}</ContentWrapper>;
+      case "markdown":
         return (
           <ContentWrapper>
             <ReactMarkdown>{content}</ReactMarkdown>
@@ -145,14 +159,21 @@ const Page = ({ params }) => {
         return <ContentWrapper>{content}</ContentWrapper>;
     }
   };
-  
 
   if (loading) {
-    return <div className="text-[#EAFBFF] flex justify-center items-center h-screen">Loading...</div>;
+    return (
+      <div className="text-[#EAFBFF] flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
   }
 
   if (!agreement) {
-    return <div className="text-[#EAFBFF] flex justify-center items-center h-screen">Agreement not found</div>;
+    return (
+      <div className="text-[#EAFBFF] flex justify-center items-center h-screen">
+        Agreement not found
+      </div>
+    );
   }
 
   const formattedDate = format(
@@ -210,7 +231,6 @@ const Page = ({ params }) => {
               {/* {agreement.agreement_id || "N/A"} */}
               <div className="box w-fit p-2">
                 <sh></sh>
-              
               </div>
             </span>
           </div>
@@ -227,8 +247,7 @@ const Page = ({ params }) => {
                 <select
                   value={contentFormat}
                   onChange={(e) => setContentFormat(e.target.value)}
-                  className="mt-2 w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
-                >
+                  className="mt-2 w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded">
                   <option value="plain">Plain Text</option>
                   <option value="html">HTML</option>
                   <option value="markdown">Markdown</option>
@@ -237,7 +256,6 @@ const Page = ({ params }) => {
             ) : (
               <div className=" py-4 rounded-lg font-normal text-sm">
                 {renderContent(agreement.content)}
-               
               </div>
             )}
           </div>
@@ -278,7 +296,9 @@ const Page = ({ params }) => {
                 className="w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
               />
             ) : (
-              <span className="text-sm">{agreement.first_party_country || "N/A"}</span>
+              <span className="text-sm">
+                {agreement.first_party_country || "N/A"}
+              </span>
             )}
           </div>
           <div className="flex flex-col gap-2">
@@ -310,23 +330,33 @@ const Page = ({ params }) => {
           </div>
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Second Party Valid ID:</strong>
-            <span className="text-sm">{agreement.second_party_valid_id || "N/A"}</span>
+            <span className="text-sm">
+              {agreement.second_party_valid_id || "N/A"}
+            </span>
           </div>
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Second Party Country:</strong>
-            <span className="text-sm">{agreement.second_party_country || "N/A"}</span>
+            <span className="text-sm">
+              {agreement.second_party_country || "N/A"}
+            </span>
           </div>
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Second Party ID Type:</strong>
-            <span className="text-sm">{agreement.second_party_id_type || "N/A"}</span>
+            <span className="text-sm">
+              {agreement.second_party_id_type || "N/A"}
+            </span>
           </div>
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Second Party Signature:</strong>
-            <span className="text-sm">{agreement.second_party_signature || "N/A"}</span>
+            <span className="text-sm">
+              {agreement.second_party_signature || "N/A"}
+            </span>
           </div>
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Created At:</strong>
-            <span className="text-sm">{new Date(agreement.created_at).toLocaleString()}</span>
+            <span className="text-sm">
+              {new Date(agreement.created_at).toLocaleString()}
+            </span>
           </div>
         </div>
       </div>

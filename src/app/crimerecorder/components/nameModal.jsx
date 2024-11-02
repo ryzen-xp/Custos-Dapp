@@ -43,7 +43,7 @@ const Filename = ({ open, onClose, onSubmit }) => {
       setCountdown(5);
       onClose();
     } else {
-      alert("Please enter a valid file name.");
+      openNotification("error", "", "Please enter a valid filename");
     }
   };
 

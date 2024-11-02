@@ -33,10 +33,10 @@ const Hero = () => {
           </button>
         </div>
         {showLaunchDapps && <ShowLaunchDapps closeModal={closeModal} />}
-        <p className="text-4xl font-bold my-6 bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent text-center w-full p-3">
+        <p className="text-6xl sm:text-5xl font-semibold my-6 bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent text-center w-full p-3">
           The new blockchain safe
         </p>
-        <p className="text-lg mb-10 bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent text-center">
+        <p className="max-w-[16rem] sm:max-w-[18rem] md:max-w-lg mb-10 bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent text-center">
           Custos will secure your evidence and legal agreements
         </p>
 

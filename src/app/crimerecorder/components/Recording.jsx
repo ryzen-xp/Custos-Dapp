@@ -1,14 +1,23 @@
 "use client";
-import React, { useContext, useEffect, useState, useRef, useMemo } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useLayoutEffect,
+} from "react";
 import bg from "../../../../public/Rectangle.png";
 import icon3 from "../../../../public/rotate.png";
 import Icons from "./Icons";
 import { useRouter } from "next/navigation";
 import { WalletContext } from "@/components/walletprovider";
+import { useNotification } from "@/context/NotificationProvider";
+import { GlobalStateContext } from "@/context/GlobalStateProvider";
 import stopIcon from "../../../../public/record.png";
 import icon2 from "../../../../public/picture.png";
 import Modal from "react-modal";
-
+import { useModal } from "@/context/ModalProvider";
 import {
   executeCalls,
   fetchAccountCompatibility,
@@ -18,14 +27,14 @@ import {
 } from "@avnu/gasless-sdk";
 import { byteArray, CallData } from "starknet";
 import SuccessScreen from "./Success";
-import Filename from "./nameModal.jsx";
 import ErrorScreen from "./error";
+import Filename from "./nameModal";
 import Image from "next/image";
 
 const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
-export const Recording = ({ text, icon1, icon2, imgText, category }) => {
+export const Recording = ({ text, icon1, imgText, category }) => {
   const [uri, setUri] = useState("");
-
+  const { openModal, closeModal } = useModal();
   const options = { baseUrl: SEPOLIA_BASE_URL };
   const calls = [
     {
@@ -39,7 +48,9 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
     },
   ];
 
+  const { openNotification } = useNotification();
   const { account } = useContext(WalletContext);
+  const { showModal, setShowModal } = useContext(GlobalStateContext);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [mediaStream, setMediaStream] = useState(null);
   const videoRef = useRef(null);
@@ -63,62 +74,63 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const route = useRouter();
-  
 
-    useEffect(() => {
-      if (uri !== "") {
-        const calls = [
-          {
-            entrypoint: "crime_record",
-            contractAddress:
-              "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
-            calldata: CallData.compile([
-              byteArray?.byteArrayFromString(String(uri)),
-              0,
-            ]),
-          },
-        ];
-        callRef.current = JSON.stringify(calls, null, 2);
-      }
+  useEffect(() => {
+    if (uri !== "") {
+      const calls = [
+        {
+          entrypoint: "crime_record",
+          contractAddress:
+            "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
+          calldata: CallData.compile([
+            byteArray?.byteArrayFromString(String(uri)),
+            0,
+          ]),
+        },
+      ];
+      callRef.current = JSON.stringify(calls, null, 2);
+    }
 
-      // Execute the transaction with gasless option
-      const triggerWallet = async () => {
-        if (uri) {
-          try {
-            if (uri !== "") {
-              const transactionResponse = await executeCalls(
-                account,
-                JSON.parse(callRef.current),
-                {},
-                { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
-              );
-              console.log("Transaction successful:", transactionResponse);
-              setLoading(false);
-              setSuccessModalOpen(true);
-              
-            }
-          } catch (error) {
-            console.error("Transaction failed:", error);
+    // Execute the transaction with gasless option
+    const triggerWallet = async () => {
+      if (uri) {
+        try {
+          if (uri !== "") {
+            const transactionResponse = await executeCalls(
+              account,
+              JSON.parse(callRef.current),
+              {},
+              { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
+            );
+            console.log("Transaction successful:", transactionResponse);
+            openNotification("success", "Transaction successful", "");
             setLoading(false);
-            setErrorModalOpen(true);
-            
+            openModal("success");
+            // setSuccessModalOpen(true);
           }
+        } catch (error) {
+          console.error("Transaction failed:", error);
+          openNotification("error", "Transaction failed", `${error}`);
+          setLoading(false);
+          openModal("error");
+          // setErrorModalOpen(true);
         }
-      };
+      }
+    };
 
-      if (uri !== "") triggerWallet();
-    }, [uri]);
+    if (uri !== "") triggerWallet();
+  }, [uri]);
 
-    useEffect(() => {
-      if (!account) return;
-      fetchAccountCompatibility(account.address, {
-        baseUrl: SEPOLIA_BASE_URL,
-      }).then(setGaslessCompatibility);
-      fetchAccountsRewards(account.address, {
-        baseUrl: SEPOLIA_BASE_URL,
-        protocol: "gasless-sdk",
-      }).then(setPaymasterRewards);
-    }, [account]);
+  useEffect(() => {
+    if (!account) return;
+    fetchAccountCompatibility(account.address, {
+      baseUrl: SEPOLIA_BASE_URL,
+    }).then(setGaslessCompatibility);
+    fetchAccountsRewards(account.address, {
+      baseUrl: SEPOLIA_BASE_URL,
+      protocol: "gasless-sdk",
+    }).then(setPaymasterRewards);
+  }, [account]);
 
   useEffect(() => {
     fetchGasTokenPrices({ baseUrl: SEPOLIA_BASE_URL }).then(setGasTokenPrices);
@@ -137,12 +149,13 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
     setUploadModalOpen(false);
   };
   const closeSuccessModal = () => {
-    setSuccessModalOpen(false);
+    // setSuccessModalOpen(false);
+    closeModal();
     route.push("/crimerecorder/uploads");
   };
   const closeErrorModal = () => {
-    setErrorModalOpen(false);
-   
+    openModal("error");
+    // setErrorModalOpen(false);
   };
 
   const handleFileNameSubmit = (inputFileName) => {
@@ -256,55 +269,61 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
     }
   };
 
-    async function uploadToIPFS(fileBlob, fileName) {
-      const formData = new FormData();
-      formData.append("file", fileBlob, fileName);
-      setLoading(true); 
-      try {
-        // Check if the wallet is connected
-        if (!account || !account.address) {
-          console.error("Wallet not connected. Cannot associate file with account.");
-          setLoading(false); 
-          setErrorMessage("Transaction failed: Wallet not connected");
-          setErrorModalOpen(true);
-          return;
-        }
-    
-        console.log("Uploading file:", fileName); // Log the file name
-    
-        const response = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
+  async function uploadToIPFS(fileBlob, fileName) {
+    const formData = new FormData();
+    formData.append("file", fileBlob, fileName);
+    setLoading(true);
+    try {
+      // Check if the wallet is connected
+      if (!account || !account.address) {
+        console.error(
+          "Wallet not connected. Cannot associate file with account."
+        );
+        setLoading(false);
+        setErrorMessage("Transaction failed: Wallet not connected");
+        openModal("error");
+        // setErrorModalOpen(true);
+        return;
+      }
+
+      console.log("Uploading file:", fileName); // Log the file name
+
+      const response = await fetch(
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        {
           method: "POST",
           headers: {
             Authorization: `Bearer ${NFT_STORAGE_TOKEN}`,
           },
           body: formData,
-        });
-    
-        // Handle response
-        if (!response.ok) {
-          throw new Error(`Failed to upload file to IPFS: ${response.status} ${response.statusText}`);
         }
-    
-        const data = await response.json();
-        const ipfsHash = data.IpfsHash; // Access the IPFS hash from the response
-    
-        console.log("IPFS Hash:", ipfsHash);
-    
-        // Store the IPFS hash locally for the current user
-        localStorage.setItem("uri", ipfsHash);
-        setUri(ipfsHash);
-    
-        console.log("File uploaded successfully and data saved!");
-    
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        setLoading(false);
-        setErrorMessage("Error uploading file");
-        setErrorModalOpen(true);
-       
+      );
+
+      // Handle response
+      if (!response.ok) {
+        throw new Error(
+          `Failed to upload file to IPFS: ${response.status} ${response.statusText}`
+        );
       }
+
+      const data = await response.json();
+      const ipfsHash = data.IpfsHash; // Access the IPFS hash from the response
+
+      console.log("IPFS Hash:", ipfsHash);
+
+      // Store the IPFS hash locally for the current user
+      localStorage.setItem("uri", ipfsHash);
+      setUri(ipfsHash);
+
+      console.log("File uploaded successfully and data saved!");
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      setLoading(false);
+      setErrorMessage("Error uploading file");
+      openModal("error");
+      // setErrorModalOpen(true);
     }
-   
+  }
 
   const handleStopMedia = async () => {
     if (category === "video") {
@@ -348,79 +367,80 @@ export const Recording = ({ text, icon1, icon2, imgText, category }) => {
 
   return (
     <>
-    <div className="w-full flex flex-col mt-10 items-center gap-6">
-            
-        <SuccessScreen open={isSuccessModalOpen} onClose={closeSuccessModal} className="flex items-center justify-center fixed inset-0 backdrop-blur-sm"/>
-        <ErrorScreen open={isErrorModalOpen} onClose={closeErrorModal} message={errorMessage} className="flex items-center justify-center fixed inset-0 backdrop-blur-sm"/>
+      <div className="w-full flex flex-col mt-10 items-center gap-6">
+        {/* <SuccessScreen open={isSuccessModalOpen} onClose={closeSuccessModal} className="flex items-center justify-center fixed inset-0 backdrop-blur-sm"/>
+        <ErrorScreen open={isErrorModalOpen} onClose={closeErrorModal} message={errorMessage} className="flex items-center justify-center fixed inset-0 backdrop-blur-sm"/> */}
 
-      
-      
-      <Filename
-        open={isUploadModalOpen}
-        onClose={closeUploadModal}
-        onSubmit={handleFileNameSubmit}
-      />
-      <p className="text-white text-lg sm:text-xl">{text}</p>
-      <div className="bg-gradient-to-r from-[#0094ff] to-[#A02294] w-full max-w-lg rounded-xl md:mb-5">
-        <div
-          className=" w-full h-full flex flex-col justify-center items-center rounded-xl p-6 sm:p-10"
-          style={{
-            backgroundColor: "#1e2f37",
-            backgroundImage: `url(${bg.src})`,
-            backgroundSize: "contain",
-          }}
-        >
-          <div id="vid-recorder" className="w-full">
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              id="web-cam-container"
-              className="rounded-xl mb-6 w-full"
-            >
-              Your browser doesn&apos;t support the video tag
-            </video>
-            <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
-          </div>
-          <div className="flex items-center space-x-4">
-            <button
-              className={
-                isClicked
-                  ? "switch-camera-button clicked"
-                  : "switch-camera-button"
-              }
-              onClick={switchCamera}
-            >
-              <Icons
-                icon={icon3}
-                text={`Switch Camera`}
-                isFlipped={isClicked}
-              />
-            </button>
+        <Filename
+          open={isUploadModalOpen}
+          onClose={closeUploadModal}
+          onSubmit={handleFileNameSubmit}
+        />
+        <p className="text-white text-lg sm:text-xl">{text}</p>
+        <div className="bg-gradient-to-r from-[#0094ff] to-[#A02294] w-full max-w-lg rounded-xl md:mb-5">
+          <div
+            className=" w-full h-full flex flex-col justify-center items-center rounded-xl p-6 sm:p-10"
+            style={{
+              backgroundColor: "#1e2f37",
+              backgroundImage: `url(${bg.src})`,
+              backgroundSize: "contain",
+            }}>
+            <div id="vid-recorder" className="w-full">
+              <video
+                ref={videoRef}
+                autoPlay
+                muted
+                id="web-cam-container"
+                className="rounded-xl mb-6 w-full">
+                Your browser doesn&apos;t support the video tag
+              </video>
+              <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
+            </div>
+            <div className="flex items-center space-x-4">
+              <button
+                className={
+                  isClicked
+                    ? "switch-camera-button clicked"
+                    : "switch-camera-button"
+                }
+                onClick={switchCamera}>
+                <Icons
+                  icon={icon3}
+                  text={`Switch Camera`}
+                  isFlipped={isClicked}
+                />
+              </button>
 
-            <button onClick={handleStopMedia}>
-              <Icons
-                icon={isRecording ? stopIcon : icon1}
-                text={isRecording ? "Stop Recording" : imgText}
-              />
-            </button>
+              <button onClick={handleStopMedia}>
+                <Icons
+                  icon={isRecording ? stopIcon : icon1}
+                  text={isRecording ? "Stop Recording" : imgText}
+                />
+              </button>
+            </div>
+            {loading && ( // Display overlay when loading
+              <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center">
+                <div className="flex flex-col items-center">
+                  <Image
+                    src="/logo.svg"
+                    alt="Loading"
+                    width={100}
+                    height={100}
+                  />
+                  <p className="text-white mt-4 text-lg">
+                    sending your file onchain, please wait...
+                  </p>
+                </div>
+                <style jsx>{`
+                  div {
+                    backdrop-filter: blur(10px); /* Blur background */
+                  }
+                `}</style>
+              </div>
+            )}
           </div>
-          {loading && ( // Display overlay when loading
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center">
-          <div className="flex flex-col items-center">
-            <Image src="/logo.svg" alt="Loading" width={100} height={100} />
-            <p className="text-white mt-4 text-lg">sending your file onchain, please wait...</p>
-          </div>
-          <style jsx>{`
-            div {
-              backdrop-filter: blur(10px); /* Blur background */
-            }
-          `}</style>
-        </div>
-      )}
         </div>
       </div>
-    </div>
-  </>
+    </>
   );
 };
