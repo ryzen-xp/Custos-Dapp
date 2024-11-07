@@ -9,6 +9,8 @@ import ReactMarkdown from "react-markdown";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import mammoth from "mammoth";
+import { useNotification } from "@/context/NotificationProvider";
+// import { useNotification } from "@/contexts/NotificationContext";
 
 const Page = ({ params }) => {
   const [agreement, setAgreement] = useState(null);
@@ -17,6 +19,7 @@ const Page = ({ params }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editableFields, setEditableFields] = useState({});
   const [contentFormat, setContentFormat] = useState("plain");
+  const { openNotification } = useNotification();
   const router = useRouter();
 
   const slug = params?.slug || [];

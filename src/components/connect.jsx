@@ -34,7 +34,7 @@ function ConnectButtoncomponent() {
           <div className="bg-[#121212] rounded-[100px]">
             <button
               onClick={handleConnect}
-              className="flex items-center text-white text-sm py-3 px-6 rounded-[100px] hover:bg-gradient-to-r from-[#19B1D2] to-[#0094FF] transition-colors duration-300 ease-in-out"
+              className="flex items-center text-white text-sm py-3 px-6 rounded-[100px] hover:bg-gradient-to-r from-[#19B1D2] to-[#0094FF] hover:bg-[#209af1] transition-colors duration-300 ease-in-out"
             >
               <span>Connect Wallet</span>
               <FaLongArrowAltRight className="ml-2" />

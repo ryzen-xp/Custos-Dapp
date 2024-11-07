@@ -49,7 +49,8 @@ export const NotificationProvider = ({ children }) => {
         notification,
         openNotification,
         closeNotification,
-      }}>
+      }}
+    >
       {children}
       {notification.isOpen && (
         <Notification
