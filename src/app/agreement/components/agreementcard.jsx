@@ -78,7 +78,7 @@ export const AgreementCard = ({
           <div className="br w-[75%] overflow-hidden flex px-4 font-bold min-h-[4em] max-h-[4em] text-[10px] text-[#f3f2f294] whitespace-nowrap border-gradient">
             <p className="py-2 whitespace-nowrap overflow-hidden overflow-ellipsis">Second Party Address: {agreement.second_party_address}</p>
           </div>
-          <div className="w-fit font-bold flex items-start justify-start text-left space-x-0 text-[0.7em] text-white text-nowrap ">
+          <div className="w-fit font-bold flex items-start justify-start text-left space-x-0 text-[0.7em] text-white text-nowrap mt-4 mb-4">
             Time Stamp :
             <span className="text-center align-middle font-bold bg-gradient-to-r from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
               {'formattedDate'}
@@ -219,7 +219,7 @@ export const PendingAgreementCard = ({
           <div className="br w-[75%] overflow-hidden flex px-4 font-bold min-h-[4em] max-h-[4em] text-[10px] text-[#f3f2f294] whitespace-nowrap border-gradient">
             <p className="py-2 whitespace-nowrap overflow-hidden overflow-ellipsis">Second Party Address: {agreement.second_party_address}</p>
           </div>
-          <div className="w-fit font-bold flex items-start justify-start text-left space-x-0 text-[0.7em] text-white text-nowrap ">
+          <div className="w-fit font-bold flex items-start justify-start text-left space-x-0 text-[0.7em] text-white text-nowrap mt-4 mb-4">
             Time Stamp :
             <span className="text-center align-middle text-wrap font-bold bg-gradient-to-r from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
               {formattedDate}
