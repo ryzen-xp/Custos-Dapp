@@ -1,6 +1,7 @@
 "use client";
+
 import React, { useContext } from "react";
-import { FaArrowRight, FaLongArrowAltRight } from "react-icons/fa";
+import { FaLongArrowAltRight } from "react-icons/fa";
 import { WalletContext } from "./walletprovider";
 
 function ConnectButtoncomponent() {
@@ -13,36 +14,32 @@ function ConnectButtoncomponent() {
   };
 
   return (
-    <div className=" justify-end flex max-w-[13em] overflow-clip w-fit items-end">
+    <div className="justify-end flex max-w-[13em] overflow-hidden w-fit items-end">
       {connection ? (
         <div
-          className=" cursor-auto  border-gradient py-2 px-4 w-full rounded-full  text-[#ededef]"
+          className="cursor-pointer border-gradient w-full rounded-full text-[#ededef] bg-gradient-to-r from-[#00A3FF] to-[#0047FF] p-[1px]"
           onClick={disconnectWallet}
         >
-          <button
-            onClick={disconnectWallet}
-            className="w-full bg-transparent rounded-full overflow-clip"
-          >
-            {address}
-          </button>
+          <div className="bg-[#121212] rounded-full py-1 px-3">
+            <button
+              onClick={disconnectWallet}
+              className="w-full bg-transparent rounded-full overflow-hidden text-sm"
+            >
+              {address}
+            </button>
+          </div>
         </div>
       ) : (
-        <div className=" w-full">
-          <button
-            onClick={handleConnect}
-            className=" flex box items-center text-white text-sm py-4 px-8 rounded-[100] bg-[#ffffff0a] backdrop-filter backdrop-blur-[10px]  hover:bg-[#209af1]"
-          >
-            <div className="sh-btn"></div>
-            Connect Wallet
-            <FaLongArrowAltRight className="ml-2" />
-            {/* <span className="mr-2">Connect Wallet</span>
-          <FaArrowRight /> */}
-          </button>
-          {/* <img
-            src="/connectButton.png"
-            alt="Connect Wallet"
-            className=" h-[3em]"
-          /> */}
+        <div className="w-full backdrop-blur-[10px] bg-gradient-to-r from-[#00A3FF] to-[#0047FF] p-[2px] rounded-[100px]">
+          <div className="bg-[#121212] rounded-[100px]">
+            <button
+              onClick={handleConnect}
+              className="flex items-center text-white text-sm py-3 px-6 rounded-[100px] hover:bg-gradient-to-r from-[#19B1D2] to-[#0094FF] hover:bg-[#209af1] transition-colors duration-300 ease-in-out"
+            >
+              <span>Connect Wallet</span>
+              <FaLongArrowAltRight className="ml-2" />
+            </button>
+          </div>
         </div>
       )}
     </div>

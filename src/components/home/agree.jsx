@@ -42,10 +42,10 @@ const Agree = () => {
           <div className="text-center p-8 bg-transparent rounded shadow-lg text-white">
             <p className="text-[1.5em] mb-4">Agreement documentation</p>
 
-            <p className="text-[1em] mb-4 z-40 ">
+            <p className="text-[1em] mb-4 z-40 max-w-sm sm:max-w-md md:max-w-lg bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
               Create new legal agreements by providing the agreement content,
-              the <br />
-              address of the second party, and details about the first party.
+              the the address of the second party, and details about the first
+              party.
             </p>
 
             {/* <TextFade
@@ -78,7 +78,7 @@ const Agree = () => {
 
       <div className="justify-center items-center flex mb-[15%]">
         <a href="/agreement">
-          <div className=" flex box items-center text-white text-sm py-4 px-8 rounded-[100] bg-[#ffffff0a] backdrop-filter backdrop-blur-[50px]  hover:bg-[#209af1]">
+          <div className="flex box-btn items-center text-white text-sm py-4 px-8 rounded-[100px] bg-[#84c2f513] backdrop-filter backdrop-blur-[10px] hover:bg-[#209af1] transition-colors duration-300 ease-in-out">
             <div className="sh-btn"></div>
             Launch Dapps
             <FaLongArrowAltRight className="ml-2" />
@@ -103,6 +103,7 @@ const Agree = () => {
           </button> */}
         </a>
       </div>
+
       {showLaunchDapps && <ShowLaunchDapps closeModal={closeModal} />}
       <div className="w-full">
         <Shape />
@@ -113,14 +114,34 @@ const Agree = () => {
             <div className=" text-[2em] whitespace-nowrap mb-2 sm:mb-0 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent ">
               <p>We paid the gas fee.</p>
             </div>
-            <div className="w-fit text-[1em] text-start items-end justify-end bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
-              <p className="">
+            <div className="w-fit text-[1em] md:hidden text-center items-end justify-end bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+              <p>
                 Custos lets you record your videos safely on the blockchain
-                without paying a gas <br /> fee until you need your video back.{" "}
-                <br /> Whether its a business contract, a rental agreement, or a
-                partnership <br /> arrangement, Custos ensures that agreements
-                are securely stored, easily <br /> accessible, and tamper-proof,
-                fostering trust and accountability among parties.
+                without paying a gas fee until you need your video back.
+              </p>
+              <br />
+              <p>
+                Whether its a business contract, a rental agreement, or a
+                partnership arrangement
+              </p>
+              <br />
+              <p>
+                Custos ensures that agreements are securely stored, easily
+                accessible, and tamper-proof, fostering trust and accountability
+                among parties.
+              </p>
+            </div>
+            <div className="w-fit text-[1em] hidden md:block text-left items-end justify-end bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
+              <p>
+                Custos lets you record your videos safely on the blockchain
+                without paying a gas fee until you need your video back.
+              </p>
+              <br />
+              <p>
+                Whether its a business contract, a rental agreement, or a
+                partnership arrangement, Custos ensures that agreements are
+                securely stored, easily accessible, and tamper-proof, fostering
+                trust and accountability among parties.
               </p>
             </div>
           </div>
@@ -131,13 +152,24 @@ const Agree = () => {
         <div className="flex items-center justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
           <div className="text-center p-8 bg-transparent rounded shadow-lg my-20">
             <p className=" md:text-[50px] text-[30px] mb-4">Crime recorder</p>
-            <p className="text-[20px]  mb-4">
-              The Crime Recording App transforms the way individuals contribute{" "}
-              <br />
-              to societal safety by providing an advanced platform for
-              documenting <br />
-              and sharing crime events securely and transparently.
-            </p>
+            <div className="md:hidden">
+              <p className="mb-4">
+                The Crime Recording App transforms the way individuals
+                contribute to societal safety.
+              </p>
+              <p>
+                We are providing an advanced platform for documenting and
+                sharing crime events securely and transparently.
+              </p>
+            </div>
+            <div className="hidden md:block max-w-lg">
+              <p className="mb-4">
+                The Crime Recording App transforms the way individuals
+                contribute to societal safety by providing an advanced platform
+                for documenting and sharing crime events securely and
+                transparently.
+              </p>
+            </div>
           </div>
         </div>
         <div className="flex justify-center items-center  -mt-10">
@@ -153,9 +185,10 @@ const Agree = () => {
             </a>
           </div>
         </div>
-        <div className="justify-center items-center flex mb-[15%]">
+
+        <div className="justify-center items-center flex mb-[15%] ">
           <a href="/crimerecorder">
-            <div className=" flex box items-center text-white text-sm py-4 px-8 rounded-[100] bg-[#ffffff0a] backdrop-filter backdrop-blur-[10px]  hover:bg-[#209af1]">
+            <div className=" flex box-btn items-center text-white text-sm py-4 px-8 rounded-[100px] bg-[#84c2f513] backdrop-filter backdrop-blur-[10px] hover:bg-[#209af1] transition-colors duration-300 ease-in-out">
               <div className="sh-btn"></div>
               Launch Dapps
               <FaLongArrowAltRight className="ml-2" />
@@ -188,12 +221,21 @@ const Agree = () => {
         <div className="flex items-center mt-[20%] justify-center bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent">
           <div className="text-center p-8 bg-transparent rounded shadow-lg my-10">
             <p className="md:text-[50px] text-[30px] mb-4">Our Pledge</p>
-            <p className="text-[20px] mb-4">
+            <div className="md:hidden">
+              <p className="mb-4">
+                We are dedicated to revolutionizing safety and security through
+                innovative protocol platforms.
+              </p>
+              <p>
+                We are empowering individuals and communities to effectively
+                address crime scene witnessing and streamline agreement systems.
+              </p>
+            </div>
+            <p className="mb-4 hidden md:block max-w-2xl">
               We are dedicated to revolutionizing safety and security through
-              innovative protocol <br />
-              platforms. Our mission is to provide solutions that empower
-              individuals and communities to <br /> effectively address crime
-              scene witnessing and streamline agreement systems.
+              innovative protocol platforms. Our mission is to provide solutions
+              that empower individuals and communities to effectively address
+              crime scene witnessing and streamline agreement systems.
             </p>
           </div>
         </div>
@@ -204,8 +246,9 @@ const Agree = () => {
             <p className="md:text-[50px] text-[30px] mb-2 bg-gradient-to-r from-[#0094FF] to-[#A02294] bg-clip-text text-transparent">
               Make better decision
             </p>
-            <p className="text-[20px] mb-4">
-              We paid the price to keep your videos and legal agreements safe.
+            <p className="mb-4 max-w-[16rem] md:max-w-lg">
+              We paid the price to keep your videos and legal agreements safe.{" "}
+              <br /> Connect your wallet to get started.
             </p>
           </div>
           <ConnectButtoncomponent />

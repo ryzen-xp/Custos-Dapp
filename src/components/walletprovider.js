@@ -1,11 +1,15 @@
 "use client";
 import React, { createContext, useState, useEffect } from "react";
 import { connect, disconnect } from "get-starknet";
+import { useNotification } from "@/context/NotificationProvider";
 import { padAddress } from "@/utils/serializer";
 
 export const WalletContext = createContext();
 
 export const WalletProvider = ({ children }) => {
+  const {
+    openNotification,
+  } = useNotification();
   const [connection, setConnection] = useState(null);
   const [account, setAccount] = useState("");
   const [address, setAddress] = useState("");
@@ -18,7 +22,7 @@ export const WalletProvider = ({ children }) => {
     if (connection && connection.isConnected) {
       setConnection(connection);
       setAccount(connection.account);
-
+      openNotification("success", "Wallet Connected", "Your wallet has been connected successfully!");
       const cleanedAddress = padAddress(connection.selectedAddress);
       setAddress(cleanedAddress);
     }

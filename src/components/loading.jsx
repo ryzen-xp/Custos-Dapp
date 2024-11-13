@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 const Loading = ({text}) => {
   return (
+  
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-90 z-50">
       <div className="relative w-48 h-48">
         {/* Rotating logo */}

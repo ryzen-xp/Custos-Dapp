@@ -28,6 +28,11 @@ export const UseReadContractData = () => {
     try {
       const contractConfig = contractConfigs[contractName];
       if (!contractConfig) {
+        openNotification(
+          "error",
+          "",
+          `Contract "${contractName}" not found in configurations.`
+        );
         throw new Error(
           `Contract "${contractName}" not found in configurations.`
         );
@@ -68,11 +73,17 @@ export const UseWriteToContract = () => {
   const writeToContract = async (contractName, methodName, params = []) => {
     try {
       if (!account || !account.account) {
+        openNotification("error", "", "Wallet not connected");
         throw new Error("Wallet not connected");
       }
 
       const contractConfig = contractConfigs[contractName];
       if (!contractConfig) {
+        openNotification(
+          "error",
+          "",
+          `Contract "${contractName}" not found in configurations.`
+        );
         throw new Error(
           `Contract "${contractName}" not found in configurations.`
         );
@@ -91,6 +102,7 @@ export const UseWriteToContract = () => {
 
       return result;
     } catch (err) {
+      openNotification("error", "", "Contract interaction failed");
       console.error("Contract interaction failed", err);
       throw err;
     }
@@ -106,6 +118,7 @@ export const UseSignMessage = () => {
   const signMessage = async (message) => {
     try {
       if (!account || !account.account) {
+        openNotification("error", "", "Wallet not connected");
         throw new Error("Wallet not connected");
       }
 
@@ -113,6 +126,7 @@ export const UseSignMessage = () => {
       console.log("Signature:", signature);
       return signature;
     } catch (err) {
+      openNotification("error", "", "Message signing failed");
       console.error("Message signing failed", err);
       throw err;
     }
