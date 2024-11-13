@@ -54,7 +54,7 @@ function AgreementList() {
     if (address) {
       fetchAgreements();
     }
-  }, [address, fetchData]);
+  }, [address]);
 
   useEffect(() => {
     const FetchPendingAgreements = async () => {
