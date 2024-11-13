@@ -23,7 +23,7 @@ export const metadata = {
     telephone: false,
   },
   icons: {
-    shortcut: "/favicon.ico",
+    shortcut: "/favicon.png",
     apple: [{ url: "/ios/180.png", sizes: "180x180" }],
   },
   openGraph: {

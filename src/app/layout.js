@@ -37,6 +37,7 @@ export default function RootLayout({ children }) {
       <head>
         <title>{Metadata.title}</title>
         {Metadata.link}
+        <link rel="icon" href='/favicon.png' />
       </head>
       <body className="flex flex-col min-h-screen justify-between">
         <BackgroundWrapper>

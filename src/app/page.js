@@ -8,10 +8,10 @@ import FadeInSection from "@/components/fadeInSection";
 import InstallPWA from "@/components/InstallPWA";
 import { useEffect } from "react";
 
-const isBrowser = () => typeof window !== "undefined"; //The approach recommended by Next.js
+const isBrowser = () => typeof window !== "undefined"; 
 
 export default function Home() {
-  useEffect(() => { }, [isBrowser()]);
+  // useEffect(() => { }, [isBrowser()]);
 
   return (
     <div className="min-h-screen kanit">
