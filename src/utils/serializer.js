@@ -21,9 +21,24 @@ export const stringToByteArray = (str) => {
     return new TextEncoder().encode(str);
 };
 
-// Converts a byte array to a string
+// Converts a byte array (string of comma-separated values) to a string
 export const byteArrayToString = (byteArray) => {
-    return new TextDecoder().decode(byteArray);
+    console.log("array", byteArray);
+    
+    // Convert the comma-separated string to an array of numbers
+    const byteArrayNumbers = byteArray.split(',').map(Number);
+    
+    // Check if the resulting array is empty
+    if (byteArrayNumbers.length === 0) {
+        console.warn("Input byteArray is empty.");
+        return ""; 
+    }
+
+    // Convert to Uint8Array for decoding
+    const uint8Array = new Uint8Array(byteArrayNumbers);
+    console.log("converted", uint8Array);
+    
+    return new TextDecoder().decode(uint8Array);
 };
 
 // Converts a hexadecimal string to a number

@@ -12,7 +12,7 @@ import mammoth from "mammoth";
 import { useNotification } from "@/context/NotificationProvider";
 // import { useNotification } from "@/contexts/NotificationContext";
 
-const Page = ({ params }) => {
+const AgreementSlug = ({ params }, agreementparam) => {
   const [agreement, setAgreement] = useState(null);
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState(null);
@@ -367,4 +367,4 @@ const Page = ({ params }) => {
   );
 };
 
-export default Page;
+export default AgreementSlug;

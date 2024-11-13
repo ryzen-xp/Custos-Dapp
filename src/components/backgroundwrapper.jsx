@@ -6,13 +6,13 @@ const BackgroundWrapper = ({ children }) => {
     <div className="relative w-full  overflow-hidden">
       {/* Noise background */}
       <img
-        src="/Rectangle.png"  // Assuming Rectangle.png is your noise background
+        src="/Rectangle.png"  
         alt="Noise Background"
         className=" fixed w-full bg-[#1e2f37] inset-0 h-full object-cover"
         style={{
           zIndex: -1,
           mixBlendMode: 'overlay', 
-          filter: 'brightness(0.8)' // Adjust brightness for blending
+          filter: 'brightness(2.8)'
         }}
       />
       {/* Left background */}

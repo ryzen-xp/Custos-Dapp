@@ -107,7 +107,7 @@ function AgreementList() {
     if (activeTab === "all") {
       return agreements.length > 0 || pendingAgreements?.length > 0 ? (
         <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {pendingAgreements.map((agreement, index) => (
+          {pendingAgreements?.map((agreement, index) => (
             <PendingAgreementCard
               key={index}
               agreement={agreement}
