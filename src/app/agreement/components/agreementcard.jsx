@@ -4,30 +4,30 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import ValidateAgreementModal from "./validateAgreement";
 import SignAgreementModal from "./signagreementmodal";
-import DOMPurify from 'dompurify';
-import ReactMarkdown from 'react-markdown';
-import parse from 'html-react-parser';
+import DOMPurify from "dompurify";
+import ReactMarkdown from "react-markdown";
+import parse from "html-react-parser";
 import AgreementSlug from "../[...slug]/page";
 import { byteArrayToString } from "@/utils/serializer";
 
 const detectContentFormat = (content) => {
-  if (content.startsWith('<')|| content.includes("<html ")) {
-    return 'html';
-  } else if (content.includes('**') || content.includes('#')) {
-    return 'markdown';
+  if (content.startsWith("<") || content.includes("<html ")) {
+    return "html";
+  } else if (content.includes("**") || content.includes("#")) {
+    return "markdown";
   } else {
-    return 'text';
+    return "text";
   }
 };
 
 const renderContent = (content) => {
-  console.log("ctnt", content)
+  console.log("ctnt", content);
   const contentFormat = detectContentFormat(content);
   switch (contentFormat) {
-    case 'html':
+    case "html":
       const cleanHtml = DOMPurify.sanitize(content);
       return parse(cleanHtml);
-    case 'markdown':
+    case "markdown":
       return <ReactMarkdown>{content}</ReactMarkdown>;
     default:
       return <span>{content}</span>;
@@ -43,7 +43,7 @@ export const AgreementCard = ({
   // const formattedDate = format(new Date(agreement[3]), "EEEE, do MMMM yyyy. hh:mm:ss aaaa");
 
   const handleCardClick = () => {
-    return (<AgreementSlug agreementparams={agreement} />)
+    return <AgreementSlug agreementparams={agreement} />;
   };
 
   const handleValidateClick = (e) => {
@@ -51,7 +51,7 @@ export const AgreementCard = ({
     setIsModalOpen(true);
   };
 
-  console.log("fetchedagrrement", agreement)
+  console.log("fetchedagrrement", agreement);
 
   return (
     <>
@@ -76,12 +76,14 @@ export const AgreementCard = ({
             )}
           </div>
           <div className="br w-[75%] overflow-hidden flex px-4 font-bold min-h-[4em] max-h-[4em] text-[10px] text-[#f3f2f294] whitespace-nowrap border-gradient">
-            <p className="py-2 whitespace-nowrap overflow-hidden overflow-ellipsis">Second Party Address: {agreement.second_party_address}</p>
+            <p className="py-2 whitespace-nowrap overflow-hidden overflow-ellipsis">
+              Second Party Address: {agreement.second_party_address}
+            </p>
           </div>
           <div className="w-fit font-bold flex items-start justify-start text-left space-x-0 text-[0.7em] text-white text-nowrap mt-4 mb-4">
             Time Stamp :
             <span className="text-center align-middle font-bold bg-gradient-to-r from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
-              {'formattedDate'}
+              {"formattedDate"}
             </span>
           </div>
           <div className="text-wrap w-fit text-white">
@@ -109,9 +111,16 @@ export const AgreementCard = ({
           {agreement.access_token ? (
             <button
               // onClick={handleValidateClick}
-              disabled={!agreement.second_party_signature || agreement.agreement_id !== null}
-              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${!agreement.second_party_signature || agreement.agreement_id !== null ? " opacity-50 cursor-not-allowed" : ""
-                }`}
+              disabled={
+                !agreement.second_party_signature ||
+                agreement.agreement_id !== null
+              }
+              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
+                !agreement.second_party_signature ||
+                agreement.agreement_id !== null
+                  ? " opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
             >
               Validate Agreement
             </button>
@@ -119,16 +128,16 @@ export const AgreementCard = ({
             <button
               // onClick={handleSignClick}
               disabled={agreement.second_party_signature != null || undefined}
-              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${!agreement.second_party_signature
+              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
+                !agreement.second_party_signature
                   ? ""
                   : "cursor-not-allowed opacity-50"
-                }`}
+              }`}
             >
               Sign Agreement
             </button>
           )}
         </div>
-
       </div>
 
       {/* {isModalOpen && (
@@ -151,7 +160,6 @@ export const AgreementCard = ({
     </>
   );
 };
-
 
 export const PendingAgreementCard = ({
   agreement,
@@ -198,9 +206,9 @@ export const PendingAgreementCard = ({
     <>
       <div
         onClick={handleCardClick}
-        className="p-3 text-base space-y-[1em] flex flex-col justify-between bg-gradient-to- border-gradient bg-[#97c7fe09] h-[20em] backdrop-blur-sm  text-transparent rounded-[1em] relative w-full cursor-pointer"
+        className="p-3 text-base space-y-[1em] flex flex-col justify-between bg-gradient-to- border-gradient bg-[#97c7fe09] backdrop-blur-sm  text-transparent rounded-[1em] relative w-full cursor-pointer"
       >
-        <div className="relative border-[#43b2ea38] h-[80%] overflow-clip flex flex-col gap-0 backdrop-blur-sm shadow-2xl border-[0.01px] rounded-lg p-2 items-start w-full">
+        <div className="relative border-[#43b2ea38] min-h-[70%] max-h-[70%] overflow-clip flex flex-col gap-0 backdrop-blur-sm shadow-2xl border-[0.01px] rounded-lg p-2 items-start w-full">
           <div className="w-full flex justify-between">
             <h2 className="text-[16px] box w-fit flex text-wrap font-bold bg-gradient-to-r br  px-[16px] py-[8px] from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
               {agreement.agreementType}
@@ -217,7 +225,9 @@ export const PendingAgreementCard = ({
             )}
           </div>
           <div className="br w-[75%] overflow-hidden flex px-4 font-bold min-h-[4em] max-h-[4em] text-[10px] text-[#f3f2f294] whitespace-nowrap border-gradient">
-            <p className="py-2 whitespace-nowrap overflow-hidden overflow-ellipsis">Second Party Address: {agreement.second_party_address}</p>
+            <p className="py-2 whitespace-nowrap overflow-hidden overflow-ellipsis">
+              Second Party Address: {agreement.second_party_address}
+            </p>
           </div>
           <div className="w-fit font-bold flex items-start justify-start text-left space-x-0 text-[0.7em] text-white text-nowrap mt-4 mb-4">
             Time Stamp :
@@ -250,9 +260,16 @@ export const PendingAgreementCard = ({
           {agreement.access_token ? (
             <button
               onClick={handleValidateClick}
-              disabled={!agreement.second_party_signature || agreement.agreement_id !== null}
-              className={`w-fit text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient text-[10px] p-0 bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative  ${!agreement.second_party_signature || agreement.agreement_id !== null ? " opacity-50 cursor-not-allowed" : ""
-                }`}
+              disabled={
+                !agreement.second_party_signature ||
+                agreement.agreement_id !== null
+              }
+              className={`w-fit px-4 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[1em] md:text-[0.8em] sm:text-[0.7em] ${
+                !agreement.second_party_signature ||
+                agreement.agreement_id !== null
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
             >
               Validate Agreement
             </button>
@@ -260,16 +277,16 @@ export const PendingAgreementCard = ({
             <button
               onClick={handleSignClick}
               disabled={agreement.second_party_signature != null || undefined}
-              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${!agreement.second_party_signature
+              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${
+                !agreement.second_party_signature
                   ? ""
                   : "cursor-not-allowed opacity-50"
-                }`}
+              }`}
             >
               Sign Agreement
             </button>
           )}
         </div>
-
       </div>
 
       {isModalOpen && (
