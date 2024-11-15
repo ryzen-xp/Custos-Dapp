@@ -251,7 +251,7 @@ export const PendingAgreementCard = ({
             <button
               onClick={handleValidateClick}
               disabled={!agreement.second_party_signature || agreement.agreement_id !== null}
-              className={`w-fit px-2 py-2 text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative text-[0.8em] ${!agreement.second_party_signature || agreement.agreement_id !== null ? " opacity-50 cursor-not-allowed" : ""
+              className={`w-fit text-white rounded-[2em] border-slate-800 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient text-[10px] p-0 bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-center relative  ${!agreement.second_party_signature || agreement.agreement_id !== null ? " opacity-50 cursor-not-allowed" : ""
                 }`}
             >
               Validate Agreement
