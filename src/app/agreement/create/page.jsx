@@ -427,7 +427,7 @@ const AgreementModal = () => {
         className="flex items-center justify-center"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
       >
-        <SuccessScreen onClose={() => setIsModalOpen(false)} />
+        <SuccessScreen onClose={() => setIsModalOpen(false)} isSuccess={true} message={`Agreement between ${firstpartyFullname} and ${secondPartyFullname} Created Successfully`} />
       </Modal>
     </div>
   );
