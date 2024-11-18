@@ -49,6 +49,7 @@ const ValidateAgreementModal = ({
         agreement.second_party_address,
         `"${stringToByteArray(agreement.first_party_valid_id)}"`,
         `"${stringToByteArray(agreement.second_party_valid_id)}"`,
+        `"${stringToByteArray(agreement.agreementType)}"`,
       ];
       console.log("Parameters for createAgreement:", params);
       if (params.some((param) => param == null)) {
