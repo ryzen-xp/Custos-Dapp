@@ -350,10 +350,12 @@ const AgreementSlug = ({ params }, agreementparam) => {
             </span>
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-lg">Second Party Signature:</strong>
-            <span className="text-sm">
-              {agreement.second_party_signature || "N/A"}
-            </span>
+            <strong className="text-sm">Second Party Signature:</strong>
+            <img
+              src={agreement.second_party_signature}
+              alt="First Party Signature"
+              className="w-[6em] h-[6em] object-cover rounded-lg"
+            />
           </div>
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Created At:</strong>

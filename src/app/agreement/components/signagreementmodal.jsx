@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 import { useContext, useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -60,35 +59,50 @@ const SignAgreementModal = ({
 
   const handleSignAgreement = async () => {
     let signatureData = null;
-
-
-    if (signatureType === "draw" && signaturePadRef.current) {
-      const base64Signature = signaturePadRef.current.toDataURL();
-      signatureData = base64ToFile(base64Signature, "signature.png");
+  
+    if (signatureType === "draw") {
+      if (!signaturePadRef.current || signaturePadRef.current.isEmpty()) {
+        alert("Please draw your signature before submitting.");
+        return;
+      }
+  
+      try {
+        const base64Signature = signaturePadRef.current.toDataURL();
+        signatureData = base64ToFile(base64Signature, "signature.png");
+      } catch (error) {
+        console.error("Error generating signature:", error);
+        alert("An error occurred while processing the signature.");
+        return;
+      }
     }
-
+  
     if (signatureType === "upload" && uploadedSignature) {
       signatureData = uploadedSignature;
     }
-
+  
     if (signatureData && uploadedId) {
       const formData = new FormData();
       formData.append("second_party_signature", signatureData);
       formData.append("second_party_valid_id", uploadedId);
       formData.append("second_party_id_type", idType);
       formData.append("second_party_country", country);
-
-      await fetch(
-        `https://custosbackend.onrender.com/agreement/agreement/${agreementId}/sign/`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      onClose();
+  
+      try {
+        await fetch(
+          `https://custosbackend.onrender.com/agreement/agreement/${agreementId}/sign/`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        onClose();
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("An error occurred while submitting the form.");
+      }
     }
   };
+  
 
 
   return (
