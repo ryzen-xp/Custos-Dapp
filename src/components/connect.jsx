@@ -17,7 +17,7 @@ function ConnectButtoncomponent() {
     <div className="justify-end flex max-w-[13em] overflow-hidden w-fit items-end">
       {connection ? (
         <div
-          className="cursor-pointer border-gradient w-full rounded-full text-[#ededef] bg-gradient-to-r from-[#00A3FF] to-[#0047FF] p-[1px]"
+          className="cursor-pointer border-gradient w-full rounded-full text-[#ededef]  p-[1px]"
           onClick={disconnectWallet}
         >
           <div className="bg-[#121212] rounded-full py-1 px-3">
@@ -30,7 +30,7 @@ function ConnectButtoncomponent() {
           </div>
         </div>
       ) : (
-        <div className="w-full backdrop-blur-[10px] bg-gradient-to-r from-[#00A3FF] to-[#0047FF] p-[2px] rounded-[100px]">
+        <div className="w-full backdrop-blur-[10px] border-gradient cursor-pointer p-[2px] rounded-[100px]" onClick={handleConnect}> 
           <div className="bg-[#121212] rounded-[100px]">
             <button
               onClick={handleConnect}

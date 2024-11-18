@@ -38,7 +38,7 @@ export const NotificationProvider = ({ children }) => {
     if (notification.isOpen) {
       const timer = setTimeout(() => {
         setNotification((prev) => ({ ...prev, isOpen: false }));
-      }, 8000);
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, [notification.isOpen]);

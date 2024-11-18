@@ -204,23 +204,6 @@ function AgreementList() {
           renderAgreements()
         )}
       </div>
-{/* 
-      <div className="w-full">
-
-      <Modal
-        isOpen={true}
-        onRequestClose={toggleSignModal}
-        contentLabel="Sign Agreement Modal"
-        className="modal-content bg-red-500"
-        overlayClassName="modal-overlay"
-      >
-        <SignAgreementModal
-          agreement={selectedAgreement}
-          toggleSignModal={toggleSignModal}
-        />
-      </Modal>
-
-      </div> */}
     </div>
   );
 }

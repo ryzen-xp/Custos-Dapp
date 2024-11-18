@@ -7,7 +7,6 @@ import SignAgreementModal from "./signagreementmodal";
 import DOMPurify from 'dompurify';
 import ReactMarkdown from 'react-markdown';
 import parse from 'html-react-parser';
-import AgreementSlug from "../[...slug]/page";
 import { byteArrayToString } from "@/utils/serializer";
 
 const detectContentFormat = (content) => {
@@ -43,7 +42,9 @@ export const AgreementCard = ({
   // const formattedDate = format(new Date(agreement[3]), "EEEE, do MMMM yyyy. hh:mm:ss aaaa");
 
   const handleCardClick = () => {
-    return (<AgreementSlug agreementparams={agreement} />)
+    
+      router.push(`/agreement/onchain/${agreement.id}/edit`);
+   
   };
 
   const handleValidateClick = (e) => {
