@@ -4,6 +4,7 @@ import agreementAbi from "./agreementAbi.json";
 import { Contract, RpcProvider } from "starknet";
 import { useContext, useEffect, useState } from "react";
 import { WalletContext } from "@/components/walletprovider";
+import { useNotification } from "@/context/NotificationProvider";
 
 export const provider = new RpcProvider({
   nodeUrl: process.env.NEXT_PUBLIC_SEPOLIA_BASE_URL,
@@ -24,6 +25,8 @@ const contractConfigs = {
 
 // Hook to read data from a contract
 export const UseReadContractData = () => {
+
+  const { openNotification } = useNotification();
   const fetchData = async (contractName, methodName, params = []) => {
     try {
       const contractConfig = contractConfigs[contractName];
@@ -69,7 +72,9 @@ export const UseReadContractData = () => {
 // Hook to write data to a contract
 export const UseWriteToContract = () => {
   const account = useContext(WalletContext);
+  const { openNotification } = useNotification();
 
+  
   const writeToContract = async (contractName, methodName, params = []) => {
     try {
       if (!account || !account.account) {
