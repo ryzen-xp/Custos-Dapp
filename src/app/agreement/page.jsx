@@ -10,33 +10,37 @@ import AgreementNav from "./components/AgreementNav";
 import SignAgreementModal from "./components/signagreementmodal";
 import { WalletContext } from "@/components/walletprovider";
 // import { UseReadContractData } from "@/utils/fetchcontract";
-import agreementAbi from "../../utils/agreementAbi.json"
+import agreementAbi from "../../utils/agreementAbi.json";
 import { UseReadContractData } from "@/utils/fetchcontract";
 import Loading from "@/components/loading";
-
+import { useNotification } from "@/context/NotificationProvider";
 
 function AgreementList() {
   const [loadingAgreements, setLoadingAgreements] = useState(false);
-  const [loadingPendingAgreements, setLoadingPendingAgreements] = useState(false);
+  const [loadingPendingAgreements, setLoadingPendingAgreements] =
+    useState(false);
   const [showAgreementModal, setShowAgreementModal] = useState(false);
   const [pendingAgreements, setPendingAgreements] = useState([]);
   const [agreements, setAgreements] = useState([]);
   const [totalAgreements, setTotalAgreements] = useState([]);
   const [selectedAgreement, setSelectedAgreement] = useState(null);
   const { address } = useContext(WalletContext);
-  console.log('new address', address);
+  console.log("new address", address);
 
   const [activeTab, setActiveTab] = useState("all");
 
-
-  
+  const { openNotification } = useNotification();
   const { fetchData } = UseReadContractData();
   useEffect(() => {
     const fetchAgreements = async () => {
       setLoadingAgreements(true);
       try {
         // Ensure fetchData returns an array of promises
-        const agreementsDetails = await fetchData("agreement", "get_user_agreements", [address]);
+        const agreementsDetails = await fetchData(
+          "agreement",
+          "get_user_agreements",
+          [address]
+        );
         // Check if agreementsDetails is an array
         if (Array.isArray(agreementsDetails)) {
           setAgreements(agreementsDetails);
@@ -46,7 +50,11 @@ function AgreementList() {
           throw new Error("fetchData did not return an array");
         }
       } catch (error) {
-        openNotification("error", "Error fetching agreement details", `${error}`);
+        openNotification(
+          "error",
+          "Error fetching agreement details",
+          `${error}`
+        );
         console.error("Error fetching agreement details:", error);
       } finally {
         setLoadingAgreements(false);
@@ -82,8 +90,6 @@ function AgreementList() {
       setPendingAgreements(null);
     }
   }, [address]);
-
-
 
   const printAgreement = (agreement) => {
     const printContent = `
@@ -130,17 +136,18 @@ function AgreementList() {
     }
 
     if (activeTab === "pending") {
-      const filteredPendingAgreements = pendingAgreements?.filter((agreement) => {
-        if (agreement.first_party_address == address) {
-          console.log(agreement.second_party_address)
-          return agreement.second_party_signature !== null;
+      const filteredPendingAgreements = pendingAgreements?.filter(
+        (agreement) => {
+          if (agreement.first_party_address == address) {
+            console.log(agreement.second_party_address);
+            return agreement.second_party_signature !== null;
+          } else if (agreement.second_party_address == address) {
+            return agreement.second_party_signature == null;
+          }
+          return false;
         }
-        else if (agreement.second_party_address == address) {
-          return agreement.second_party_signature == null;
-        }
-        return false;
-      });
-    
+      );
+
       return filteredPendingAgreements?.length > 0 ? (
         <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           {filteredPendingAgreements.map((agreement, index) => (
@@ -156,12 +163,12 @@ function AgreementList() {
         <NoAgreementscreen />
       );
     }
-    
+
     if (activeTab === "signed") {
       const signedAgreements = pendingAgreements?.filter(
         (agreement) => agreement.second_party_signature !== null
       );
-    
+
       return signedAgreements?.length > 0 ? (
         <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {signedAgreements.map((agreement, index) => (
@@ -177,7 +184,6 @@ function AgreementList() {
         <NoAgreementscreen />
       );
     }
-    
 
     if (activeTab === "validated") {
       // Add validation logic as needed
@@ -189,14 +195,15 @@ function AgreementList() {
     }
   };
 
-
-
-  
   return (
     <div className="w-full flex flex-col">
       {/* Secondary Navbar */}
-      <AgreementNav activeTab={activeTab} setActiveTab={setActiveTab} text={'Agreement'}/>
-      
+      <AgreementNav
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        text={"Agreement"}
+      />
+
       <div className="w-full">
         {loadingAgreements || loadingPendingAgreements ? (
           <Loading text="Loading Agreements..." />
