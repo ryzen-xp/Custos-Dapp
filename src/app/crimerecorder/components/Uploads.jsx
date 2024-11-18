@@ -4,6 +4,7 @@ import { UseReadContractData } from "@/utils/fetchcontract";
 import NoRecordScreen from "./NoRecordScreen";
 import { WalletContext } from "@/components/walletprovider";
 import Image from "next/image"; // Import Image component
+import { useNotification } from "@/context/NotificationProvider";
 
 const Uploads = () => {
   const { address } = useContext(WalletContext);
@@ -12,9 +13,11 @@ const Uploads = () => {
   const [loading, setLoading] = useState(false); // Loading state
   const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 
+  const { openNotification } = useNotification();
+
   useEffect(() => {
     const retrieve = async () => {
-      setLoading(true); // Start loading
+      setLoading(true); 
       try {
         const { fetchData } = UseReadContractData();
         const result = await fetchData("crime", "get_all_user_uploads", [
