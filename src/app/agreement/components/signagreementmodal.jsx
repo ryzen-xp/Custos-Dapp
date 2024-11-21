@@ -4,6 +4,9 @@ import { useRouter } from "next/navigation";
 import { GlobalStateContext } from "@/context/GlobalStateProvider";
 import SignaturePad from "react-signature-canvas";
 import useIdentityVerification from "@/utils/verification";
+import { useNotification } from "@/context/NotificationProvider";
+import { Buffer } from 'buffer';
+import { base64ToImageFile } from "@/utils/serializer";
 
 const SignAgreementModal = ({
   fullname,
@@ -22,6 +25,8 @@ const SignAgreementModal = ({
   const { globalState } = useContext(GlobalStateContext);
   const router = useRouter();
 
+  const { openNotification } = useNotification();
+
   // Function to handle continue button click
   const handleContinue = () => {
     setCurrentStep((prevStep) => prevStep + 1); // Go to next step
@@ -39,69 +44,66 @@ const SignAgreementModal = ({
   const handleIdUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setUploadedId(file); // Store the uploaded ID image
+      setUploadedId(file);
     }
   };
 
-  // Function to convert base64 to a File object
-  const base64ToFile = (base64String, fileName) => {
-    const arr = base64String.split(",");
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], fileName, { type: mime });
-  };
 
 
   const handleSignAgreement = async () => {
     let signatureData = null;
   
-    if (signatureType === "draw") {
-      if (!signaturePadRef.current || signaturePadRef.current.isEmpty()) {
-        alert("Please draw your signature before submitting.");
-        return;
-      }
-  
-      try {
+    try {
+      if (signatureType === "draw") {
+        if (!signaturePadRef.current || signaturePadRef.current.isEmpty()) {
+          alert("Please draw your signature before submitting.");
+          return;
+        }
         const base64Signature = signaturePadRef.current.toDataURL();
-        signatureData = base64ToFile(base64Signature, "signature.png");
-      } catch (error) {
-        console.error("Error generating signature:", error);
-        alert("An error occurred while processing the signature.");
+        console.log(base64Signature)
+        signatureData = base64ToImageFile(base64Signature, "signature.png");
+      }
+  
+      if (signatureType === "upload" && uploadedSignature) {
+        signatureData = uploadedSignature;
+      }
+  
+      if (!signatureData || !uploadedId) {
+        alert("Please provide a valid signature and ID before submitting.");
         return;
       }
-    }
   
-    if (signatureType === "upload" && uploadedSignature) {
-      signatureData = uploadedSignature;
-    }
-  
-    if (signatureData && uploadedId) {
       const formData = new FormData();
       formData.append("second_party_signature", signatureData);
       formData.append("second_party_valid_id", uploadedId);
       formData.append("second_party_id_type", idType);
       formData.append("second_party_country", country);
   
-      try {
-        await fetch(
-          `https://custosbackend.onrender.com/agreement/agreement/${agreementId}/sign/`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        onClose();
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        alert("An error occurred while submitting the form.");
+      // Debugging FormData
+      for (let pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
       }
+  
+      const response = await fetch(
+        `https://custosbackend.onrender.com/agreement/agreement/${agreementId}/sign/`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+      }
+  
+      openNotification("success", "Sign Agreement", "Agreement Signed Successfully");
+      onClose();
+    } catch (error) {
+      console.error("Error during agreement signing:", error);
+      alert(`An error occurred: ${error.message || "Unknown error"}`);
     }
   };
+  
   
 
 
@@ -230,7 +232,7 @@ const SignAgreementModal = ({
                 <div className="button-transition">
                   <img
                     src="/SignAgreement.png"
-                    alt="Validate Agreement"
+                    alt="Sign Agreement"
                     onClick={handleSignAgreement}
                   />
                 </div>

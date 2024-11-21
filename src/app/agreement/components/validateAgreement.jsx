@@ -202,6 +202,7 @@ const ValidateAgreementModal = ({
               onClose();
             }}
             isSuccess={isSuccess}
+            message={isSuccess ? 'Congratulations! Agreement successfully saved onchain' : 'Agreement failed to save please check and Try again'}
           />
         </div>
 
