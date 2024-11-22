@@ -11,33 +11,30 @@ const Sidepane = ({ isOpen, onClose }) => {
     {
       href: "/",
       text: "Home",
-      icon: ""
+      icon: "",
     },
     {
       href: "/",
       text: "Company",
-      icon: ""
+      icon: "",
     },
     {
       href: "/agreement/create",
       text: "Agreement",
-      icon: "/Plus.svg"
+      icon: "/Plus.svg",
     },
     {
       href: "/crimerecorder",
       text: "Videos",
-      icon: "/cameraicon.svg"
-    }
+      icon: "/cameraicon.svg",
+    },
   ];
 
   return (
     <>
       {/* Mobile overlay */}
       {isOpen && (
-        <div
-          className="fixed inset-0 z-30 md:hidden"
-          onClick={onClose}
-        />
+        <div className="fixed inset-0 z-30 md:hidden" onClick={onClose} />
       )}
 
       {/* Sidebar */}
@@ -49,30 +46,37 @@ const Sidepane = ({ isOpen, onClose }) => {
           transition-all duration-300 ease-in-out z-40
           ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
-
         <div className="absolute inset-0 md:hidden bg-gradient-to-b from-white/10 to-transparent opacity-20" />
         <div className="relative flex flex-col h-full p-8">
           {/* Logo */}
-          <div className="w-full flex justify-center md:justify-start mb-16">
-            <Link href="/" className="w-auto" onClick={onClose}>
-              <Image 
-                src="/logo.png" 
-                alt="logo" 
-                width={232.7} 
-                height={22} 
-                priority 
-                className="transition-opacity hover:opacity-80 pr-4"
-              />
-            </Link>
-            <Image 
-            src="/solar_minimize-square-minimalistic-linear.png"
-            width={25}
-            height={25}
-            ></Image>
-          </div>
+          {isOpen ? (
+            ""
+          ) : (
+            <div className="w-full flex justify-center md:justify-start mb-16">
+              <Link href="/" className="w-auto" onClick={onClose}>
+                <Image
+                  src="/logo.png"
+                  alt="logo"
+                  width={232.7}
+                  height={22}
+                  priority
+                  className="transition-opacity hover:opacity-80 pr-4"
+                />
+              </Link>
+              <Image
+                src="/solar_minimize-square-minimalistic-linear.png"
+                width={25}
+                height={25}
+              ></Image>
+            </div>
+          )}
 
           {/* Navlinks */}
-          <div className="flex flex-col gap-6 justify-center">
+          <div
+            className={`flex flex-col gap-6 justify-center ${
+              isOpen ? "mt-6" : ""
+            }`}
+          >
             {navLinks.map((link, index) => {
               const isActive = pathname === link.href;
               return (
@@ -81,19 +85,25 @@ const Sidepane = ({ isOpen, onClose }) => {
                   href={link.href}
                   onClick={onClose}
                   className={`group relative
-                    ${isActive ? 'text-[#00A3FF]' : 'text-white hover:text-[#00A3FF]'}`}
+                    ${
+                      isActive
+                        ? "text-[#00A3FF]"
+                        : "text-white hover:text-[#00A3FF]"
+                    }`}
                 >
                   {/* Mobile layout */}
                   <div className="md:hidden">
-                    <div className={`flex items-center justify-center p-4 rounded-xl`}>
+                    <div
+                      className={`flex items-center justify-center p-4 rounded-xl`}
+                    >
                       <span className="font-medium text-lg">{link.text}</span>
                       {link.icon && (
                         <div className="p-2 rounded-lg">
-                          <Image 
-                            src={link.icon} 
-                            alt="" 
-                            width={24} 
-                            height={24} 
+                          <Image
+                            src={link.icon}
+                            alt=""
+                            width={24}
+                            height={24}
                             className="transition-transform group-hover:scale-110"
                           />
                         </div>
@@ -105,12 +115,12 @@ const Sidepane = ({ isOpen, onClose }) => {
                   <div className="hidden md:flex items-center justify-between w-full p-2">
                     <span className="font-medium text-lg">{link.text}</span>
                     {link.icon && (
-                      <Image 
-                        src={link.icon} 
-                        alt="" 
-                        width={20} 
+                      <Image
+                        src={link.icon}
+                        alt=""
+                        width={20}
                         height={20}
-                        className="transition-transform group-hover:scale-110" 
+                        className="transition-transform group-hover:scale-110"
                       />
                     )}
                   </div>
@@ -130,7 +140,6 @@ const Sidepane = ({ isOpen, onClose }) => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </>
