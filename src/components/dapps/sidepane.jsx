@@ -24,7 +24,7 @@ const Sidepane = ({ isOpen, onClose }) => {
       icon: "/Plus.svg"
     },
     {
-      href: "/crimerecorder",
+      href: "/crimerecorder/record",
       text: "Videos",
       icon: "/cameraicon.svg"
     }
