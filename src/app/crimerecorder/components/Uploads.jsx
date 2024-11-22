@@ -15,33 +15,40 @@ const Uploads = () => {
 
   const { openNotification } = useNotification();
 
+  const { fetchData } = UseReadContractData();
+
+  const Retrieve = async () => {
+    setLoading(true); 
+    try {
+      const result = await fetchData("crime", "get_all_user_uploads", [
+        address,
+      ]);
+
+      const files =
+        result && typeof result === "object"
+          ? Object.keys(result).map((key) => ({
+              id: result[key].toString(),
+              timestamp: Date.now(), // Placeholder timestamp
+            }))
+          : [];
+
+      setUploadedFiles(files);
+    } catch (error) {
+      openNotification("error", "", "Error fetching uploaded files");
+      console.error("Error fetching uploaded files:", error);
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
   useEffect(() => {
-    const retrieve = async () => {
-      setLoading(true); 
-      try {
-        const { fetchData } = UseReadContractData();
-        const result = await fetchData("crime", "get_all_user_uploads", [
-          address,
-        ]);
 
-        const files =
-          result && typeof result === "object"
-            ? Object.keys(result).map((key) => ({
-                id: result[key].toString(),
-                timestamp: Date.now(), // Placeholder timestamp
-              }))
-            : [];
+    if (address) {
+      console.log('calling retrieve')
+      Retrieve()
 
-        setUploadedFiles(files);
-      } catch (error) {
-        openNotification("error", "", "Error fetching uploaded files");
-        console.error("Error fetching uploaded files:", error);
-      } finally {
-        setLoading(false); // Stop loading
-      }
-    };
+    }
 
-    if (address) retrieve();
   }, [address]);
 
   useEffect(() => {
@@ -51,7 +58,7 @@ const Uploads = () => {
         // Fetch URIs from the blockchain for each file
         const blockchainUris = await Promise.all(
           uploadedFiles.map(async (file) => {
-            const { fetchData } = UseReadContractData();
+            // const { fetchData } = UseReadContractData();
             const uploadUri = await fetchData("crime", "get_token_uri", [
               file.id,
             ]);

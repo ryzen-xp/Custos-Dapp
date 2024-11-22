@@ -155,7 +155,7 @@
   -webkit-mask: linear-gradient(#0C1215 0 0) content-box, linear-gradient(#0C1215 0 0);
   mask: linear-gradient(#0C1215 0 0) content-box, linear-gradient(#0C1215 0 0);
   -webkit-mask-composite: destination-out; /* For Safari */
-  mask-composite: exclude; /* For other browsers */
+  mask-composite: destination-out; /* For other browsers */
 }
 .border-gradient2 {
   position: relative;
@@ -392,7 +392,7 @@ button .text-transparent {
 }
 /* HTML: <div class="box"><sh></sh> </div> */
 .box {
-  position: relative;
+  /* position: relative; */
   transform-style: preserve-3d;
   border-radius: 23px;
 }

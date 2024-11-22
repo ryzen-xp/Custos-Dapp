@@ -151,7 +151,7 @@ export const Recording = ({ text, icon1, imgText, category }) => {
   const closeSuccessModal = () => {
     // setSuccessModalOpen(false);
     closeModal();
-    route.push("/crimerecorder/uploads");
+    route.push("/crimerecorders");
   };
   const closeErrorModal = () => {
     openModal("error");

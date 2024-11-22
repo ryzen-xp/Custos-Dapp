@@ -34,6 +34,7 @@
     "react-modal": "^3.16.1",
     "react-query": "^3.39.3",
     "react-signature-canvas": "^1.0.6",
+    "react-signature-pad-wrapper": "^4.0.4",
     "react-slick": "^0.30.2",
     "sharp": "^0.33.5",
     "slick-carousel": "^1.8.1",
