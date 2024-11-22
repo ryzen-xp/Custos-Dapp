@@ -89,6 +89,7 @@ export const Header = ({ onToggle }) => {
           >
             <img src="/bell.svg" alt="Notifications" className="w-5 h-5" />
           </button>
+          {/* Notification Dropdown Container */}
           <NotificationsDropdown notificationDropDowm={notificationDropDowm} />
 
           <div className="hidden md:block">
