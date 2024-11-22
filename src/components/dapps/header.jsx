@@ -1,17 +1,20 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import ConnectButtoncomponent from "@/components/connect";
-import { UseReadContractData } from '@/utils/fetchcontract'
+import { UseReadContractData } from "@/utils/fetchcontract";
+import NotificationsDropdown from "@/app/agreement/components/notificationsDropdown";
 
 export const Header = ({ onToggle }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const { fetchData } = UseReadContractData();
+
+  const [notificationDropDowm, showNotificationDropDowm] = useState(false);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -20,25 +23,27 @@ export const Header = ({ onToggle }) => {
   const toggleMenu = () => {
     const newState = !isOpen;
     setIsOpen(newState);
-    onToggle(newState); 
+    onToggle(newState);
   };
 
   const handleSearch = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
     setSearchResult(null);
 
     try {
       const agreementId = parseInt(searchTerm, 10);
       if (isNaN(agreementId)) {
-        throw new Error('Please enter a valid agreement ID (number)');
+        throw new Error("Please enter a valid agreement ID (number)");
       }
 
-      const result = await fetchData('agreement', 'get_agreement_details', [{ low: agreementId, high: 0 }]);
+      const result = await fetchData("agreement", "get_agreement_details", [
+        { low: agreementId, high: 0 },
+      ]);
       setSearchResult(result);
     } catch (err) {
-      setError(err.message || 'An error occurred while searching');
+      setError(err.message || "An error occurred while searching");
     } finally {
       setIsLoading(false);
     }
@@ -48,7 +53,9 @@ export const Header = ({ onToggle }) => {
     <div className="backdrop-blur flex items-center justify-between w-full px-4 sm:py-4 py-6">
       {/* Logo on the left */}
       <div className="flex items-center md:hidden">
-        <a href="/"><Image src="/logo.png" alt="Logo" width={250} height={250} /></a>
+        <a href="/">
+          <Image src="/logo.png" alt="Logo" width={250} height={250} />
+        </a>
       </div>
 
       {/* Main Header Content */}
@@ -67,14 +74,23 @@ export const Header = ({ onToggle }) => {
           </div>
         </div>
 
-        {/* Dark Mode Toggle */}
-        <div className="flex items-center space-x-7">
-          <button onClick={toggleDarkMode} className="text-white hidden md:block">
+        <div className="flex items-center space-x-7 relative">
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={toggleDarkMode}
+            className="text-white hidden md:block"
+          >
             <img src="/darkmodeicon.svg" alt="Dark Mode" className="w-5 h-5" />
           </button>
-          <button className="text-white hidden md:block">
+          {/* Notification  Bell*/}
+          <button
+            className={`text-white hidden md:block ${notificationDropDowm?"border p-[2px] rounded-md border-blue-400":""}`}
+            onClick={() => showNotificationDropDowm(!notificationDropDowm)}
+          >
             <img src="/bell.svg" alt="Notifications" className="w-5 h-5" />
           </button>
+          <NotificationsDropdown notificationDropDowm={notificationDropDowm} />
+
           <div className="hidden md:block">
             <ConnectButtoncomponent />
           </div>
