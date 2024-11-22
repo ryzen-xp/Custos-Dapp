@@ -13,6 +13,7 @@ import {
 } from "@/utils/serializer";
 import SuccessScreen from "./Success";
 import Loading from "@/components/loading"
+import { useNotification } from "@/context/NotificationProvider";
 
 const ValidateAgreementModal = ({
   fullname,
@@ -31,6 +32,7 @@ const ValidateAgreementModal = ({
   const [isValidating, setIsValidating] = useState(false);
 
   const { writeToContract, isLoading, isError } = UseWriteToContract();
+  const { openNotification } = useNotification();
 
   const EVENT_SELECTOR =
     "0x014c05f7f3f16c18069b3e5dfe85b725aad852e37813fa307559077b451d54d2";
@@ -47,6 +49,7 @@ const ValidateAgreementModal = ({
         agreement.second_party_address,
         `"${stringToByteArray(agreement.first_party_valid_id)}"`,
         `"${stringToByteArray(agreement.second_party_valid_id)}"`,
+        `"${stringToByteArray(agreement.agreementType)}"`,
       ];
       console.log("Parameters for createAgreement:", params);
       if (params.some((param) => param == null)) {
@@ -199,6 +202,7 @@ const ValidateAgreementModal = ({
               onClose();
             }}
             isSuccess={isSuccess}
+            message={isSuccess ? 'Congratulations! Agreement successfully saved onchain' : 'Agreement failed to save please check and Try again'}
           />
         </div>
 

@@ -8,7 +8,7 @@ export const GlobalStateProvider = ({ children }) => {
   const [showModal, setShowModal] = useState(true);
   const closeSuccessModal = () => {
     setShowModal(false);
-    route.push("/crimerecorder/uploads");
+    route.push("/crimerecorder");
   };
   return (
     <GlobalStateContext.Provider

@@ -2,13 +2,16 @@
 // /* eslint-disable react/no-unescaped-entities */
 "use client";
 import { UseWriteToContract } from "@/utils/fetchcontract";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Header } from "../components/AgreementNav";
 import { redirect } from "next/navigation";
 import { WalletContext } from "@/components/walletprovider";
 import Modal from "react-modal";
 import SuccessScreen from "../components/Success";
+import SignaturePad from "react-signature-canvas";
+import { base64ToImageFile } from "@/utils/serializer";
+
 
 const AgreementModal = () => {
   const [modalStep, setModalStep] = useState(1);
@@ -21,9 +24,13 @@ const AgreementModal = () => {
   const [idType, setIdType] = useState("");
   const [idImage, setIdImage] = useState("");
   const [agreementTitle, setAgreementTitle] = useState("");
+  const [signatureType, setSignatureType] = useState("");
+  const signaturePadRef = useRef(null);
+  const [uploadedSignature, setUploadedSignature] = useState(null);
   const [secondPartyAddress, setSecondPartyAddress] = useState("");
   const [firstpartyFullname, setfirstpartyFullname] = useState("");
   const [secondPartyFullname, setSecondPartyFullname] = useState("");
+  
   const [errors, setErrors] = useState({});
   const { address } = useContext(WalletContext);
 
@@ -42,6 +49,13 @@ const AgreementModal = () => {
     idNumber,
   ]);
 
+
+  const handleSignatureUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadedSignature(file); 
+    }
+  };
   // const creatoraddress = useAccount()?.address;
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -52,10 +66,25 @@ const AgreementModal = () => {
     formData.append("country", country);
     formData.append("first_party_address", address);
     formData.append("first_party_id_type", idType);
-    formData.append("first_party_valid_id", idImage); // append the file directly
+    formData.append("first_party_valid_id", idImage); 
     formData.append("second_party_address", secondPartyAddress);
     formData.append("first_party_fullname", firstpartyFullname);
     formData.append("second_party_fullname", secondPartyFullname);
+
+    if (signatureType === "draw") {
+      if (!signaturePadRef.current || signaturePadRef.current.isEmpty()) {
+        alert("Please draw your signature before submitting.");
+        return;
+      }
+      const base64Signature = signaturePadRef.current.toDataURL();
+      console.log(base64Signature)
+      let signatureData = base64ToImageFile(base64Signature, "signature.png");
+      formData.append("first_party_signature", signatureData)
+    }
+
+    if (signatureType === "upload" && uploadedSignature) {
+      formData.append("first_party_signature", uploadedSignature)
+    }
 
     try {
       setInitCreationLoad(true);
@@ -333,6 +362,42 @@ const AgreementModal = () => {
                 className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
               />
             </div>
+
+
+            <strong>Signature Type</strong>
+                <select
+                  value={signatureType}
+                  onChange={(e) => setSignatureType(e.target.value)}
+                  className="mt-1 w-full border-[#BEBDBD] px-2 py-3 rounded-md bg-transparent border shadow-sm text-[#9B9292] sm:text-sm"
+                >
+                  <option value="">Select Signature Type</option>
+                  <option value="draw">Draw Signature</option>
+                  <option value="upload">Upload Signature</option>
+                </select>
+
+                {signatureType === "draw" && (
+                  <div className="signature-draw-container my-4 border border-[#ffffff46] rounded-lg p-4">
+                    <SignaturePad
+                      ref={signaturePadRef}
+                      canvasProps={{
+                        className: "signature-pad w-full h-32 bg-white",
+                      }}
+                    />
+                    <button
+                      className="text-red-500 mt-2"
+                      onClick={() => signaturePadRef.current.clear()}
+                    >
+                      Clear Signature
+                    </button>
+                  </div>
+                )}
+
+                {signatureType === "upload" && (
+                  <div className="upload-signature-container my-4">
+                    <input type="file" onChange={handleSignatureUpload} />
+                  </div>
+                )}
+            
           </>
         );
       default:
@@ -427,7 +492,7 @@ const AgreementModal = () => {
         className="flex items-center justify-center"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
       >
-        <SuccessScreen onClose={() => setIsModalOpen(false)} />
+        <SuccessScreen onClose={() => setIsModalOpen(false)} isSuccess={true} message={`Agreement between ${firstpartyFullname} and ${secondPartyFullname} Created Successfully`} />
       </Modal>
     </div>
   );

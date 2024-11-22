@@ -37,15 +37,15 @@ const Slugnav = ({ agreement }) => {
           {agreement.access_token ? (
             <button
               onClick={handleValidateClick}
-              disabled={!agreement.second_party_signature}
+              disabled={!agreement.second_party_signature || agreement.validate_signature}
               className={`className="w-fit px-2 py-2 text-white rounded-[2em] shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-[#0094FF] disabled:bg-transparent disabled:border disabled:text-gray-500 disabled:hover:scale-100 disabled:hover:cursor-none flex items-center justify-center relative text-[0.8em] cursor-pointer ${!agreement.second_party_signature ? '' : ''}`}
             >
-              Validate Agreement
+              {agreement.validate_signature || (agreement.access_token && agreement.second_party_signature)? 'Validate Agreement': 'Validated'}
             </button>
           ) : (
             <button
               onClick={handleSignClick}
-              disabled={agreement.second_party_signature}
+              disabled={agreement.second_party_signature || agreement.validate_signature}
               className={`className="w-fit px-2 py-2 text-white rounded-[2em] shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-[#0094FF] disabled:bg-transparent disabled:border disabled:text-gray-500 disabled:hover:scale-100 disabled:hover:cursor-none flex items-center justify-center relative text-[0.8em] cursor-pointer ${!agreement.second_party_signature ? '' : ''}`}
             >
               Sign Agreement

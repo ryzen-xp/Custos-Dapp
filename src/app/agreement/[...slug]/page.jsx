@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import Slugnav from "../components/slugnav";
 import { format } from "date-fns";
@@ -10,6 +10,10 @@ import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import mammoth from "mammoth";
 import { useNotification } from "@/context/NotificationProvider";
+import Loading from "@/components/loading";
+import { WalletContext } from "@/components/walletprovider";
+import { UseReadContractData } from "@/utils/fetchcontract";
+import { byteArrayToString, hexTimestampToFormattedDate, numberToHex } from "@/utils/serializer";
 // import { useNotification } from "@/contexts/NotificationContext";
 
 const AgreementSlug = ({ params }, agreementparam) => {
@@ -21,7 +25,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
   const [contentFormat, setContentFormat] = useState("plain");
   const { openNotification } = useNotification();
   const router = useRouter();
-
+  const { address } = useContext(WalletContext);
   const slug = params?.slug || [];
   const [key, value] = slug;
 
@@ -29,6 +33,10 @@ const AgreementSlug = ({ params }, agreementparam) => {
     if (key === "access_token") {
       setAccessToken(value || params.agreementAccessToken);
       fetchAgreementByAccessToken(value);
+    }else if(key == "onchain"){
+      console.log('here at last')
+      getOnchainAgreement(value)
+
     } else {
       fetchAgreementById(value);
     }
@@ -83,16 +91,47 @@ const AgreementSlug = ({ params }, agreementparam) => {
       setLoading(false);
     }
   };
+  
+  const { fetchData } = UseReadContractData();
 
   const detectContentFormat = (content) => {
-    if (content.startsWith("<")) {
+    if (content.startsWith("<") || content.includes("<html ")) {
       return "html";
     } else if (content.includes("**") || content.includes("#")) {
       return "markdown";
     } else {
-      return "plain";
+      return "text";
     }
   };
+  const getOnchainAgreement = async (id) => {
+    setLoading(true);
+    try {
+      // Fetch on-chain agreement details
+      const agreementsDetails = await fetchData("agreement", "get_agreement_details", [id]);
+  
+      // Process and transform the on-chain data
+      const transformedAgreement = {
+        agreementType: byteArrayToString(agreementsDetails.agreement_title),
+        second_party_address: numberToHex(agreementsDetails.second_party_address),
+        first_party_address: numberToHex(agreementsDetails.creator),
+        first_party_valid_id: byteArrayToString(agreementsDetails.first_party_valid_id),
+        second_party_valid_id: byteArrayToString(agreementsDetails.second_party_valid_id),
+        content: byteArrayToString(agreementsDetails.content),
+        created_at: hexTimestampToFormattedDate(agreementsDetails.timestamp),
+      };
+      
+      setContentFormat(detectContentFormat(transformedAgreement.content))
+      setAgreement(transformedAgreement);
+    } catch (error) {
+      openNotification("error", "Error fetching agreement details", `${error}`);
+      console.error("Error fetching agreement details:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
+ 
 
   const initializeEditableFields = (data) => {
     setEditableFields({
@@ -166,7 +205,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
   if (loading) {
     return (
       <div className="text-[#EAFBFF] flex justify-center items-center h-screen">
-        Loading...
+        <Loading text={`Loading Agreement from  Blockchain...`}/>
       </div>
     );
   }
@@ -179,10 +218,13 @@ const AgreementSlug = ({ params }, agreementparam) => {
     );
   }
 
-  const formattedDate = format(
-    new Date(agreement?.created_at),
-    "EEEE, do MMMM yyyy. hh:mm:ss aaaa"
-  );
+  function formatDate(date){
+
+    format(
+      new Date(date),
+      "EEEE, do MMMM yyyy. hh:mm:ss aaaa"
+    );
+  } 
 
   return (
     <div className="space-y-4 text-[#EAFBFF] w-full overflow-clip flex flex-col">
@@ -221,7 +263,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
             <div className="w-full flex flex-col lg:flex-row gap-2 justify-end max-lg:items-start">
               <span className="flex-shrink-0 text-sm">Time Stamp:</span>
               <span className="bg-gradient-to-r from-[#19B1D2] to-[#0094FF] bg-clip-text text-left text-transparent">
-                {formattedDate}
+                {key == "onchain" ? agreement.created_at : formatDate(agreement.created_at)}
               </span>
             </div>
           </div>
@@ -262,6 +304,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
               </div>
             )}
           </div>
+          {key == 'onchain'? '':  <>
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Email:</strong>
             {isEditing ? (
@@ -275,6 +318,8 @@ const AgreementSlug = ({ params }, agreementparam) => {
               <span className="text-sm">{agreement.email || "N/A"}</span>
             )}
           </div>
+
+          </> }
           <div className="flex flex-col gap-2">
             <strong className="text-lg">First Party Address:</strong>
             <span className="text-sm">{agreement.first_party_address}</span>
@@ -284,9 +329,10 @@ const AgreementSlug = ({ params }, agreementparam) => {
             <img
               src={agreement.first_party_valid_id}
               alt="First Party ID"
-              className="w-[6em] h-[6em] object-cover rounded-lg"
+              className="w-[16em] h-[10em] bg-[#091219] object-cover rounded-lg"
             />
           </div>
+          {key == 'onchain'? '':  <>
           <div className="flex flex-col gap-2">
             <strong className="text-lg">First Party Country:</strong>
             {isEditing ? (
@@ -324,9 +370,11 @@ const AgreementSlug = ({ params }, agreementparam) => {
             <img
               src={agreement.first_party_signature}
               alt="First Party Signature"
-              className="w-[6em] h-[6em] object-cover rounded-lg"
+              className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
             />
           </div>
+
+          </>}
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Second Party Address:</strong>
             <span className="text-sm">{agreement.second_party_address}</span>
@@ -334,9 +382,15 @@ const AgreementSlug = ({ params }, agreementparam) => {
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Second Party Valid ID:</strong>
             <span className="text-sm">
-              {agreement.second_party_valid_id || "N/A"}
+            <img
+              src={agreement.second_party_valid_id}
+              alt="First Party Signature"
+              className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
+            />
             </span>
           </div>
+
+          {key == 'onchain'? '':  <>
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Second Party Country:</strong>
             <span className="text-sm">
@@ -350,17 +404,17 @@ const AgreementSlug = ({ params }, agreementparam) => {
             </span>
           </div>
           <div className="flex flex-col gap-2">
-            <strong className="text-lg">Second Party Signature:</strong>
-            <span className="text-sm">
-              {agreement.second_party_signature || "N/A"}
-            </span>
-          </div>
-          <div className="flex flex-col gap-2">
-            <strong className="text-lg">Created At:</strong>
-            <span className="text-sm">
-              {new Date(agreement.created_at).toLocaleString()}
-            </span>
-          </div>
+            <strong className="text-sm">Second Party Signature:</strong>
+            <img
+              src={agreement.second_party_signature}
+              alt="First Party Signature"
+              className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
+            />
+          </div> 
+          </> }
+
+
+
         </div>
       </div>
     </div>

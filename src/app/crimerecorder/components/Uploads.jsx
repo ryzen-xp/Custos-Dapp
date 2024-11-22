@@ -4,6 +4,7 @@ import { UseReadContractData } from "@/utils/fetchcontract";
 import NoRecordScreen from "./NoRecordScreen";
 import { WalletContext } from "@/components/walletprovider";
 import Image from "next/image"; // Import Image component
+import { useNotification } from "@/context/NotificationProvider";
 
 const Uploads = () => {
   const { address } = useContext(WalletContext);
@@ -12,33 +13,42 @@ const Uploads = () => {
   const [loading, setLoading] = useState(false); // Loading state
   const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 
+  const { openNotification } = useNotification();
+
+  const { fetchData } = UseReadContractData();
+
+  const Retrieve = async () => {
+    setLoading(true); 
+    try {
+      const result = await fetchData("crime", "get_all_user_uploads", [
+        address,
+      ]);
+
+      const files =
+        result && typeof result === "object"
+          ? Object.keys(result).map((key) => ({
+              id: result[key].toString(),
+              timestamp: Date.now(), // Placeholder timestamp
+            }))
+          : [];
+
+      setUploadedFiles(files);
+    } catch (error) {
+      openNotification("error", "", "Error fetching uploaded files");
+      console.error("Error fetching uploaded files:", error);
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
   useEffect(() => {
-    const retrieve = async () => {
-      setLoading(true); // Start loading
-      try {
-        const { fetchData } = UseReadContractData();
-        const result = await fetchData("crime", "get_all_user_uploads", [
-          address,
-        ]);
 
-        const files =
-          result && typeof result === "object"
-            ? Object.keys(result).map((key) => ({
-                id: result[key].toString(),
-                timestamp: Date.now(), // Placeholder timestamp
-              }))
-            : [];
+    if (address) {
+      console.log('calling retrieve')
+      Retrieve()
 
-        setUploadedFiles(files);
-      } catch (error) {
-        openNotification("error", "", "Error fetching uploaded files");
-        console.error("Error fetching uploaded files:", error);
-      } finally {
-        setLoading(false); // Stop loading
-      }
-    };
+    }
 
-    if (address) retrieve();
   }, [address]);
 
   useEffect(() => {
@@ -48,7 +58,7 @@ const Uploads = () => {
         // Fetch URIs from the blockchain for each file
         const blockchainUris = await Promise.all(
           uploadedFiles.map(async (file) => {
-            const { fetchData } = UseReadContractData();
+            // const { fetchData } = UseReadContractData();
             const uploadUri = await fetchData("crime", "get_token_uri", [
               file.id,
             ]);

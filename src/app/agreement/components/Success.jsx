@@ -3,9 +3,9 @@ import { FaTimes, FaTimesCircle } from 'react-icons/fa';
 
 const SuccessScreen = ({ onClose, isSuccess, message }) => {
   return (
-    <div className="border rounded-xl bg-[#04080C] p-8 border-[#19B1D2] h-fit w-fit shadow-2xl items-center justify-center flex flex-col m-auto">
+    <div className="border rounded-xl bg-[#04080C] p-8 relative border-[#19B1D2] h-fit w-fit max-w-[24em] shadow-2xl items-center justify-center flex flex-col m-auto">
       <div className="w-full flex justify-between gap-x-16 flex-row-reverse">
-        <button className="text-white" onClick={onClose}>
+        <button className="text-white absolute top-4 right-2" onClick={onClose}>
           <FaTimes size={20} />
         </button>
         <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A]">

@@ -73,11 +73,11 @@ const Sidepane = ({ isOpen, onClose }) => {
 
           {/* Navlinks */}
           <div className="flex flex-col gap-6 justify-center">
-            {navLinks.map((link) => {
+            {navLinks.map((link, index) => {
               const isActive = pathname === link.href;
               return (
                 <Link
-                  key={link.href}
+                  key={index}
                   href={link.href}
                   onClick={onClose}
                   className={`group relative

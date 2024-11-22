@@ -135,14 +135,15 @@ function AgreementList() {
       );
     }
 
-    if (activeTab === "pending") {
+    if (activeTab == "pending") {
       const filteredPendingAgreements = pendingAgreements?.filter(
         (agreement) => {
-          if (agreement.first_party_address == address) {
-            console.log(agreement.second_party_address);
-            return agreement.second_party_signature !== null;
-          } else if (agreement.second_party_address == address) {
-            return agreement.second_party_signature == null;
+          if (agreement.access_token != null) {
+            console.log('agreement with first pt')
+            return agreement.second_party_signature == null || agreement.agreement_id == null;
+          } else if (agreement.access_token == null) {
+            console.log('agreement with sec pt')
+            return agreement.agreement_id == null && agreement.second_party_signature == null;
           }
           return false;
         }
@@ -186,14 +187,21 @@ function AgreementList() {
     }
 
     if (activeTab === "validated") {
-      // Add validation logic as needed
-      return (
-        <div className="w-full text-center text-white">
-          No validated agreements yet.
+      return agreements.length > 0 || pendingAgreements?.length > 0 ? (
+        <div className="grid w-full gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {agreements.map((agreement, index) => (
+            <AgreementCard
+              key={index}
+              agreement={agreement}
+              printAgreement={printAgreement}
+              toggleSignModal={toggleSignModal}
+            />
+          ))}
         </div>
+      ) : (
+        <NoAgreementscreen />
       );
-    }
-  };
+    }}
 
   return (
     <div className="w-full flex flex-col">
