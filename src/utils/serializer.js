@@ -6,6 +6,11 @@ export const padAddress = (address) => {
     return '0x' + address.slice(2).padStart(64, '0');
 };
 
+// Truncates a starknet address with leading zeros
+export const truncAddress = (address) => {
+    return address.slice(0,4) + "...." + address.slice(62,66);
+};
+
 // Converts a Felt to a string
 export const feltToString = (felt)=> {
     const newStrB = Buffer.from(felt.toString(16), 'hex')
