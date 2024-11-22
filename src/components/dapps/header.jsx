@@ -88,6 +88,7 @@ export const Header = ({ onToggle }) => {
             onClick={() => showNotificationDropDowm(!notificationDropDowm)}
           >
             <img src="/bell.svg" alt="Notifications" className="w-5 h-5" />
+            <div className="rounded-full flex items-center justify-center w-[2em] h-[1em] text-[10px] bg-red-500 absolute">5</div>
           </button>
           {/* Notification Dropdown Container */}
           <NotificationsDropdown notificationDropDowm={notificationDropDowm} />
