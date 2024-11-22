@@ -15,7 +15,7 @@ const NotificationsDropdown = (props) => {
       {/* Notifications List*/}
 
       <div className="flex flex-col gap-2 overflow-auto h-[20em]">
-        <div className="border border-gray-600 p-2 w-full rounded-md flex gap-2">
+        {/* <div className="border border-gray-600 p-2 w-full rounded-md flex gap-2">
           <div className="min-w-[2em] min-h-[2em] max-w-[2em] max-h-[2em] bg-[#171735] rounded-full flex items-center justify-center">
             <img src="/bell.svg" alt="Notifications" className="w-5 h-5" />
           </div>
@@ -24,57 +24,8 @@ const NotificationsDropdown = (props) => {
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed
             explicabo repellendus laboriosam temporibus ullam quasi debitis...
           </p>
-        </div>
-        <div className="border border-gray-600 p-2 w-full rounded-md flex gap-2">
-          <div className="min-w-[2em] min-h-[2em] max-w-[2em] max-h-[2em] bg-[#171735] rounded-full flex items-center justify-center">
-            <img src="/bell.svg" alt="Notifications" className="w-5 h-5" />
-          </div>
-
-          <p className="text-[10px] text-gray-400">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed
-            explicabo repellendus laboriosam temporibus ullam quasi debitis...
-          </p>
-        </div>
-        <div className="border border-gray-600 p-2 w-full rounded-md flex gap-2">
-          <div className="min-w-[2em] min-h-[2em] max-w-[2em] max-h-[2em] bg-[#171735] rounded-full flex items-center justify-center">
-            <img src="/bell.svg" alt="Notifications" className="w-5 h-5" />
-          </div>
-
-          <p className="text-[10px] text-gray-400">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed
-            explicabo repellendus laboriosam temporibus ullam quasi debitis...
-          </p>
-        </div>
-        <div className="border border-gray-600 p-2 w-full rounded-md flex gap-2">
-          <div className="min-w-[2em] min-h-[2em] max-w-[2em] max-h-[2em] bg-[#171735] rounded-full flex items-center justify-center">
-            <img src="/bell.svg" alt="Notifications" className="w-5 h-5" />
-          </div>
-
-          <p className="text-[10px] text-gray-400">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed
-            explicabo repellendus laboriosam temporibus ullam quasi debitis...
-          </p>
-        </div>
-        <div className="border border-gray-600 p-2 w-full rounded-md flex gap-2">
-          <div className="min-w-[2em] min-h-[2em] max-w-[2em] max-h-[2em] bg-[#171735] rounded-full flex items-center justify-center">
-            <img src="/bell.svg" alt="Notifications" className="w-5 h-5" />
-          </div>
-
-          <p className="text-[10px] text-gray-400">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed
-            explicabo repellendus laboriosam temporibus ullam quasi debitis...
-          </p>
-        </div>
-        <div className="border border-gray-600 p-2 w-full rounded-md flex gap-2">
-          <div className="min-w-[2em] min-h-[2em] max-w-[2em] max-h-[2em] bg-[#171735] rounded-full flex items-center justify-center">
-            <img src="/bell.svg" alt="Notifications" className="w-5 h-5" />
-          </div>
-
-          <p className="text-[10px] text-gray-400">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed
-            explicabo repellendus laboriosam temporibus ullam quasi debitis...
-          </p>
-        </div>
+        </div> */}
+       
       </div>
     </div>
   );
