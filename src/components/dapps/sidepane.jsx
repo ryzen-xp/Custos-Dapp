@@ -13,15 +13,16 @@ const Sidepane = ({ isOpen, onClose }) => {
       text: "Home",
       icon: "",
     },
-    {
-      href: "/",
-      text: "Company",
-      icon: "",
-    },
+    
     {
       href: "/agreement/create",
       text: "Agreement",
       icon: "/Plus.svg",
+    },
+    {
+      href: "/",
+      text: "Company",
+      icon: "",
     },
     {
       href: "/crimerecorder/record",
