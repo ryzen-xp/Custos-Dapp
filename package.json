@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@avnu/gasless-sdk": "^0.1.6",
+    "@cfx-kit/wallet-avatar": "^0.0.5",
     "@ducanh2912/next-pwa": "^10.2.9",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
