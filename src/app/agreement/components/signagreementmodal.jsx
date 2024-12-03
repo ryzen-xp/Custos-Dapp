@@ -1,5 +1,6 @@
 "use client";
 import { useContext, useEffect, useState, useRef } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { GlobalStateContext } from "@/context/GlobalStateProvider";
 import SignaturePad from "react-signature-canvas";
@@ -222,7 +223,7 @@ const SignAgreementModal = ({
 
             <div className="flex justify-between">
               <div className="button-transition">
-                <img
+                <Image
                   src="/cancleAgreement.png"
                   alt="Cancel Agreement"
                   onClick={onClose}
@@ -230,7 +231,7 @@ const SignAgreementModal = ({
               </div>
               {currentStep === 2 ? (
                 <div className="button-transition">
-                  <img
+                  <Image
                     src="/SignAgreement.png"
                     alt="Sign Agreement"
                     onClick={handleSignAgreement}
@@ -238,7 +239,7 @@ const SignAgreementModal = ({
                 </div>
               ) : (
                 <div className="button-transition">
-                  <img
+                  <Image
                     src="/ContinueAgreement.png"
                     alt="Continue Agreement"
                     onClick={handleContinue}

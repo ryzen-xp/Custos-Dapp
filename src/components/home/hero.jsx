@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @next/next/no-Image-element */
 "use client";
 import React from "react";
 import Image from "next/image";
@@ -25,7 +25,7 @@ const Hero = () => {
         <div onClick={toggleLaunchDapps} className=" flex w-fit h-fit">
           <button className="relative br w-full text-white shadow-lg py-3 px-6 transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50  backdrop-filter backdrop-blur-lg flex items-center justify-center ">
             <span className="flex items-center">Launch Custos Dapp</span>
-            <img
+            <Image
               src="/star.png"
               className="absolute w-6 h-8 z-20 animate-star"
               alt="Star Icon"
@@ -41,7 +41,7 @@ const Hero = () => {
         </p>
 
         {/* <div className="image-container">
-          <img src="./herod.png" alt="Zoom Image" />
+          <Image src="./herod.png" alt="Zoom Image" />
         </div> */}
 
         <div className="flex flex-col lg:flex-row justify-center w-fit gap-[4em] mt-[4rem]">
@@ -85,7 +85,7 @@ const Hero = () => {
               </div>
               <div className="h-fit mb-5">
                 <Image
-                  src="/img.png"
+                  src="/Image.png"
                   alt="Card Image"
                   width={150}
                   height={100}

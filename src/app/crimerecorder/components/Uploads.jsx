@@ -5,7 +5,7 @@ import NoRecordScreen from "./NoRecordScreen";
 import { WalletContext } from "@/components/walletprovider";
 import Image from "next/image"; // Import Image component
 import { useNotification } from "@/context/NotificationProvider";
-
+import { Image } from "next/image";
 const Uploads = () => {
   const { address } = useContext(WalletContext);
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -172,7 +172,7 @@ const Uploads = () => {
                 key={index}
                 className="relative text-sm whitespace-nowrap mb-2 sm:mb-0 bg-transparent rounded-lg backdrop-blur-lg p-10 shadow-lg">
                 {isImageFile(file.filename) ? (
-                  <img
+                  <Image
                     src={`https://gateway.pinata.cloud/ipfs/${file.uri}`}
                     alt={file.filename}
                     className="w-full h-auto rounded"
