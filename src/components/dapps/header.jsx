@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import ConnectButtoncomponent from "@/components/connect";
@@ -54,7 +53,7 @@ export const Header = ({ onToggle }) => {
       {/* Logo on the left */}
       <div className="flex items-center md:hidden">
         <a href="/">
-          <Image src="/logo.png" alt="Logo" width={250} height={250} />
+          <img src="/logo.png" alt="Logo" width={250} height={250} />
         </a>
       </div>
 
@@ -70,7 +69,7 @@ export const Header = ({ onToggle }) => {
             className="w-full pl-10 pr-4 py-2 bg-[#1E1E1E] text-white border border-gray-600 rounded-full focus:outline-none focus:border-[#00A3FF]"
           />
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <Image src="/search-normal.svg" alt="Search" className="w-5 h-5" />
+            <img src="/search-normal.svg" alt="Search" className="w-5 h-5" />
           </div>
         </div>
 
@@ -80,14 +79,14 @@ export const Header = ({ onToggle }) => {
             onClick={toggleDarkMode}
             className="text-white hidden md:block"
           >
-            <Image src="/darkmodeicon.svg" alt="Dark Mode" className="w-5 h-5" />
+            <img src="/darkmodeicon.svg" alt="Dark Mode" className="w-5 h-5" />
           </button>
           {/* Notification  Bell*/}
           <button
             className={`text-white hidden md:block ${notificationDropDowm?"border p-[2px] rounded-md border-blue-400":""}`}
             onClick={() => showNotificationDropDowm(!notificationDropDowm)}
           >
-            <Image src="/bell.svg" alt="Notifications" className="w-5 h-5" />
+            <img src="/bell.svg" alt="Notifications" className="w-5 h-5" />
             <div className="rounded-full flex items-center justify-center w-[2em] h-[1em] text-[10px] bg-red-500 absolute">5</div>
           </button>
           {/* Notification Dropdown Container */}

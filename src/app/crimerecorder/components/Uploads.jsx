@@ -5,7 +5,6 @@ import NoRecordScreen from "./NoRecordScreen";
 import { WalletContext } from "@/components/walletprovider";
 import Image from "next/image"; // Import Image component
 import { useNotification } from "@/context/NotificationProvider";
-import { Image } from "next/image";
 const Uploads = () => {
   const { address } = useContext(WalletContext);
   const [uploadedFiles, setUploadedFiles] = useState([]);
