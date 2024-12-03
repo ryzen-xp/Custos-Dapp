@@ -151,7 +151,7 @@ export const Recording = ({ text, icon1, imgText, category }) => {
   const closeSuccessModal = () => {
     // setSuccessModalOpen(false);
     closeModal();
-    route.push("/crimerecorder/uploads");
+    route.push("/crimerecorders");
   };
   const closeErrorModal = () => {
     openModal("error");
@@ -175,12 +175,25 @@ export const Recording = ({ text, icon1, imgText, category }) => {
     setUploadModalOpen(false); // Close the modal after filename submission
     uploadToIPFS(recordedChunks, fullFileName); // Proceed with the IPFS upload
   };
-
+  const checkPermissions = async () => {
+    try {
+      const permissions = await navigator.permissions.query({ name: "camera" });
+      console.log("Camera permission status:", permissions.state);
+      if (permissions.state === "denied") {
+        alert("Camera permissions are denied. Please allow access in your browser settings.");
+      }
+    } catch (error) {
+      openModal("error");
+      console.warn("Permissions API not supported in this browser:", error.message);
+    }
+  };
+  
   const startCamera = async () => {
+    checkPermissions();
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: currentFacingMode },
-        audio: true,
+        video: true, // Simpler configuration
+        audio: true, // Disable audio if not needed
       });
       setMediaStream(stream);
       if (videoRef.current) {
@@ -196,14 +209,16 @@ export const Recording = ({ text, icon1, imgText, category }) => {
 
   const stopCamera = () => {
     if (mediaStream) {
-      mediaStream.getTracks().forEach((track) => track.stop());
-      if (videoRef.current) {
-        videoRef.current.srcObject = null;
-        videoRef.current.style.display = "none"; // Hide video feed when stopped
-      }
+      mediaStream.getTracks().forEach((track) => {
+        track.stop(); // Stop individual tracks
+        track.enabled = false; // Disable track (extra precaution)
+      });
+      videoRef.current.srcObject = null; // Clear the video element
       setMediaStream(null);
+      console.log("Camera stopped successfully.");
     }
   };
+  
 
   const startRecording = async () => {
     await startCamera();

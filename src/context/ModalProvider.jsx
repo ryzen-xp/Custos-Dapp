@@ -20,7 +20,7 @@ export const ModalProvider = ({ children }) => {
   const closeModal = () => {
     if (isModalOpen === "success") {
       setIsModalOpen(null);
-      route.push("/crimerecorder/uploads");
+      route.push("/crimerecorder");
     } else {
       setIsModalOpen(null);
     }
