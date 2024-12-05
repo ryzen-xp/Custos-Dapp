@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import ConnectButtoncomponent from "@/components/connect";
@@ -54,7 +53,7 @@ export const Header = ({ onToggle }) => {
       {/* Logo on the left */}
       <div className="flex items-center md:hidden">
         <a href="/">
-          <Image src="/logo.png" alt="Logo" width={250} height={250} />
+          <img src="/logo.png" alt="Logo" width={250} height={250} />
         </a>
       </div>
 

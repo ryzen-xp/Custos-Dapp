@@ -2,6 +2,7 @@ import { GlobalStateContext } from "@/context/GlobalStateProvider";
 import React, { useContext } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import Page from "../[...slug]/page";
+import Image from "next/image";
 
 const AgreementNav = ({ activeTab, setActiveTab, text, mode}) => {
   const { globalState } = useContext(GlobalStateContext);
@@ -29,7 +30,7 @@ const AgreementNav = ({ activeTab, setActiveTab, text, mode}) => {
           <p className="text-3xl font-bold text-white">{text}</p>
           {/* <div className={`${globalState !== "" ? "flex" : "hidden"}`}>
             <div className="button-transition">
-              <img
+              <Image
                 src="./PrintAgreement.png"
                 alt="Print Agreement"
                 width={"90%"}
@@ -37,7 +38,7 @@ const AgreementNav = ({ activeTab, setActiveTab, text, mode}) => {
               />
             </div>
             <div className="button-transition">
-              <img
+              <Image
                 src="./FinalValidateButton.png"
                 alt="Validate Agreement"
                 width={"90%"}

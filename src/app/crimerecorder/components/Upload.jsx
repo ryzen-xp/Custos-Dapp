@@ -1,9 +1,10 @@
+import Image from "next/image";
 import React from "react";
 
 const NFTImagePlaceholder = ({ imageURI }) => (
   <div className="w-full h-full rounded-lg flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
     {imageURI ? (
-      <img 
+      <Image
         src={imageURI} 
         alt="NFT Preview" 
         className="w-full h-full object-cover rounded-lg"
@@ -13,7 +14,7 @@ const NFTImagePlaceholder = ({ imageURI }) => (
         }}
       />
     ) : (
-      <img 
+      <Image 
         src="/api/placeholder/300/150" 
         alt="NFT Placeholder"
         className="w-full h-full object-cover rounded-lg"

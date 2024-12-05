@@ -47,7 +47,7 @@ export default function RootLayout({ children }) {
             {isSidepaneOpen ? (
               <FiX size={40} className="text-[#afb9c0e1]" />
             ) : (
-              <img src="/hamburger.svg" alt="Menu" width={50} height={20} />
+              <Image src="/hamburger.svg" alt="Menu" width={50} height={20} />
             )}
           </button>
         </div>
