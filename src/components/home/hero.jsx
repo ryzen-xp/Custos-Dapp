@@ -25,7 +25,7 @@ const Hero = () => {
         <div onClick={toggleLaunchDapps} className=" flex w-fit h-fit">
           <button className="relative br w-full text-white shadow-lg py-3 px-6 transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50  backdrop-filter backdrop-blur-lg flex items-center justify-center ">
             <span className="flex items-center">Launch Custos Dapp</span>
-            <Image
+            <img
               src="/star.png"
               className="absolute w-6 h-8 z-20 animate-star"
               alt="Star Icon"
