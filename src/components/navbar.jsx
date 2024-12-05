@@ -207,7 +207,7 @@ const Navbar = () => {
                                 <p className="flex flex-col ">
                                   Careers
                                   <p className="text-gray-300 text-[0.8em] mt-1 font-thin">
-                                    Find your dream role 
+                                    Find your dream role
                                   </p>
                                 </p>
                               </p>
