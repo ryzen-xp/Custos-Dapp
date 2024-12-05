@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-Image-element */
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import DOMPurify from "dompurify";

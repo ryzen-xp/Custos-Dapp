@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-Image-element */
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 import { useContext, useEffect, useState } from "react";
