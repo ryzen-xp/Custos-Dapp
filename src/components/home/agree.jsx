@@ -82,7 +82,7 @@ const Agree = () => {
             <div className="sh-btn"></div>
             Launch Dapps
             <FaLongArrowAltRight className="ml-2" />
-            {/* <img src="./launchPadButton.png" alt="Zoom Image" /> */}
+            {/* <Image src="./launchPadButton.png" alt="Zoom Image" /> */}
           </div>
           {/* <button className="relative max-w-sm br text-white p-3 shadow-lg transform hover:scale-105 transition-transform duration-300 border-gradient bg-opacity-50 mb-5 backdrop-filter backdrop-blur-lg flex items-center justify-center overflow-clip">
             <span className="flex items-center">Launch Dapp</span>

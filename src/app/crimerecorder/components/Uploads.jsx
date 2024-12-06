@@ -3,32 +3,30 @@ import React, { useContext, useEffect, useState } from "react";
 import { UseReadContractData } from "@/utils/fetchcontract";
 import NoRecordScreen from "./NoRecordScreen";
 import { WalletContext } from "@/components/walletprovider";
-import Image from "next/image"; // Import Image component
+import Image from "next/image";
+import { ClipboardIcon } from "@heroicons/react/outline"; // Optional: Icon for Share button
 import { useNotification } from "@/context/NotificationProvider";
 
 const Uploads = () => {
   const { address } = useContext(WalletContext);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [fileData, setFileData] = useState([]);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
   const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 
   const { openNotification } = useNotification();
-
   const { fetchData } = UseReadContractData();
 
   const Retrieve = async () => {
-    setLoading(true); 
+    setLoading(true);
     try {
-      const result = await fetchData("crime", "get_all_user_uploads", [
-        address,
-      ]);
+      const result = await fetchData("crime", "get_all_user_uploads", [address]);
 
       const files =
         result && typeof result === "object"
           ? Object.keys(result).map((key) => ({
               id: result[key].toString(),
-              timestamp: Date.now(), // Placeholder timestamp
+              timestamp: Date.now(),
             }))
           : [];
 
@@ -37,28 +35,20 @@ const Uploads = () => {
       openNotification("error", "", "Error fetching uploaded files");
       console.error("Error fetching uploaded files:", error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-
-    if (address) {
-      console.log('calling retrieve')
-      Retrieve()
-
-    }
-
+    if (address) Retrieve();
   }, [address]);
 
   useEffect(() => {
     const userUploads = async () => {
-      setLoading(true); // Start loading for file data fetch
+      setLoading(true);
       try {
-        // Fetch URIs from the blockchain for each file
         const blockchainUris = await Promise.all(
           uploadedFiles.map(async (file) => {
-            // const { fetchData } = UseReadContractData();
             const uploadUri = await fetchData("crime", "get_token_uri", [
               file.id,
             ]);
@@ -66,7 +56,6 @@ const Uploads = () => {
           })
         );
 
-        // Fetch metadata from Pinata
         const response = await fetch(`https://api.pinata.cloud/data/pinList`, {
           method: "GET",
           headers: { Authorization: `Bearer ${NFT_STORAGE_TOKEN}` },
@@ -78,7 +67,6 @@ const Uploads = () => {
         const metadata = await response.json();
         const pinataFiles = metadata.rows;
 
-        // Match blockchain URIs with Pinata CIDs
         const matchedFiles = blockchainUris
           .map((uri) => {
             const matchedFile = pinataFiles.find(
@@ -99,7 +87,7 @@ const Uploads = () => {
       } catch (error) {
         console.error("Error retrieving URIs or metadata:", error);
       } finally {
-        setLoading(false); // Stop loading
+        setLoading(false);
       }
     };
 
@@ -124,13 +112,20 @@ const Uploads = () => {
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+      weekday: "long", // Day of the week
+      year: "numeric", // Year
+      month: "long",   // Month name
+      day: "numeric",  // Day of the month
+    }) + 
+    ", " + 
+    date.toLocaleTimeString("en-US", {
+      hour: "2-digit", 
+      minute: "2-digit", 
+      second: "2-digit", 
+      hour12: true // Display time in 12-hour format
     });
   };
-
+  
   const handleDownload = async (file) => {
     try {
       const response = await fetch(
@@ -144,9 +139,34 @@ const Uploads = () => {
     }
   };
 
+  const handleShare = async (file) => {
+    const fileLink = `https://gateway.pinata.cloud/ipfs/${file.uri}`;
+
+    // Use Web Share API if supported
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: file.filename,
+          text: `Check out this file: ${file.filename}`,
+          url: fileLink,
+        });
+      } catch (error) {
+        console.error("Error sharing the file:", error);
+      }
+    } else {
+      // Fallback: Copy link to clipboard
+      try {
+        await navigator.clipboard.writeText(fileLink);
+        openNotification("success", "", "Link copied to clipboard!");
+      } catch (error) {
+        console.error("Failed to copy the link:", error);
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen relative">
-      {loading && ( // Display overlay when loading
+      {loading && (
         <div className="fixed inset-0 z-50 bg-gradient-to-r bg-opacity-70 flex items-center justify-center">
           <div className="flex flex-col items-center">
             <Image src="/logo.svg" alt="Loading" width={100} height={100} />
@@ -156,7 +176,7 @@ const Uploads = () => {
           </div>
           <style jsx>{`
             div {
-              backdrop-filter: blur(10px); /* Blur background */
+              backdrop-filter: blur(10px);
             }
           `}</style>
         </div>
@@ -186,15 +206,7 @@ const Uploads = () => {
                   <p className="text-red-500">Unsupported file type</p>
                 )}
 
-                <p
-                  className="w-full px-2 py-2 text-[#0094FF] rounded-[2em] border-slate-800 shadow-lg 
-                  transform hover:scale-105 transition-transform duration-300 border-gradient2 bg-opacity-50 
-                  backdrop-filter backdrop-blur-lg flex items-center text-left relative text-[0.8em] 
-                  overflow-hidden text-ellipsis whitespace-nowrap max-w-full mt-4"
-                  style={{ maxWidth: "250px" }}>
-                  {file.filename}
-                </p>
-
+                <p className="text-[#0094FF] mt-4">{file.filename}</p>
                 <p className="text-sm flex mt-4">
                   <span className="text-[#EAFBFF]">Time Stamp: </span>
                   <span className="text-[#19B1D2] ml-1">
@@ -202,13 +214,31 @@ const Uploads = () => {
                   </span>
                 </p>
 
-                <button
-                  onClick={() => handleDownload(file)}
-                  className="inline-block mt-5 bg-[#0094FF] text-white py-2 px-4 rounded-[2em] mb-5">
-                  {isVideoFile(file.filename)
-                    ? "Download Video"
-                    : "Download Image"}
-                </button>
+                <div className="flex justify-between items-center w-full mt-5">
+ 
+  <div className="p-[2px] rounded-[100px] bg-gradient-to-r from-[#19B1D2] to-[#A02294]">
+    <button
+      className="flex items-center justify-center w-[200px] h-[48px] bg-[#030303] text-white text-sm py-3 px-6 rounded-[100px] transition-colors duration-300 ease-in-out"
+      onClick={() => handleShare(file)}
+    >
+      <ClipboardIcon className="w-4 h-4 mr-2" />
+      <span>Share</span>
+    </button>
+  </div>
+
+  
+  <div className="p-[2px] rounded-[100px] bg-gradient-to-r from-[#19B1D2] to-[#A02294]">
+    <button
+      className="flex items-center justify-center w-[200px] h-[48px] bg-[#209af1] text-white text-sm py-3 px-6 rounded-[100px] transition-colors duration-300 ease-in-out"
+      onClick={() => handleDownload(file)}
+    >
+      {isVideoFile(file.filename) ? "Download Video" : "Download Image"}
+    </button>
+  </div>
+</div>
+
+
+
               </div>
             ))}
           </div>
@@ -219,3 +249,4 @@ const Uploads = () => {
 };
 
 export default Uploads;
+  

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import DOMPurify from "dompurify";
@@ -326,7 +325,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
           </div>
           <div className="flex flex-col gap-2">
             <strong className="text-lg">First Party Valid ID:</strong>
-            <img
+            <Image
               src={agreement.first_party_valid_id}
               alt="First Party ID"
               className="w-[16em] h-[10em] bg-[#091219] object-cover rounded-lg"
@@ -367,7 +366,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
           </div>
           <div className="flex flex-col gap-2">
             <strong className="text-sm">First Party Signature:</strong>
-            <img
+            <Image
               src={agreement.first_party_signature}
               alt="First Party Signature"
               className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
@@ -382,7 +381,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Second Party Valid ID:</strong>
             <span className="text-sm">
-            <img
+            <Image
               src={agreement.second_party_valid_id}
               alt="First Party Signature"
               className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
@@ -405,7 +404,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
           </div>
           <div className="flex flex-col gap-2">
             <strong className="text-sm">Second Party Signature:</strong>
-            <img
+            <Image
               src={agreement.second_party_signature}
               alt="First Party Signature"
               className="w-[16em] h-[10em] bg-white object-cover rounded-lg"

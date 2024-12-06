@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import ConnectButtoncomponent from "@/components/connect";
@@ -54,7 +53,7 @@ export const Header = ({ onToggle }) => {
       {/* Logo on the left */}
       <div className="flex items-center md:hidden">
         <a href="/">
-          <Image src="/logo.png" alt="Logo" width={250} height={250} />
+          <img src="/logo.png" alt="Logo" width={250} height={250} />
         </a>
       </div>
 
@@ -84,11 +83,15 @@ export const Header = ({ onToggle }) => {
           </button>
           {/* Notification  Bell*/}
           <button
-            className={`text-white hidden md:block ${notificationDropDowm?"border p-[2px] rounded-md border-blue-400":""}`}
+            className={`text-white hidden md:block rounded-md  p-[2px] hover:bg-[#2c2c2c] ${
+              notificationDropDowm ? "border  border-blue-400" : ""
+            }`}
             onClick={() => showNotificationDropDowm(!notificationDropDowm)}
           >
             <img src="/bell.svg" alt="Notifications" className="w-5 h-5" />
-            <div className="rounded-full flex items-center justify-center w-[2em] h-[1em] text-[10px] bg-red-500 absolute">5</div>
+            <div className="rounded-full flex items-center justify-center w-[2em] h-[1em] text-[10px] bg-red-500 absolute">
+              5
+            </div>
           </button>
           {/* Notification Dropdown Container */}
           <NotificationsDropdown notificationDropDowm={notificationDropDowm} />
