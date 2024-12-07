@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 import { useContext, useEffect, useState } from "react";
@@ -6,6 +5,7 @@ import useIdentityVerification from "@/utils/verification";
 import { GlobalStateContext } from "@/context/GlobalStateProvider";
 import { useRouter } from "next/navigation";
 import { provider, UseWriteToContract } from "@/utils/fetchcontract";
+import Image from "next/image";
 import {
   hexToNumber,
   stringToByteArray,
@@ -141,7 +141,7 @@ const ValidateAgreementModal = ({
                 </p>
                 <strong>Second Party's ID </strong>
                 <p className="py-2 text-[#9B9292] px-4  border border-[#ffffff46]  rounded-lg">
-                  <img src={agreement.second_party_valid_id} alt="ID" />
+                  <Image src={agreement.second_party_valid_id} alt="ID" />
                 </p>
                 <strong>Second Party's Wallet Address:</strong>
                 <p className="px-2 border border-[#ffffff46] rounded-lg">
@@ -166,7 +166,7 @@ const ValidateAgreementModal = ({
             )}
             <div className="flex justify-between">
               <div className="button-transition">
-                <img
+                <Image
                   src="/cancleAgreement.png"
                   alt="Cancel Agreement"
                   onClick={onClose}
@@ -174,7 +174,7 @@ const ValidateAgreementModal = ({
               </div>
               {currentStep === 2 ? (
                 <div className="button-transition">
-                  <img
+                  <Image
                     src="/FinalValidateButton.png"
                     alt="Validate Agreement"
                     onClick={handleValidate} // Move to next step on click
@@ -182,7 +182,7 @@ const ValidateAgreementModal = ({
                 </div>
               ) : (
                 <div className="button-transition">
-                  <img
+                  <Image
                     src="/ContinueAgreement.png"
                     alt="Continue Agreement"
                     onClick={handleContinue}
