@@ -214,7 +214,7 @@ const Uploads = () => {
                   </span>
                 </p>
 
-                <div className="flex justify-between items-center w-full mt-5">
+                <div className="flex flex-col sm:flex-row justify-between items-center w-full mt-5 gap-4">
  
   <div className="p-[2px] rounded-[100px] bg-gradient-to-r from-[#19B1D2] to-[#A02294]">
     <button
