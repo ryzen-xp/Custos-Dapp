@@ -21,6 +21,7 @@ export default withPWA({
   // Your Next.js config
   reactStrictMode: true,
   images: {
+    domains: ["custosbackend.onrender.com"],
     remotePatterns: [
       {
         protocol: "https",
