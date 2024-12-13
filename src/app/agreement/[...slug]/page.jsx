@@ -230,12 +230,14 @@ const AgreementSlug = ({ params }, agreementparam) => {
       <Slugnav agreement={agreement} />
       <div className="p-4 rounded-lg shadow-lg bg-gradient-to-r w-full">
         <div className="w-full flex max-lg:flex-col header align-baseline justify-start gap-4 mb-8">
+        
           <div className="w-full px-3 max-md:px-0">
             <span className="text-sm">Agreement Type</span>
             <span className="text-[0.8em] mt-2 w-fit flex text-wrap font-bold bg-gradient-to-r br border-slate-800 px-2 py-[0.8em] border border-gradient from-[#19B1D2] to-[#0094FF] bg-clip-text text-transparent">
               {agreement.agreementType}
             </span>
           </div>
+
           <div className="w-full px-3 max-md:px-0">
             <span className="text-sm">Second Party Address</span>
             <span className="br w-fit mt-2 overflow-hidden flex border-slate-800 px-2 py-[0.8em] border border-gradient text-[0.7em] text-[#9B9292] whitespace-nowrap overflow-ellipsis">
@@ -269,6 +271,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
         </div>
 
         <div className="space-y-4">
+        {key == 'onchain'? '':  <>
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Agreement Title:</strong>
             <span className="text-sm">
@@ -278,6 +281,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
               </div>
             </span>
           </div>
+</>}
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Content:</strong>
             {isEditing ? (
@@ -328,6 +332,9 @@ const AgreementSlug = ({ params }, agreementparam) => {
             <Image
               src={agreement.first_party_valid_id}
               alt="First Party ID"
+              width={20}
+              height={20}
+              
               className="w-[16em] h-[10em] bg-[#091219] object-cover rounded-lg"
             />
           </div>
@@ -369,6 +376,8 @@ const AgreementSlug = ({ params }, agreementparam) => {
             <Image
               src={agreement.first_party_signature}
               alt="First Party Signature"
+              width={20}
+              height={20}
               className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
             />
           </div>
@@ -384,6 +393,8 @@ const AgreementSlug = ({ params }, agreementparam) => {
             <Image
               src={agreement.second_party_valid_id}
               alt="First Party Signature"
+              width={20}
+              height={20}
               className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
             />
             </span>
@@ -407,6 +418,8 @@ const AgreementSlug = ({ params }, agreementparam) => {
             <Image
               src={agreement.second_party_signature}
               alt="First Party Signature"
+              width={20}
+              height={20}
               className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
             />
           </div> 
