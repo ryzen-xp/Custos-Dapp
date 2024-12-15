@@ -397,7 +397,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
               <div className="flex flex-col gap-2">
                 <strong className="text-sm">First Party Signature:</strong>
                 <Image
-                  src={
+                  src={s
                     agreement?.first_party_signature 
                   }
                   alt="First Party Signature"
