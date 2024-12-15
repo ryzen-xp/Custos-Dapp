@@ -20,6 +20,8 @@ import {
 // import { useNotification } from "@/contexts/NotificationContext";
 
 const AgreementSlug = ({ params }, agreementparam) => {
+
+  
   const [agreement, setAgreement] = useState(null);
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState(null);
@@ -31,11 +33,14 @@ const AgreementSlug = ({ params }, agreementparam) => {
   const { address } = useContext(WalletContext);
   const slug = params?.slug || [];
   const [key, value] = slug;
+  
 
   useEffect(() => {
     if (key === "access_token") {
-      setAccessToken(value || params.agreementAccessToken);
+      setAccessToken(value || params?.agreementAccessToken);
+      
       fetchAgreementByAccessToken(value);
+
     } else if (key == "onchain") {
       console.log("here at last");
       getOnchainAgreement(value);
@@ -45,6 +50,8 @@ const AgreementSlug = ({ params }, agreementparam) => {
   }, [key, value]);
 
   const fetchAgreementById = async (agreementId) => {
+    // console.log(agreementId);
+    
     try {
       const response = await fetch(
         `https://custosbackend.onrender.com/agreement/agreement/${agreementId}/`
@@ -66,12 +73,16 @@ const AgreementSlug = ({ params }, agreementparam) => {
   };
 
   const fetchAgreementByAccessToken = async (token) => {
+
+    
     try {
       const response = await fetch(
         `https://custosbackend.onrender.com/agreement/agreement/access_token/?access_token=${token}`
       );
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
+        
         setAgreement(data);
         initializeEditableFields(data);
       } else {
@@ -144,12 +155,12 @@ const AgreementSlug = ({ params }, agreementparam) => {
 
   const initializeEditableFields = (data) => {
     setEditableFields({
-      content: data.content,
-      email: data.email,
-      first_party_country: data.first_party_country,
-      first_party_id_type: data.first_party_id_type,
+      content: data?.content,
+      email: data?.email,
+      first_party_country: data?.first_party_country,
+      first_party_id_type: data?.first_party_id_type,
     });
-    setContentFormat(detectContentFormat(data.content));
+    setContentFormat(detectContentFormat(data?.content));
   };
 
   const handleEditClick = () => {
@@ -282,7 +293,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
             <span className="text-sm">
               {/* {agreement.agreement_id || "N/A"} */}
               <div className="box w-fit p-2">
-                <sh></sh>
+                <div className="sh"></div>
               </div>
             </span>
           </div>
@@ -321,7 +332,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
                 {isEditing ? (
                   <input
                     type="email"
-                    value={editableFields.email}
+                    value={editableFields?.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
                     className="w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
                   />
@@ -338,7 +349,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
           <div className="flex flex-col gap-2">
             <strong className="text-lg">First Party Valid ID:</strong>
             <Image
-              src={agreement.first_party_valid_id}
+              src={agreement?.first_party_valid_id}
               alt="First Party ID"
               className="w-[16em] h-[10em] bg-[#091219] object-cover rounded-lg"
               width={100}
@@ -386,7 +397,9 @@ const AgreementSlug = ({ params }, agreementparam) => {
               <div className="flex flex-col gap-2">
                 <strong className="text-sm">First Party Signature:</strong>
                 <Image
-                  src={agreement.first_party_signature}
+                  src={
+                    agreement?.first_party_signature 
+                  }
                   alt="First Party Signature"
                   className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
                   width={100}
@@ -403,7 +416,10 @@ const AgreementSlug = ({ params }, agreementparam) => {
             <strong className="text-lg">Second Party Valid ID:</strong>
             <span className="text-sm">
               <Image
-                src={agreement.second_party_valid_id}
+                src={
+                  agreement?.second_party_valid_id ||
+                  "https://custosbackend.onrender.com/media/valid_ids/90b3d335-cff9-4fd9-a82c-67a1abc9bf24.png"
+                }
                 alt="First Party Signature"
                 className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
                 width={100}
@@ -431,7 +447,10 @@ const AgreementSlug = ({ params }, agreementparam) => {
               <div className="flex flex-col gap-2">
                 <strong className="text-sm">Second Party Signature:</strong>
                 <Image
-                  src={agreement.second_party_signature}
+                  src={
+                    agreement?.second_party_signature ||
+                    "https://custosbackend.onrender.com/media/valid_ids/90b3d335-cff9-4fd9-a82c-67a1abc9bf24.png"
+                  }
                   alt="First Party Signature"
                   className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
                   width={100}
