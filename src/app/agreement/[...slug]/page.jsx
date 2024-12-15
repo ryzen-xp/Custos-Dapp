@@ -397,9 +397,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
               <div className="flex flex-col gap-2">
                 <strong className="text-sm">First Party Signature:</strong>
                 <Image
-                  src={s
-                    agreement?.first_party_signature 
-                  }
+                  src={agreement?.first_party_signature}
                   alt="First Party Signature"
                   className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
                   width={100}
@@ -416,10 +414,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
             <strong className="text-lg">Second Party Valid ID:</strong>
             <span className="text-sm">
               <Image
-                src={
-                  agreement?.second_party_valid_id ||
-                  "https://custosbackend.onrender.com/media/valid_ids/90b3d335-cff9-4fd9-a82c-67a1abc9bf24.png"
-                }
+                src={agreement?.second_party_valid_id || "/not-found-image.png"}
                 alt="First Party Signature"
                 className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
                 width={100}
@@ -448,8 +443,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
                 <strong className="text-sm">Second Party Signature:</strong>
                 <Image
                   src={
-                    agreement?.second_party_signature ||
-                    "https://custosbackend.onrender.com/media/valid_ids/90b3d335-cff9-4fd9-a82c-67a1abc9bf24.png"
+                    agreement?.second_party_signature || "/not-found-image.png"
                   }
                   alt="First Party Signature"
                   className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
