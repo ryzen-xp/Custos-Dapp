@@ -29,6 +29,12 @@ export default withPWA({
         port: "",
         pathname: "/ipfs/**",
       },
+      {
+        protocol: "https",
+        hostname: "custosbackend.onrender.com",
+        port: "",
+        pathname: "/media/**",
+      },
     ],
   },
   webpack: (config, { dev, isServer }) => {

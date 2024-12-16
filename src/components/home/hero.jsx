@@ -84,7 +84,7 @@ const Hero = () => {
               </div>
               <div className="h-fit mb-5">
                 <Image
-                  src="/Image.png"
+                  src="/img.png"
                   alt="Card Image"
                   width={150}
                   height={100}

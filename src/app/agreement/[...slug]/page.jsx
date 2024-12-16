@@ -20,8 +20,6 @@ import {
 // import { useNotification } from "@/contexts/NotificationContext";
 
 const AgreementSlug = ({ params }, agreementparam) => {
-
-  
   const [agreement, setAgreement] = useState(null);
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState(null);
@@ -33,14 +31,12 @@ const AgreementSlug = ({ params }, agreementparam) => {
   const { address } = useContext(WalletContext);
   const slug = params?.slug || [];
   const [key, value] = slug;
-  
 
   useEffect(() => {
     if (key === "access_token") {
       setAccessToken(value || params?.agreementAccessToken);
-      
-      fetchAgreementByAccessToken(value);
 
+      fetchAgreementByAccessToken(value);
     } else if (key == "onchain") {
       console.log("here at last");
       getOnchainAgreement(value);
@@ -51,7 +47,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
 
   const fetchAgreementById = async (agreementId) => {
     // console.log(agreementId);
-    
+
     try {
       const response = await fetch(
         `https://custosbackend.onrender.com/agreement/agreement/${agreementId}/`
@@ -73,8 +69,6 @@ const AgreementSlug = ({ params }, agreementparam) => {
   };
 
   const fetchAgreementByAccessToken = async (token) => {
-
-    
     try {
       const response = await fetch(
         `https://custosbackend.onrender.com/agreement/agreement/access_token/?access_token=${token}`
@@ -82,7 +76,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        
+
         setAgreement(data);
         initializeEditableFields(data);
       } else {
@@ -253,6 +247,7 @@ const AgreementSlug = ({ params }, agreementparam) => {
               {agreement.agreementType}
             </span>
           </div>
+
           <div className="w-full px-3 max-md:px-0">
             <span className="text-sm">Second Party Address</span>
             <span className="br w-fit mt-2 overflow-hidden flex border-slate-800 px-2 py-[0.8em] border border-gradient text-[0.7em] text-[#9B9292] whitespace-nowrap overflow-ellipsis">
@@ -288,15 +283,21 @@ const AgreementSlug = ({ params }, agreementparam) => {
         </div>
 
         <div className="space-y-4">
-          <div className="flex flex-col gap-2">
-            <strong className="text-lg">Agreement Title:</strong>
-            <span className="text-sm">
-              {/* {agreement.agreement_id || "N/A"} */}
-              <div className="box w-fit p-2">
-                <div className="sh"></div>
+          {key == "onchain" ? (
+            ""
+          ) : (
+            <>
+              <div className="flex flex-col gap-2">
+                <strong className="text-lg">Agreement Title:</strong>
+                <span className="text-sm">
+                  {/* {agreement.agreement_id || "N/A"} */}
+                  <div className="box w-fit p-2">
+                    <div className="sh"></div>
+                  </div>
+                </span>
               </div>
-            </span>
-          </div>
+            </>
+          )}
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Content:</strong>
             {isEditing ? (
@@ -406,6 +407,56 @@ const AgreementSlug = ({ params }, agreementparam) => {
               </div>
             </>
           )}
+          {key == "onchain" ? (
+            ""
+          ) : (
+            <>
+              <div className="flex flex-col gap-2">
+                <strong className="text-lg">First Party Country:</strong>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editableFields.first_party_country}
+                    onChange={(e) =>
+                      handleInputChange("first_party_country", e.target.value)
+                    }
+                    className="w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
+                  />
+                ) : (
+                  <span className="text-sm">
+                    {agreement.first_party_country || "N/A"}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col gap-2">
+                <strong className="text-lg">First Party ID Type:</strong>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editableFields.first_party_id_type}
+                    onChange={(e) =>
+                      handleInputChange("first_party_id_type", e.target.value)
+                    }
+                    className="w-full p-2 bg-[#091219] text-[#EAFBFF] border border-[#19B1D2] rounded"
+                  />
+                ) : (
+                  <span className="text-sm">
+                    {agreement.first_party_id_type}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col gap-2">
+                <strong className="text-sm">First Party Signature:</strong>
+                <Image
+                  src={agreement.first_party_signature}
+                  alt="First Party Signature"
+                  width={20}
+                  height={20}
+                  className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
+                />
+              </div>
+            </>
+          )}
           <div className="flex flex-col gap-2">
             <strong className="text-lg">Second Party Address:</strong>
             <span className="text-sm">{agreement.second_party_address}</span>
@@ -414,11 +465,11 @@ const AgreementSlug = ({ params }, agreementparam) => {
             <strong className="text-lg">Second Party Valid ID:</strong>
             <span className="text-sm">
               <Image
-                src={agreement?.second_party_valid_id || "/not-found-image.png"}
+                src={agreement.second_party_valid_id}
                 alt="First Party Signature"
+                width={20}
+                height={20}
                 className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
-                width={100}
-                height={100}
               />
             </span>
           </div>
@@ -442,13 +493,11 @@ const AgreementSlug = ({ params }, agreementparam) => {
               <div className="flex flex-col gap-2">
                 <strong className="text-sm">Second Party Signature:</strong>
                 <Image
-                  src={
-                    agreement?.second_party_signature || "/not-found-image.png"
-                  }
+                  src={agreement.second_party_signature}
                   alt="First Party Signature"
+                  width={20}
+                  height={20}
                   className="w-[16em] h-[10em] bg-white object-cover rounded-lg"
-                  width={100}
-                  height={100}
                 />
               </div>
             </>
