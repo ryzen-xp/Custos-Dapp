@@ -408,7 +408,7 @@ const AgreementModal = () => {
   return (
     <div className="w-full px-4 flex flex-col gap-8 overflow-clip  justify-center items-center h-[80vh]">
       <div className="rounded-2xl box border-gradien  p-6">
-        <sh></sh>
+        <div className="sh"></div>
         <form className=" w-full space-y-5" onSubmit={handleSubmit}>
           {modalStep > 1 && (
             <button
