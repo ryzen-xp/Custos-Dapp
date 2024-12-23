@@ -1,36 +1,21 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Custos Diretriz
+At [Custos Diretriz](https://www.custosdiretriz.com/), we are dedicated to revolutionizing safety and security through innovative protocol platforms. Our mission is to provide cutting-edge solutions that empower individuals and communities to effectively address crime scene witnessing and streamline agreement systems.
 
-## Getting Started
+## Our Vision
+We envision a safer and more transparent society where individuals have the tools and resources they need to contribute to crime prevention and intervention efforts. By leveraging technology and collaboration, we strive to build a world where everyone feels empowered to make a difference in their communities.
 
-First, run the development server:
+## Our Platforms
+- **Crime Scene Witnessing Record Platform:** Our crime scene witnessing record platform is designed to enable individuals to document and report crime events securely and transparently. With user-friendly interfaces and robust security measures, we facilitate the collection of accurate and reliable information to aid law enforcement and community safety initiatives.
+- **Agreement System Platform:** Our agreement system platform simplifies the process of creating, managing, and validating legal agreements. Whether it's a business contract, a rental agreement, or a partnership arrangement, our platform ensures that agreements are securely stored, easily accessible, and tamper-proof, fostering trust and accountability among parties.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Our Commitment
+At Custos Diretriz, we are committed to excellence in everything we do. We prioritize user privacy, data security, and ethical practices to ensure the integrity and reliability of our platforms. By continuously innovating and adapting to the evolving needs of our users, we aim to set new standards for safety, security, and accountability in our communities.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Join Us
+Join us on our journey to create a safer and more secure future for all. Whether you're an individual looking to report a crime, create a legally binding agreement, or a community organization seeking innovative solutions, Custos Diretriz welcomes you to explore our platforms and be part of the change. Together, we can make a meaningful impact and build a better world for generations to come.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Access the video demo about our project [here](https://www.loom.com/share/6bea4061315c476b878cf4bf805f1054?sid=97bef0aa-0efe-435d-a4bb-8832a1223a6e)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Learn more about our project [here](https://github.com/Custos-Diretriz/custos-contracts) 
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Visit our [website](https://www.custosdiretriz.com/)

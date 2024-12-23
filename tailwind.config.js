@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class", // Enable dark mode using the class strategy
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -12,7 +13,14 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      screens: {
+        "max-md": { max: "768px" },
+        "max-sm": { max: "640px" },
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-border-gradient-radius"),
+    require("daisyui"), // Ensure the plugin is placed correctly
+  ],
 };

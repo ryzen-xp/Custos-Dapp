@@ -2,32 +2,479 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  background-position: center;
+  background-size: contain;
+  background-blend-mode: multiply;
+  font-family: "Outfit", sans-serif;
+  background-color: #0C1215;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.kanit-thin {
+  font-family: "Kanit", sans-serif;
+  font-weight: 100;
+  font-style: normal;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.kanit-extralight {
+  font-family: "Kanit", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.kanit {
+  font-family: "Kanit", sans-serif;
+}
+
+.kanit-light {
+  font-family: "Kanit", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.kanit-regular {
+  font-family: "Kanit", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.kanit-medium {
+  font-family: "Kanit", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.kanit-semibold {
+  font-family: "Kanit", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.kanit-bold {
+  font-family: "Kanit", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.kanit-extrabold {
+  font-family: "Kanit", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.kanit-black {
+  font-family: "Kanit", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.kanit-thin-italic {
+  font-family: "Kanit", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.kanit-extralight-italic {
+  font-family: "Kanit", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.kanit-light-italic {
+  font-family: "Kanit", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.kanit-regular-italic {
+  font-family: "Kanit", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.kanit-medium-italic {
+  font-family: "Kanit", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.kanit-semibold-italic {
+  font-family: "Kanit", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.kanit-bold-italic {
+  font-family: "Kanit", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.kanit-extrabold-italic {
+  font-family: "Kanit", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.kanit-black-italic {
+  font-family: "Kanit", sans-serif;
+  font-weight: 900;
+  font-style: italic;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+  .gradient-text {
+    @apply bg-gradient-to-r from-[#EAF9FF] to-[#8E9A9A] bg-clip-text text-transparent;
+  }
+}
+.border-gradient {
+  position: relative;
+}
+.br {
+  border-radius: 50px;
+}
+
+.border-gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit; /* Match the border radius of the card */
+  padding: 0.47px; /* Adjust the width of the border */
+  background: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
+  -webkit-mask: linear-gradient(#0C1215 0 0) content-box, linear-gradient(#0C1215 0 0);
+  mask: linear-gradient(#0C1215 0 0) content-box, linear-gradient(#0C1215 0 0);
+  -webkit-mask-composite: destination-out; /* For Safari */
+  mask-composite: destination-out; /* For other browsers */
+}
+.border-gradient2 {
+  position: relative;
+}
+
+.border-gradient::before,
+.border-gradient2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit; /* Match the border radius of the card */
+  padding: 1px; /* Adjust the width of the border */
+  background: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
+
+  /* Masking the background so that the gradient appears only on the border */
+  -webkit-mask: linear-gradient(#0C1215 0 0) content-box, linear-gradient(#0C1215 0 0);
+  mask: linear-gradient(#0C1215 0 0) content-box, linear-gradient(#0C1215 0 0);
+  mask-composite: exclude;
+}
+
+.border-gradient {
+  --padding-size: 0.47px;
+}
+
+.border-gradient2 {
+  --padding-size: 1px;
+}
+
+.border-gradient::before,
+.border-gradient2::before {
+  padding: var(--padding-size);
+}
+
+button .text-transparent {
+  background: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.border-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid;
+  border-image-source: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
+}
+.content-div {
+  background: linear-gradient(
+    90deg,
+    rgba(25, 177, 210, 0.03) 0%,
+    rgba(0, 148, 255, 0.03) 100%
+  );
+
+  border-radius: 4px;
+}
+
+.Modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: black;
+  padding: 20px;
+  border-radius: 10px;
+  outline: none;
+  z-index: 1001;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+}
+
+/* star button animations */
+@keyframes star-move {
+  0% {
+    top: -20%;
+    left: 0%;
+  }
+
+  15% {
+    top: -20%;
+    left: 20%;
+  }
+  25% {
+    top: -20%;
+    left: 50%;
+  }
+  35% {
+    top: -20%;
+    left: 70%;
+  }
+  50% {
+    top: 40%;
+    left: 90%;
+  }
+  65% {
+    top: 80%;
+    left: 80%;
+  }
+  75% {
+    top: 80%;
+    left: 50%;
+  }
+  85% {
+    top: 80%;
+    left: 1%;
+  }
+  100% {
+    top: 0;
+    left: 0;
+  }
+}
+
+.animate-star {
+  animation: star-move 5s linear infinite;
+}
+
+/* eclipse */
+.shape {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  top: 0;
+  left: 0;
+  border-top-color: #19b1d2; /* Primary color */
+  border-bottom-color: #0094ff; /* Secondary color */
+  background: radial-gradient(
+    circle at center,
+    transparent 80%,
+    #00000000 80%
+  ); /* Center hollow effect */
+  box-shadow: 24px 20px 44px 48px rgba(160, 34, 148, 0.23),
+    0 4px 20px 24px rgba(25, 177, 210, 0.6);
+  opacity: 0.6;
+  transform-style: preserve-3d;
+  animation: roll 10s infinite linear;
+}
+
+/* Keyframes for rolling animation */
+@keyframes roll {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+.underlined-border-gradient {
+  border-image: linear-gradient(to right, #0094ff, #a02294) 1;
+}
+
+.image-container {
+  width: 350px;
+  height: 250px;
+  overflow: hidden;
+  transition: transform 0.5s ease; /* Smooth transition for the container */
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+}
+
+.image-container:hover {
+  transform: scale(1.2); /* Scale the container on image hover */
+}
+
+.launch-pad-button-container {
+  width: 200px;
+  height: 60px;
+  overflow: hidden;
+  transition: transform 0.5s ease; /* Smooth transition for the container */
+}
+.button-transition {
+  transition: transform 0.5s ease; /* Smooth transition for the container */
+}
+.button-transition:hover {
+  transform: scale(1.1); /* Scale the container on image hover */
+}
+
+.launch-pad-button-container:hover {
+  transform: scale(1.2); /* Scale the container on image hover */
+}
+
+.eclipse-container {
+  perspective: 1000px; /* Enable 3D perspective */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* height: 100vh; */
+}
+
+.eclipse {
+  animation: bounce 2s infinite ease-in-out; /* Infinite bouncing animation */
+
+  transform-style: preserve-3d;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0); /* Start and end position */
+  }
+  50% {
+    transform: translateY(-50px); /* Move upward to simulate a bounce */
+  }
+}
+
+.fade-in-section {
+  opacity: 1;
+  transform: translateY(20vh);
+  visibility: 1;
+  transition: opacity 2s ease-out, transform 1s ease-out,
+    visibility 1200ms ease-out;
+  will-change: opacity, transform, visibility;
+}
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+}
+/* HTML: <div class="box"><sh></sh> </div> */
+.box {
+  /* position: relative; */
+  transform-style: preserve-3d;
+  border-radius: 23px;
+}
+.box .sh {
+  position: absolute;
+  /* padding: 1px; */
+  inset: calc(0px - 0px - 0px);
+  border: calc(0px + 1px + 0px) solid #0000;
+  border-radius: calc(0px + 1px + 0px + 23px);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transform: translateZ(-1px);
+  pointer-events: none;
+}
+.box .sh::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 23px;
+  background: conic-gradient(from 90deg at 40% -25%, #a0229369, #0095ff60);
+  /*  #ffd700, #f79d03, #ee6907, #e6390a, #de0d0d, #d61039, #cf1261, #c71585, #cf1261, #d61039, #de0d0d, #ee6907, #f79d03, #ffd700, #ffd700, #ffd700 */
+  filter: blur(0px);
+  transform: translate(0px, 0px);
+}
+
+.box-btn .sh-btn {
+  position: absolute;
+  padding: 2px;
+  inset: calc(0px - 0px - 0px);
+  border: calc(0px + 1px + 0px) solid #1f85ad;
+  border-radius: 100px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transform: translateZ(-1px);
+  pointer-events: none;
+}
+.box-btn .sh-btn::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 100px;
+  /* color: #ffffff1a; */
+  background: conic-gradient(from 90deg at 80% -25%, #a0229337, #209af1);
+  /*  #ffd700, #f79d03, #ee6907, #e6390a, #de0d0d, #d61039, #cf1261, #c71585, #cf1261, #d61039, #de0d0d, #ee6907, #f79d03, #ffd700, #ffd700, #ffd700 */
+  filter: blur(0px);
+  transform: translate(0px, 0px);
+}
+/* .m{
+ 
+ color: linear-gradient(90deg, #0094ff 0%, #a02294 100%);
+} */
+
+.validate-gradient {
+  background: rgb(4, 8, 12);
+  background: linear-gradient(
+    180deg,
+    rgba(4, 8, 12, 1) 32%,
+    rgba(9, 19, 26, 1) 81%
+  );
+}
+
+.agreement-content-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.agreement-content-wrapper * {
+  max-width: 100%;
+}
+
+.agreement-content-wrapper img {
+  height: auto;
+}
+
+/* Hide scrollbar for all elements with the scrollbar-hide class */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
 }
