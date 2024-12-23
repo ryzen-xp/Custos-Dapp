@@ -24,7 +24,7 @@ function ConnectButtoncomponent() {
           onClick={disconnectWallet}
         >
           <div className="bg-[#121212] border-gradient2 rounded-full py-2 px-3 flex gap-2">
-            <Image className="rounded-full" src={generateAvatarURL(address)} alt="" width={24} height={24}/>
+            <Image className="rounded-full" src={generateAvatarURL(connection?.account)} alt="" width={24} height={24}/>
             <button
               onClick={disconnectWallet}
               className="w-full bg-transparent rounded-full overflow-hidden text-sm"
