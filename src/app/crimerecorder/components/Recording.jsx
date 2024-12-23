@@ -107,55 +107,60 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       }
     };
 
-    const triggerTransaction = async () => {
-      try {
-        if (uri) {
-          await sendUriToBackend(uri); // Send data to the backend
-          openNotification(
-            "info",
-            "Wallet not connected",
-            "Data sent to backend for processing"
-          );
-        }
-      } catch (error) {
-        openNotification("error", "Transaction failed", `${error}`);
-      }
-    };
+    // const triggerTransaction = async () => {
+    //   try {
+    //     if (uri) {
+    //       await sendUriToBackend(uri); // Send data to the backend
+    //       openNotification(
+    //         "info",
+    //         "Wallet not connected",
+    //         "Data sent to backend for processing"
+    //       );
+    //     }
+    //   } catch (error) {
+    //     openNotification("error", "Transaction failed", `${error}`);
+    //   }
+    // };
 
     if (uri) {
       if (account && account.address) {
         triggerWallet();
       } else {
-        triggerTransaction();
+        // triggerTransaction();
+        
+          openNotification("error", "Transaction failed", `${error}`);
+          setLoading(false);
+          openModal("error");
+        
       }
     }
   }, [uri, account]); 
   // Function to send data to the backend
-  async function sendUriToBackend(uri) {
-    const data = "place holder";
-    setLoading(true);
-    try {
-      const response = await fetch("https://custosbackend.onrender.com/agreement/crime_recorder/push/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ uri , data}),
-      });
+  // async function sendUriToBackend(uri) {
+  //   const data = "place holder";
+  //   setLoading(true);
+  //   try {
+  //     const response = await fetch("https://custosbackend.onrender.com/agreement/crime_recorder/push/", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ uri , data}),
+  //     });
   
-      if (!response.ok) {
-        throw new Error(`Failed to send data to backend: ${response.statusText}`);
-      }
+  //     if (!response.ok) {
+  //       throw new Error(`Failed to send data to backend: ${response.statusText}`);
+  //     }
   
-      const result = await response.json();
-      setLoading(false)
-      console.log("Backend response:", result);
-    } catch (error)
-     {
-      setLoading(false)
-      console.error("Error sending data to backend:", error);
-    }
-  }
+  //     const result = await response.json();
+  //     setLoading(false)
+  //     console.log("Backend response:", result);
+  //   } catch (error)
+  //    {
+  //     setLoading(false)
+  //     console.error("Error sending data to backend:", error);
+  //   }
+  // }
   
 
   useEffect(() => {
