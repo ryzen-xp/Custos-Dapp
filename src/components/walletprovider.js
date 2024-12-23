@@ -20,15 +20,11 @@ export const WalletProvider = ({ children }) => {
 
 
   const connectWallet = async () => {
-    // const connection = await connect({ modalMode: "alwaysAsk" });
     const { wallet, connectorData } = await connect({
       connectors: [
         ArgentMobileConnector.init({
           options: {
             dappName: "CUSTOS DIRETRIZ",
-            // url: window.location.hostname,
-            // chainId: SN_MAIN,
-            // icons: [],
           },
         }),
         new InjectedConnector({
@@ -42,17 +38,17 @@ export const WalletProvider = ({ children }) => {
     })
 
     console.log("wallet is ",wallet);
-    console.log("wallet is ",wallet.account);
+    console.log("wallet is ",connectorData.account);
     console.log("connectordata is ",connectorData);
     
     // await starknet?.enable({ starknetVersion: "v4" })
-    // if ( && connection.isConnected) {
+    if ( connectorData ) {
       setConnection(connectorData);
-    //   setAccount(connection.account);
-    //   openNotification("success", "Wallet Connected", "Your wallet has been connected successfully!");
+      setAccount(connectorData.account);
+      openNotification("success", "Wallet Connected", "Your wallet has been connected successfully!");
       const cleanedAddress = padAddress(connectorData.account);
       setAddress(cleanedAddress);
-    // }
+    }
   };
 
   const disconnectWallet = async () => {
