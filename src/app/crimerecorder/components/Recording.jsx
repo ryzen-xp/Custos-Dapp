@@ -76,36 +76,49 @@ export const Recording = ({ text, icon1, imgText, category }) => {
   const route = useRouter();
 
   useEffect(() => {
-    const calls = [
-      {
-        entrypoint: "crime_record",
-        contractAddress:
-          "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
-        calldata: CallData.compile([
-          byteArray?.byteArrayFromString(String(uri)),
-          0,
-        ]),
-      },
-    ];
-    callRef.current = JSON.stringify(calls, null, 2);
+    if (uri !== "") {
+      const calls = [
+        {
+          entrypoint: "crime_record",
+          contractAddress:
+            "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
+          calldata: CallData.compile([
+            byteArray?.byteArrayFromString(String(uri)),
+            0,
+          ]),
+        },
+      ];
+      callRef.current = JSON.stringify(calls, null, 2);
+    }
 
-    const triggerWallet = async () => {
-      try {
-        const transactionResponse = await executeCalls(
-          account,
-          JSON.parse(callRef.current),
-          {},
-          { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
-        );
-        openNotification("success", "Transaction successful", "");
-        setLoading(false);
-        openModal("success");
-      } catch (error) {
-        openNotification("error", "Transaction failed", `${error}`);
-        setLoading(false);
-        openModal("error");
+      // Execute the transaction with gasless option
+      const triggerWallet = async () => {
+        if (uri) {
+          try {
+            if (uri !== "") {
+              const transactionResponse = await executeCalls(
+                account,
+                JSON.parse(callRef.current),
+                {},
+                { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
+              );
+              console.log("Transaction successful:", transactionResponse);
+              openNotification("success", "Transaction successful", "");
+              setLoading(false);
+              openModal("success");
+              // setSuccessModalOpen(true);
+            }
+          } catch (error) {
+            console.error("Transaction failed:", error);
+            openNotification("error", "Transaction failed", `${error}`);
+            setLoading(false);
+            openModal("error");
+            // setErrorModalOpen(true);
+          }
+        }
       }
-    };
+      if (uri !== "") triggerWallet();
+    }, [uri]);
 
     // const triggerTransaction = async () => {
     //   try {
@@ -122,19 +135,19 @@ export const Recording = ({ text, icon1, imgText, category }) => {
     //   }
     // };
 
-    if (uri) {
-      if (account && account.address) {
-        triggerWallet();
-      } else {
-        // triggerTransaction();
+    // if (uri) {
+    //   if (account && account.address) {
+    //     triggerWallet();
+    //   } else {
+    //     // triggerTransaction();
         
-          openNotification("error", "Transaction failed", `${error}`);
-          setLoading(false);
-          openModal("error");
+    //       openNotification("error", "Transaction failed", `${error}`);
+    //       setLoading(false);
+    //       openModal("error");
         
-      }
-    }
-  }, [uri, account]); 
+    //   }
+    // }
+  
   // Function to send data to the backend
   // async function sendUriToBackend(uri) {
   //   const data = "place holder";
@@ -161,7 +174,16 @@ export const Recording = ({ text, icon1, imgText, category }) => {
   //     console.error("Error sending data to backend:", error);
   //   }
   // }
-  
+  useEffect(() => {
+    if (!account) return;
+    fetchAccountCompatibility(account.address, {
+      baseUrl: SEPOLIA_BASE_URL,
+    }).then(setGaslessCompatibility);
+    fetchAccountsRewards(account.address, {
+      baseUrl: SEPOLIA_BASE_URL,
+      protocol: "gasless-sdk",
+    }).then(setPaymasterRewards);
+  }, [account]);
 
   useEffect(() => {
     fetchGasTokenPrices({ baseUrl: SEPOLIA_BASE_URL }).then(setGasTokenPrices);
@@ -320,6 +342,17 @@ export const Recording = ({ text, icon1, imgText, category }) => {
     formData.append("file", fileBlob, fileName);
     setLoading(true);
     try {
+      // Check if the wallet is connected
+      if (!account || !account.address) {
+        console.error(
+          "Wallet not connected. Cannot associate file with account."
+        );
+        setLoading(false);
+        setErrorMessage("Transaction failed: Wallet not connected");
+        openModal("error");
+        // setErrorModalOpen(true);
+        return;
+      }
       console.log("Uploading file:", fileName); // Log the file name
   
       const response = await fetch(
@@ -344,6 +377,7 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       const ipfsHash = data.IpfsHash; // Access the IPFS hash from the response
   
       console.log("IPFS Hash:", ipfsHash);
+      // Store the IPFS hash locally for the current user
   
       // Store the IPFS hash locally
       localStorage.setItem("uri", ipfsHash);
@@ -355,11 +389,11 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       setLoading(false);
       setErrorMessage("Error uploading file");
       openModal("error");
+      // setErrorModalOpen(true);
     } finally {
       setLoading(false); // Ensure loading state is reset
     }
   }
-  
 
   const handleStopMedia = async () => {
     if (category === "video") {
