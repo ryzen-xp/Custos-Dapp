@@ -11,6 +11,7 @@ import Modal from "react-modal";
 import SuccessScreen from "../components/Success";
 import SignaturePad from "react-signature-canvas";
 import { base64ToImageFile } from "@/utils/serializer";
+import { useAccount } from "@starknet-react/core";
 
 
 const AgreementModal = () => {
@@ -32,7 +33,7 @@ const AgreementModal = () => {
   const [secondPartyFullname, setSecondPartyFullname] = useState("");
   
   const [errors, setErrors] = useState({});
-  const { address } = useContext(WalletContext);
+  const { address } = useAccount();
 
   const {
     sendTransaction,
