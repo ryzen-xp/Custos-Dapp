@@ -13,7 +13,6 @@ import SignaturePad from "react-signature-canvas";
 import { base64ToImageFile } from "@/utils/serializer";
 import { useAccount } from "@starknet-react/core";
 
-
 const AgreementModal = () => {
   const [modalStep, setModalStep] = useState(1);
   const [idNumber, setIdNumber] = useState("");
@@ -31,9 +30,9 @@ const AgreementModal = () => {
   const [secondPartyAddress, setSecondPartyAddress] = useState("");
   const [firstpartyFullname, setfirstpartyFullname] = useState("");
   const [secondPartyFullname, setSecondPartyFullname] = useState("");
-  
+
   const [errors, setErrors] = useState({});
-  const { address } = useAccount();
+  const { address } = useContext(WalletContext);
 
   const {
     sendTransaction,
@@ -50,11 +49,10 @@ const AgreementModal = () => {
     idNumber,
   ]);
 
-
   const handleSignatureUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setUploadedSignature(file); 
+      setUploadedSignature(file);
     }
   };
   // const creatoraddress = useAccount()?.address;
@@ -67,7 +65,7 @@ const AgreementModal = () => {
     formData.append("country", country);
     formData.append("first_party_address", address);
     formData.append("first_party_id_type", idType);
-    formData.append("first_party_valid_id", idImage); 
+    formData.append("first_party_valid_id", idImage);
     formData.append("second_party_address", secondPartyAddress);
     formData.append("first_party_fullname", firstpartyFullname);
     formData.append("second_party_fullname", secondPartyFullname);
@@ -78,13 +76,13 @@ const AgreementModal = () => {
         return;
       }
       const base64Signature = signaturePadRef.current.toDataURL();
-      console.log(base64Signature)
+      console.log(base64Signature);
       let signatureData = base64ToImageFile(base64Signature, "signature.png");
-      formData.append("first_party_signature", signatureData)
+      formData.append("first_party_signature", signatureData);
     }
 
     if (signatureType === "upload" && uploadedSignature) {
-      formData.append("first_party_signature", uploadedSignature)
+      formData.append("first_party_signature", uploadedSignature);
     }
 
     try {
@@ -364,41 +362,39 @@ const AgreementModal = () => {
               />
             </div>
 
-
             <strong>Signature Type</strong>
-                <select
-                  value={signatureType}
-                  onChange={(e) => setSignatureType(e.target.value)}
-                  className="mt-1 w-full border-[#BEBDBD] px-2 py-3 rounded-md bg-transparent border shadow-sm text-[#9B9292] sm:text-sm"
+            <select
+              value={signatureType}
+              onChange={(e) => setSignatureType(e.target.value)}
+              className="mt-1 w-full border-[#BEBDBD] px-2 py-3 rounded-md bg-transparent border shadow-sm text-[#9B9292] sm:text-sm"
+            >
+              <option value="">Select Signature Type</option>
+              <option value="draw">Draw Signature</option>
+              <option value="upload">Upload Signature</option>
+            </select>
+
+            {signatureType === "draw" && (
+              <div className="signature-draw-container my-4 border border-[#ffffff46] rounded-lg p-4">
+                <SignaturePad
+                  ref={signaturePadRef}
+                  canvasProps={{
+                    className: "signature-pad w-full h-32 bg-white",
+                  }}
+                />
+                <button
+                  className="text-red-500 mt-2"
+                  onClick={() => signaturePadRef.current.clear()}
                 >
-                  <option value="">Select Signature Type</option>
-                  <option value="draw">Draw Signature</option>
-                  <option value="upload">Upload Signature</option>
-                </select>
+                  Clear Signature
+                </button>
+              </div>
+            )}
 
-                {signatureType === "draw" && (
-                  <div className="signature-draw-container my-4 border border-[#ffffff46] rounded-lg p-4">
-                    <SignaturePad
-                      ref={signaturePadRef}
-                      canvasProps={{
-                        className: "signature-pad w-full h-32 bg-white",
-                      }}
-                    />
-                    <button
-                      className="text-red-500 mt-2"
-                      onClick={() => signaturePadRef.current.clear()}
-                    >
-                      Clear Signature
-                    </button>
-                  </div>
-                )}
-
-                {signatureType === "upload" && (
-                  <div className="upload-signature-container my-4">
-                    <input type="file" onChange={handleSignatureUpload} />
-                  </div>
-                )}
-            
+            {signatureType === "upload" && (
+              <div className="upload-signature-container my-4">
+                <input type="file" onChange={handleSignatureUpload} />
+              </div>
+            )}
           </>
         );
       default:
@@ -493,7 +489,11 @@ const AgreementModal = () => {
         className="flex items-center justify-center"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
       >
-        <SuccessScreen onClose={() => setIsModalOpen(false)} isSuccess={true} message={`Agreement between ${firstpartyFullname} and ${secondPartyFullname} Created Successfully`} />
+        <SuccessScreen
+          onClose={() => setIsModalOpen(false)}
+          isSuccess={true}
+          message={`Agreement between ${firstpartyFullname} and ${secondPartyFullname} Created Successfully`}
+        />
       </Modal>
     </div>
   );
