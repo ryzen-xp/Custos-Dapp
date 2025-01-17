@@ -59,7 +59,7 @@ export const Recording = ({ text, icon1, imgText, category }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
-  const [currentFacingMode, setCurrentFacingMode] = useState("environment");
+  const [facingMode, setFacingMode] = useState("environment");
   const [isRecording, setIsRecording] = useState(false);
   const [loading, setLoading] = useState(false);
   const [paymasterRewards, setPaymasterRewards] = useState([]);
@@ -335,20 +335,52 @@ export const Recording = ({ text, icon1, imgText, category }) => {
     setUploadModalOpen(true); // Open modal for filename input after picture is taken
   };
 
-  const switchCamera = async () => {
-    setIsClicked((prev) => {
-      return !prev;
-    });
-    setCurrentFacingMode((prev) => (prev === "user" ? "environment" : "user"));
-    if (isRecording) {
-      mediaRecorder.pause();
+  const checkCameraSupport = () => {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert("Camera access is not supported in your browser. Please update to a modern browser.");
+      return false;
     }
-    stopCamera();
-    await startCamera();
-    if (isRecording) {
-      mediaRecorder.resume();
-    }
+    return true;
   };
+   // Switch camera facing mode
+  const switchCamera = async () => {
+  if (!checkCameraSupport()) return;
+
+  try {
+    const newMode = facingMode === "user" ? "environment" : "user";
+    console.log("Switching to:", newMode);
+
+    // Stop the current video tracks if available but don't stop the recorder
+    if (mediaStream) {
+      mediaStream.getVideoTracks().forEach((track) => track.stop());
+    }
+
+    // Get a new stream with the desired facing mode
+    const newStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: newMode },
+    });
+
+    // Set the new stream to the video element and update the facing mode
+    setMediaStream(newStream);
+    setFacingMode(newMode);
+    if (videoRef.current) {
+      videoRef.current.srcObject = newStream;
+    }
+
+    // Reattach the new stream to the recorder without stopping it
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+      mediaRecorder.stream = newStream;
+    }
+
+    console.log("Switched to:", newMode);
+  } catch (error) {
+    console.error("Error switching camera:", error.message);
+    alert(`Error switching camera: ${error.message}`);
+  }
+};
+
+
+
 
   async function uploadToIPFS(fileBlob, fileName) {
     const formData = new FormData();
