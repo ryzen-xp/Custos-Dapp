@@ -323,19 +323,26 @@ export const Recording = ({ text, icon1, imgText, category }) => {
   };
 
   const switchCamera = async () => {
-    setIsClicked((prev) => {
-      return !prev;
+    const newMode = facingMode === "user" ? "environment" : "user";
+    console.log("Switching to:", newMode);
+    alert(`Switching to: ${newMode}`);
+
+    setFacingMode(newMode);
+
+    if (stream) {
+        stream.getVideoTracks().forEach((track) => track.stop());
+    }
+
+    const newStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: newMode },
     });
-    setCurrentFacingMode((prev) => (prev === "user" ? "environment" : "user"));
-    if (isRecording) {
-      mediaRecorder.pause();
+
+    setStream(newStream);
+    if (videoRef.current) {
+        videoRef.current.srcObject = newStream;
     }
-    stopCamera();
-    await startCamera();
-    if (isRecording) {
-      mediaRecorder.resume();
-    }
-  };
+};
+
 
   async function uploadToIPFS(fileBlob, fileName) {
     const formData = new FormData();
