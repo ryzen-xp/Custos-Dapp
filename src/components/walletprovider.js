@@ -1,45 +1,92 @@
 "use client";
-import React, { createContext, useState, useEffect } from "react";
-import { connect, disconnect } from "get-starknet";
+import React, { createContext, useState } from "react";
+import { ArgentMobileConnector } from "starknetkit/argentMobile";
+import { InjectedConnector } from "starknetkit/injected";
+import { WebWalletConnector } from "starknetkit/webwallet";
+import { mainnet } from "@starknet-react/chains";
+import { connect, disconnect } from "starknetkit";
+
+// import { StarknetConfig, alchemyProvider, publicProvider} from "@starknet-react/core";
 import { useNotification } from "@/context/NotificationProvider";
 import { padAddress } from "@/utils/serializer";
 
 export const WalletContext = createContext();
+const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_KEY;
 
 export const WalletProvider = ({ children }) => {
-  const {
-    openNotification,
-  } = useNotification();
+  const [wallet, setWallet] = useState(null);
   const [connection, setConnection] = useState(null);
-  const [account, setAccount] = useState("");
-  const [address, setAddress] = useState("");
-
-
+  const [data, setConnectorData] = useState(null);
+  const [address, setAdd] = useState("");
+  const { openNotification } = useNotification();
 
   const connectWallet = async () => {
-    const connection = await connect({ modalMode: "alwaysAsk" });
-    // await starknet?.enable({ starknetVersion: "v4" })
-    if (connection && connection.isConnected) {
-      setConnection(connection);
-      setAccount(connection.account);
-      openNotification("success", "Wallet Connected", "Your wallet has been connected successfully!");
-      const cleanedAddress = padAddress(connection.selectedAddress);
-      setAddress(cleanedAddress);
+    const { wallet } = await connect({
+      connectors: [
+        new ArgentMobileConnector({
+          options: {
+            dappName: "CUSTOS DIRETRIZ",
+            projectId: process.env.NEXT_PUBLIC_ID, // wallet connect project id
+            chainId: "SN_MAIN",
+            url: process.env.NEXT_PUBLIC_WEBSITE,
+            icons: [process.env.NEXT_PUBLIC_WEBSITE],
+            rpcUrl: process.env.NEXT_PUBLIC_BASE_URL,
+          },
+        }),
+        new InjectedConnector({
+          options: { id: "argentX" },
+        }),
+        new InjectedConnector({
+          options: { id: "braavos" },
+        }),
+        new WebWalletConnector(),
+      ],
+      modalMode: "canAsk",
+    });
+
+    if (wallet && wallet.isConnected) {
+      setWallet(wallet);
+      setConnection(wallet.account);
+      // console.log("setconnection is:", wallet.selectedAddress);
+
+      setConnectorData(wallet.selectedAddress);
+      openNotification(
+        "success",
+        "Wallet Connected",
+        "Your wallet has been connected successfully!"
+      );
+      const cleanedAddress = padAddress(wallet.selectedAddress);
+      setAdd(cleanedAddress);
     }
   };
 
   const disconnectWallet = async () => {
-    await disconnect();
+    disconnect();
+    setWallet(null);
     setConnection(null);
-    setAccount("");
-    setAddress("");
+    setConnectorData(null);
   };
 
+  const chain = [mainnet];
+
   return (
+    // <StarknetConfig
+    //   chains={chain}
+    //   provider={alchemyProvider({apiKey})}
+    //   connectors={connects}
+    // >
     <WalletContext.Provider
-      value={{ connection, account, address, connectWallet, disconnectWallet }}
+      value={{
+        wallet,
+        data,
+        connection,
+        connectWallet,
+        disconnectWallet,
+        address,
+      }}
     >
       {children}
     </WalletContext.Provider>
+    // </StarknetConfig>
   );
 };

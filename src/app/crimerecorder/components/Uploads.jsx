@@ -6,9 +6,11 @@ import { WalletContext } from "@/components/walletprovider";
 import Image from "next/image";
 import { ClipboardIcon } from "@heroicons/react/outline"; // Optional: Icon for Share button
 import { useNotification } from "@/context/NotificationProvider";
+import { useAccount } from "@starknet-react/core";
 
 const Uploads = () => {
-  const { address } = useContext(WalletContext);
+  const {connectorData} = useContext(WalletContext);
+
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [fileData, setFileData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -20,7 +22,7 @@ const Uploads = () => {
   const Retrieve = async () => {
     setLoading(true);
     try {
-      const result = await fetchData("crime", "get_all_user_uploads", [address]);
+      const result = await fetchData("crime", "get_all_user_uploads", [connectorData?.account]);
 
       const files =
         result && typeof result === "object"
@@ -40,8 +42,8 @@ const Uploads = () => {
   };
 
   useEffect(() => {
-    if (address) Retrieve();
-  }, [address]);
+    if (connectorData?.account) Retrieve();
+  }, [connectorData?.account]);
 
   useEffect(() => {
     const userUploads = async () => {
