@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { InjectedConnector } from "starknetkit/injected";
 import { WebWalletConnector } from "starknetkit/webwallet";
@@ -19,6 +19,48 @@ export const WalletProvider = ({ children }) => {
   const [data, setConnectorData] = useState(null);
   const [address, setAdd] = useState("");
   const { openNotification } = useNotification();
+
+  useEffect(() => {
+    const starknetConnect = async () => {
+      const { wallet } = await connect({
+        connectors: [
+          new ArgentMobileConnector({
+            options: {
+              dappName: "CUSTOS DIRETRIZ",
+              projectId: process.env.NEXT_PUBLIC_ID, // wallet connect project id
+              chainId: "SN_MAIN",
+              url: process.env.NEXT_PUBLIC_WEBSITE,
+              icons: [process.env.NEXT_PUBLIC_WEBSITE],
+              rpcUrl: process.env.NEXT_PUBLIC_BASE_URL,
+            },
+          }),
+          new InjectedConnector({
+            options: { id: "argentX" },
+          }),
+          new InjectedConnector({
+            options: { id: "braavos" },
+          }),
+          new WebWalletConnector(),
+        ],
+        modalMode: "canAsk",
+      });
+
+      if (wallet && wallet.isConnected) {
+        setWallet(wallet);
+        setConnection(wallet.account);
+
+        setConnectorData(wallet.selectedAddress);
+        openNotification(
+          "success",
+          "Wallet Connected",
+          "Your wallet has been connected successfully!"
+        );
+        const cleanedAddress = padAddress(wallet.selectedAddress);
+        setAdd(cleanedAddress);
+      }
+    };
+    starknetConnect();
+  }, []);
 
   const connectWallet = async () => {
     const { wallet } = await connect({

@@ -1,18 +1,24 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { generateAvatarURL } from "@cfx-kit/wallet-avatar";
 import { padAddress, truncAddress } from "@/utils/serializer";
 import Image from "next/image";
-import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
-import { connect, useStarknetkitConnectModal } from "starknetkit";
-import { useNotification } from "@/context/NotificationProvider";
+// import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
+// import { connect, useStarknetkitConnectModal } from "starknetkit";
+// import { useNotification } from "@/context/NotificationProvider";
 import { connects, WalletContext } from "./walletprovider";
 
 function ConnectButtoncomponent() {
-  const { connection, connectWallet, disconnectWallet, address } =
+  const [connected, setConnected] = useState(null);
+  const { connection, connectWallet, disconnectWallet, address, wallet } =
     useContext(WalletContext);
+
+  useEffect(() => {
+    console.log("connected account; ", address);
+    setConnected(wallet);
+  }, [wallet, connected]);
 
   // const {account, address, status} = useAccount();
 
@@ -40,13 +46,11 @@ function ConnectButtoncomponent() {
   const handleConnect = async () => {
     console.log("Attempting to connect wallet...");
     await connectWallet();
-
-    console.log("connected account; ", connection);
   };
 
   return (
     <div className="justify-end flex max-w-[13em] overflow-hidden w-fit items-end">
-      {connection ? (
+      {connected ? (
         <div
           className="cursor-pointer border-gradient2 w-full rounded-full text-[#ededef]  p-[1px]"
           onClick={disconnectWallet}
