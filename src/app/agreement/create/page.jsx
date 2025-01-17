@@ -2,7 +2,7 @@
 // /* eslint-disable react/no-unescaped-entities */
 "use client";
 import { UseWriteToContract } from "@/utils/fetchcontract";
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Header } from "../components/AgreementNav";
 import { redirect } from "next/navigation";
@@ -31,8 +31,43 @@ const AgreementModal = () => {
   const [firstpartyFullname, setfirstpartyFullname] = useState("");
   const [secondPartyFullname, setSecondPartyFullname] = useState("");
 
+  const [countries, setCountries] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
   const [errors, setErrors] = useState({});
   const { address } = useContext(WalletContext);
+
+  // Fetch country list from API
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch(
+          "https://countrylist-j.vercel.app/api/countries"
+        );
+        const data = await response.json();
+        setCountries(data);
+        setFilteredCountries(data);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+    fetchCountries();
+  }, []);
+
+  // Filter countries based on search term
+  useEffect(() => {
+    if (searchTerm.trim() === "") {
+      setFilteredCountries(countries);
+    } else {
+      const filtered = countries.filter((country) =>
+        country.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredCountries(filtered);
+    }
+  }, [searchTerm, countries]);
 
   const {
     sendTransaction,
@@ -62,7 +97,7 @@ const AgreementModal = () => {
     const formData = new FormData();
     formData.append("agreementType", agreementType);
     formData.append("content", content);
-    formData.append("country", country);
+    formData.append("country", searchTerm);
     formData.append("first_party_address", address);
     formData.append("first_party_id_type", idType);
     formData.append("first_party_valid_id", idImage);
@@ -139,7 +174,7 @@ const AgreementModal = () => {
     switch (modalStep) {
       case 1:
         return (
-          <div className="text-white flex flex-col items-center justify-center space-y-6 mb-8">
+          <div className="text-white flex flex-col items-center justify-center space-y-6 mb-8 ">
             <label
               htmlFor="agreementType"
               className="font-[500] text-[24px] text-white"
@@ -226,6 +261,7 @@ const AgreementModal = () => {
           </>
         );
       case 3:
+        
         return (
           <>
             <div className="text-white flex flex-col">
@@ -235,15 +271,43 @@ const AgreementModal = () => {
               >
                 Country
               </label>
+              {/* Search Input */}
               <input
                 type="text"
                 id="country"
-                name="country"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                className="mt-1 focus:outline-none w-full border-[#BEBDBD] focus-visible:top-10 focus:border-[#19B1D2] active:border-[#0094FF] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onFocus={() => setDropdownVisible(true)} // Show dropdown on focus
+                onBlur={() => setTimeout(() => setDropdownVisible(false), 200)} // Hide dropdown with a slight delay
+                placeholder="Search for a country"
+                className="focus:outline-none w-full border-[#BEBDBD] focus:border-[#19B1D2] px-2 py-3 rounded-md bg-transparent border shadow-sm text-white sm:text-sm"
               />
+
+              {/* Dropdown List */}
+              {dropdownVisible && (
+                <div className="absolute bg-gray-800 border border-gray-700 rounded-md mt-20 max-h-40 overflow-y-auto z-10">
+                  {filteredCountries.map((country) => (
+                    <div
+                      key={country.code}
+                      onClick={() => {
+                        setSelectedCountry(country.name);
+                        setSearchTerm(country.name); // Set the selected country as the search term
+                        setDropdownVisible(false); // Hide dropdown
+                      }}
+                      className="cursor-pointer px-3 py-2 hover:bg-gray-700"
+                    >
+                      {country.name}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
+            {/* {selectedCountry && (
+              <p className="mt-2 text-sm text-gray-400">
+                Selected Country:{" "}
+                <span className="font-medium">{selectedCountry}</span>
+              </p>
+            )} */}
             <div className="mb-4">
               <label
                 htmlFor="idType"
