@@ -76,61 +76,64 @@ export const Recording = ({ text, icon1, imgText, category }) => {
   const route = useRouter();
 
   useEffect(() => {
-    const calls = [
-      {
-        entrypoint: "crime_record",
-        contractAddress:
-          "0x03cbefe95450dddc88638f7b23f34d83fc48b570e476d87a608c07724aaaa342",
-        calldata: CallData.compile([
-          byteArray?.byteArrayFromString(String(uri)),
-          0,
-        ]),
-      },
-    ];
-    callRef.current = JSON.stringify(calls, null, 2);
-
-    const triggerWallet = async () => {
-      try {
-        const transactionResponse = await executeCalls(
-          account,
-          JSON.parse(callRef.current),
-          {},
-          { ...options, apiKey: process.env.NEXT_PUBLIC_AVNU_KEY }
-        );
-        openNotification("success", "Transaction successful", "");
-        setLoading(false);
-        openModal("success");
-      } catch (error) {
-        openNotification("error", "Transaction failed", `${error}`);
-        setLoading(false);
-        openModal("error");
-      }
-    };
-
-    const triggerTransaction = async () => {
-      try {
-        if (uri) {
-          await sendUriToBackend(uri); // Send data to the backend
-          openNotification(
-            "info",
-            "Wallet not connected",
-            "Data sent to backend for processing"
-          );
-        }
-      } catch (error) {
-        openNotification("error", "Transaction failed", `${error}`);
-      }
-    };
-
-    if (uri) {
-      if (account && account.address) {
-        triggerWallet();
-      } else {
-        triggerTransaction();
-      }
+    if (uri !== "") {
+      const calls = [
+        {
+          entrypoint: "crime_record",
+          contractAddress:
+            "0x020bd5ec01c672e69e3ca74df376620a6be8a2b104ab70a9f0885be00dd38fb9",
+          calldata: CallData.compile([
+            byteArray?.byteArrayFromString(String(uri)),
+            0,
+          ]),
+        },
+      ];
+      callRef.current = JSON.stringify(calls, null, 2);
     }
-  }, [uri, account]); 
-  // Function to send data to the backend
+  
+    const triggerWallet = async () => {
+      if (uri) {
+        try {
+          setLoading(true);
+  
+          // API request
+          const response = await fetch("/api/avnuhandler", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              account,
+              calls: JSON.parse(callRef.current),
+              options,
+            }),
+          });
+  
+          const data = await response.json();
+  
+          if (response.ok) {
+            console.log("Transaction successful:", data);
+            openNotification("success", "Transaction successful", "");
+            setLoading(false);
+            openModal("success");
+          } else {
+            console.error("Transaction failed:", data.error);
+            openNotification("error", "Transaction failed", `${data.error}`);
+            setLoading(false);
+            openModal("error");
+          }
+        } catch (error) {
+          console.error("Transaction failed:", error);
+          openNotification("error", "Transaction failed", `${error}`);
+          setLoading(false);
+          openModal("error");
+        }
+      }
+    };
+  
+    if (uri !== "") triggerWallet();
+  }, [uri]);
+  
+
+
   async function sendUriToBackend(uri) {
     const data = "place holder";
     setLoading(true);
