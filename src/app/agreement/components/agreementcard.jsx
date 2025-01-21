@@ -247,8 +247,8 @@ export const PendingAgreementCard = ({
 
   const handleEditClick = (e) => {
     e.stopPropagation();
-    if (agreement.access_token) {
-      router.push(`/agreement/access_token/${agreement.access_token}/edit`);
+    if (agreement?.access_token) {
+      router.push(`/agreement/access_token/${agreement?.access_token}/edit`);
     } else {
       router.push(`/agreement/${agreement.id}/edit`);
     }
