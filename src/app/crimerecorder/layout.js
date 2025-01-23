@@ -1,15 +1,11 @@
 "use client";
-import { useState, useEffect, useContext } from "react"; 
+import { useState, useEffect } from "react"; 
 import { FiX } from "react-icons/fi"; 
 import "../globals.css";
-import Footer from "@/components/footer";
-import Metadata from "../metadata";
-import BackgroundWrapper from "@/components/backgroundwrapper";
 
 import Sidepane from "@/components/dapps/sidepane";
 import Header from "@/components/dapps/header";
 import Image from 'next/image';
-import { WalletContext } from "@/components/walletprovider"; // Import WalletContext
 
 export default function RootLayout({ children }) {
   const [isSidepaneOpen, setSidepaneOpen] = useState(false); // State to toggle sidepane
@@ -29,16 +25,41 @@ export default function RootLayout({ children }) {
     }
   }, [isSidepaneOpen]);
 
+  // Function to close sidepane if clicked outside
+  const handleOutsideClick = (e) => {
+    console.log("triggered");
+    if (!e.target.closest(".sidepane")) {
+      setSidepaneOpen(false);
+    }
+  };
+
+
+
   return (
-    <div className="flex min-h-[100vh] w-full">
+    <div
+      className={`flex min-h-[100vh] w-full relative ${
+        isSidepaneOpen ? "sidepane-open backdrop-blur-lg" : ""
+      }`}
+      onClick={handleOutsideClick}
+    >
       {/* Sidepane */}
-      <Sidepane 
-        isOpen={isSidepaneOpen} 
+      <div
+        className={`w-fit ${
+          isSidepaneOpen ? "sticky" : "hidden"
+        } min-h-screen z-20 md:flex top-0 left-0 sidepane sticky`}
+      >
+        <Sidepane 
+        isOpen={isSidepaneOpen}
         onClose={() => setSidepaneOpen(false)}
-      />
+        />
+      </div>
 
       {/* Main content area */}
-      <div className="flex flex-col w-full h-[100vh] overflow-y-scroll scrollbar-hide md:pl-0">
+      <div
+        className={`flex flex-col w-full h-[100vh] overflow-y-scroll scrollbar-hide md:pl-0 ${
+          isSidepaneOpen ? "backdrop-blur-lg" : ""
+        }`}
+      >
         {/* Header */}
         <div className="flex w-full sticky top-0 z-[400]">
           <Header />
@@ -53,6 +74,7 @@ export default function RootLayout({ children }) {
 
         {/* Children Content */}
         <div className="flex flex-col p-3 w-full mb-10">{children}</div>
+        
       </div>
     </div>
   );
