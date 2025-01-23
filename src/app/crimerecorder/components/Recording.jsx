@@ -93,7 +93,7 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       const triggerTransaction = async () => {
         setLoading(true);
         try {
-          const response = await fetch("/api/executeCalls", {
+          const response = await fetch("/api/avnuhandler", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
