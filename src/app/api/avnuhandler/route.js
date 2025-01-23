@@ -12,14 +12,14 @@ export async function POST(req) {
 
     const { account, calls, options } = body;
 
-    // Check if required fields are present
+    // // Check if required fields are present
     if (!account || !calls || !options) {
       throw new Error("Missing required fields: account, calls, or options.");
     }
 
     const modifiedOptions = {
       ...options,
-      apiKey: process.env.AVNU_KEY, // Securely use the API key from environment variables
+      apiKey: process.env.AVNU_KEY, 
     };
 
     // Log modified options

@@ -31,9 +31,11 @@ import ErrorScreen from "./error";
 import Filename from "./nameModal";
 import Image from "next/image";
 
+
 const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_IPFS_KEY;
 export const Recording = ({ text, icon1, imgText, category }) => {
   const [uri, setUri] = useState("");
+  const { connection: account, connectorData } = useContext(WalletContext);
   const { openModal, closeModal } = useModal();
   const options = { baseUrl: SEPOLIA_BASE_URL };
   const calls = [
@@ -49,7 +51,7 @@ export const Recording = ({ text, icon1, imgText, category }) => {
   ];
 
   const { openNotification } = useNotification();
-  const { account } = useContext(WalletContext);
+  // const { account } = useContext(WalletContext);
   const { showModal, setShowModal } = useContext(GlobalStateContext);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [mediaStream, setMediaStream] = useState(null);
@@ -108,6 +110,7 @@ export const Recording = ({ text, icon1, imgText, category }) => {
           });
   
           const data = await response.json();
+          console.log('...', data)
   
           if (response.ok) {
             console.log("Transaction successful:", data);
