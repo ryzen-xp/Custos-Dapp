@@ -37,7 +37,7 @@ export const Recording = ({ text, icon1, imgText, category }) => {
   const [uri, setUri] = useState("");
   const { connection: account, connectorData } = useContext(WalletContext);
   const { openModal, closeModal } = useModal();
-  const options = { baseUrl: SEPOLIA_BASE_URL };
+  const options = { baseUrl: "https://starknet.api.avnu.fi" };
   const calls = [
     {
       entrypoint: "crime_record",
