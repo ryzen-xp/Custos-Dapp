@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    const { account, calls } = await req.json(); // Parse JSON body from the request
-
+    const { account, calls } = await req.json(); 
     if (!account || !calls) {
       return NextResponse.json({ error: "Missing required parameters" }, { status: 400 });
     }
