@@ -90,12 +90,12 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       ];
       callRef.current = JSON.stringify(calls, null, 2);
     }
-  
+
     const triggerWallet = async () => {
       if (uri) {
         try {
           setLoading(true);
-  
+
           // API request
           const response = await fetch("/api/avnuhandler", {
             method: "POST",
@@ -106,9 +106,9 @@ export const Recording = ({ text, icon1, imgText, category }) => {
               options,
             }),
           });
-  
+
           const data = await response.json();
-  
+
           if (response.ok) {
             console.log("Transaction successful:", data);
             openNotification("success", "Transaction successful", "");
@@ -128,38 +128,39 @@ export const Recording = ({ text, icon1, imgText, category }) => {
         }
       }
     };
-  
+
     if (uri !== "") triggerWallet();
   }, [uri]);
-  
-
 
   async function sendUriToBackend(uri) {
     const data = "place holder";
     setLoading(true);
     try {
-      const response = await fetch("https://custosbackend.onrender.com/agreement/crime_recorder/push/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ uri , data}),
-      });
-  
+      const response = await fetch(
+        "https://custosbackend.onrender.com/agreement/crime_recorder/push/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ uri, data }),
+        }
+      );
+
       if (!response.ok) {
-        throw new Error(`Failed to send data to backend: ${response.statusText}`);
+        throw new Error(
+          `Failed to send data to backend: ${response.statusText}`
+        );
       }
-  
+
       const result = await response.json();
-      setLoading(false)
+      setLoading(false);
       console.log("Backend response:", result);
-    } catch (error)
-     {
-      setLoading(false)
+    } catch (error) {
+      setLoading(false);
       console.error("Error sending data to backend:", error);
     }
   }
-  
 
   useEffect(() => {
     fetchGasTokenPrices({ baseUrl: SEPOLIA_BASE_URL }).then(setGasTokenPrices);
@@ -209,14 +210,19 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       const permissions = await navigator.permissions.query({ name: "camera" });
       console.log("Camera permission status:", permissions.state);
       if (permissions.state === "denied") {
-        alert("Camera permissions are denied. Please allow access in your browser settings.");
+        alert(
+          "Camera permissions are denied. Please allow access in your browser settings."
+        );
       }
     } catch (error) {
       openModal("error");
-      console.warn("Permissions API not supported in this browser:", error.message);
+      console.warn(
+        "Permissions API not supported in this browser:",
+        error.message
+      );
     }
   };
-  
+
   const startCamera = async () => {
     checkPermissions();
     try {
@@ -247,7 +253,6 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       console.log("Camera stopped successfully.");
     }
   };
-  
 
   const startRecording = async () => {
     await startCamera();
@@ -257,7 +262,55 @@ export const Recording = ({ text, icon1, imgText, category }) => {
     }
 
     const chunks = [];
-    const recorder = new MediaRecorder(mediaStream);
+    const canvas = document.createElement("canvas");
+    canvas.width = 960;
+    canvas.height = 720;
+    const ctx = canvas.getContext("2d");
+
+    // Load the logo image
+    const watermarkImg = document.createElement("img");
+    watermarkImg.src = "/logo.png";
+
+    const drawFrame = () => {
+      ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+      const currentTime = new Date().toLocaleString();
+      ctx.fillStyle = "black";
+      ctx.fillRect(canvas.width - 200, canvas.height - 40, 400, 40);
+      ctx.font = "18px Arial";
+      ctx.fillStyle = "white";
+      ctx.textAlign = "right";
+      ctx.textBaseline = "bottom";
+      ctx.fillText(currentTime, canvas.width - 10, canvas.height - 10);
+
+      if (watermarkImg.complete) {
+        ctx.globalAlpha = 0.2;
+        const watermarkX = (canvas.width - watermarkImg.width * 2) / 2;
+        const watermarkY = (canvas.height - watermarkImg.height * 2) / 2;
+        ctx.drawImage(
+          watermarkImg,
+          watermarkX,
+          watermarkY,
+          watermarkImg.width * 2,
+          watermarkImg.height * 2
+        );
+        ctx.globalAlpha = 1.0;
+      }
+
+      requestAnimationFrame(drawFrame);
+    };
+
+    watermarkImg.onload = () => {
+      drawFrame();
+    };
+
+    // Add the canvas stream to the MediaRecorder
+    const stream = canvas.captureStream();
+    const newMediaStream = new MediaStream();
+    stream.getTracks().forEach((track) => {
+      newMediaStream.addTrack(track);
+    });
+
+    const recorder = new MediaRecorder(newMediaStream);
     recorder.ondataavailable = (event) => chunks.push(event.data);
     recorder.onstop = async () => {
       const blob = new Blob(chunks, { type: "video/webm" });
@@ -270,7 +323,6 @@ export const Recording = ({ text, icon1, imgText, category }) => {
     setIsRecording(true);
     setMediaRecorder(recorder);
   };
-
   const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
@@ -292,10 +344,49 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       canvasRef.current.height
     );
 
-    const dataURL = canvasRef.current.toDataURL("image/png");
-    const blob = await fetch(dataURL).then((res) => res.blob());
-    setRecordedChunks(blob); // Set picture for upload
-    setUploadModalOpen(true); // Open modal for filename input after picture is taken
+    // Add watermark
+    const watermarkImg = document.createElement("img");
+    watermarkImg.src = "/logo.png";
+    watermarkImg.onload = async () => {
+      context.globalAlpha = 0.2;
+      const watermarkX = (canvasRef.current.width - watermarkImg.width * 2) / 2;
+      const watermarkY =
+        (canvasRef.current.height - watermarkImg.height * 2) / 2;
+      context.drawImage(
+        watermarkImg,
+        watermarkX,
+        watermarkY,
+        watermarkImg.width * 2,
+        watermarkImg.height * 2
+      );
+      context.globalAlpha = 1.0;
+
+      // add timestamp
+      const timestamp = new Date().toLocaleString();
+      context.fillStyle = "black";
+      context.fillRect(
+        canvasRef.current.width - 200,
+        canvasRef.current.height - 40,
+        400,
+        40
+      );
+
+      context.font = "18px Arial";
+      context.fillStyle = "white";
+      context.textAlign = "right";
+      context.textBaseline = "bottom";
+      context.fillText(
+        timestamp,
+        canvasRef.current.width - 10,
+        canvasRef.current.height - 10
+      );
+
+      canvasRef.current.toBlob((blob) => {
+        console.log(blob);
+        setRecordedChunks(blob);
+        setUploadModalOpen(true);
+      }, "image/png");
+    };
   };
 
   const switchCamera = async () => {
@@ -319,7 +410,7 @@ export const Recording = ({ text, icon1, imgText, category }) => {
     setLoading(true);
     try {
       console.log("Uploading file:", fileName); // Log the file name
-  
+
       const response = await fetch(
         "https://api.pinata.cloud/pinning/pinFileToIPFS",
         {
@@ -330,23 +421,23 @@ export const Recording = ({ text, icon1, imgText, category }) => {
           body: formData,
         }
       );
-  
+
       // Handle response
       if (!response.ok) {
         throw new Error(
           `Failed to upload file to IPFS: ${response.status} ${response.statusText}`
         );
       }
-  
+
       const data = await response.json();
       const ipfsHash = data.IpfsHash; // Access the IPFS hash from the response
-  
+
       console.log("IPFS Hash:", ipfsHash);
-  
+
       // Store the IPFS hash locally
       localStorage.setItem("uri", ipfsHash);
       setUri(ipfsHash);
-  
+
       console.log("File uploaded successfully and data saved!");
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -357,7 +448,6 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       setLoading(false); // Ensure loading state is reset
     }
   }
-  
 
   const handleStopMedia = async () => {
     if (category === "video") {
@@ -418,14 +508,16 @@ export const Recording = ({ text, icon1, imgText, category }) => {
               backgroundColor: "#1e2f37",
               backgroundImage: `url(${bg.src})`,
               backgroundSize: "contain",
-            }}>
+            }}
+          >
             <div id="vid-recorder" className="w-full">
               <video
                 ref={videoRef}
                 autoPlay
                 muted
                 id="web-cam-container"
-                className="rounded-xl mb-6 w-full">
+                className="rounded-xl mb-6 w-full"
+              >
                 Your browser doesn&apos;t support the video tag
               </video>
               <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
@@ -437,7 +529,8 @@ export const Recording = ({ text, icon1, imgText, category }) => {
                     ? "switch-camera-button clicked"
                     : "switch-camera-button"
                 }
-                onClick={switchCamera}>
+                onClick={switchCamera}
+              >
                 <Icons
                   icon={icon3}
                   text={`Switch Camera`}
