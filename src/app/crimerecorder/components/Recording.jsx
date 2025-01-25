@@ -260,56 +260,74 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       console.error("Media stream not available");
       return;
     }
-
+  
     const chunks = [];
     const canvas = document.createElement("canvas");
-    canvas.width = 960;
-    canvas.height = 720;
+    canvas.width = 700; 
+    canvas.height = 896; 
     const ctx = canvas.getContext("2d");
-
-    // Load the logo image
+  
+    // creating watermarks
     const watermarkImg = document.createElement("img");
-    watermarkImg.src = "/logo.png";
-
+    const watermarkImg2 = document.createElement("img");
+    watermarkImg.src = "/custos-with-logo.png";
+    watermarkImg2.src = "/light-custos-with-logo.png";
+   
+    let time;
+    let watermarkX = 10;
+    let watermarkY = 10;
+  
     const drawFrame = () => {
       ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      const currentTime = new Date().toLocaleString();
-      ctx.fillStyle = "black";
-      ctx.fillRect(canvas.width - 200, canvas.height - 40, 400, 40);
-      ctx.font = "18px Arial";
-      ctx.fillStyle = "white";
-      ctx.textAlign = "right";
-      ctx.textBaseline = "bottom";
-      ctx.fillText(currentTime, canvas.width - 10, canvas.height - 10);
-
+  
+      // add watermark
       if (watermarkImg.complete) {
-        ctx.globalAlpha = 0.2;
-        const watermarkX = (canvas.width - watermarkImg.width * 2) / 2;
-        const watermarkY = (canvas.height - watermarkImg.height * 2) / 2;
-        ctx.drawImage(
-          watermarkImg,
-          watermarkX,
-          watermarkY,
-          watermarkImg.width * 2,
-          watermarkImg.height * 2
-        );
-        ctx.globalAlpha = 1.0;
-      }
-
+    ctx.globalAlpha = 0.4;
+    if (!time || Date.now() - time > 2500) {
+      watermarkX = Math.random() * (canvas.width - watermarkImg.width);
+      watermarkY = Math.random() * (canvas.height - watermarkImg.height);
+      time = Date.now();
+    }
+    ctx.drawImage(
+      watermarkImg,
+      watermarkX,
+      watermarkY,
+      watermarkImg.width,
+      watermarkImg.height
+    );
+    ctx.globalAlpha = 1.0;
+  }
+  
+       // add timestamp
+       const timestamp = new Date().toLocaleString();
+       ctx.font = "20px Arial";
+       const gradient = ctx.createLinearGradient(0, 0, canvasRef.current.width, 0);
+       gradient.addColorStop(0, "#19B1D2");
+       gradient.addColorStop(1, "#0094FF");
+       ctx.fillStyle = gradient;
+       ctx.textAlign = "center"; 
+       ctx.textBaseline = "top"; 
+       ctx.fillText(
+         timestamp,
+         canvas.width / 2, 
+         20 
+       );
+  
       requestAnimationFrame(drawFrame);
     };
-
-    watermarkImg.onload = () => {
+  
+    Promise.all([new Promise((resolve) => (watermarkImg.onload = resolve)), 
+                  new Promise((resolve) => (watermarkImg2.onload = resolve))]).then(() => {
       drawFrame();
-    };
-
+    });
+  
     // Add the canvas stream to the MediaRecorder
     const stream = canvas.captureStream();
     const newMediaStream = new MediaStream();
     stream.getTracks().forEach((track) => {
       newMediaStream.addTrack(track);
     });
-
+  
     const recorder = new MediaRecorder(newMediaStream);
     recorder.ondataavailable = (event) => chunks.push(event.data);
     recorder.onstop = async () => {
@@ -318,11 +336,12 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       stopCamera();
       setUploadModalOpen(true); // Open modal for filename input after recording stops
     };
-
+  
     recorder.start();
     setIsRecording(true);
     setMediaRecorder(recorder);
   };
+  
   const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
@@ -332,10 +351,11 @@ export const Recording = ({ text, icon1, imgText, category }) => {
     stopCamera();
   };
 
-  const takePicture = async () => {
-    const context = canvasRef.current.getContext("2d");
+  const takePicture = async () => {  
+    const context = canvasRef.current.getContext("2d");  
     canvasRef.current.width = videoRef.current.videoWidth;
     canvasRef.current.height = videoRef.current.videoHeight;
+
     context.drawImage(
       videoRef.current,
       0,
@@ -343,52 +363,65 @@ export const Recording = ({ text, icon1, imgText, category }) => {
       canvasRef.current.width,
       canvasRef.current.height
     );
-
-    // Add watermark
+  
+    // creating watermarks
     const watermarkImg = document.createElement("img");
-    watermarkImg.src = "/logo.png";
-    watermarkImg.onload = async () => {
-      context.globalAlpha = 0.2;
-      const watermarkX = (canvasRef.current.width - watermarkImg.width * 2) / 2;
-      const watermarkY =
-        (canvasRef.current.height - watermarkImg.height * 2) / 2;
+    const watermarkImg2 = document.createElement("img");
+    watermarkImg.src = "/custos-with-logo.png";
+    watermarkImg2.src = "/light-custos-with-logo.png";
+  
+    Promise.all([new Promise((resolve) => (watermarkImg.onload = resolve)), 
+                  new Promise((resolve) => (watermarkImg2.onload = resolve))]).then(() => {
+  
+      // Top-left watermark
+      const topLeftWatermarkX = 20;
+      const topLeftWatermarkY = 25;
       context.drawImage(
         watermarkImg,
-        watermarkX,
-        watermarkY,
-        watermarkImg.width * 2,
-        watermarkImg.height * 2
+        topLeftWatermarkX,
+        topLeftWatermarkY,
+        watermarkImg.width,
+        watermarkImg.height
       );
-      context.globalAlpha = 1.0;
-
+  
+      // Bottom-right watermark
+      const bottomRightWatermarkX =
+        canvasRef.current.width - watermarkImg2.width - 20;
+      const bottomRightWatermarkY =
+        canvasRef.current.height - watermarkImg2.height - 25;
+      context.drawImage(
+        watermarkImg2,
+        bottomRightWatermarkX,
+        bottomRightWatermarkY,
+        watermarkImg2.width,
+        watermarkImg2.height
+      );
+  
       // add timestamp
       const timestamp = new Date().toLocaleString();
-      context.fillStyle = "black";
-      context.fillRect(
-        canvasRef.current.width - 200,
-        canvasRef.current.height - 40,
-        400,
-        40
-      );
-
-      context.font = "18px Arial";
-      context.fillStyle = "white";
-      context.textAlign = "right";
-      context.textBaseline = "bottom";
+      context.font = "20px Arial";
+      const gradient = context.createLinearGradient(0, 0, canvasRef.current.width, 0);
+      gradient.addColorStop(0, "#19B1D2");
+      gradient.addColorStop(1, "#0094FF");
+      context.fillStyle = gradient;
+      context.textAlign = "center"; 
+      context.textBaseline = "top"; 
       context.fillText(
         timestamp,
-        canvasRef.current.width - 10,
-        canvasRef.current.height - 10
+        canvasRef.current.width / 2, 
+        20 
       );
-
+  
       canvasRef.current.toBlob((blob) => {
-        console.log(blob);
+        console.log("Blob created:", blob);
         setRecordedChunks(blob);
         setUploadModalOpen(true);
       }, "image/png");
-    };
+    }).catch((error) => {
+      console.error("Error taking picture:", error);
+    });
   };
-
+  
   const switchCamera = async () => {
     setIsClicked((prev) => {
       return !prev;
