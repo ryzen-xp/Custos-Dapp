@@ -481,41 +481,63 @@ button .text-transparent {
   scrollbar-width: none; /* for Firefox */
 }
 
-.quill > .ql-toolbar {
-  /* border radius of the toolbar */
-  border-radius: 5px 5px 0 0;
+/* Quill container and editor setup for a fixed size */
+.quill {
+  width: 100%; /* Adjust to your desired container width, or set to a fixed value like 600px */
+  max-width: 100%; /* Prevents it from expanding beyond the container */
 }
 
 .quill > .ql-container {
-  /* border radius of the container and for font size*/
   font-size: inherit;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px; /* Border radius for the container */
+  width: 100%; /* Ensures the width of the container spans the parent width */
+  height: 300px; /* Fixed height for the container, adjust as needed */
+  overflow: auto; /* Scrolls content if it exceeds the container height */
 }
+
+.quill > .ql-container > .ql-editor {
+  min-height: 50%; /* Ensures the editor takes up the entire container height */
+  overflow-y: auto; /* Scrolls content if it exceeds the height */
+  height: 100%; /* Ensures full use of the container's height */
+  color: #ffffff; /* Darker font color for better contrast */
+  font-family: "Arial", sans-serif; /* Optional: Choose a clean and bright font */
+  font-size: 16px; /* Optional: Adjust font size if needed */
+  line-height: 1.6;
+}
+
+/* Styling for the toolbar */
+.quill > .ql-toolbar {
+  border-radius: 5px 5px 0 0; /* Rounded corners for the toolbar */
+  width: 100%; /* Ensures the toolbar spans the entire width of the container */
+}
+
 .ql-toolbar.ql-snow .ql-picker-label {
   color: inherit !important;
   opacity: 0.76;
 }
+
 .ql-snow .ql-picker {
   color: inherit !important;
 }
+
 .quill > .ql-container > .ql-editor.ql-blank::before {
-  /* for placeholder */
   font-style: inherit;
   color: inherit;
 }
+
 .ql-snow.ql-toolbar button svg {
   opacity: 0.76;
   color: currentColor;
 }
+
 .ql-snow .ql-stroke {
-  /* for the border of the editor */
   stroke: currentColor !important;
 }
+
 .ql-snow .ql-fill {
-  /* for the bg color */
   fill: transparent !important;
 }
+
 .ql-picker-item {
-  /* for dropdown */
   color: #444 !important;
 }
